@@ -16,4 +16,4 @@
 
 ----------------------------------------------
 
-*Built with [StencilJS](https://stenciljs.com/)*
+*Built with love ❤️ by [Slice Soft](https://slicesoft.dev/) Team*
