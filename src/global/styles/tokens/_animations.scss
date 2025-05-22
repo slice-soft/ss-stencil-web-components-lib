@@ -1,0 +1,28 @@
+$ss-durations: (
+  instant: var(--duration-instant),
+  fast   : var(--duration-fast),
+  normal : var(--duration-normal),
+  slow   : var(--duration-slow),
+  slower : var(--duration-slower)
+);
+
+$ss-easings: (
+  linear      : var(--easing-linear),
+  ease        : var(--easing-ease),
+  ease-in     : var(--easing-ease-in),
+  ease-out    : var(--easing-ease-out),
+  ease-in-out : var(--easing-ease-in-out),
+  bounce      : var(--easing-bounce),
+  elastic     : var(--easing-elastic)
+);
+
+$ss-transitions-specific: (
+  hover    : var(--transition-hover),
+  focus    : var(--transition-focus),
+  expand   : var(--transition-expand),
+  collapse : var(--transition-collapse),
+  slide    : var(--transition-slide),
+  fade     : var(--transition-fade),
+  scale    : var(--transition-scale),
+  rotate   : var(--transition-rotate)
+);

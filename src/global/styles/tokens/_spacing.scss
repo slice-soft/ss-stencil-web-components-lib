@@ -1,0 +1,32 @@
+$ss-spacing: (
+  xs: var(--spacing-xs),
+  sm: var(--spacing-sm),
+  md: var(--spacing-md),
+  lg: var(--spacing-lg),
+  xl: var(--spacing-xl),
+  '2xl': var(--spacing-2xl),
+  large: (
+    xs: var(--spacing-large-xs),
+    sm: var(--spacing-large-sm),
+    md: var(--spacing-large-md),
+    lg: var(--spacing-large-lg),
+    xl: var(--spacing-large-xl),
+    '2xl': var(--spacing-large-2xl),
+  ),
+  component: (
+    xs: var(--spacing-component-xs),
+    sm: var(--spacing-component-sm),
+    md: var(--spacing-component-md),
+    lg: var(--spacing-component-lg),
+    xl: var(--spacing-component-xl),
+    '2xl': var(--spacing-component-2xl),
+  ),
+  layout: (
+    xs: var(--spacing-layout-xs),
+    sm: var(--spacing-layout-sm),
+    md: var(--spacing-layout-md),
+    lg: var(--spacing-layout-lg),
+    xl: var(--spacing-layout-xl),
+    '2xl': var(--spacing-layout-2xl),
+  ),
+);

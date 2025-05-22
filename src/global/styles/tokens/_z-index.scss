@@ -1,0 +1,11 @@
+$ss-z-index:(
+  behind: var(--z-index-behind),
+  default: var(--z-index-default),
+  dropdown: var(--z-index-dropdown),
+  sticky: var(--z-index-sticky),
+  fixed: var(--z-index-fixed),
+  modal: var(--z-index-modal),
+  popover: var(--z-index-popover),
+  tooltip: var(--z-index-tooltip),
+  toast: var(--z-index-toast),
+)

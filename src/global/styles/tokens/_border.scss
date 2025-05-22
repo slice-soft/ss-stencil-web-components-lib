@@ -1,0 +1,18 @@
+$ss-border: (
+  radius:(
+    sm: var(--border-radius-sm),
+    md: var(--border-radius-md),
+    lg: var(--border-radius-lg),
+    full: var(--border-radius-full),
+    none: var(--border-radius-none),
+  ),
+  width: (
+    thin: var(--border-width-thin),
+    thick: var(--border-width-thick),
+  ),
+  style:(
+    solid: var(--border-style-solid),
+    dashed: var(--border-style-dashed),
+    dotted: var(--border-style-dotted),
+  )
+)
