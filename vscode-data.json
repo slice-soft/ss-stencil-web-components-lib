@@ -21,6 +21,14 @@
           "description": "The middle name"
         }
       ]
+    },
+    {
+      "name": "ss-button",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": []
     }
   ]
 }
