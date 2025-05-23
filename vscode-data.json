@@ -26,9 +26,163 @@
       "name": "ss-button",
       "description": {
         "kind": "markdown",
-        "value": ""
+        "value": "Botón versátil para acciones del usuario:\n- Variantes (primary, secondary…)\n- Tamaños (xs–xl)\n- Estilos (solid, outline, ghost)\n- Formas (rounded, pill, circle, square)\n- Control de estado (loading, disabled)"
       },
-      "attributes": []
+      "attributes": [
+        {
+          "name": "disable-duration",
+          "description": "Milisegundos que dura la deshabilitación"
+        },
+        {
+          "name": "disabled",
+          "description": "Deshabilitado global"
+        },
+        {
+          "name": "full-width",
+          "description": "Ocupa todo el ancho del contenedor"
+        },
+        {
+          "name": "icon-position",
+          "description": "Posición del ícono: left|right|only",
+          "values": [
+            {
+              "name": "left"
+            },
+            {
+              "name": "only"
+            },
+            {
+              "name": "right"
+            }
+          ]
+        },
+        {
+          "name": "label",
+          "description": "Texto interno o slot default"
+        },
+        {
+          "name": "one-click",
+          "description": "Sólo un clic: tras disparar ssClick\nel botón se deshabilita durante disableDuration"
+        },
+        {
+          "name": "shape",
+          "description": "Forma del botón",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "pill"
+            },
+            {
+              "name": "rounded"
+            },
+            {
+              "name": "square"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "Tamaño: xs, sm, md, lg, xl",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "status",
+          "description": "Estado inicial: active|disabled|loading",
+          "values": [
+            {
+              "name": "active"
+            },
+            {
+              "name": "disabled"
+            },
+            {
+              "name": "loading"
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "description": "Tipo de botón: `button`|`submit`|`reset`",
+          "values": [
+            {
+              "name": "button"
+            },
+            {
+              "name": "reset"
+            },
+            {
+              "name": "submit"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "Variante de color",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-style",
+          "description": "Estilo visual",
+          "values": [
+            {
+              "name": "ghost"
+            },
+            {
+              "name": "outline"
+            },
+            {
+              "name": "solid"
+            }
+          ]
+        },
+        {
+          "name": "xid",
+          "description": "Atributo `id` del botón"
+        }
+      ]
     }
   ]
 }

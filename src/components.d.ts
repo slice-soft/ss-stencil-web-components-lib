@@ -5,6 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/ss-button/ss-button";
+export { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/ss-button/ss-button";
 export namespace Components {
     interface MyComponent {
         /**
@@ -20,8 +22,72 @@ export namespace Components {
          */
         "middle": string;
     }
+    /**
+     * Botón versátil para acciones del usuario:
+     * - Variantes (primary, secondary…)
+     * - Tamaños (xs–xl)
+     * - Estilos (solid, outline, ghost)
+     * - Formas (rounded, pill, circle, square)
+     * - Control de estado (loading, disabled)
+     */
     interface SsButton {
+        /**
+          * Milisegundos que dura la deshabilitación
+         */
+        "disableDuration": number;
+        /**
+          * Deshabilitado global
+         */
+        "disabled": boolean;
+        /**
+          * Ocupa todo el ancho del contenedor
+         */
+        "fullWidth": boolean;
+        /**
+          * Posición del ícono: left|right|only
+         */
+        "iconPosition": IconPosition;
+        /**
+          * Texto interno o slot default
+         */
+        "label"?: string;
+        /**
+          * Sólo un clic: tras disparar ssClick el botón se deshabilita durante disableDuration
+         */
+        "oneClick": boolean;
+        /**
+          * Forma del botón
+         */
+        "shape": ButtonShape;
+        /**
+          * Tamaño: xs, sm, md, lg, xl
+         */
+        "size": ButtonSize;
+        /**
+          * Estado inicial: active|disabled|loading
+         */
+        "status": ButtonStatus;
+        /**
+          * Tipo de botón: `button`|`submit`|`reset`
+         */
+        "type": ButtonType;
+        /**
+          * Variante de color
+         */
+        "variant": ButtonVariant;
+        /**
+          * Estilo visual
+         */
+        "xStyle": ButtonStyle;
+        /**
+          * Atributo `id` del botón
+         */
+        "xid"?: string;
     }
+}
+export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsButtonElement;
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -30,7 +96,26 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLSsButtonElementEventMap {
+        "ssClick": string;
+    }
+    /**
+     * Botón versátil para acciones del usuario:
+     * - Variantes (primary, secondary…)
+     * - Tamaños (xs–xl)
+     * - Estilos (solid, outline, ghost)
+     * - Formas (rounded, pill, circle, square)
+     * - Control de estado (loading, disabled)
+     */
     interface HTMLSsButtonElement extends Components.SsButton, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsButtonElementEventMap>(type: K, listener: (this: HTMLSsButtonElement, ev: SsButtonCustomEvent<HTMLSsButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsButtonElementEventMap>(type: K, listener: (this: HTMLSsButtonElement, ev: SsButtonCustomEvent<HTMLSsButtonElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLSsButtonElement: {
         prototype: HTMLSsButtonElement;
@@ -56,7 +141,72 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    /**
+     * Botón versátil para acciones del usuario:
+     * - Variantes (primary, secondary…)
+     * - Tamaños (xs–xl)
+     * - Estilos (solid, outline, ghost)
+     * - Formas (rounded, pill, circle, square)
+     * - Control de estado (loading, disabled)
+     */
     interface SsButton {
+        /**
+          * Milisegundos que dura la deshabilitación
+         */
+        "disableDuration"?: number;
+        /**
+          * Deshabilitado global
+         */
+        "disabled"?: boolean;
+        /**
+          * Ocupa todo el ancho del contenedor
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Posición del ícono: left|right|only
+         */
+        "iconPosition"?: IconPosition;
+        /**
+          * Texto interno o slot default
+         */
+        "label"?: string;
+        /**
+          * Se dispara cuando el usuario hace click
+          * @event ssClick Emite el `xid` del botón
+         */
+        "onSsClick"?: (event: SsButtonCustomEvent<string>) => void;
+        /**
+          * Sólo un clic: tras disparar ssClick el botón se deshabilita durante disableDuration
+         */
+        "oneClick"?: boolean;
+        /**
+          * Forma del botón
+         */
+        "shape"?: ButtonShape;
+        /**
+          * Tamaño: xs, sm, md, lg, xl
+         */
+        "size"?: ButtonSize;
+        /**
+          * Estado inicial: active|disabled|loading
+         */
+        "status"?: ButtonStatus;
+        /**
+          * Tipo de botón: `button`|`submit`|`reset`
+         */
+        "type"?: ButtonType;
+        /**
+          * Variante de color
+         */
+        "variant"?: ButtonVariant;
+        /**
+          * Estilo visual
+         */
+        "xStyle"?: ButtonStyle;
+        /**
+          * Atributo `id` del botón
+         */
+        "xid"?: string;
     }
     interface IntrinsicElements {
         "my-component": MyComponent;
@@ -68,6 +218,14 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            /**
+             * Botón versátil para acciones del usuario:
+             * - Variantes (primary, secondary…)
+             * - Tamaños (xs–xl)
+             * - Estilos (solid, outline, ghost)
+             * - Formas (rounded, pill, circle, square)
+             * - Control de estado (loading, disabled)
+             */
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
         }
     }
