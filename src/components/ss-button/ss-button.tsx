@@ -39,7 +39,7 @@ export class SsButton {
    */
   @Prop() oneClick: boolean = false;
   /** Milisegundos que dura la deshabilitación */
-  @Prop() disableDuration: number = 200;
+  @Prop() disableDuration: number = 3000;
   /** Tamaño: xs, sm, md, lg, xl */
   @Prop() size: ButtonSize = 'md';
   /** Variante de color */
@@ -73,12 +73,16 @@ export class SsButton {
       event.stopPropagation();
       return;
     }
+    this.renderStatus = 'loading';
     this.ssClick.emit(this.xid);
-    if (this.oneClick) {
+    if (!this.oneClick) {
       this.isTemporarilyDisabled = true;
       setTimeout(() => {
         this.isTemporarilyDisabled = false;
+        this.renderStatus = 'active';
       }, this.disableDuration);
+    } else {
+      this.isTemporarilyDisabled = true;
     }
   }
 
@@ -114,23 +118,9 @@ export class SsButton {
         tabindex={isDisabled ? -1 : 0}
         onClick={this.ssClickHandler}
       >
-        {showLeftIcon && (
-          <span class="ss-button__icon ss-button__icon--left">
-            <slot name="icon" />
-          </span>
-        )}
-
-        {showLabel && (
-          <span class="ss-button__label">
-            <slot>{this.label}</slot>
-          </span>
-        )}
-
-        {showRightIcon && (
-          <span class="ss-button__icon ss-button__icon--right">
-            <slot name="icon" />
-          </span>
-        )}
+        {showLeftIcon && <span class="ss-button__icon ss-button__icon--left"><slot name="icon" /></span>}
+        {showLabel && <span class="ss-button__label"><slot>{this.label}</slot></span>}
+        {showRightIcon && <span class="ss-button__icon ss-button__icon--right"><slot name="icon" /></span>}
       </button>
     );
   }
