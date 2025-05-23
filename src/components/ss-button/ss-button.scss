@@ -13,7 +13,7 @@
   cursor: pointer;
   font-family: var(--ss-font-family-primary);
   transition: all var(--ss-duration-normal) var(--ss-easing-ease-in-out);
-  gap: var(--ss-spacing-2xs);
+  gap: var(--ss-spacing-xs);
   padding: var(--ss-spacing-sm) var(--ss-spacing-md);
   
   &:focus {
