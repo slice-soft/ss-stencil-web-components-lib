@@ -5,10 +5,9 @@ import { SsButton } from './ss-button';
 const meta: Meta<SsButton> = {
   title: 'SS Button',
   component: SsButton,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    actions: { argTypesRegex: '^on[A-Z].*' },
+    actions: { argTypesRegex: '^onSs[A-Z][a-zA-Z0-9]*$' },
   },
   argTypes: {
     onSsClick: { action: 'clicked' },
@@ -236,13 +235,14 @@ export const PillShape: Story = {
 
 export const CircleShape: Story = {
   args: {
-    label: '🔔',
     shape: 'circle',
     iconPosition: 'only',
     xid: 'story-circle',
   },
   render: (props) => (
-    <ss-button{...props} />
+    <ss-button{...props} >
+      <span slot="icon">🔔</span>
+    </ss-button>
   ),
 };
 
