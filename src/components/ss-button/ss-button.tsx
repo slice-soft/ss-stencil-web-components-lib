@@ -15,60 +15,44 @@ export type IconPosition = 'left' | 'right' | 'only';
 })
 export class SsButton {
   @Element() el!: HTMLElement;
-
   // Identificación
   @Prop() xid?: string;
-  
   // Contenido
   @Prop() label?: string;
-  
   // Comportamiento
   @Prop() type: ButtonType = 'button';
   @Prop() disabled: boolean = false;
   @Prop() oneClick: boolean = false;
   @Prop() disableDuration: number = 200;
-  
   // Apariencia
   @Prop() size: ButtonSize = 'md';
   @Prop() variant: ButtonVariant = 'primary';
   @Prop() xStyle: ButtonStyle = 'solid';
   @Prop() shape: ButtonShape = 'rounded';
   @Prop() fullWidth: boolean = false;
-  
   // Estado
   @Prop() status: ButtonStatus = 'active';
-  
   // Iconos
   @Prop() iconPosition: IconPosition = 'right';
-  
   // Estados internos
   @State() isTemporarilyDisabled: boolean = false;
   @State() renderStatus: ButtonStatus = 'active';
-  
   // Eventos
-  @Event() ssClick: EventEmitter<{
-    id: string;
-    event: MouseEvent;
-  }>;
+  @Event() ssClick: EventEmitter<string>;
 
   componentWillLoad() {
     this.renderStatus = this.status;
   }
 
-  private handleClick = (event: MouseEvent) => {
+  ssClickHandler = (event: MouseEvent) => {
     // Prevenir click si está deshabilitado o cargando
     if (this.disabled || this.isTemporarilyDisabled || this.status === 'disabled' || this.status === 'loading') {
       event.preventDefault();
       event.stopPropagation();
       return;
     }
-
     // Emitir evento
-    this.ssClick.emit({
-      id: this.xid,
-      event,
-    });
-
+    this.ssClick.emit(this.xid);
     // Manejar oneClick
     if (this.oneClick) {
       this.isTemporarilyDisabled = true;
@@ -108,7 +92,7 @@ export class SsButton {
         aria-disabled={isDisabled.toString()}
         aria-busy={this.status === 'loading'}
         tabindex={isDisabled ? -1 : 0}
-        onClick={this.handleClick}
+        onClick={this.ssClickHandler}
       >
         {showLeftIcon && (
           <span class="ss-button__icon ss-button__icon--left">
