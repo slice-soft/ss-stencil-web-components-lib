@@ -5,13 +5,13 @@ $ss-font: (
     mono     : var(--font-family-mono)
   ),
   sizes: (
-    xs : var(--font-size-large-xs),
-    sm : var(--font-size-large-sm),
-    md : var(--font-size-large-md),
-    lg : var(--font-size-large-lg),
-    xl : var(--font-size-large-xl),
-    "2xl": var(--font-size-large-2xl),
-    "3xl": var(--font-size-large-3xl)
+    xs : var(--font-sizes-xs),
+    sm : var(--font-sizes-sm),
+    md : var(--font-sizes-md),
+    lg : var(--font-sizes-lg),
+    xl : var(--font-sizes-xl),
+    "2xl": var(--font-sizes-2xl),
+    "3xl": var(--font-sizes-3xl)
   ),
   weights: (
     regular: var(--font-weight-regular),
