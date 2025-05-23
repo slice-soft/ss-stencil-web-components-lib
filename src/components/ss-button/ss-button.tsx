@@ -1,4 +1,12 @@
-import { Component, Host, h } from '@stencil/core';
+import { Component, h, Prop, Event, EventEmitter, State, Element } from '@stencil/core';
+
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'success' | 'warning' | 'error' | 'info';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type ButtonStyle = 'solid' | 'outline' | 'ghost';
+export type ButtonShape = 'rounded' | 'pill' | 'circle' | 'square';
+export type ButtonStatus = 'active' | 'disabled' | 'loading';
+export type ButtonType = 'button' | 'submit' | 'reset';
+export type IconPosition = 'left' | 'right' | 'only';
 
 @Component({
   tag: 'ss-button',
@@ -6,11 +14,120 @@ import { Component, Host, h } from '@stencil/core';
   shadow: true,
 })
 export class SsButton {
+  @Element() el!: HTMLElement;
+
+  // Identificación
+  @Prop() xid?: string;
+  
+  // Contenido
+  @Prop() label?: string;
+  
+  // Comportamiento
+  @Prop() type: ButtonType = 'button';
+  @Prop() disabled: boolean = false;
+  @Prop() oneClick: boolean = false;
+  @Prop() disableDuration: number = 200;
+  
+  // Apariencia
+  @Prop() size: ButtonSize = 'md';
+  @Prop() variant: ButtonVariant = 'primary';
+  @Prop() xStyle: ButtonStyle = 'solid';
+  @Prop() shape: ButtonShape = 'rounded';
+  @Prop() fullWidth: boolean = false;
+  
+  // Estado
+  @Prop() status: ButtonStatus = 'active';
+  
+  // Iconos
+  @Prop() iconPosition: IconPosition = 'right';
+  
+  // Estados internos
+  @State() isTemporarilyDisabled: boolean = false;
+  @State() renderStatus: ButtonStatus = 'active';
+  
+  // Eventos
+  @Event() ssClick: EventEmitter<{
+    id: string;
+    event: MouseEvent;
+  }>;
+
+  componentWillLoad() {
+    this.renderStatus = this.status;
+  }
+
+  private handleClick = (event: MouseEvent) => {
+    // Prevenir click si está deshabilitado o cargando
+    if (this.disabled || this.isTemporarilyDisabled || this.status === 'disabled' || this.status === 'loading') {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    // Emitir evento
+    this.ssClick.emit({
+      id: this.xid,
+      event,
+    });
+
+    // Manejar oneClick
+    if (this.oneClick) {
+      this.isTemporarilyDisabled = true;
+      setTimeout(() => {
+        this.isTemporarilyDisabled = false;
+      }, this.disableDuration);
+    }
+  }
+
+  private getClasses() {
+    const base = 'ss-button';
+    
+    return {
+      [base]: true,
+      [`${base}--${this.variant}`]: true,
+      [`${base}--${this.xStyle}`]: true,
+      [`${base}--${this.size}`]: true,
+      [`${base}--${this.shape}`]: true,
+      [`${base}--full-width`]: this.fullWidth,
+      [`${base}--status-${this.renderStatus}`]: true,
+    };
+  }
+
   render() {
+    const isDisabled = this.disabled || this.isTemporarilyDisabled || this.status === 'disabled';
+    const hasIcon = !!this.el.querySelector('[slot="icon"]');
+    const showLeftIcon = hasIcon && (this.iconPosition === 'left' || this.iconPosition === 'only');
+    const showRightIcon = hasIcon && this.iconPosition === 'right';
+    const showLabel = this.iconPosition !== 'only';
+
     return (
-      <Host>
-        <slot></slot>
-      </Host>
+      <button
+        id={this.xid}
+        type={this.type}
+        class={this.getClasses()}
+        disabled={isDisabled}
+        aria-disabled={isDisabled.toString()}
+        aria-busy={this.status === 'loading'}
+        tabindex={isDisabled ? -1 : 0}
+        onClick={this.handleClick}
+      >
+        {showLeftIcon && (
+          <span class="ss-button__icon ss-button__icon--left">
+            <slot name="icon" />
+          </span>
+        )}
+        
+        {showLabel && (
+          <span class="ss-button__label">
+            <slot>{this.label}</slot>
+          </span>
+        )}
+        
+        {showRightIcon && (
+          <span class="ss-button__icon ss-button__icon--right">
+            <slot name="icon" />
+          </span>
+        )}
+      </button>
     );
   }
 }
