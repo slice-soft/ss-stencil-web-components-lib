@@ -2,16 +2,16 @@ import type { Meta, StoryObj } from '@stencil/storybook-plugin';
 import { h } from '@stencil/core';
 import { SsButton } from './ss-button';
 
-const meta:Meta<SsButton> = {
+const meta: Meta<SsButton> = {
   title: 'SS Button',
   component: SsButton,
+  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
-    actions: {
-      handles: ['ssClick'],
-    },
+    actions: { argTypesRegex: '^on[A-Z].*' },
   },
   argTypes: {
+    onSsClick: { action: 'clicked' },
     xid: {
       control: 'text',
       description: 'ID del botón'
@@ -72,13 +72,6 @@ const meta:Meta<SsButton> = {
       description: 'Posición del icono'
     },
   },
-  args: {
-    label: 'Click me',
-    variant: 'primary',
-    size: 'md',
-    status: 'active',
-    iconPosition: 'right',
-  },
 }
 
 export default meta;
@@ -91,10 +84,7 @@ export const Primary: Story = {
     xid: 'story-primary',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button {...props} />
   ),
 };
 
@@ -106,10 +96,7 @@ export const Secondary: Story = {
     xid: 'story-secondary',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button {...props} />
   ),
 };
 
@@ -121,10 +108,7 @@ export const Outline: Story = {
     xid: 'story-outline',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button {...props} />
   ),
 };
 
@@ -136,10 +120,7 @@ export const Ghost: Story = {
     xid: 'story-ghost',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -150,10 +131,7 @@ export const Small: Story = {
     xid: 'story-small',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -164,10 +142,7 @@ export const Large: Story = {
     xid: 'story-large',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -178,10 +153,7 @@ export const FullWidth: Story = {
     xid: 'story-full-width',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -192,10 +164,7 @@ export const Disabled: Story = {
     xid: 'story-disabled',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -206,10 +175,7 @@ export const Loading: Story = {
     xid: 'story-loading',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -220,10 +186,7 @@ export const Success: Story = {
     xid: 'story-success',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -234,10 +197,7 @@ export const Error: Story = {
     xid: 'story-error',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -248,10 +208,7 @@ export const Warning: Story = {
     xid: 'story-warning',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button {...props} />
   ),
 };
 
@@ -262,10 +219,7 @@ export const Info: Story = {
     xid: 'story-info',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -276,10 +230,7 @@ export const PillShape: Story = {
     xid: 'story-pill',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -291,10 +242,7 @@ export const CircleShape: Story = {
     xid: 'story-circle',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
@@ -306,12 +254,19 @@ export const OneClickButton: Story = {
     xid: 'story-one-click',
   },
   render: (props) => (
-    <ss-button
-      {...props}
-      onSsClick={(e) => console.log('ssClick event:', e.detail)}
-    />
+    <ss-button{...props} />
   ),
 };
 
-
-
+export const IconButton: Story = {
+  args: {
+    label: 'Icon Button',
+    iconPosition: 'only',
+    xid: 'story-icon',
+  },
+  render: (props) => (
+    <ss-button {...props}>
+      <span slot="icon">🔔</span>
+    </ss-button>
+  ),
+}
