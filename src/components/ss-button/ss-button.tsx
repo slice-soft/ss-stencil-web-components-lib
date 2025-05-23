@@ -8,6 +8,16 @@ export type ButtonStatus = 'active' | 'disabled' | 'loading';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type IconPosition = 'left' | 'right' | 'only';
 
+/**
+ * Botón versátil para acciones del usuario:
+ * - Variantes (primary, secondary…)
+ * - Tamaños (xs–xl)
+ * - Estilos (solid, outline, ghost)
+ * - Formas (rounded, pill, circle, square)
+ * - Control de estado (loading, disabled)
+ *
+ * @slot icon - Slot para el ícono (izquierda, derecha u “solo”).
+ */
 @Component({
   tag: 'ss-button',
   styleUrl: 'ss-button.scss',
@@ -15,29 +25,42 @@ export type IconPosition = 'left' | 'right' | 'only';
 })
 export class SsButton {
   @Element() el!: HTMLElement;
-  // Identificación
+  /** Atributo `id` del botón */
   @Prop() xid?: string;
-  // Contenido
+  /** Texto interno o slot default */
   @Prop() label?: string;
-  // Comportamiento
+  /** Tipo de botón: `button`|`submit`|`reset` */
   @Prop() type: ButtonType = 'button';
+  /** Deshabilitado global */
   @Prop() disabled: boolean = false;
+  /**
+   * Sólo un clic: tras disparar ssClick
+   * el botón se deshabilita durante disableDuration
+   */
   @Prop() oneClick: boolean = false;
+  /** Milisegundos que dura la deshabilitación */
   @Prop() disableDuration: number = 200;
-  // Apariencia
+  /** Tamaño: xs, sm, md, lg, xl */
   @Prop() size: ButtonSize = 'md';
+  /** Variante de color */
   @Prop() variant: ButtonVariant = 'primary';
+  /** Estilo visual */
   @Prop() xStyle: ButtonStyle = 'solid';
+  /** Forma del botón */
   @Prop() shape: ButtonShape = 'rounded';
+  /** Ocupa todo el ancho del contenedor */
   @Prop() fullWidth: boolean = false;
-  // Estado
+  /** Estado inicial: active|disabled|loading */
   @Prop() status: ButtonStatus = 'active';
-  // Iconos
+  /** Posición del ícono: left|right|only */
   @Prop() iconPosition: IconPosition = 'right';
-  // Estados internos
+  // State
   @State() isTemporarilyDisabled: boolean = false;
   @State() renderStatus: ButtonStatus = 'active';
-  // Eventos
+  /**
+  * Se dispara cuando el usuario hace click
+  * @event ssClick Emite el `xid` del botón
+  */
   @Event() ssClick: EventEmitter<string>;
 
   componentWillLoad() {
@@ -45,15 +68,12 @@ export class SsButton {
   }
 
   ssClickHandler = (event: MouseEvent) => {
-    // Prevenir click si está deshabilitado o cargando
     if (this.disabled || this.isTemporarilyDisabled || this.status === 'disabled' || this.status === 'loading') {
       event.preventDefault();
       event.stopPropagation();
       return;
     }
-    // Emitir evento
     this.ssClick.emit(this.xid);
-    // Manejar oneClick
     if (this.oneClick) {
       this.isTemporarilyDisabled = true;
       setTimeout(() => {
@@ -64,7 +84,7 @@ export class SsButton {
 
   private getClasses() {
     const base = 'ss-button';
-    
+
     return {
       [base]: true,
       [`${base}--${this.variant}`]: true,
@@ -99,13 +119,13 @@ export class SsButton {
             <slot name="icon" />
           </span>
         )}
-        
+
         {showLabel && (
           <span class="ss-button__label">
             <slot>{this.label}</slot>
           </span>
         )}
-        
+
         {showRightIcon && (
           <span class="ss-button__icon ss-button__icon--right">
             <slot name="icon" />
