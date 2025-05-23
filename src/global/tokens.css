@@ -219,13 +219,13 @@
   --font-family-mono: Menlo, monospace;
 
   /* Font Sizes */
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
+  --font-sizes-xs: 0.75rem;
+  --font-sizes-sm: 0.875rem;
+  --font-sizes-md: 1rem;
+  --font-sizes-lg: 1.125rem;
+  --font-sizes-xl: 1.25rem;
+  --font-sizes-2xl: 1.5rem;
+  --font-sizes-3xl: 1.875rem;
 
   /* Font Weights */
   --font-weight-regular: 400;
