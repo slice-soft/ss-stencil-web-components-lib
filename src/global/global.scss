@@ -1,13 +1,14 @@
-@use "sass:meta";
-@use "sass:map";
-@use "./styles/tokens/colors" as colors;
-@use "./styles/tokens/border"    as border;
-@use "./styles/tokens/opacity"   as opacity;
-@use "./styles/tokens/shadow"    as shadow;
-@use "./styles/tokens/spacing"   as spacing;
-@use "./styles/tokens/typography" as typography;
-@use "./styles/tokens/z-index"   as zindex;
-@use "./styles/tokens/animations" as animations;
+@use 'sass:meta';
+@use 'sass:map';
+@use './styles/tokens/colors' as colors;
+@use './styles/tokens/border' as border;
+@use './styles/tokens/opacity' as opacity;
+@use './styles/tokens/shadow' as shadow;
+@use './styles/tokens/spacing' as spacing;
+@use './styles/tokens/typography' as typography;
+@use './styles/tokens/z-index' as zindex;
+@use './styles/tokens/animations' as animations;
+@import './reset.css';
 
 :root {
   @each $palette, $shades in colors.$ss-colors {
@@ -59,7 +60,7 @@
   // Families, sizes, weights, line-heights
   @each $group, $map in typography.$ss-font {
     @each $name, $val in $map {
-      --ss-#{$group}-#{$name}: #{$val};
+      --ss-font-#{$group}-#{$name}: #{$val};
     }
   }
   // Variants
