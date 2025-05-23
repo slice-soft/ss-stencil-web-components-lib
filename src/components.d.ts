@@ -8,20 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/ss-button/ss-button";
 export { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/ss-button/ss-button";
 export namespace Components {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-    }
     /**
      * Botón versátil para acciones del usuario:
      * - Variantes (primary, secondary…)
@@ -90,12 +76,6 @@ export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSsButtonElement;
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLSsButtonElementEventMap {
         "ssClick": string;
     }
@@ -122,25 +102,10 @@ declare global {
         new (): HTMLSsButtonElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
         "ss-button": HTMLSsButtonElement;
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
-    }
     /**
      * Botón versátil para acciones del usuario:
      * - Variantes (primary, secondary…)
@@ -209,7 +174,6 @@ declare namespace LocalJSX {
         "xid"?: string;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
         "ss-button": SsButton;
     }
 }
@@ -217,7 +181,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             /**
              * Botón versátil para acciones del usuario:
              * - Variantes (primary, secondary…)
