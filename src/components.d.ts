@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/ss-button/ss-button";
-export { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/ss-button/ss-button";
+import { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/atoms/ss-button/ss-button";
+export { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/atoms/ss-button/ss-button";
 export namespace Components {
     /**
      * Botón versátil para acciones del usuario:

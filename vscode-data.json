@@ -143,6 +143,10 @@
           ]
         },
         {
+          "name": "x-id",
+          "description": "Atributo `id` del botón"
+        },
+        {
           "name": "x-style",
           "description": "Estilo visual",
           "values": [
@@ -156,6 +160,8 @@
               "name": "solid"
             }
           ]
+        }
+      ]
         },
         {
           "name": "xid",
