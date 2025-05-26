@@ -62,13 +62,13 @@ export namespace Components {
          */
         "variant": ButtonVariant;
         /**
+          * Atributo `id` del botón
+         */
+        "xId"?: string;
+        /**
           * Estilo visual
          */
         "xStyle": ButtonStyle;
-        /**
-          * Atributo `id` del botón
-         */
-        "xid"?: string;
     }
 }
 export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
@@ -165,13 +165,13 @@ declare namespace LocalJSX {
          */
         "variant"?: ButtonVariant;
         /**
+          * Atributo `id` del botón
+         */
+        "xId"?: string;
+        /**
           * Estilo visual
          */
         "xStyle"?: ButtonStyle;
-        /**
-          * Atributo `id` del botón
-         */
-        "xid"?: string;
     }
     interface IntrinsicElements {
         "ss-button": SsButton;

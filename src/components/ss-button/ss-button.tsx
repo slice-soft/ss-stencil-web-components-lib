@@ -26,7 +26,7 @@ export type IconPosition = 'left' | 'right' | 'only';
 export class SsButton {
   @Element() el!: HTMLElement;
   /** Atributo `id` del botón */
-  @Prop() xid?: string;
+  @Prop() xId?: string;
   /** Texto interno o slot default */
   @Prop() label?: string;
   /** Tipo de botón: `button`|`submit`|`reset` */
@@ -37,9 +37,9 @@ export class SsButton {
    * Sólo un clic: tras disparar ssClick
    * el botón se deshabilita durante disableDuration
    */
-  @Prop() oneClick: boolean = false;
+  @Prop() oneClick: boolean = true;
   /** Milisegundos que dura la deshabilitación */
-  @Prop() disableDuration: number = 3000;
+  @Prop() disableDuration: number = 1000;
   /** Tamaño: xs, sm, md, lg, xl */
   @Prop() size: ButtonSize = 'md';
   /** Variante de color */
@@ -73,12 +73,10 @@ export class SsButton {
       event.stopPropagation();
       return;
     }
-    this.renderStatus = 'loading';
-    this.ssClick.emit(this.xid);
+    this.ssClick.emit(this.xId);
     if (!this.oneClick) {
-      this.isTemporarilyDisabled = true;
+      this.renderStatus = 'loading';
       setTimeout(() => {
-        this.isTemporarilyDisabled = false;
         this.renderStatus = 'active';
       }, this.disableDuration);
     } else {
@@ -106,15 +104,15 @@ export class SsButton {
     const showLeftIcon = hasIcon && (this.iconPosition === 'left' || this.iconPosition === 'only');
     const showRightIcon = hasIcon && this.iconPosition === 'right';
     const showLabel = this.iconPosition !== 'only';
-
     return (
       <button
-        id={this.xid}
+        id={this.xId}
         type={this.type}
         class={this.getClasses()}
         disabled={isDisabled}
         aria-disabled={isDisabled.toString()}
         aria-busy={this.status === 'loading'}
+        aria-label={this.label}
         tabindex={isDisabled ? -1 : 0}
         onClick={this.ssClickHandler}
       >
