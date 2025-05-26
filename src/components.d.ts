@@ -5,8 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/atoms/ss-button/ss-button";
-export { ButtonShape, ButtonSize, ButtonStatus, ButtonStyle, ButtonType, ButtonVariant, IconPosition } from "./components/atoms/ss-button/ss-button";
+import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+import { Size } from "./types/size";
+import { Variant } from "./types/variant";
+import { Variant as Variant1 } from "./components";
+export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+export { Size } from "./types/size";
+export { Variant } from "./types/variant";
+export { Variant as Variant1 } from "./components";
 export namespace Components {
     /**
      * Botón versátil para acciones del usuario:
@@ -34,6 +40,10 @@ export namespace Components {
          */
         "iconPosition": IconPosition;
         /**
+          * Estilos personalizados
+         */
+        "inlineStyles"?: string | Record<string, string>;
+        /**
           * Texto interno o slot default
          */
         "label"?: string;
@@ -48,7 +58,7 @@ export namespace Components {
         /**
           * Tamaño: xs, sm, md, lg, xl
          */
-        "size": ButtonSize;
+        "size": Size;
         /**
           * Estado inicial: active|disabled|loading
          */
@@ -60,7 +70,7 @@ export namespace Components {
         /**
           * Variante de color
          */
-        "variant": ButtonVariant;
+        "variant": Variant;
         /**
           * Atributo `id` del botón
          */
@@ -132,6 +142,10 @@ declare namespace LocalJSX {
          */
         "iconPosition"?: IconPosition;
         /**
+          * Estilos personalizados
+         */
+        "inlineStyles"?: string | Record<string, string>;
+        /**
           * Texto interno o slot default
          */
         "label"?: string;
@@ -151,7 +165,7 @@ declare namespace LocalJSX {
         /**
           * Tamaño: xs, sm, md, lg, xl
          */
-        "size"?: ButtonSize;
+        "size"?: Size;
         /**
           * Estado inicial: active|disabled|loading
          */
@@ -163,7 +177,7 @@ declare namespace LocalJSX {
         /**
           * Variante de color
          */
-        "variant"?: ButtonVariant;
+        "variant"?: Variant;
         /**
           * Atributo `id` del botón
          */
