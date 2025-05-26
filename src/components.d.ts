@@ -8,11 +8,9 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
-import { Variant as Variant1 } from "./components";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
-export { Variant as Variant1 } from "./components";
 export namespace Components {
     /**
      * Botón versátil para acciones del usuario:
