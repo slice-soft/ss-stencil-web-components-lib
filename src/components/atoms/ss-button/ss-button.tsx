@@ -56,7 +56,7 @@ export class SsButton {
   @Prop() iconPosition: IconPosition = 'right';
   // State
   @State() isTemporarilyDisabled: boolean = false;
-  @State() renderStatus: ButtonStatus = 'active';
+  @State() renderStatus: ButtonStatus = this.status;
   /**
   * Se dispara cuando el usuario hace click
   * @event ssClick Emite el `xid` del botón
@@ -99,7 +99,7 @@ export class SsButton {
   }
 
   render() {
-    const isDisabled = this.disabled || this.isTemporarilyDisabled || this.status === 'disabled';
+    const isDisabled = this.disabled || this.isTemporarilyDisabled || this.status === 'disabled' || this.status === 'loading';
     const hasIcon = !!this.el.querySelector('[slot="icon"]');
     const showLeftIcon = hasIcon && (this.iconPosition === 'left' || this.iconPosition === 'only');
     const showRightIcon = hasIcon && this.iconPosition === 'right';
