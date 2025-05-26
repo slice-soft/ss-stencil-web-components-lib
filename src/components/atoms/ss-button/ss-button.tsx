@@ -1,7 +1,8 @@
 import { Component, h, Prop, Event, EventEmitter, State, Element } from '@stencil/core';
+import { Variant } from '../../../types/variant';
+import { parseStyleString } from '../../../utils/style';
+import { Size } from '../../../types/size';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'success' | 'warning' | 'error' | 'info';
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type ButtonStyle = 'solid' | 'outline' | 'ghost';
 export type ButtonShape = 'rounded' | 'pill' | 'circle' | 'square';
 export type ButtonStatus = 'active' | 'disabled' | 'loading';
@@ -41,11 +42,13 @@ export class SsButton {
   /** Milisegundos que dura la deshabilitación */
   @Prop() disableDuration: number = 1000;
   /** Tamaño: xs, sm, md, lg, xl */
-  @Prop() size: ButtonSize = 'md';
+  @Prop() size: Size = 'md';
   /** Variante de color */
-  @Prop() variant: ButtonVariant = 'primary';
+  @Prop() variant: Variant = 'primary';
   /** Estilo visual */
   @Prop() xStyle: ButtonStyle = 'solid';
+  /** Estilos personalizados */
+  @Prop() inlineStyles?: string | Record<string, string>;
   /** Forma del botón */
   @Prop() shape: ButtonShape = 'rounded';
   /** Ocupa todo el ancho del contenedor */
@@ -57,6 +60,7 @@ export class SsButton {
   // State
   @State() isTemporarilyDisabled: boolean = false;
   @State() renderStatus: ButtonStatus = this.status;
+  @State() styles: Record<string, string> = {};
   /**
   * Se dispara cuando el usuario hace click
   * @event ssClick Emite el `xid` del botón
@@ -64,6 +68,11 @@ export class SsButton {
   @Event() ssClick: EventEmitter<string>;
 
   componentWillLoad() {
+    if (typeof this.inlineStyles === 'string') {
+      this.styles = parseStyleString(this.inlineStyles);
+    } else if (this.inlineStyles) {
+      this.styles = this.inlineStyles;
+    }
     this.renderStatus = this.status;
   }
 
@@ -109,6 +118,7 @@ export class SsButton {
         id={this.xId}
         type={this.type}
         class={this.getClasses()}
+        style={this.styles}
         disabled={isDisabled}
         aria-disabled={isDisabled.toString()}
         aria-busy={this.status === 'loading'}
