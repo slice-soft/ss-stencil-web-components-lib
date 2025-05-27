@@ -11,7 +11,9 @@ describe('ss-typography', () => {
 
   it('renders with all props and classes', async () => {
     const page = await newE2EPage();
-    await page.setContent(`<ss-typography as="h3" font-size="xl" align="right" color="secondary" font-weight="medium" line-height="tight" letter-spacing="tight" truncate transform="capitalize" x-id="e2e-id">E2E Test</ss-typography>`);
+    await page.setContent(
+      `<ss-typography as="h3" font-size="xl" align="right" color="secondary" font-weight="medium" line-height="tight" letter-spacing="tight" truncate transform="capitalize" x-id="e2e-id">E2E Test</ss-typography>`,
+    );
     const el = await page.find('ss-typography >>> h3');
     expect(el).toHaveClass('ss-typography');
     expect(el).toHaveClass('ss-typography--secondary');

@@ -27,25 +27,25 @@ export class SsTypography {
   /**
    * The HTML tag to be used for the typography component
    * @default 'p'
-  */
+   */
   @Prop() as: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' = 'p';
 
   /**
    * The size of the typography component
    * @default 'md'
-  */
+   */
   @Prop() fontSize: Size = 'md';
 
   /**
    * The text alignment for the typography component
    * @default 'left'
-  */
+   */
   @Prop() align: 'left' | 'center' | 'right' | 'justify' = 'left';
 
   /**
    * The variant of the typography component
    * @default 'dark'
-  */
+   */
   @Prop() color: Variant | 'black' | 'white' = 'black';
 
   /**
@@ -54,23 +54,23 @@ export class SsTypography {
    */
   @Prop() fontWeight: 'light' | 'regular' | 'medium' | 'bold' = 'regular';
 
-  /** 
+  /**
    * The line height of the typography component
    * @default 'normal'
-  */
+   */
   @Prop() lineHeight: 'tight' | 'normal' | 'relaxed' = 'normal';
 
-  /** 
+  /**
    * The letter spacing of the typography component
    * @default 'normal'
-  */
+   */
   @Prop() letterSpacing: 'tight' | 'normal' | 'wide' = 'normal';
 
   /**|
    * Custom styles for the typography component
    * @default {}
-  */
-  @Prop() inlineStyles: { [key: string]: string; } | string = {};
+   */
+  @Prop() inlineStyles: { [key: string]: string } | string = {};
 
   /**
    * If true, the text will be truncated with an ellipsis if it overflows its container
@@ -83,7 +83,6 @@ export class SsTypography {
   @Prop() transform: 'uppercase' | 'lowercase' | 'capitalize' | 'normal' = 'normal';
 
   @State() styles: Record<string, string> = {};
-
 
   componentWillLoad() {
     if (typeof this.inlineStyles === 'string') {
@@ -105,18 +104,14 @@ export class SsTypography {
       [`${base}--font-size-${this.fontSize}`]: !!this.fontSize,
       [`${base}--truncate`]: this.truncate,
       [`${base}--transform-${this.transform}`]: this.transform !== 'normal',
-    }
+    };
   }
 
   render() {
     const Tag = this.as as keyof JSX.IntrinsicElements;
-    
+
     return (
-      <Tag
-        id={this.xId}
-        class={this.getClases()}
-        style={this.styles}
-      >
+      <Tag id={this.xId} class={this.getClases()} style={this.styles}>
         <slot />
       </Tag>
     );

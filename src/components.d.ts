@@ -118,7 +118,7 @@ export namespace Components {
           * | Custom styles for the typography component
           * @default {}
          */
-        "inlineStyles": { [key: string]: string; } | string;
+        "inlineStyles": { [key: string]: string } | string;
         /**
           * The letter spacing of the typography component
           * @default 'normal'
@@ -306,7 +306,7 @@ declare namespace LocalJSX {
           * | Custom styles for the typography component
           * @default {}
          */
-        "inlineStyles"?: { [key: string]: string; } | string;
+        "inlineStyles"?: { [key: string]: string } | string;
         /**
           * The letter spacing of the typography component
           * @default 'normal'
