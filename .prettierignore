@@ -1,0 +1,9 @@
+dist/
+.stencil/
+coverage/
+loader/
+node_modules/
+www/
+**/readme.md
+components.d.ts
+vscode-data.json
