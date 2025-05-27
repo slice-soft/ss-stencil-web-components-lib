@@ -36,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/slice-soft/ss-stencil-web-componets-lib.git"
+    "url": "git+https://github.com/slice-soft/ss-stencil-web-componets-lib.git"
   },
   "files": [
     "dist/",
