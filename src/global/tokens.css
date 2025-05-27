@@ -117,6 +117,11 @@
   --colors-info-900: #0c4a6e;
   --colors-info-950: #082f49;
 
+  /* Basic Colors */
+  --colors-white: #ffffff;
+  --colors-black: #000000;
+  --colors-transparent: transparent;
+
   /* Durations */
   --duration-instant: 0ms;
   --duration-fast: 150ms;
