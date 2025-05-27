@@ -62,9 +62,9 @@ export class SsButton {
   @State() renderStatus: ButtonStatus = this.status;
   @State() styles: Record<string, string> = {};
   /**
-  * Se dispara cuando el usuario hace click
-  * @event ssClick Emite el `xid` del botón
-  */
+   * Se dispara cuando el usuario hace click
+   * @event ssClick Emite el `xid` del botón
+   */
   @Event() ssClick: EventEmitter<string>;
 
   componentWillLoad() {
@@ -91,7 +91,7 @@ export class SsButton {
     } else {
       this.isTemporarilyDisabled = true;
     }
-  }
+  };
 
   private getClasses() {
     const base = 'ss-button';
@@ -126,9 +126,21 @@ export class SsButton {
         tabindex={isDisabled ? -1 : 0}
         onClick={this.ssClickHandler}
       >
-        {showLeftIcon && <span class="ss-button__icon ss-button__icon--left"><slot name="icon" /></span>}
-        {showLabel && <span class="ss-button__label"><slot>{this.label}</slot></span>}
-        {showRightIcon && <span class="ss-button__icon ss-button__icon--right"><slot name="icon" /></span>}
+        {showLeftIcon && (
+          <span class="ss-button__icon ss-button__icon--left">
+            <slot name="icon" />
+          </span>
+        )}
+        {showLabel && (
+          <span class="ss-button__label">
+            <slot>{this.label}</slot>
+          </span>
+        )}
+        {showRightIcon && (
+          <span class="ss-button__icon ss-button__icon--right">
+            <slot name="icon" />
+          </span>
+        )}
       </button>
     );
   }
