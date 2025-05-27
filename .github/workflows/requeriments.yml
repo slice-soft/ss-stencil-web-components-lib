@@ -12,3 +12,5 @@ jobs:
       node-version: 22
       project-type: library
       package-file: package.json
+    secrets: inherit
+      
