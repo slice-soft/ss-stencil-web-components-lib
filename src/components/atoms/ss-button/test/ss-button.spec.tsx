@@ -80,9 +80,7 @@ describe('ss-button', () => {
       html: `<ss-button disabled></ss-button>`,
     });
     await page.waitForChanges();
-    const result = page.root.shadowRoot.querySelector('button');
-    // expect(page.root.getAttribute('disabled')).not.toBeNull();
-    expect(result.disabled).not.toBeNull();
+    expect(page.root.getAttribute('disabled')).not.toBeNull();
   });
 
   it('applies fullWidth prop', async () => {
@@ -140,23 +138,42 @@ describe('ss-button', () => {
   });
 
   it('applies loading and resets status when oneClick is false', async () => {
-  const page = await newSpecPage({
-    components: [SsButton],
-    html: `<ss-button one-click="false" disable-duration="10"></ss-button>`,
+    const page = await newSpecPage({
+      components: [SsButton],
+      html: `<ss-button one-click="false" disable-duration="10"></ss-button>`,
+    });
+
+    await page.waitForChanges();
+    const instance = page.rootInstance as any;
+
+    const button = page.root.shadowRoot.querySelector('button');
+    button.click();
+    await page.waitForChanges();
+
+    expect(instance.renderStatus).toBe('loading');
+
+    await new Promise(resolve => setTimeout(resolve, 15));
+    await page.waitForChanges();
+
+    expect(instance.renderStatus).toBe('active');
   });
 
-  await page.waitForChanges();
-  const instance = page.rootInstance as any;
+  it('applies inlineStyles String', async () => {
+    const page = await newSpecPage({
+      components: [SsButton],
+      html: `<ss-button inline-styles="color: red;"></ss-button>`,
+    });
+    expect(page.root.shadowRoot.querySelector('button').getAttribute('style')).toBe('color: red;');
+  });
 
-  const button = page.root.shadowRoot.querySelector('button');
-  button.click();
-  await page.waitForChanges();
-
-  expect(instance.renderStatus).toBe('loading');
-
-  await new Promise(resolve => setTimeout(resolve, 15));
-  await page.waitForChanges();
-
-  expect(instance.renderStatus).toBe('active');
-});
+  it('applies inlineStyles Object', async () => {
+    const page = await newSpecPage({
+      components: [SsButton],
+      html: `<ss-button></ss-button>`,
+    });
+    (page.rootInstance as any).inlineStyles = { color: 'red', backgroundColor: 'blue' };
+    page.rootInstance.componentWillLoad();
+    await page.waitForChanges();
+    expect(page.root.shadowRoot.querySelector('button').getAttribute('style')).toBe('color: red; background-color: blue;');
+  });
 });
