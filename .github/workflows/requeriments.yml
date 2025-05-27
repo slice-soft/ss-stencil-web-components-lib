@@ -1,4 +1,4 @@
-name: Requeriments Lib
+name: Requeriments Library
 
 on:
   pull_request:
