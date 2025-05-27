@@ -10,5 +10,3 @@ jobs:
     uses: slice-soft/ss-pipeline/.github/workflows/requirements-node.yml@feature/juancadev
     with:
       node-version: 22
-      project-type: library
-      package-file: package.json
