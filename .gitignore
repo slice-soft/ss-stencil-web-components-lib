@@ -3,6 +3,7 @@ www/
 loader/
 build/
 coverage/
+**/examples/
 
 *~
 *.sw[mnpcod]
