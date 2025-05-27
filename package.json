@@ -1,7 +1,18 @@
 {
   "name": "ss-stencil-web-componets-lib",
   "version": "0.0.1",
-  "description": "Stencil Component Starter",
+  "description": "Librería de Web Components reutilizables desarrollados con StencilJS por Slice Soft",
+  "author": "Slice Soft <team@slicesoft.dev>",
+  "homepage": "https://github.com/slice-soft/ss-stencil-web-componets-lib#readme",
+  "bugs": {
+    "url": "https://github.com/slice-soft/ss-stencil-web-componets-lib/issues"
+  },
+  "keywords": [
+    "web-components",
+    "stenciljs",
+    "reusable-components",
+    "slice-soft"
+  ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -25,7 +36,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stenciljs/component-starter.git"
+    "url": "https://github.com/slice-soft/ss-stencil-web-componets-lib.git"
   },
   "files": [
     "dist/",
@@ -47,5 +58,5 @@
     "jest-cli": "^29.7.0",
     "puppeteer": "^24.3.0"
   },
-  "license": "MIT"
+  "license": "SEE LICENSE IN LICENSE.md"
 }
