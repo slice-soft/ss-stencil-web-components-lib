@@ -1,0 +1,13 @@
+name: Requeriments
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  requeriments:
+    uses: slice-soft/ss-pipeline/.github/workflows/requirements-node.yml@feature/juancadev
+    with:
+      node-version: 22
+    
