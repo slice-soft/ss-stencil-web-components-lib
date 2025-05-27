@@ -1,0 +1,14 @@
+name: Deploy Library
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    uses: slice-soft/ss-pipeline/.github/workflows/deploy-node-library.yml@feature/juancadev
+    with:
+      node-version: 22
+      package-file: package.json
+      
