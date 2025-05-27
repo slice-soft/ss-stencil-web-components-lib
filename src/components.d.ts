@@ -78,6 +78,70 @@ export namespace Components {
          */
         "xStyle": ButtonStyle;
     }
+    /**
+     * Componente de tipografía versátil para mostrar texto:
+     * - Variantes de color (dark, light, primary, secondary)
+     * - Tamaños de fuente (xs, sm, md, lg, xl)
+     * - Alineación de texto (left, center, right, justify)
+     * - Estilos de fuente (light, regular, medium, bold)
+     * - Alturas de línea (tight, normal, relaxed)
+     * - Espaciado de letras (tight, normal, wide)
+     * - Personalización de estilos
+     */
+    interface SsTypography {
+        /**
+          * The text alignment for the typography component
+          * @default 'left'
+         */
+        "align": 'left' | 'center' | 'right' | 'justify';
+        /**
+          * The HTML tag to be used for the typography component
+          * @default 'p'
+         */
+        "as": 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
+        /**
+          * The variant of the typography component
+          * @default 'dark'
+         */
+        "color": Variant | 'black' | 'white';
+        /**
+          * The size of the typography component
+          * @default 'md'
+         */
+        "fontSize": Size;
+        /**
+          * The font weight of the typography component
+          * @default 'regular'
+         */
+        "fontWeight": 'light' | 'regular' | 'medium' | 'bold';
+        /**
+          * | Custom styles for the typography component
+          * @default {}
+         */
+        "inlineStyles": { [key: string]: string; } | string;
+        /**
+          * The letter spacing of the typography component
+          * @default 'normal'
+         */
+        "letterSpacing": 'tight' | 'normal' | 'wide';
+        /**
+          * The line height of the typography component
+          * @default 'normal'
+         */
+        "lineHeight": 'tight' | 'normal' | 'relaxed';
+        /**
+          * If true, the text will be displayed in uppercase
+         */
+        "transform": 'uppercase' | 'lowercase' | 'capitalize' | 'normal';
+        /**
+          * If true, the text will be truncated with an ellipsis if it overflows its container
+         */
+        "truncate": boolean;
+        /**
+          * id del componente tipográfico
+         */
+        "xId": string;
+    }
 }
 export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -109,8 +173,25 @@ declare global {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
     };
+    /**
+     * Componente de tipografía versátil para mostrar texto:
+     * - Variantes de color (dark, light, primary, secondary)
+     * - Tamaños de fuente (xs, sm, md, lg, xl)
+     * - Alineación de texto (left, center, right, justify)
+     * - Estilos de fuente (light, regular, medium, bold)
+     * - Alturas de línea (tight, normal, relaxed)
+     * - Espaciado de letras (tight, normal, wide)
+     * - Personalización de estilos
+     */
+    interface HTMLSsTypographyElement extends Components.SsTypography, HTMLStencilElement {
+    }
+    var HTMLSsTypographyElement: {
+        prototype: HTMLSsTypographyElement;
+        new (): HTMLSsTypographyElement;
+    };
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
+        "ss-typography": HTMLSsTypographyElement;
     }
 }
 declare namespace LocalJSX {
@@ -185,8 +266,73 @@ declare namespace LocalJSX {
          */
         "xStyle"?: ButtonStyle;
     }
+    /**
+     * Componente de tipografía versátil para mostrar texto:
+     * - Variantes de color (dark, light, primary, secondary)
+     * - Tamaños de fuente (xs, sm, md, lg, xl)
+     * - Alineación de texto (left, center, right, justify)
+     * - Estilos de fuente (light, regular, medium, bold)
+     * - Alturas de línea (tight, normal, relaxed)
+     * - Espaciado de letras (tight, normal, wide)
+     * - Personalización de estilos
+     */
+    interface SsTypography {
+        /**
+          * The text alignment for the typography component
+          * @default 'left'
+         */
+        "align"?: 'left' | 'center' | 'right' | 'justify';
+        /**
+          * The HTML tag to be used for the typography component
+          * @default 'p'
+         */
+        "as"?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
+        /**
+          * The variant of the typography component
+          * @default 'dark'
+         */
+        "color"?: Variant | 'black' | 'white';
+        /**
+          * The size of the typography component
+          * @default 'md'
+         */
+        "fontSize"?: Size;
+        /**
+          * The font weight of the typography component
+          * @default 'regular'
+         */
+        "fontWeight"?: 'light' | 'regular' | 'medium' | 'bold';
+        /**
+          * | Custom styles for the typography component
+          * @default {}
+         */
+        "inlineStyles"?: { [key: string]: string; } | string;
+        /**
+          * The letter spacing of the typography component
+          * @default 'normal'
+         */
+        "letterSpacing"?: 'tight' | 'normal' | 'wide';
+        /**
+          * The line height of the typography component
+          * @default 'normal'
+         */
+        "lineHeight"?: 'tight' | 'normal' | 'relaxed';
+        /**
+          * If true, the text will be displayed in uppercase
+         */
+        "transform"?: 'uppercase' | 'lowercase' | 'capitalize' | 'normal';
+        /**
+          * If true, the text will be truncated with an ellipsis if it overflows its container
+         */
+        "truncate"?: boolean;
+        /**
+          * id del componente tipográfico
+         */
+        "xId"?: string;
+    }
     interface IntrinsicElements {
         "ss-button": SsButton;
+        "ss-typography": SsTypography;
     }
 }
 export { LocalJSX as JSX };
@@ -202,6 +348,17 @@ declare module "@stencil/core" {
              * - Control de estado (loading, disabled)
              */
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            /**
+             * Componente de tipografía versátil para mostrar texto:
+             * - Variantes de color (dark, light, primary, secondary)
+             * - Tamaños de fuente (xs, sm, md, lg, xl)
+             * - Alineación de texto (left, center, right, justify)
+             * - Estilos de fuente (light, regular, medium, bold)
+             * - Alturas de línea (tight, normal, relaxed)
+             * - Espaciado de letras (tight, normal, wide)
+             * - Personalización de estilos
+             */
+            "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
     }
 }

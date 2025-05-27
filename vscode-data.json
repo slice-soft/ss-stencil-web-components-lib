@@ -73,6 +73,9 @@
               "name": "2xl"
             },
             {
+              "name": "3xl"
+            },
+            {
               "name": "lg"
             },
             {
@@ -169,10 +172,202 @@
           ]
         }
       ]
+    },
+    {
+      "name": "ss-typography",
+      "description": {
+        "kind": "markdown",
+        "value": "Componente de tipografía versátil para mostrar texto:\n- Variantes de color (dark, light, primary, secondary)\n- Tamaños de fuente (xs, sm, md, lg, xl)\n- Alineación de texto (left, center, right, justify)\n- Estilos de fuente (light, regular, medium, bold)\n- Alturas de línea (tight, normal, relaxed)\n- Espaciado de letras (tight, normal, wide)\n- Personalización de estilos"
+      },
+      "attributes": [
+        {
+          "name": "align",
+          "description": "The text alignment for the typography component",
+          "values": [
+            {
+              "name": "center"
+            },
+            {
+              "name": "justify"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            }
+          ]
         },
         {
-          "name": "xid",
-          "description": "Atributo `id` del botón"
+          "name": "as",
+          "description": "The HTML tag to be used for the typography component",
+          "values": [
+            {
+              "name": "h1"
+            },
+            {
+              "name": "h2"
+            },
+            {
+              "name": "h3"
+            },
+            {
+              "name": "h4"
+            },
+            {
+              "name": "h5"
+            },
+            {
+              "name": "h6"
+            },
+            {
+              "name": "p"
+            },
+            {
+              "name": "span"
+            }
+          ]
+        },
+        {
+          "name": "color",
+          "description": "The variant of the typography component",
+          "values": [
+            {
+              "name": "black"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "white"
+            }
+          ]
+        },
+        {
+          "name": "font-size",
+          "description": "The size of the typography component",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "font-weight",
+          "description": "The font weight of the typography component",
+          "values": [
+            {
+              "name": "bold"
+            },
+            {
+              "name": "light"
+            },
+            {
+              "name": "medium"
+            },
+            {
+              "name": "regular"
+            }
+          ]
+        },
+        {
+          "name": "inline-styles",
+          "description": "|\nCustom styles for the typography component"
+        },
+        {
+          "name": "letter-spacing",
+          "description": "The letter spacing of the typography component",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "tight"
+            },
+            {
+              "name": "wide"
+            }
+          ]
+        },
+        {
+          "name": "line-height",
+          "description": "The line height of the typography component",
+          "values": [
+            {
+              "name": "normal"
+            },
+            {
+              "name": "relaxed"
+            },
+            {
+              "name": "tight"
+            }
+          ]
+        },
+        {
+          "name": "transform",
+          "description": "If true, the text will be displayed in uppercase",
+          "values": [
+            {
+              "name": "capitalize"
+            },
+            {
+              "name": "lowercase"
+            },
+            {
+              "name": "normal"
+            },
+            {
+              "name": "uppercase"
+            }
+          ]
+        },
+        {
+          "name": "truncate",
+          "description": "If true, the text will be truncated with an ellipsis if it overflows its container"
+        },
+        {
+          "name": "x-id",
+          "description": "id del componente tipográfico"
         }
       ]
     }
