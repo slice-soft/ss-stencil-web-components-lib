@@ -78,10 +78,12 @@ describe('ss-input', () => {
     await page.waitForChanges();
     const input = page.root.shadowRoot.querySelector('input');
     expect(input).not.toBeNull();
-    input.dispatchEvent(new CustomEvent('touchCancel', {
-      bubbles: true,
-      cancelable: true,
-    }));
+    input.dispatchEvent(
+      new CustomEvent('touchCancel', {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
     await page.waitForChanges();
     expect(emitSpy).toHaveBeenCalled();
   });
@@ -122,7 +124,7 @@ describe('ss-input events', () => {
     { dom: 'wheel', emit: 'ssWheel', name: 'should emit ssWheel from input' },
     { dom: 'touchStart', emit: 'ssTouchStart', name: 'should emit ssTouchStart from input' },
     { dom: 'touchMove', emit: 'ssTouchMove', name: 'should emit ssTouchMove from input' },
-    { dom: 'touchEnd', emit: 'ssTouchEnd', name: 'should emit ssTouchEnd from input' }
+    { dom: 'touchEnd', emit: 'ssTouchEnd', name: 'should emit ssTouchEnd from input' },
   ];
   advancedEvents.forEach(varTest => {
     it(varTest.name, async () => {
@@ -134,13 +136,14 @@ describe('ss-input events', () => {
       await page.waitForChanges();
       const input = page.root.shadowRoot.querySelector('input');
       expect(input).not.toBeNull();
-      input.dispatchEvent(new CustomEvent(varTest.dom, {
-        bubbles: true,
-        cancelable: true,
-      }));
+      input.dispatchEvent(
+        new CustomEvent(varTest.dom, {
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
       await page.waitForChanges();
       expect(emitSpy).toHaveBeenCalled();
     });
   });
 });
-

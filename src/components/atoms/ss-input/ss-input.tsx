@@ -4,22 +4,7 @@ import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
 
 export type InputStyle = 'solid' | 'outline' | 'underline';
-export type SsInputType =
-  | 'text'
-  | 'password'
-  | 'email'
-  | 'number'
-  | 'url'
-  | 'tel'
-  | 'search'
-  | 'date'
-  | 'time'
-  | 'datetime-local'
-  | 'month'
-  | 'week'
-  | 'file'
-  | 'hidden';
-
+export type SsInputType = 'text' | 'password' | 'email' | 'number' | 'url' | 'tel' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'file' | 'hidden';
 
 /**
  * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
@@ -68,7 +53,6 @@ export class SsInput {
   @Prop() fullWidth: boolean = false;
   /** Estilo del input, puede ser 'solid', 'outline', 'underline' */
   @Prop() xStyle: InputStyle = 'solid';
-
 
   @State() styles: Record<string, string> = {};
 
