@@ -1,6 +1,6 @@
 {
   "name": "@slice-soft/ss-stencil-web-componets-lib",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Librería de Web Components reutilizables desarrollados con StencilJS por Slice Soft",
   "author": "Slice Soft <team@slicesoft.dev>",
   "homepage": "https://github.com/slice-soft/ss-stencil-web-componets-lib#readme",
@@ -25,7 +25,8 @@
   "exports": {
     ".": {
       "import": "./dist/ss-stencil-web-componets-lib/ss-stencil-web-componets-lib.esm.js",
-      "require": "./dist/ss-stencil-web-componets-lib/ss-stencil-web-componets-lib.cjs.js"
+      "require": "./dist/ss-stencil-web-componets-lib/ss-stencil-web-componets-lib.cjs.js",
+      "types": "./dist/types/index.d.ts"
     },
     "./dist/*": {
       "import": "./dist/*",
