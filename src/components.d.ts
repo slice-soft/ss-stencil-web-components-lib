@@ -8,9 +8,13 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
+import { InputStyle, SsInputType } from "./components/atoms/ss-input/ss-input";
+import { Event } from "@stencil/core";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
+export { InputStyle, SsInputType } from "./components/atoms/ss-input/ss-input";
+export { Event } from "@stencil/core";
 export namespace Components {
     /**
      * Botón versátil para acciones del usuario:
@@ -77,6 +81,69 @@ export namespace Components {
           * Estilo visual
          */
         "xStyle": ButtonStyle;
+    }
+    /**
+     * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
+     * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
+     * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
+     * - Permite estilos personalizados a través de propiedades y clases.
+     * - Incluye soporte para validación HTML y eventos de interacción del usuario.
+     * - Compatible con diferentes tamaños y variantes de color.
+     * - Soporta estilos de entrada como sólido, contorno y subrayado.
+     * *
+     * @example <ss-input
+     * x-id="my-input"
+     * type="text"
+     * color="primary"
+     * value="Hello World"
+     * placeholder="Enter text"
+     * inline-styles="background-color: lightblue; border: 1px solid blue;"
+     * size="md"
+     * full-width
+     * x-style="solid"
+     * ></ss-input>
+     */
+    interface SsInput {
+        /**
+          * Color del componente, basado en variantes predefinidas
+         */
+        "color": Variant;
+        /**
+          * Indica si el input está deshabilitado
+         */
+        "disabled": boolean;
+        /**
+          * Indica si el input debe ocupar todo el ancho disponible
+         */
+        "fullWidth": boolean;
+        /**
+          * Estilos en línea personalizados, pueden ser una cadena o un objeto
+         */
+        "inlineStyles"?: string | Record<string, string>;
+        /**
+          * Texto de marcador de posición
+         */
+        "placeholder"?: string;
+        /**
+          * Tamaño del input, puede ser 'sm', 'md', 'lg'
+         */
+        "size": Size;
+        /**
+          * Tipo de entrada HTML
+         */
+        "type": SsInputType;
+        /**
+          * Valor actual del input
+         */
+        "value"?: string;
+        /**
+          * Identificador único para el componente
+         */
+        "xId": string;
+        /**
+          * Estilo del input, puede ser 'solid', 'outline', 'underline'
+         */
+        "xStyle": InputStyle;
     }
     /**
      * Componente de tipografía versátil para mostrar texto:
@@ -147,6 +214,10 @@ export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsButtonElement;
 }
+export interface SsInputCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsInputElement;
+}
 declare global {
     interface HTMLSsButtonElementEventMap {
         "ssClick": string;
@@ -173,6 +244,83 @@ declare global {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
     };
+    interface HTMLSsInputElementEventMap {
+        "ssInput": { xId: string; value: string };
+        "ssChange": { xId: string; value: string };
+        "ssBeforeInput": { xId: string; data: string };
+        "ssInvalid": { xId: string; value: string };
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssFocusIn": FocusEvent;
+        "ssFocusOut": FocusEvent;
+        "ssKeyDown": KeyboardEvent;
+        "ssKeyPress": KeyboardEvent;
+        "ssKeyUp": KeyboardEvent;
+        "ssSelect": Event;
+        "ssCompositionStart": CompositionEvent;
+        "ssCompositionUpdate": CompositionEvent;
+        "ssCompositionEnd": CompositionEvent;
+        "ssCut": ClipboardEvent;
+        "ssCopy": ClipboardEvent;
+        "ssPaste": ClipboardEvent;
+        "ssClick": MouseEvent;
+        "ssDoubleClick": MouseEvent;
+        "ssMouseDown": MouseEvent;
+        "ssMouseUp": MouseEvent;
+        "ssMouseEnter": MouseEvent;
+        "ssMouseLeave": MouseEvent;
+        "ssMouseOver": MouseEvent;
+        "ssMouseOut": MouseEvent;
+        "ssMouseMove": MouseEvent;
+        "ssContextMenu": MouseEvent;
+        "ssDragStart": DragEvent;
+        "ssDrag": DragEvent;
+        "ssDragEnter": DragEvent;
+        "ssDragLeave": DragEvent;
+        "ssDragOver": DragEvent;
+        "ssDrop": DragEvent;
+        "ssDragEnd": DragEvent;
+        "ssWheel": WheelEvent;
+        "ssTouchStart": TouchEvent;
+        "ssTouchMove": TouchEvent;
+        "ssTouchEnd": TouchEvent;
+        "ssTouchCancel": TouchEvent;
+    }
+    /**
+     * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
+     * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
+     * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
+     * - Permite estilos personalizados a través de propiedades y clases.
+     * - Incluye soporte para validación HTML y eventos de interacción del usuario.
+     * - Compatible con diferentes tamaños y variantes de color.
+     * - Soporta estilos de entrada como sólido, contorno y subrayado.
+     * *
+     * @example <ss-input
+     * x-id="my-input"
+     * type="text"
+     * color="primary"
+     * value="Hello World"
+     * placeholder="Enter text"
+     * inline-styles="background-color: lightblue; border: 1px solid blue;"
+     * size="md"
+     * full-width
+     * x-style="solid"
+     * ></ss-input>
+     */
+    interface HTMLSsInputElement extends Components.SsInput, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsInputElementEventMap>(type: K, listener: (this: HTMLSsInputElement, ev: SsInputCustomEvent<HTMLSsInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsInputElementEventMap>(type: K, listener: (this: HTMLSsInputElement, ev: SsInputCustomEvent<HTMLSsInputElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsInputElement: {
+        prototype: HTMLSsInputElement;
+        new (): HTMLSsInputElement;
+    };
     /**
      * Componente de tipografía versátil para mostrar texto:
      * - Variantes de color (dark, light, primary, secondary)
@@ -191,6 +339,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
+        "ss-input": HTMLSsInputElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
@@ -267,6 +416,145 @@ declare namespace LocalJSX {
         "xStyle"?: ButtonStyle;
     }
     /**
+     * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
+     * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
+     * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
+     * - Permite estilos personalizados a través de propiedades y clases.
+     * - Incluye soporte para validación HTML y eventos de interacción del usuario.
+     * - Compatible con diferentes tamaños y variantes de color.
+     * - Soporta estilos de entrada como sólido, contorno y subrayado.
+     * *
+     * @example <ss-input
+     * x-id="my-input"
+     * type="text"
+     * color="primary"
+     * value="Hello World"
+     * placeholder="Enter text"
+     * inline-styles="background-color: lightblue; border: 1px solid blue;"
+     * size="md"
+     * full-width
+     * x-style="solid"
+     * ></ss-input>
+     */
+    interface SsInput {
+        /**
+          * Color del componente, basado en variantes predefinidas
+         */
+        "color"?: Variant;
+        /**
+          * Indica si el input está deshabilitado
+         */
+        "disabled"?: boolean;
+        /**
+          * Indica si el input debe ocupar todo el ancho disponible
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Estilos en línea personalizados, pueden ser una cadena o un objeto
+         */
+        "inlineStyles"?: string | Record<string, string>;
+        /**
+          * Emitted before the value is actually inserted (cancellable)
+         */
+        "onSsBeforeInput"?: (event: SsInputCustomEvent<{ xId: string; data: string }>) => void;
+        "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the value is “committed” (on blur or Enter)
+         */
+        "onSsChange"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
+        /**
+          * Mouse/pointer events
+         */
+        "onSsClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsCompositionEnd"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
+        "onSsCompositionStart"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
+        "onSsCompositionUpdate"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
+        "onSsContextMenu"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsCopy"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
+        /**
+          * Clipboard events
+         */
+        "onSsCut"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
+        "onSsDoubleClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsDrag"?: (event: SsInputCustomEvent<DragEvent>) => void;
+        "onSsDragEnd"?: (event: SsInputCustomEvent<DragEvent>) => void;
+        "onSsDragEnter"?: (event: SsInputCustomEvent<DragEvent>) => void;
+        "onSsDragLeave"?: (event: SsInputCustomEvent<DragEvent>) => void;
+        "onSsDragOver"?: (event: SsInputCustomEvent<DragEvent>) => void;
+        /**
+          * Drag & drop
+         */
+        "onSsDragStart"?: (event: SsInputCustomEvent<DragEvent>) => void;
+        "onSsDrop"?: (event: SsInputCustomEvent<DragEvent>) => void;
+        /**
+          * Focus events
+         */
+        "onSsFocus"?: (event: SsInputCustomEvent<FocusEvent>) => void;
+        "onSsFocusIn"?: (event: SsInputCustomEvent<FocusEvent>) => void;
+        "onSsFocusOut"?: (event: SsInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on each keystroke
+         */
+        "onSsInput"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
+        /**
+          * Emitted when the control fails HTML/constraint validation
+         */
+        "onSsInvalid"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
+        /**
+          * Keyboard events
+         */
+        "onSsKeyDown"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
+        "onSsKeyPress"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
+        "onSsKeyUp"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
+        "onSsMouseDown"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsMouseEnter"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsMouseLeave"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsMouseMove"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsMouseOut"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsMouseOver"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsMouseUp"?: (event: SsInputCustomEvent<MouseEvent>) => void;
+        "onSsPaste"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
+        /**
+          * Text selection & IME composition
+         */
+        "onSsSelect"?: (event: SsInputCustomEvent<Event>) => void;
+        "onSsTouchCancel"?: (event: SsInputCustomEvent<TouchEvent>) => void;
+        "onSsTouchEnd"?: (event: SsInputCustomEvent<TouchEvent>) => void;
+        "onSsTouchMove"?: (event: SsInputCustomEvent<TouchEvent>) => void;
+        /**
+          * Touch events
+         */
+        "onSsTouchStart"?: (event: SsInputCustomEvent<TouchEvent>) => void;
+        /**
+          * Wheel (scroll)
+         */
+        "onSsWheel"?: (event: SsInputCustomEvent<WheelEvent>) => void;
+        /**
+          * Texto de marcador de posición
+         */
+        "placeholder"?: string;
+        /**
+          * Tamaño del input, puede ser 'sm', 'md', 'lg'
+         */
+        "size"?: Size;
+        /**
+          * Tipo de entrada HTML
+         */
+        "type"?: SsInputType;
+        /**
+          * Valor actual del input
+         */
+        "value"?: string;
+        /**
+          * Identificador único para el componente
+         */
+        "xId"?: string;
+        /**
+          * Estilo del input, puede ser 'solid', 'outline', 'underline'
+         */
+        "xStyle"?: InputStyle;
+    }
+    /**
      * Componente de tipografía versátil para mostrar texto:
      * - Variantes de color (dark, light, primary, secondary)
      * - Tamaños de fuente (xs, sm, md, lg, xl)
@@ -332,6 +620,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "ss-button": SsButton;
+        "ss-input": SsInput;
         "ss-typography": SsTypography;
     }
 }
@@ -348,6 +637,28 @@ declare module "@stencil/core" {
              * - Control de estado (loading, disabled)
              */
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            /**
+             * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
+             * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
+             * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
+             * - Permite estilos personalizados a través de propiedades y clases.
+             * - Incluye soporte para validación HTML y eventos de interacción del usuario.
+             * - Compatible con diferentes tamaños y variantes de color.
+             * - Soporta estilos de entrada como sólido, contorno y subrayado.
+             * *
+             * @example <ss-input
+             * x-id="my-input"
+             * type="text"
+             * color="primary"
+             * value="Hello World"
+             * placeholder="Enter text"
+             * inline-styles="background-color: lightblue; border: 1px solid blue;"
+             * size="md"
+             * full-width
+             * x-style="solid"
+             * ></ss-input>
+             */
+            "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             /**
              * Componente de tipografía versátil para mostrar texto:
              * - Variantes de color (dark, light, primary, secondary)
