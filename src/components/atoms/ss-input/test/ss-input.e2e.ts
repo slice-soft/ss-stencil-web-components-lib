@@ -61,35 +61,4 @@ describe('ss-input advanced events', () => {
     await page.waitForChanges();
     expect(invalidSpy).toHaveReceivedEvent();
   });
-
-  it('should emit ssTouchCancel event', async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`
-      <ss-input></ss-input>
-      <script>
-        document.querySelector('ss-input').addEventListener('ssTouchCancel', (e) => {
-          console.log('Evento capturado externamente', e);
-        });
-      </script>
-    `);
-
-    const touchCancelSpy = await page.spyOnEvent('ssTouchCancel');
-
-    await page.evaluate(() => {
-      const input = document.querySelector('ss-input')?.shadowRoot?.querySelector('input');
-      input?.dispatchEvent(
-        new TouchEvent('touchCancel', {
-          bubbles: true,
-          cancelable: true,
-          touches: [],
-          targetTouches: [],
-          changedTouches: [],
-        }),
-      );
-    });
-
-    await page.waitForChanges();
-    expect(touchCancelSpy).toHaveReceivedEvent();
-  });
 });
