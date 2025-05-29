@@ -91,53 +91,53 @@ describe('ss-input', () => {
 
 describe('ss-input events', () => {
   const advancedEvents = [
-    { dom: 'input', emit: 'ssInput', name: 'should emit ssInput from input' },
-    { dom: 'change', emit: 'ssChange', name: 'should emit ssChange from input' },
-    { dom: 'invalid', emit: 'ssInvalid', name: 'should emit ssInvalid from input' },
-    { dom: 'touchCancel', emit: 'ssTouchCancel', name: 'should emit ssTouchCancel from input' },
-    { dom: 'focus', emit: 'ssFocus', name: 'should emit ssFocus from input' },
-    { dom: 'blur', emit: 'ssBlur', name: 'should emit ssBlur from input' },
-    { dom: 'keydown', emit: 'ssKeyDown', name: 'should emit ssKeyDown from input' },
-    { dom: 'keypress', emit: 'ssKeyPress', name: 'should emit ssKeyPress from input' },
-    { dom: 'keyup', emit: 'ssKeyUp', name: 'should emit ssKeyUp from input' },
-    { dom: 'select', emit: 'ssSelect', name: 'should emit ssSelect from input' },
-    { dom: 'cut', emit: 'ssCut', name: 'should emit ssCut from input' },
-    { dom: 'copy', emit: 'ssCopy', name: 'should emit ssCopy from input' },
-    { dom: 'paste', emit: 'ssPaste', name: 'should emit ssPaste from input' },
-    { dom: 'click', emit: 'ssClick', name: 'should emit ssClick from input' },
-    { dom: 'dblclick', emit: 'ssDoubleClick', name: 'should emit ssDoubleClick from input' },
-    { dom: 'mousedown', emit: 'ssMouseDown', name: 'should emit ssMouseDown from input' },
-    { dom: 'mouseup', emit: 'ssMouseUp', name: 'should emit ssMouseUp from input' },
-    { dom: 'mouseenter', emit: 'ssMouseEnter', name: 'should emit ssMouseEnter from input' },
-    { dom: 'mouseleave', emit: 'ssMouseLeave', name: 'should emit ssMouseLeave from input' },
-    { dom: 'mouseover', emit: 'ssMouseOver', name: 'should emit ssMouseOver from input' },
-    { dom: 'mouseout', emit: 'ssMouseOut', name: 'should emit ssMouseOut from input' },
-    { dom: 'mousemove', emit: 'ssMouseMove', name: 'should emit ssMouseMove from input' },
-    { dom: 'contextmenu', emit: 'ssContextMenu', name: 'should emit ssContextMenu from input' },
-    { dom: 'dragstart', emit: 'ssDragStart', name: 'should emit ssDragStart from input' },
-    { dom: 'drag', emit: 'ssDrag', name: 'should emit ssDrag from input' },
-    { dom: 'dragenter', emit: 'ssDragEnter', name: 'should emit ssDragEnter from input' },
-    { dom: 'dragleave', emit: 'ssDragLeave', name: 'should emit ssDragLeave from input' },
-    { dom: 'dragover', emit: 'ssDragOver', name: 'should emit ssDragOver from input' },
-    { dom: 'drop', emit: 'ssDrop', name: 'should emit ssDrop from input' },
-    { dom: 'dragend', emit: 'ssDragEnd', name: 'should emit ssDragEnd from input' },
-    { dom: 'wheel', emit: 'ssWheel', name: 'should emit ssWheel from input' },
-    { dom: 'touchStart', emit: 'ssTouchStart', name: 'should emit ssTouchStart from input' },
-    { dom: 'touchMove', emit: 'ssTouchMove', name: 'should emit ssTouchMove from input' },
-    { dom: 'touchEnd', emit: 'ssTouchEnd', name: 'should emit ssTouchEnd from input' },
+    { dom: 'input', emit: 'ssInput' },
+    { dom: 'change', emit: 'ssChange' },
+    { dom: 'invalid', emit: 'ssInvalid' },
+    { dom: 'touchCancel', emit: 'ssTouchCancel' },
+    { dom: 'focus', emit: 'ssFocus' },
+    { dom: 'blur', emit: 'ssBlur' },
+    { dom: 'keydown', emit: 'ssKeyDown' },
+    { dom: 'keypress', emit: 'ssKeyPress' },
+    { dom: 'keyup', emit: 'ssKeyUp' },
+    { dom: 'select', emit: 'ssSelect' },
+    { dom: 'cut', emit: 'ssCut' },
+    { dom: 'copy', emit: 'ssCopy' },
+    { dom: 'paste', emit: 'ssPaste' },
+    { dom: 'click', emit: 'ssClick' },
+    { dom: 'dblclick', emit: 'ssDoubleClick' },
+    { dom: 'mousedown', emit: 'ssMouseDown' },
+    { dom: 'mouseup', emit: 'ssMouseUp' },
+    { dom: 'mouseenter', emit: 'ssMouseEnter' },
+    { dom: 'mouseleave', emit: 'ssMouseLeave' },
+    { dom: 'mouseover', emit: 'ssMouseOver' },
+    { dom: 'mouseout', emit: 'ssMouseOut' },
+    { dom: 'mousemove', emit: 'ssMouseMove' },
+    { dom: 'contextmenu', emit: 'ssContextMenu' },
+    { dom: 'dragstart', emit: 'ssDragStart' },
+    { dom: 'drag', emit: 'ssDrag' },
+    { dom: 'dragenter', emit: 'ssDragEnter' },
+    { dom: 'dragleave', emit: 'ssDragLeave' },
+    { dom: 'dragover', emit: 'ssDragOver' },
+    { dom: 'drop', emit: 'ssDrop' },
+    { dom: 'dragend', emit: 'ssDragEnd' },
+    { dom: 'wheel', emit: 'ssWheel' },
+    { dom: 'touchStart', emit: 'ssTouchStart' },
+    { dom: 'touchMove', emit: 'ssTouchMove' },
+    { dom: 'touchEnd', emit: 'ssTouchEnd' },
   ];
-  advancedEvents.forEach(varTest => {
-    it(varTest.name, async () => {
+  advancedEvents.forEach(({ dom, emit }) => {
+    it(`renders and emits ${emit} event`, async () => {
       const page = await newSpecPage({
         components: [SsInput],
         html: `<ss-input></ss-input>`,
       });
-      const emitSpy = jest.spyOn(page.rootInstance[varTest.emit], 'emit');
+      const emitSpy = jest.spyOn(page.rootInstance[emit], 'emit');
       await page.waitForChanges();
       const input = page.root.shadowRoot.querySelector('input');
       expect(input).not.toBeNull();
       input.dispatchEvent(
-        new CustomEvent(varTest.dom, {
+        new CustomEvent(dom, {
           bubbles: true,
           cancelable: true,
         }),
