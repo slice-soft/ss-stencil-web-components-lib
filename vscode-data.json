@@ -174,6 +174,159 @@
       ]
     },
     {
+      "name": "ss-input",
+      "description": {
+        "kind": "markdown",
+        "value": "Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.\n- Soporta varios tipos de entrada (texto, contraseña, email, etc.)\n- Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.\n- Permite estilos personalizados a través de propiedades y clases.\n- Incluye soporte para validación HTML y eventos de interacción del usuario.\n- Compatible con diferentes tamaños y variantes de color.\n- Soporta estilos de entrada como sólido, contorno y subrayado.\n*"
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": "Color del componente, basado en variantes predefinidas",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Indica si el input está deshabilitado"
+        },
+        {
+          "name": "full-width",
+          "description": "Indica si el input debe ocupar todo el ancho disponible"
+        },
+        {
+          "name": "inline-styles",
+          "description": "Estilos en línea personalizados, pueden ser una cadena o un objeto"
+        },
+        {
+          "name": "placeholder",
+          "description": "Texto de marcador de posición"
+        },
+        {
+          "name": "size",
+          "description": "Tamaño del input, puede ser 'sm', 'md', 'lg'",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "description": "Tipo de entrada HTML",
+          "values": [
+            {
+              "name": "date"
+            },
+            {
+              "name": "datetime-local"
+            },
+            {
+              "name": "email"
+            },
+            {
+              "name": "file"
+            },
+            {
+              "name": "hidden"
+            },
+            {
+              "name": "month"
+            },
+            {
+              "name": "number"
+            },
+            {
+              "name": "password"
+            },
+            {
+              "name": "search"
+            },
+            {
+              "name": "tel"
+            },
+            {
+              "name": "text"
+            },
+            {
+              "name": "time"
+            },
+            {
+              "name": "url"
+            },
+            {
+              "name": "week"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Valor actual del input"
+        },
+        {
+          "name": "x-id",
+          "description": "Identificador único para el componente"
+        },
+        {
+          "name": "x-style",
+          "description": "Estilo del input, puede ser 'solid', 'outline', 'underline'",
+          "values": [
+            {
+              "name": "outline"
+            },
+            {
+              "name": "solid"
+            },
+            {
+              "name": "underline"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "ss-typography",
       "description": {
         "kind": "markdown",
