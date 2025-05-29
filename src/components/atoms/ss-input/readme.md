@@ -34,48 +34,47 @@ Componente de entrada de texto versátil con soporte para múltiples eventos y e
 
 ## Events
 
-| Event                 | Description                                                 | Type                                           |
-| --------------------- | ----------------------------------------------------------- | ---------------------------------------------- |
-| `ssBeforeInput`       | Emitted before the value is actually inserted (cancellable) | `CustomEvent<{ xId: string; data: string; }>`  |
-| `ssBlur`              |                                                             | `CustomEvent<FocusEvent>`                      |
-| `ssChange`            | Emitted when the value is “committed” (on blur or Enter)    | `CustomEvent<{ xId: string; value: string; }>` |
-| `ssClick`             | Mouse/pointer events                                        | `CustomEvent<MouseEvent>`                      |
-| `ssCompositionEnd`    |                                                             | `CustomEvent<CompositionEvent>`                |
-| `ssCompositionStart`  |                                                             | `CustomEvent<CompositionEvent>`                |
-| `ssCompositionUpdate` |                                                             | `CustomEvent<CompositionEvent>`                |
-| `ssContextMenu`       |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssCopy`              |                                                             | `CustomEvent<ClipboardEvent>`                  |
-| `ssCut`               | Clipboard events                                            | `CustomEvent<ClipboardEvent>`                  |
-| `ssDoubleClick`       |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssDrag`              |                                                             | `CustomEvent<DragEvent>`                       |
-| `ssDragEnd`           |                                                             | `CustomEvent<DragEvent>`                       |
-| `ssDragEnter`         |                                                             | `CustomEvent<DragEvent>`                       |
-| `ssDragLeave`         |                                                             | `CustomEvent<DragEvent>`                       |
-| `ssDragOver`          |                                                             | `CustomEvent<DragEvent>`                       |
-| `ssDragStart`         | Drag & drop                                                 | `CustomEvent<DragEvent>`                       |
-| `ssDrop`              |                                                             | `CustomEvent<DragEvent>`                       |
-| `ssFocus`             | Focus events                                                | `CustomEvent<FocusEvent>`                      |
-| `ssFocusIn`           |                                                             | `CustomEvent<FocusEvent>`                      |
-| `ssFocusOut`          |                                                             | `CustomEvent<FocusEvent>`                      |
-| `ssInput`             | Emitted on each keystroke                                   | `CustomEvent<{ xId: string; value: string; }>` |
-| `ssInvalid`           | Emitted when the control fails HTML/constraint validation   | `CustomEvent<{ xId: string; value: string; }>` |
-| `ssKeyDown`           | Keyboard events                                             | `CustomEvent<KeyboardEvent>`                   |
-| `ssKeyPress`          |                                                             | `CustomEvent<KeyboardEvent>`                   |
-| `ssKeyUp`             |                                                             | `CustomEvent<KeyboardEvent>`                   |
-| `ssMouseDown`         |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssMouseEnter`        |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssMouseLeave`        |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssMouseMove`         |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssMouseOut`          |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssMouseOver`         |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssMouseUp`           |                                                             | `CustomEvent<MouseEvent>`                      |
-| `ssPaste`             |                                                             | `CustomEvent<ClipboardEvent>`                  |
-| `ssSelect`            | Text selection & IME composition                            | `CustomEvent<Event>`                           |
-| `ssTouchCancel`       |                                                             | `CustomEvent<TouchEvent>`                      |
-| `ssTouchEnd`          |                                                             | `CustomEvent<TouchEvent>`                      |
-| `ssTouchMove`         |                                                             | `CustomEvent<TouchEvent>`                      |
-| `ssTouchStart`        | Touch events                                                | `CustomEvent<TouchEvent>`                      |
-| `ssWheel`             | Wheel (scroll)                                              | `CustomEvent<WheelEvent>`                      |
+| Event                 | Description                                               | Type                                           |
+| --------------------- | --------------------------------------------------------- | ---------------------------------------------- |
+| `ssBlur`              |                                                           | `CustomEvent<FocusEvent>`                      |
+| `ssChange`            | Emitted when the value is “committed” (on blur or Enter)  | `CustomEvent<{ xId: string; value: string; }>` |
+| `ssClick`             | Mouse/pointer events                                      | `CustomEvent<MouseEvent>`                      |
+| `ssCompositionEnd`    |                                                           | `CustomEvent<CompositionEvent>`                |
+| `ssCompositionStart`  |                                                           | `CustomEvent<CompositionEvent>`                |
+| `ssCompositionUpdate` |                                                           | `CustomEvent<CompositionEvent>`                |
+| `ssContextMenu`       |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssCopy`              |                                                           | `CustomEvent<ClipboardEvent>`                  |
+| `ssCut`               | Clipboard events                                          | `CustomEvent<ClipboardEvent>`                  |
+| `ssDoubleClick`       |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssDrag`              |                                                           | `CustomEvent<DragEvent>`                       |
+| `ssDragEnd`           |                                                           | `CustomEvent<DragEvent>`                       |
+| `ssDragEnter`         |                                                           | `CustomEvent<DragEvent>`                       |
+| `ssDragLeave`         |                                                           | `CustomEvent<DragEvent>`                       |
+| `ssDragOver`          |                                                           | `CustomEvent<DragEvent>`                       |
+| `ssDragStart`         | Drag & drop                                               | `CustomEvent<DragEvent>`                       |
+| `ssDrop`              |                                                           | `CustomEvent<DragEvent>`                       |
+| `ssFocus`             | Focus events                                              | `CustomEvent<FocusEvent>`                      |
+| `ssFocusIn`           |                                                           | `CustomEvent<FocusEvent>`                      |
+| `ssFocusOut`          |                                                           | `CustomEvent<FocusEvent>`                      |
+| `ssInput`             | Emitted on each keystroke                                 | `CustomEvent<{ xId: string; value: string; }>` |
+| `ssInvalid`           | Emitted when the control fails HTML/constraint validation | `CustomEvent<{ xId: string; value: string; }>` |
+| `ssKeyDown`           | Keyboard events                                           | `CustomEvent<KeyboardEvent>`                   |
+| `ssKeyPress`          |                                                           | `CustomEvent<KeyboardEvent>`                   |
+| `ssKeyUp`             |                                                           | `CustomEvent<KeyboardEvent>`                   |
+| `ssMouseDown`         |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssMouseEnter`        |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssMouseLeave`        |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssMouseMove`         |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssMouseOut`          |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssMouseOver`         |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssMouseUp`           |                                                           | `CustomEvent<MouseEvent>`                      |
+| `ssPaste`             |                                                           | `CustomEvent<ClipboardEvent>`                  |
+| `ssSelect`            | Text selection & IME composition                          | `CustomEvent<Event>`                           |
+| `ssTouchCancel`       |                                                           | `CustomEvent<TouchEvent>`                      |
+| `ssTouchEnd`          |                                                           | `CustomEvent<TouchEvent>`                      |
+| `ssTouchMove`         |                                                           | `CustomEvent<TouchEvent>`                      |
+| `ssTouchStart`        | Touch events                                              | `CustomEvent<TouchEvent>`                      |
+| `ssWheel`             | Wheel (scroll)                                            | `CustomEvent<WheelEvent>`                      |
 
 
 ----------------------------------------------

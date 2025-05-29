@@ -78,9 +78,6 @@ export class SsInput {
   /** Emitted when the value is “committed” (on blur or Enter) */
   @Event() ssChange: EventEmitter<{ xId: string; value: string }>;
 
-  /** Emitted before the value is actually inserted (cancellable) */
-  @Event() ssBeforeInput: EventEmitter<{ xId: string; data: string }>;
-
   /** Emitted when the control fails HTML/constraint validation */
   @Event() ssInvalid: EventEmitter<{ xId: string; value: string }>;
 
@@ -166,7 +163,7 @@ export class SsInput {
         disabled={this.disabled}
         placeholder={this.placeholder}
         value={this.value}
-        onInput={(ev: Event) => {
+        onInput={(ev: InputEvent) => {
           const input = ev.target as HTMLInputElement;
           const val = input.value;
           this.ssInput.emit({ xId: this.xId, value: val });

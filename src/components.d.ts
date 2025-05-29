@@ -27,18 +27,22 @@ export namespace Components {
     interface SsButton {
         /**
           * Milisegundos que dura la deshabilitación
+          * @default 1000
          */
         "disableDuration": number;
         /**
           * Deshabilitado global
+          * @default false
          */
         "disabled": boolean;
         /**
           * Ocupa todo el ancho del contenedor
+          * @default false
          */
         "fullWidth": boolean;
         /**
           * Posición del ícono: left|right|only
+          * @default 'right'
          */
         "iconPosition": IconPosition;
         /**
@@ -51,26 +55,32 @@ export namespace Components {
         "label"?: string;
         /**
           * Sólo un clic: tras disparar ssClick el botón se deshabilita durante disableDuration
+          * @default true
          */
         "oneClick": boolean;
         /**
           * Forma del botón
+          * @default 'rounded'
          */
         "shape": ButtonShape;
         /**
           * Tamaño: xs, sm, md, lg, xl
+          * @default 'md'
          */
         "size": Size;
         /**
           * Estado inicial: active|disabled|loading
+          * @default 'active'
          */
         "status": ButtonStatus;
         /**
           * Tipo de botón: `button`|`submit`|`reset`
+          * @default 'button'
          */
         "type": ButtonType;
         /**
           * Variante de color
+          * @default 'primary'
          */
         "variant": Variant;
         /**
@@ -79,6 +89,7 @@ export namespace Components {
         "xId"?: string;
         /**
           * Estilo visual
+          * @default 'solid'
          */
         "xStyle": ButtonStyle;
     }
@@ -106,14 +117,17 @@ export namespace Components {
     interface SsInput {
         /**
           * Color del componente, basado en variantes predefinidas
+          * @default 'primary'
          */
         "color": Variant;
         /**
           * Indica si el input está deshabilitado
+          * @default false
          */
         "disabled": boolean;
         /**
           * Indica si el input debe ocupar todo el ancho disponible
+          * @default false
          */
         "fullWidth": boolean;
         /**
@@ -126,10 +140,12 @@ export namespace Components {
         "placeholder"?: string;
         /**
           * Tamaño del input, puede ser 'sm', 'md', 'lg'
+          * @default 'md'
          */
         "size": Size;
         /**
           * Tipo de entrada HTML
+          * @default 'text'
          */
         "type": SsInputType;
         /**
@@ -142,6 +158,7 @@ export namespace Components {
         "xId": string;
         /**
           * Estilo del input, puede ser 'solid', 'outline', 'underline'
+          * @default 'solid'
          */
         "xStyle": InputStyle;
     }
@@ -198,10 +215,12 @@ export namespace Components {
         "lineHeight": 'tight' | 'normal' | 'relaxed';
         /**
           * If true, the text will be displayed in uppercase
+          * @default 'normal'
          */
         "transform": 'uppercase' | 'lowercase' | 'capitalize' | 'normal';
         /**
           * If true, the text will be truncated with an ellipsis if it overflows its container
+          * @default false
          */
         "truncate": boolean;
         /**
@@ -247,7 +266,6 @@ declare global {
     interface HTMLSsInputElementEventMap {
         "ssInput": { xId: string; value: string };
         "ssChange": { xId: string; value: string };
-        "ssBeforeInput": { xId: string; data: string };
         "ssInvalid": { xId: string; value: string };
         "ssFocus": FocusEvent;
         "ssBlur": FocusEvent;
@@ -355,18 +373,22 @@ declare namespace LocalJSX {
     interface SsButton {
         /**
           * Milisegundos que dura la deshabilitación
+          * @default 1000
          */
         "disableDuration"?: number;
         /**
           * Deshabilitado global
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * Ocupa todo el ancho del contenedor
+          * @default false
          */
         "fullWidth"?: boolean;
         /**
           * Posición del ícono: left|right|only
+          * @default 'right'
          */
         "iconPosition"?: IconPosition;
         /**
@@ -384,26 +406,32 @@ declare namespace LocalJSX {
         "onSsClick"?: (event: SsButtonCustomEvent<string>) => void;
         /**
           * Sólo un clic: tras disparar ssClick el botón se deshabilita durante disableDuration
+          * @default true
          */
         "oneClick"?: boolean;
         /**
           * Forma del botón
+          * @default 'rounded'
          */
         "shape"?: ButtonShape;
         /**
           * Tamaño: xs, sm, md, lg, xl
+          * @default 'md'
          */
         "size"?: Size;
         /**
           * Estado inicial: active|disabled|loading
+          * @default 'active'
          */
         "status"?: ButtonStatus;
         /**
           * Tipo de botón: `button`|`submit`|`reset`
+          * @default 'button'
          */
         "type"?: ButtonType;
         /**
           * Variante de color
+          * @default 'primary'
          */
         "variant"?: Variant;
         /**
@@ -412,6 +440,7 @@ declare namespace LocalJSX {
         "xId"?: string;
         /**
           * Estilo visual
+          * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
     }
@@ -439,24 +468,23 @@ declare namespace LocalJSX {
     interface SsInput {
         /**
           * Color del componente, basado en variantes predefinidas
+          * @default 'primary'
          */
         "color"?: Variant;
         /**
           * Indica si el input está deshabilitado
+          * @default false
          */
         "disabled"?: boolean;
         /**
           * Indica si el input debe ocupar todo el ancho disponible
+          * @default false
          */
         "fullWidth"?: boolean;
         /**
           * Estilos en línea personalizados, pueden ser una cadena o un objeto
          */
         "inlineStyles"?: string | Record<string, string>;
-        /**
-          * Emitted before the value is actually inserted (cancellable)
-         */
-        "onSsBeforeInput"?: (event: SsInputCustomEvent<{ xId: string; data: string }>) => void;
         "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         /**
           * Emitted when the value is “committed” (on blur or Enter)
@@ -535,10 +563,12 @@ declare namespace LocalJSX {
         "placeholder"?: string;
         /**
           * Tamaño del input, puede ser 'sm', 'md', 'lg'
+          * @default 'md'
          */
         "size"?: Size;
         /**
           * Tipo de entrada HTML
+          * @default 'text'
          */
         "type"?: SsInputType;
         /**
@@ -551,6 +581,7 @@ declare namespace LocalJSX {
         "xId"?: string;
         /**
           * Estilo del input, puede ser 'solid', 'outline', 'underline'
+          * @default 'solid'
          */
         "xStyle"?: InputStyle;
     }
@@ -607,10 +638,12 @@ declare namespace LocalJSX {
         "lineHeight"?: 'tight' | 'normal' | 'relaxed';
         /**
           * If true, the text will be displayed in uppercase
+          * @default 'normal'
          */
         "transform"?: 'uppercase' | 'lowercase' | 'capitalize' | 'normal';
         /**
           * If true, the text will be truncated with an ellipsis if it overflows its container
+          * @default false
          */
         "truncate"?: boolean;
         /**
