@@ -1,5 +1,6 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
+import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
   namespace: 'ss-stencil-web-componets-lib',
@@ -35,6 +36,10 @@ export const config: Config = {
       type: 'docs-vscode',
       file: 'vscode-data.json',
     },
+    reactOutputTarget({
+      outDir: '../ss-stencil-web-componets-lib-react/src/components',
+      
+    })
   ],
   testing: {
     browserHeadless: "shell",
