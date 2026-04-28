@@ -1,75 +1,94 @@
 @use 'sass:map';
 
 .ss-typography {
-  margin: 0;
-  font-family: var(--ss-font-families-primary);
+  margin:      0;
+  font-family: var(--ss-typography-component-font-family, var(--ss-text-fonts-sans));
+  color:       var(--ss-typography-component-color-default, var(--ss-color-foreground));
 
   &--truncate {
-    overflow: hidden;
+    overflow:      hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space:   nowrap;
+  }
+
+  &--mono {
+    font-family: var(--ss-typography-component-font-family-mono, var(--ss-text-fonts-mono));
   }
 }
 
-// Color variants
-@each $variant in primary, secondary, tertiary, quaternary, success, warning, error, info {
-  .ss-typography--#{$variant} {
-    color: var(--ss-colors-#{$variant}-500);
-  }
-}
-
-.ss-typography--black {
-  color: var(--ss-colors-black);
-}
-
-.ss-typography--white {
-  color: var(--ss-colors-white);
-}
+// Color variants — semantic tokens → dark mode automatic
+.ss-typography--foreground { color: var(--ss-color-foreground); }
+.ss-typography--muted      { color: var(--ss-typography-component-color-muted, var(--ss-color-muted-foreground)); }
+.ss-typography--primary    { color: var(--ss-typography-component-color-primary, var(--ss-color-primary)); }
+.ss-typography--secondary  { color: var(--ss-color-secondary-foreground); }
+.ss-typography--success    { color: var(--ss-typography-component-color-success, var(--ss-color-success)); }
+.ss-typography--warning    { color: var(--ss-typography-component-color-warning, var(--ss-color-warning)); }
+.ss-typography--error      { color: var(--ss-typography-component-color-error, var(--ss-color-error)); }
+.ss-typography--info       { color: var(--ss-typography-component-color-info, var(--ss-color-info)); }
+.ss-typography--black      { color: var(--ss-colors-black); }
+.ss-typography--white      { color: var(--ss-colors-white); }
 
 // Text alignment
 @each $align in left, center, right, justify {
-  .ss-typography--align-#{$align} {
-    text-align: #{$align};
-  }
+  .ss-typography--align-#{$align} { text-align: #{$align}; }
 }
 
-// Font sizes
-@each $size in xs, sm, md, lg, xl, 2xl {
-  .ss-typography--font-size-#{$size} {
-    font-size: var(--ss-font-sizes-#{$size});
-  }
+// Font sizes — 'md' maps to the design token 'base' scale step
+$font-sizes: (
+  'xs':   var(--ss-text-sizes-xs),
+  'sm':   var(--ss-text-sizes-sm),
+  'md':   var(--ss-text-sizes-base),
+  'base': var(--ss-text-sizes-base),
+  'lg':   var(--ss-text-sizes-lg),
+  'xl':   var(--ss-text-sizes-xl),
+  '2xl':  var(--ss-text-sizes-2xl),
+  '3xl':  var(--ss-text-sizes-3xl),
+  '4xl':  var(--ss-text-sizes-4xl),
+);
+
+@each $key, $value in $font-sizes {
+  .ss-typography--font-size-#{$key} { font-size: #{$value}; }
 }
 
-// Font weights
-@each $weight in light, regular, medium, bold {
-  .ss-typography--font-weight-#{$weight} {
-    font-weight: var(--ss-font-weights-#{$weight});
-  }
+// Font weights — 'regular' maps to the design token 'normal' weight
+$font-weights: (
+  'light':    300,
+  'regular':  var(--ss-text-weights-normal),
+  'medium':   var(--ss-text-weights-medium),
+  'semibold': var(--ss-text-weights-semibold),
+  'bold':     var(--ss-text-weights-bold),
+);
+
+@each $key, $value in $font-weights {
+  .ss-typography--font-weight-#{$key} { font-weight: #{$value}; }
 }
 
 // Line heights
-@each $lh in tight, normal, relaxed {
-  .ss-typography--line-height-#{$lh} {
-    line-height: var(--ss-font-lineHeights-#{$lh});
-  }
+$line-heights: (
+  'tight':   var(--ss-text-line-heights-tight),
+  'snug':    var(--ss-text-line-heights-snug),
+  'normal':  var(--ss-text-line-heights-normal),
+  'relaxed': var(--ss-text-line-heights-relaxed),
+  'loose':   var(--ss-text-line-heights-loose),
+);
+
+@each $key, $value in $line-heights {
+  .ss-typography--line-height-#{$key} { line-height: #{$value}; }
 }
 
 // Letter spacing
 $letter-spacings: (
-  tight : -0.05em,
-  normal: 0,
-  wide  : 0.05em,
+  'tight':  -0.05em,
+  'normal': 0,
+  'wide':   0.05em,
+  'wider':  0.08em,
 );
 
-@each $spacing, $value in $letter-spacings {
-  .ss-typography--letter-spacing-#{$spacing} {
-    letter-spacing: $value;
-  }
+@each $key, $value in $letter-spacings {
+  .ss-typography--letter-spacing-#{$key} { letter-spacing: #{$value}; }
 }
 
 // Text transform
-@each $transform in uppercase, lowercase, capitalize, normal {
-  .ss-typography--transform-#{$transform} {
-    text-transform: #{$transform};
-  }
+@each $t in uppercase, lowercase, capitalize, normal {
+  .ss-typography--transform-#{$t} { text-transform: #{$t}; }
 }

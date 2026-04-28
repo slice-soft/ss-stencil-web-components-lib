@@ -7,7 +7,7 @@ on:
 
 jobs:
   requeriments:
-    uses: slice-soft/ss-pipeline/.github/workflows/requirements-node.yml@feature/juancadev
+    uses: slice-soft/ss-pipeline/.github/workflows/requirements-node.yml@v0
     with:
       node-version: 22
       project-type: library

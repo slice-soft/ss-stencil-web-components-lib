@@ -3,13 +3,400 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>Stencil Component Starter</title>
+    <title>SS Web Components — Dev</title>
 
-    <script type="module" src="/build/ss-stencil-web-componets-lib.esm.js"></script>
-    <script nomodule src="/build/ss-stencil-web-componets-lib.js"></script>
-    <link rel="stylesheet" href="/build/ss-stencil-web-componets-lib.css" />
-    <link rel="stylesheet" href="/build/tokens.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+
+    <!-- Active token set — href injected by the inline script below -->
+    <link id="token-set-link" rel="stylesheet" />
+
+    <script>
+      var TOKEN_SETS = {
+        'token-set-01': { label: 'Set 01 — Neon Purple',         path: '/test-tokens/token-set-01/tokens.css' },
+        'token-set-02': { label: 'Set 02 — Organic Emerald',     path: '/test-tokens/token-set-02/tokens.css' },
+        'token-set-03': { label: 'Set 03 — Slice Soft Original', path: '/test-tokens/token-set-03/tokens.css' },
+      };
+      var activeSet = localStorage.getItem('ss-token-set') || 'token-set-01';
+      document.getElementById('token-set-link').href = TOKEN_SETS[activeSet].path;
+    </script>
+
+    <script type="module" src="/build/ss-stencil-web-components-lib.esm.js"></script>
+    <script nomodule src="/build/ss-stencil-web-components-lib.js"></script>
+
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family:  var(--ss-text-fonts-sans, 'Sora', sans-serif);
+        background:   var(--ss-color-background, #fff);
+        color:        var(--ss-color-foreground, #020617);
+        padding:      40px 24px;
+        max-width:    900px;
+        margin:       0 auto;
+        transition:   background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .page-header {
+        display:         flex;
+        align-items:     center;
+        justify-content: space-between;
+        gap:             12px;
+        margin-bottom:   48px;
+      }
+
+      .page-header-info { flex: 1; }
+
+      h1 {
+        font-size:     var(--ss-text-sizes-3xl, 30px);
+        font-weight:   700;
+        margin-bottom: 4px;
+      }
+
+      .subtitle {
+        color:     var(--ss-color-muted-foreground, #64748b);
+        font-size: var(--ss-text-sizes-sm, 14px);
+      }
+
+      .header-controls {
+        display:     flex;
+        align-items: center;
+        gap:         8px;
+        flex-shrink: 0;
+      }
+
+      #token-set-select,
+      #theme-toggle {
+        padding:       8px 12px;
+        border-radius: var(--ss-radius-base, 8px);
+        border:        1px solid var(--ss-color-border, #e2e8f0);
+        background:    var(--ss-color-surface, #f8fafc);
+        color:         var(--ss-color-foreground, #020617);
+        font-family:   var(--ss-text-fonts-sans, sans-serif);
+        font-size:     var(--ss-text-sizes-sm, 14px);
+        cursor:        pointer;
+        transition:    all 0.2s ease;
+        white-space:   nowrap;
+      }
+
+      #token-set-select:hover,
+      #theme-toggle:hover {
+        background: var(--ss-color-surface-alt, #f1f5f9);
+      }
+
+      section { margin-bottom: 56px; }
+
+      section h2 {
+        font-size:      var(--ss-text-sizes-lg, 18px);
+        font-weight:    600;
+        margin-bottom:  4px;
+        padding-bottom: 8px;
+        border-bottom:  1px solid var(--ss-color-border, #e2e8f0);
+      }
+
+      .section-desc {
+        font-size:     var(--ss-text-sizes-xs, 12px);
+        color:         var(--ss-color-muted-foreground, #64748b);
+        margin-bottom: 20px;
+        margin-top:    6px;
+      }
+
+      .row {
+        display:       flex;
+        flex-wrap:     wrap;
+        gap:           12px;
+        align-items:   center;
+        margin-bottom: 16px;
+      }
+
+      .col {
+        display:        flex;
+        flex-direction: column;
+        gap:            12px;
+      }
+
+      .label {
+        font-size:     11px;
+        color:         var(--ss-color-muted-foreground, #64748b);
+        font-family:   var(--ss-text-fonts-mono, monospace);
+        margin-bottom: 4px;
+      }
+
+      .card {
+        border:        1px solid var(--ss-color-border, #e2e8f0);
+        border-radius: var(--ss-radius-lg, 12px);
+        padding:       20px 24px;
+        background:    var(--ss-color-surface, #f8fafc);
+        margin-bottom: 16px;
+        transition:    background-color 0.3s ease, border-color 0.3s ease;
+      }
+    </style>
   </head>
   <body>
+
+    <div class="page-header">
+      <div class="page-header-info">
+        <h1>SS Web Components</h1>
+        <p class="subtitle" id="active-set-label">Dev playground</p>
+      </div>
+      <div class="header-controls">
+        <select id="token-set-select" aria-label="Select token set"></select>
+        <button id="theme-toggle">🌙 Dark</button>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var select  = document.getElementById('token-set-select');
+        var link    = document.getElementById('token-set-link');
+        var label   = document.getElementById('active-set-label');
+        var toggle  = document.getElementById('theme-toggle');
+        var html    = document.documentElement;
+
+        Object.keys(TOKEN_SETS).forEach(function (key) {
+          var opt       = document.createElement('option');
+          opt.value     = key;
+          opt.textContent = TOKEN_SETS[key].label;
+          if (key === activeSet) opt.selected = true;
+          select.appendChild(opt);
+        });
+
+        function applySet(key) {
+          activeSet = key;
+          link.href = TOKEN_SETS[key].path;
+          label.textContent = TOKEN_SETS[key].label;
+          localStorage.setItem('ss-token-set', key);
+        }
+
+        applySet(activeSet);
+
+        select.addEventListener('change', function () { applySet(select.value); });
+
+        var isDark = function () { return html.dataset.theme === 'dark'; };
+        toggle.addEventListener('click', function () {
+          html.dataset.theme    = isDark() ? 'light' : 'dark';
+          toggle.textContent    = isDark() ? '☀️ Light' : '🌙 Dark';
+        });
+      })();
+    </script>
+
+    <!-- ===================== BUTTON ===================== -->
+    <section>
+      <h2>ss-button</h2>
+      <p class="section-desc">variant · size · xStyle · shape · status · fullWidth</p>
+
+      <div class="card">
+        <p class="label">variant (solid)</p>
+        <div class="row">
+          <ss-button variant="primary"   label="Primary"></ss-button>
+          <ss-button variant="secondary" label="Secondary"></ss-button>
+          <ss-button variant="success"   label="Success"></ss-button>
+          <ss-button variant="warning"   label="Warning"></ss-button>
+          <ss-button variant="error"     label="Error"></ss-button>
+          <ss-button variant="info"      label="Info"></ss-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">xStyle (primary)</p>
+        <div class="row">
+          <ss-button x-style="solid"   label="Solid"></ss-button>
+          <ss-button x-style="outline" label="Outline"></ss-button>
+          <ss-button x-style="ghost"   label="Ghost"></ss-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size (primary · solid)</p>
+        <div class="row">
+          <ss-button size="xs" label="XSmall"></ss-button>
+          <ss-button size="sm" label="Small"></ss-button>
+          <ss-button size="md" label="Medium"></ss-button>
+          <ss-button size="lg" label="Large"></ss-button>
+          <ss-button size="xl" label="XLarge"></ss-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">shape (primary · solid · md)</p>
+        <div class="row">
+          <ss-button shape="rounded" label="Rounded"></ss-button>
+          <ss-button shape="pill"    label="Pill"></ss-button>
+          <ss-button shape="square"  label="Square"></ss-button>
+          <ss-button shape="circle"  label="C"></ss-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">status</p>
+        <div class="row">
+          <ss-button status="active"   label="Active"></ss-button>
+          <ss-button status="disabled" label="Disabled"></ss-button>
+          <ss-button status="loading"  label="Loading"></ss-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">fullWidth</p>
+        <ss-button label="Full width button" full-width="true"></ss-button>
+      </div>
+
+      <div class="card">
+        <p class="label">outline variants</p>
+        <div class="row">
+          <ss-button variant="primary"   x-style="outline" label="Primary"></ss-button>
+          <ss-button variant="secondary" x-style="outline" label="Secondary"></ss-button>
+          <ss-button variant="error"     x-style="outline" label="Error"></ss-button>
+          <ss-button variant="success"   x-style="outline" label="Success"></ss-button>
+          <ss-button variant="info"      x-style="outline" label="Info"></ss-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">ghost variants</p>
+        <div class="row">
+          <ss-button variant="primary"   x-style="ghost" label="Primary"></ss-button>
+          <ss-button variant="secondary" x-style="ghost" label="Secondary"></ss-button>
+          <ss-button variant="error"     x-style="ghost" label="Error"></ss-button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== INPUT ===================== -->
+    <section>
+      <h2>ss-input</h2>
+      <p class="section-desc">xStyle · size · color · type · disabled</p>
+
+      <div class="card">
+        <p class="label">xStyle (primary)</p>
+        <div class="col">
+          <ss-input x-style="solid"     placeholder="solid style"></ss-input>
+          <ss-input x-style="outline"   placeholder="outline style"></ss-input>
+          <ss-input x-style="underline" placeholder="underline style"></ss-input>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size (outline)</p>
+        <div class="col">
+          <ss-input size="sm" x-style="outline" placeholder="Small input"></ss-input>
+          <ss-input size="md" x-style="outline" placeholder="Medium input"></ss-input>
+          <ss-input size="lg" x-style="outline" placeholder="Large input"></ss-input>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color variants (outline · md)</p>
+        <div class="col">
+          <ss-input color="primary"   x-style="outline" placeholder="primary" value="primary"></ss-input>
+          <ss-input color="secondary" x-style="outline" placeholder="secondary"></ss-input>
+          <ss-input color="error"     x-style="outline" placeholder="error state"></ss-input>
+          <ss-input color="success"   x-style="outline" placeholder="success state"></ss-input>
+          <ss-input color="warning"   x-style="outline" placeholder="warning state"></ss-input>
+          <ss-input color="info"      x-style="outline" placeholder="info state"></ss-input>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">type (outline · md)</p>
+        <div class="col">
+          <ss-input type="email"    x-style="outline" placeholder="email@example.com"></ss-input>
+          <ss-input type="password" x-style="outline" placeholder="Password"></ss-input>
+          <ss-input type="number"   x-style="outline" placeholder="0"></ss-input>
+          <ss-input type="date"     x-style="outline"></ss-input>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">disabled + fullWidth</p>
+        <div class="col">
+          <ss-input disabled="true"   x-style="outline" placeholder="Disabled" value="Can't touch this"></ss-input>
+          <ss-input full-width="true" x-style="outline" placeholder="Full width input"></ss-input>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TYPOGRAPHY ===================== -->
+    <section>
+      <h2>ss-typography</h2>
+      <p class="section-desc">as · fontSize · fontWeight · color · align · transform · truncate · lineHeight</p>
+
+      <div class="card">
+        <p class="label">heading tags (as prop)</p>
+        <div class="col">
+          <ss-typography as="h1" font-size="xl"  font-weight="bold">Heading H1</ss-typography>
+          <ss-typography as="h2" font-size="lg"  font-weight="bold">Heading H2</ss-typography>
+          <ss-typography as="h3" font-size="md"  font-weight="semibold">Heading H3</ss-typography>
+          <ss-typography as="h4" font-size="sm"  font-weight="medium">Heading H4</ss-typography>
+          <ss-typography as="p"  font-size="sm">Paragraph — lorem ipsum dolor sit amet.</ss-typography>
+          <ss-typography as="span" font-size="xs" color="muted">Span · muted · xs</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color</p>
+        <div class="col">
+          <ss-typography color="foreground">foreground (default — adapts to theme)</ss-typography>
+          <ss-typography color="muted">muted</ss-typography>
+          <ss-typography color="primary">primary</ss-typography>
+          <ss-typography color="secondary">secondary</ss-typography>
+          <ss-typography color="success">success</ss-typography>
+          <ss-typography color="warning">warning</ss-typography>
+          <ss-typography color="error">error</ss-typography>
+          <ss-typography color="info">info</ss-typography>
+        </div>
+      </div>
+
+      <div class="card" style="background: var(--ss-color-background);">
+        <p class="label">explicit black / white</p>
+        <div class="col">
+          <ss-typography color="black">black (always black)</ss-typography>
+          <ss-typography color="white" inline-styles="background:#374151;padding:4px 8px;border-radius:4px">white (always white)</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">fontWeight</p>
+        <div class="col">
+          <ss-typography font-weight="light">light weight</ss-typography>
+          <ss-typography font-weight="regular">regular weight</ss-typography>
+          <ss-typography font-weight="medium">medium weight</ss-typography>
+          <ss-typography font-weight="semibold">semibold weight</ss-typography>
+          <ss-typography font-weight="bold">bold weight</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">align</p>
+        <div class="col" style="width:100%">
+          <ss-typography align="left">left aligned</ss-typography>
+          <ss-typography align="center">center aligned</ss-typography>
+          <ss-typography align="right">right aligned</ss-typography>
+          <ss-typography align="justify">justify — lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">transform + truncate</p>
+        <div class="col">
+          <ss-typography transform="uppercase">uppercase transform</ss-typography>
+          <ss-typography transform="capitalize">capitalize transform</ss-typography>
+          <ss-typography transform="lowercase">LOWERCASE TRANSFORM</ss-typography>
+          <ss-typography truncate="true" inline-styles="max-width:240px;display:block">
+            Truncated — this is a very long sentence that should be cut off
+          </ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">lineHeight</p>
+        <div class="col">
+          <ss-typography line-height="tight">tight — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
+          <ss-typography line-height="normal">normal — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
+          <ss-typography line-height="relaxed">relaxed — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
+        </div>
+      </div>
+    </section>
+
   </body>
 </html>

@@ -1,119 +1,118 @@
 @use 'sass:map';
+@use '../../../global/styles/mixins' as mx;
 
-// Base input block
+$sizes: (
+  'sm':  (padding: var(--ss-dimensions-1) var(--ss-dimensions-2),  font-size: var(--ss-text-sizes-xs),   border-radius: var(--ss-radius-sm)),
+  'md':  (padding: var(--ss-dimensions-2) var(--ss-dimensions-3),  font-size: var(--ss-text-sizes-sm),   border-radius: var(--ss-radius-base)),
+  'lg':  (padding: var(--ss-dimensions-3) var(--ss-dimensions-4),  font-size: var(--ss-text-sizes-base), border-radius: var(--ss-radius-lg)),
+  'xl':  (padding: var(--ss-dimensions-4) var(--ss-dimensions-6),  font-size: var(--ss-text-sizes-lg),   border-radius: var(--ss-radius-xl)),
+  '2xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-8),  font-size: var(--ss-text-sizes-xl),   border-radius: var(--ss-radius-2xl)),
+);
+
+// Base
 .ss-input {
-  display: inline-block;
-  box-sizing: border-box;
-  width: auto;
-  font-family: var(--ss-font-family-primary);
-  border: none;
-  transition: 
-    border-color var(--ss-transition-fast) var(--ss-easing-ease),
-    background-color var(--ss-transition-fast) var(--ss-easing-ease);
+  display:       inline-block;
+  box-sizing:    border-box;
+  width:         auto;
+  font-family:   var(--ss-input-font-family, var(--ss-text-fonts-sans));
+  font-size:     var(--ss-input-font-size, var(--ss-text-sizes-sm));
+  color:         var(--ss-input-foreground, var(--ss-color-foreground));
+  border:        2px solid var(--ss-input-border, var(--ss-color-input));
+  border-radius: var(--ss-input-border-radius, var(--ss-radius-base));
+  transition:
+    border-color       var(--ss-transitions-durations-short) ease,
+    background-color   var(--ss-transitions-durations-short) ease,
+    box-shadow         var(--ss-transitions-durations-short) ease;
 
   &:focus {
-    outline: none;
-    border-color: var(--ss-colors-primary-500);
-    box-shadow: 0 0 0 2px var(--ss-colors-primary-100);
+    outline:      none;
+    border-color: var(--ss-input-border-focus, var(--ss-color-ring));
+    box-shadow:   0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent);
   }
 }
 
-$sizes: (
-  'xs': (padding: var(--ss-spacing-2xs), font-size: var(--ss-font-sizes-xs), border-radius: var(--ss-border-radius-xs)),
-  'sm': (padding: var(--ss-spacing-xs), font-size: var(--ss-font-sizes-sm), border-radius: var(--ss-border-radius-sm)),
-  'md': (padding: var(--ss-spacing-sm), font-size: var(--ss-font-sizes-md), border-radius: var(--ss-border-radius-md)),
-  'lg': (padding: var(--ss-spacing-md), font-size: var(--ss-font-sizes-lg), border-radius: var(--ss-border-radius-lg)),
-  'xl': (padding: var(--ss-spacing-lg), font-size: var(--ss-font-sizes-xl), border-radius: var(--ss-border-radius-xl)),
-  '2xl': (padding: var(--ss-spacing-xl), font-size: var(--ss-font-sizes-2xl), border-radius: var(--ss-border-radius-2xl)),
-  '3xl': (padding: var(--ss-spacing-2xl), font-size: var(--ss-font-sizes-3xl), border-radius: var(--ss-border-radius-3xl))
-);
+// Sizes
 @each $size, $values in $sizes {
   .ss-input--#{$size} {
-    padding: map.get($values, 'padding');
-    font-size: map.get($values, 'font-size');
+    padding:       map.get($values, 'padding');
+    font-size:     map.get($values, 'font-size');
     border-radius: map.get($values, 'border-radius');
   }
 }
 
-@each $variant in primary, secondary, tertiary, quaternary, success, warning, error, info {
-  .ss-input--#{$variant}.ss-input--solid {
-    background-color: var(--ss-colors-#{$variant}-50);
-    color: var(--ss-colors-#{$variant}-900);
-    border: 2px solid var(--ss-colors-#{$variant}-600);
+// Primary — uses dedicated semantic input tokens
+.ss-input--primary {
+  &.ss-input--solid {
+    background:   var(--ss-input-background, var(--ss-color-background));
+    color:        var(--ss-input-foreground, var(--ss-color-foreground));
+    border-color: var(--ss-input-border, var(--ss-color-input));
 
-    &:hover:not([disabled]) {
-      background-color: var(--ss-colors-#{$variant}-100);
-    }
-
-    &:active:not([disabled]) {
-      background-color: var(--ss-colors-#{$variant}-200);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--ss-colors-#{$variant}-300);
-      outline-offset: 2px;
-    }
-
-    &[disabled] {
-      background-color: var(--ss-colors-#{$variant}-200);
-      color: var(--ss-colors-#{$variant}-400);
-      cursor: not-allowed;
-    }
+    &:hover:not([disabled]) { background: var(--ss-color-surface); }
+    &:focus { border-color: var(--ss-color-ring); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent); }
+    &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
   }
 
-  .ss-input--#{$variant}.ss-input--outline {
-    background-color: transparent;
-    color: var(--ss-colors-#{$variant}-600);
-    border: 2px solid var(--ss-colors-#{$variant}-500);
-  
-    &:hover:not([disabled]) {
-      background-color: var(--ss-colors-#{$variant}-50);
-    }
-  
-    &:active:not([disabled]) {
-      background-color: var(--ss-colors-#{$variant}-100);
-    }
-  
-    &:focus-visible {
-      outline: 2px solid var(--ss-colors-#{$variant}-300);
-      outline-offset: 2px;
-    }
-  
-    &[disabled] {
-      background-color: transparent;
-      color: var(--ss-colors-#{$variant}-400);
-      cursor: not-allowed;
-    }
+  &.ss-input--outline {
+    background:   transparent;
+    color:        var(--ss-color-foreground);
+    border-color: var(--ss-color-border);
+
+    &:hover:not([disabled]) { background: var(--ss-color-surface); }
+    &:focus { border-color: var(--ss-color-ring); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent); }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
   }
 
-  .ss-input--#{$variant}.ss-input--underline {
-    background-color: transparent;
-    color: var(--ss-colors-#{$variant}-600);
-    border-bottom: 2px solid var(--ss-colors-#{$variant}-500);
-    border-radius: 0;
-  
-    &:hover:not([disabled]) {
-      border-bottom-color: var(--ss-colors-#{$variant}-600);
-    }
-  
-    &:active:not([disabled]) {
-      border-bottom-color: var(--ss-colors-#{$variant}-700);
-    }
-  
-    &:focus-visible {
-      outline: 2px solid var(--ss-colors-#{$variant}-300);
-      outline-offset: 2px;
-    }
-  
-    &[disabled] {
-      color: var(--ss-colors-#{$variant}-400);
-      cursor: not-allowed;
-    }
-  }
+  &.ss-input--underline {
+    background:          transparent;
+    color:               var(--ss-color-foreground);
+    border-bottom-color: var(--ss-color-border);
+    border-radius:       0;
 
+    &:hover:not([disabled]) { border-bottom-color: var(--ss-color-primary); }
+    &:focus { border-bottom-color: var(--ss-color-ring); box-shadow: none; }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+  }
 }
 
+// Secondary — neutral (no color accent), uses border token
+.ss-input--secondary {
+  &.ss-input--solid {
+    background:   var(--ss-color-surface);
+    color:        var(--ss-color-foreground);
+    border-color: var(--ss-color-border);
 
-.ss-input--full-width {
-  width: 100%;
+    &:hover:not([disabled]) { background: var(--ss-color-surface-alt); }
+    &:focus { border-color: var(--ss-color-foreground); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-foreground) 15%, transparent); }
+    &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+  }
+
+  &.ss-input--outline {
+    background:   transparent;
+    color:        var(--ss-color-foreground);
+    border-color: var(--ss-color-border);
+
+    &:hover:not([disabled]) { background: var(--ss-color-surface); }
+    &:focus { border-color: var(--ss-color-foreground); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-foreground) 15%, transparent); }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
+  }
+
+  &.ss-input--underline {
+    background:          transparent;
+    color:               var(--ss-color-foreground);
+    border-bottom-color: var(--ss-color-border);
+    border-radius:       0;
+
+    &:hover:not([disabled]) { border-bottom-color: var(--ss-color-foreground); }
+    &:focus { border-bottom-color: var(--ss-color-foreground); box-shadow: none; }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+  }
 }
+
+// Status / semantic variants — use input-variant mixin (accent-colored)
+.ss-input--success { @include mx.input-variant('success'); }
+.ss-input--warning { @include mx.input-variant('warning'); }
+.ss-input--error   { @include mx.input-variant('error'); }
+.ss-input--info    { @include mx.input-variant('info'); }
+
+// Full width
+.ss-input--full-width { width: 100%; }

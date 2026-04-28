@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    uses: slice-soft/ss-pipeline/.github/workflows/deploy-node-library.yml@feature/juancadev
+    uses: slice-soft/ss-pipeline/.github/workflows/publish-node-ghpkg.yml@v0.24.0
     with:
       node-version: 22
       package-file: package.json

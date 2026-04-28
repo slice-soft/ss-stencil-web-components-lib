@@ -1,86 +1,12 @@
-@use 'sass:meta';
-@use 'sass:map';
-@use './styles/tokens/colors' as colors;
-@use './styles/tokens/border' as border;
-@use './styles/tokens/opacity' as opacity;
-@use './styles/tokens/shadow' as shadow;
-@use './styles/tokens/spacing' as spacing;
-@use './styles/tokens/typography' as typography;
-@use './styles/tokens/z-index' as zindex;
-@use './styles/tokens/animations' as animations;
 @import './reset.css';
 
-:root {
-  @each $palette, $shades in colors.$ss-colors {
-    @if meta.type-of($shades) == 'map' {
-      @each $step, $val in $shades {
-        --ss-colors-#{$palette}-#{$step}: #{$val};
-      }
-    } @else {
-      --ss-colors-#{$palette}: #{$shades};
-    }
-  }
-
-  // ===== BORDERS =====
-  // Radius
-  @each $name, $val in map.get(border.$ss-border, radius) {
-    --ss-border-radius-#{$name}: #{$val};
-  }
-  // Widths
-  @each $name, $val in map.get(border.$ss-border, width) {
-    --ss-border-width-#{$name}: #{$val};
-  }
-  // Styles
-  @each $name, $val in map.get(border.$ss-border, style) {
-    --ss-border-style-#{$name}: #{$val};
-  }
-
-  // ===== OPACITY =====
-  @each $name, $val in opacity.$ss-opacity {
-    --ss-opacity-#{$name}: #{$val};
-  }
-
-  // ===== SHADOWS =====
-  @each $name, $val in shadow.$ss-shadow {
-    --ss-shadow-#{$name}: #{$val};
-  }
-
-  // ===== SPACING =====
-  @each $key, $val in spacing.$ss-spacing {
-    @if meta.type-of($val) == 'map' {
-      @each $inner, $inner-val in $val {
-        --ss-spacing-#{$key}-#{$inner}: #{$inner-val};
-      }
-    } @else {
-      --ss-spacing-#{$key}: #{$val};
-    }
-  }
-
-  // ===== TYPOGRAPHY =====
-  // Families, sizes, weights, line-heights
-  @each $group, $map in typography.$ss-font {
-    @each $name, $val in $map {
-      --ss-font-#{$group}-#{$name}: #{$val};
-    }
-  }
-  // Variants
-  @each $name, $val in typography.$ss-typography {
-    --ss-typography-#{$name}: #{$val};
-  }
-
-  // ===== Z-INDEX =====
-  @each $name, $val in zindex.$ss-z-index {
-    --ss-z-index-#{$name}: #{$val};
-  }
-
-  // ===== ANIMATIONS & TRANSITIONS =====
-  @each $name, $val in animations.$ss-durations {
-    --ss-duration-#{$name}: #{$val};
-  }
-  @each $name, $val in animations.$ss-easings {
-    --ss-easing-#{$name}: #{$val};
-  }
-  @each $name, $val in animations.$ss-transitions-specific {
-    --ss-transition-#{$name}: #{$val};
-  }
-}
+// Design system tokens must be loaded by the consumer before using this library.
+//
+// CDN (recommended):
+//   <link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_variables.css">
+//
+// npm package:
+//   @import "@slice-soft/ss-design-system/dist/css/_variables.css";
+//
+// For dark mode, also load:
+//   <link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_dark.css">

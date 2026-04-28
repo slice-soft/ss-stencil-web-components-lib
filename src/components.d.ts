@@ -10,222 +10,136 @@ import { Size } from "./types/size";
 import { Variant } from "./types/variant";
 import { InputStyle, SsInputType } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
+import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
 export { InputStyle, SsInputType } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
+export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
-    /**
-     * Botón versátil para acciones del usuario:
-     * - Variantes (primary, secondary…)
-     * - Tamaños (xs–xl)
-     * - Estilos (solid, outline, ghost)
-     * - Formas (rounded, pill, circle, square)
-     * - Control de estado (loading, disabled)
-     */
     interface SsButton {
         /**
-          * Milisegundos que dura la deshabilitación
           * @default 1000
          */
         "disableDuration": number;
         /**
-          * Deshabilitado global
           * @default false
          */
         "disabled": boolean;
         /**
-          * Ocupa todo el ancho del contenedor
           * @default false
          */
         "fullWidth": boolean;
         /**
-          * Posición del ícono: left|right|only
           * @default 'right'
          */
         "iconPosition": IconPosition;
-        /**
-          * Estilos personalizados
-         */
         "inlineStyles"?: string | Record<string, string>;
-        /**
-          * Texto interno o slot default
-         */
         "label"?: string;
         /**
-          * Sólo un clic: tras disparar ssClick el botón se deshabilita durante disableDuration
+          * After ssClick fires, button is disabled for disableDuration ms
           * @default true
          */
         "oneClick": boolean;
         /**
-          * Forma del botón
           * @default 'rounded'
          */
         "shape": ButtonShape;
         /**
-          * Tamaño: xs, sm, md, lg, xl
           * @default 'md'
          */
         "size": Size;
         /**
-          * Estado inicial: active|disabled|loading
           * @default 'active'
          */
         "status": ButtonStatus;
         /**
-          * Tipo de botón: `button`|`submit`|`reset`
           * @default 'button'
          */
         "type": ButtonType;
         /**
-          * Variante de color
           * @default 'primary'
          */
         "variant": Variant;
-        /**
-          * Atributo `id` del botón
-         */
         "xId"?: string;
         /**
-          * Estilo visual
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
     }
-    /**
-     * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
-     * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
-     * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
-     * - Permite estilos personalizados a través de propiedades y clases.
-     * - Incluye soporte para validación HTML y eventos de interacción del usuario.
-     * - Compatible con diferentes tamaños y variantes de color.
-     * - Soporta estilos de entrada como sólido, contorno y subrayado.
-     * *
-     * @example <ss-input
-     * x-id="my-input"
-     * type="text"
-     * color="primary"
-     * value="Hello World"
-     * placeholder="Enter text"
-     * inline-styles="background-color: lightblue; border: 1px solid blue;"
-     * size="md"
-     * full-width
-     * x-style="solid"
-     * ></ss-input>
-     */
     interface SsInput {
         /**
-          * Color del componente, basado en variantes predefinidas
           * @default 'primary'
          */
         "color": Variant;
         /**
-          * Indica si el input está deshabilitado
           * @default false
          */
         "disabled": boolean;
         /**
-          * Indica si el input debe ocupar todo el ancho disponible
           * @default false
          */
         "fullWidth": boolean;
-        /**
-          * Estilos en línea personalizados, pueden ser una cadena o un objeto
-         */
         "inlineStyles"?: string | Record<string, string>;
-        /**
-          * Texto de marcador de posición
-         */
         "placeholder"?: string;
         /**
-          * Tamaño del input, puede ser 'sm', 'md', 'lg'
           * @default 'md'
          */
         "size": Size;
         /**
-          * Tipo de entrada HTML
           * @default 'text'
          */
         "type": SsInputType;
-        /**
-          * Valor actual del input
-         */
         "value"?: string;
-        /**
-          * Identificador único para el componente
-         */
         "xId": string;
         /**
-          * Estilo del input, puede ser 'solid', 'outline', 'underline'
           * @default 'solid'
          */
         "xStyle": InputStyle;
     }
-    /**
-     * Componente de tipografía versátil para mostrar texto:
-     * - Variantes de color (dark, light, primary, secondary)
-     * - Tamaños de fuente (xs, sm, md, lg, xl)
-     * - Alineación de texto (left, center, right, justify)
-     * - Estilos de fuente (light, regular, medium, bold)
-     * - Alturas de línea (tight, normal, relaxed)
-     * - Espaciado de letras (tight, normal, wide)
-     * - Personalización de estilos
-     */
     interface SsTypography {
         /**
-          * The text alignment for the typography component
           * @default 'left'
          */
-        "align": 'left' | 'center' | 'right' | 'justify';
+        "align": TextAlign;
         /**
-          * The HTML tag to be used for the typography component
           * @default 'p'
          */
-        "as": 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
+        "as": TypographyTag;
         /**
-          * The variant of the typography component
-          * @default 'dark'
+          * 'foreground' uses the semantic foreground token and adapts to dark mode
+          * @default 'foreground'
          */
-        "color": Variant | 'black' | 'white';
+        "color": TypographyColor;
         /**
-          * The size of the typography component
           * @default 'md'
          */
         "fontSize": Size;
         /**
-          * The font weight of the typography component
           * @default 'regular'
          */
-        "fontWeight": 'light' | 'regular' | 'medium' | 'bold';
+        "fontWeight": FontWeight;
         /**
-          * | Custom styles for the typography component
           * @default {}
          */
-        "inlineStyles": { [key: string]: string } | string;
+        "inlineStyles": Record<string, string> | string;
         /**
-          * The letter spacing of the typography component
           * @default 'normal'
          */
-        "letterSpacing": 'tight' | 'normal' | 'wide';
+        "letterSpacing": LetterSpacing;
         /**
-          * The line height of the typography component
           * @default 'normal'
          */
-        "lineHeight": 'tight' | 'normal' | 'relaxed';
+        "lineHeight": LineHeight;
         /**
-          * If true, the text will be displayed in uppercase
           * @default 'normal'
          */
-        "transform": 'uppercase' | 'lowercase' | 'capitalize' | 'normal';
+        "transform": TextTransform;
         /**
-          * If true, the text will be truncated with an ellipsis if it overflows its container
           * @default false
          */
         "truncate": boolean;
-        /**
-          * id del componente tipográfico
-         */
         "xId": string;
     }
 }
@@ -241,14 +155,6 @@ declare global {
     interface HTMLSsButtonElementEventMap {
         "ssClick": string;
     }
-    /**
-     * Botón versátil para acciones del usuario:
-     * - Variantes (primary, secondary…)
-     * - Tamaños (xs–xl)
-     * - Estilos (solid, outline, ghost)
-     * - Formas (rounded, pill, circle, square)
-     * - Control de estado (loading, disabled)
-     */
     interface HTMLSsButtonElement extends Components.SsButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsButtonElementEventMap>(type: K, listener: (this: HTMLSsButtonElement, ev: SsButtonCustomEvent<HTMLSsButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -304,27 +210,6 @@ declare global {
         "ssTouchEnd": TouchEvent;
         "ssTouchCancel": TouchEvent;
     }
-    /**
-     * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
-     * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
-     * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
-     * - Permite estilos personalizados a través de propiedades y clases.
-     * - Incluye soporte para validación HTML y eventos de interacción del usuario.
-     * - Compatible con diferentes tamaños y variantes de color.
-     * - Soporta estilos de entrada como sólido, contorno y subrayado.
-     * *
-     * @example <ss-input
-     * x-id="my-input"
-     * type="text"
-     * color="primary"
-     * value="Hello World"
-     * placeholder="Enter text"
-     * inline-styles="background-color: lightblue; border: 1px solid blue;"
-     * size="md"
-     * full-width
-     * x-style="solid"
-     * ></ss-input>
-     */
     interface HTMLSsInputElement extends Components.SsInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsInputElementEventMap>(type: K, listener: (this: HTMLSsInputElement, ev: SsInputCustomEvent<HTMLSsInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -339,16 +224,6 @@ declare global {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
     };
-    /**
-     * Componente de tipografía versátil para mostrar texto:
-     * - Variantes de color (dark, light, primary, secondary)
-     * - Tamaños de fuente (xs, sm, md, lg, xl)
-     * - Alineación de texto (left, center, right, justify)
-     * - Estilos de fuente (light, regular, medium, bold)
-     * - Alturas de línea (tight, normal, relaxed)
-     * - Espaciado de letras (tight, normal, wide)
-     * - Personalización de estilos
-     */
     interface HTMLSsTypographyElement extends Components.SsTypography, HTMLStencilElement {
     }
     var HTMLSsTypographyElement: {
@@ -362,146 +237,79 @@ declare global {
     }
 }
 declare namespace LocalJSX {
-    /**
-     * Botón versátil para acciones del usuario:
-     * - Variantes (primary, secondary…)
-     * - Tamaños (xs–xl)
-     * - Estilos (solid, outline, ghost)
-     * - Formas (rounded, pill, circle, square)
-     * - Control de estado (loading, disabled)
-     */
     interface SsButton {
         /**
-          * Milisegundos que dura la deshabilitación
           * @default 1000
          */
         "disableDuration"?: number;
         /**
-          * Deshabilitado global
           * @default false
          */
         "disabled"?: boolean;
         /**
-          * Ocupa todo el ancho del contenedor
           * @default false
          */
         "fullWidth"?: boolean;
         /**
-          * Posición del ícono: left|right|only
           * @default 'right'
          */
         "iconPosition"?: IconPosition;
-        /**
-          * Estilos personalizados
-         */
         "inlineStyles"?: string | Record<string, string>;
-        /**
-          * Texto interno o slot default
-         */
         "label"?: string;
-        /**
-          * Se dispara cuando el usuario hace click
-          * @event ssClick Emite el `xid` del botón
-         */
         "onSsClick"?: (event: SsButtonCustomEvent<string>) => void;
         /**
-          * Sólo un clic: tras disparar ssClick el botón se deshabilita durante disableDuration
+          * After ssClick fires, button is disabled for disableDuration ms
           * @default true
          */
         "oneClick"?: boolean;
         /**
-          * Forma del botón
           * @default 'rounded'
          */
         "shape"?: ButtonShape;
         /**
-          * Tamaño: xs, sm, md, lg, xl
           * @default 'md'
          */
         "size"?: Size;
         /**
-          * Estado inicial: active|disabled|loading
           * @default 'active'
          */
         "status"?: ButtonStatus;
         /**
-          * Tipo de botón: `button`|`submit`|`reset`
           * @default 'button'
          */
         "type"?: ButtonType;
         /**
-          * Variante de color
           * @default 'primary'
          */
         "variant"?: Variant;
-        /**
-          * Atributo `id` del botón
-         */
         "xId"?: string;
         /**
-          * Estilo visual
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
     }
-    /**
-     * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
-     * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
-     * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
-     * - Permite estilos personalizados a través de propiedades y clases.
-     * - Incluye soporte para validación HTML y eventos de interacción del usuario.
-     * - Compatible con diferentes tamaños y variantes de color.
-     * - Soporta estilos de entrada como sólido, contorno y subrayado.
-     * *
-     * @example <ss-input
-     * x-id="my-input"
-     * type="text"
-     * color="primary"
-     * value="Hello World"
-     * placeholder="Enter text"
-     * inline-styles="background-color: lightblue; border: 1px solid blue;"
-     * size="md"
-     * full-width
-     * x-style="solid"
-     * ></ss-input>
-     */
     interface SsInput {
         /**
-          * Color del componente, basado en variantes predefinidas
           * @default 'primary'
          */
         "color"?: Variant;
         /**
-          * Indica si el input está deshabilitado
           * @default false
          */
         "disabled"?: boolean;
         /**
-          * Indica si el input debe ocupar todo el ancho disponible
           * @default false
          */
         "fullWidth"?: boolean;
-        /**
-          * Estilos en línea personalizados, pueden ser una cadena o un objeto
-         */
         "inlineStyles"?: string | Record<string, string>;
         "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        /**
-          * Emitted when the value is “committed” (on blur or Enter)
-         */
         "onSsChange"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
-        /**
-          * Mouse/pointer events
-         */
         "onSsClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
         "onSsCompositionEnd"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
         "onSsCompositionStart"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
         "onSsCompositionUpdate"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
         "onSsContextMenu"?: (event: SsInputCustomEvent<MouseEvent>) => void;
         "onSsCopy"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        /**
-          * Clipboard events
-         */
         "onSsCut"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
         "onSsDoubleClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
         "onSsDrag"?: (event: SsInputCustomEvent<DragEvent>) => void;
@@ -509,28 +317,13 @@ declare namespace LocalJSX {
         "onSsDragEnter"?: (event: SsInputCustomEvent<DragEvent>) => void;
         "onSsDragLeave"?: (event: SsInputCustomEvent<DragEvent>) => void;
         "onSsDragOver"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        /**
-          * Drag & drop
-         */
         "onSsDragStart"?: (event: SsInputCustomEvent<DragEvent>) => void;
         "onSsDrop"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        /**
-          * Focus events
-         */
         "onSsFocus"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsFocusIn"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsFocusOut"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        /**
-          * Emitted on each keystroke
-         */
         "onSsInput"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
-        /**
-          * Emitted when the control fails HTML/constraint validation
-         */
         "onSsInvalid"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
-        /**
-          * Keyboard events
-         */
         "onSsKeyDown"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
         "onSsKeyPress"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
         "onSsKeyUp"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
@@ -542,113 +335,70 @@ declare namespace LocalJSX {
         "onSsMouseOver"?: (event: SsInputCustomEvent<MouseEvent>) => void;
         "onSsMouseUp"?: (event: SsInputCustomEvent<MouseEvent>) => void;
         "onSsPaste"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        /**
-          * Text selection & IME composition
-         */
         "onSsSelect"?: (event: SsInputCustomEvent<Event>) => void;
         "onSsTouchCancel"?: (event: SsInputCustomEvent<TouchEvent>) => void;
         "onSsTouchEnd"?: (event: SsInputCustomEvent<TouchEvent>) => void;
         "onSsTouchMove"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        /**
-          * Touch events
-         */
         "onSsTouchStart"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        /**
-          * Wheel (scroll)
-         */
         "onSsWheel"?: (event: SsInputCustomEvent<WheelEvent>) => void;
-        /**
-          * Texto de marcador de posición
-         */
         "placeholder"?: string;
         /**
-          * Tamaño del input, puede ser 'sm', 'md', 'lg'
           * @default 'md'
          */
         "size"?: Size;
         /**
-          * Tipo de entrada HTML
           * @default 'text'
          */
         "type"?: SsInputType;
-        /**
-          * Valor actual del input
-         */
         "value"?: string;
-        /**
-          * Identificador único para el componente
-         */
         "xId"?: string;
         /**
-          * Estilo del input, puede ser 'solid', 'outline', 'underline'
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
     }
-    /**
-     * Componente de tipografía versátil para mostrar texto:
-     * - Variantes de color (dark, light, primary, secondary)
-     * - Tamaños de fuente (xs, sm, md, lg, xl)
-     * - Alineación de texto (left, center, right, justify)
-     * - Estilos de fuente (light, regular, medium, bold)
-     * - Alturas de línea (tight, normal, relaxed)
-     * - Espaciado de letras (tight, normal, wide)
-     * - Personalización de estilos
-     */
     interface SsTypography {
         /**
-          * The text alignment for the typography component
           * @default 'left'
          */
-        "align"?: 'left' | 'center' | 'right' | 'justify';
+        "align"?: TextAlign;
         /**
-          * The HTML tag to be used for the typography component
           * @default 'p'
          */
-        "as"?: 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
+        "as"?: TypographyTag;
         /**
-          * The variant of the typography component
-          * @default 'dark'
+          * 'foreground' uses the semantic foreground token and adapts to dark mode
+          * @default 'foreground'
          */
-        "color"?: Variant | 'black' | 'white';
+        "color"?: TypographyColor;
         /**
-          * The size of the typography component
           * @default 'md'
          */
         "fontSize"?: Size;
         /**
-          * The font weight of the typography component
           * @default 'regular'
          */
-        "fontWeight"?: 'light' | 'regular' | 'medium' | 'bold';
+        "fontWeight"?: FontWeight;
         /**
-          * | Custom styles for the typography component
           * @default {}
          */
-        "inlineStyles"?: { [key: string]: string } | string;
+        "inlineStyles"?: Record<string, string> | string;
         /**
-          * The letter spacing of the typography component
           * @default 'normal'
          */
-        "letterSpacing"?: 'tight' | 'normal' | 'wide';
+        "letterSpacing"?: LetterSpacing;
         /**
-          * The line height of the typography component
           * @default 'normal'
          */
-        "lineHeight"?: 'tight' | 'normal' | 'relaxed';
+        "lineHeight"?: LineHeight;
         /**
-          * If true, the text will be displayed in uppercase
           * @default 'normal'
          */
-        "transform"?: 'uppercase' | 'lowercase' | 'capitalize' | 'normal';
+        "transform"?: TextTransform;
         /**
-          * If true, the text will be truncated with an ellipsis if it overflows its container
           * @default false
          */
         "truncate"?: boolean;
-        /**
-          * id del componente tipográfico
-         */
         "xId"?: string;
     }
     interface IntrinsicElements {
@@ -661,47 +411,8 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            /**
-             * Botón versátil para acciones del usuario:
-             * - Variantes (primary, secondary…)
-             * - Tamaños (xs–xl)
-             * - Estilos (solid, outline, ghost)
-             * - Formas (rounded, pill, circle, square)
-             * - Control de estado (loading, disabled)
-             */
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
-            /**
-             * Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.
-             * - Soporta varios tipos de entrada (texto, contraseña, email, etc.)
-             * - Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.
-             * - Permite estilos personalizados a través de propiedades y clases.
-             * - Incluye soporte para validación HTML y eventos de interacción del usuario.
-             * - Compatible con diferentes tamaños y variantes de color.
-             * - Soporta estilos de entrada como sólido, contorno y subrayado.
-             * *
-             * @example <ss-input
-             * x-id="my-input"
-             * type="text"
-             * color="primary"
-             * value="Hello World"
-             * placeholder="Enter text"
-             * inline-styles="background-color: lightblue; border: 1px solid blue;"
-             * size="md"
-             * full-width
-             * x-style="solid"
-             * ></ss-input>
-             */
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
-            /**
-             * Componente de tipografía versátil para mostrar texto:
-             * - Variantes de color (dark, light, primary, secondary)
-             * - Tamaños de fuente (xs, sm, md, lg, xl)
-             * - Alineación de texto (left, center, right, justify)
-             * - Estilos de fuente (light, regular, medium, bold)
-             * - Alturas de línea (tight, normal, relaxed)
-             * - Espaciado de letras (tight, normal, wide)
-             * - Personalización de estilos
-             */
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
     }

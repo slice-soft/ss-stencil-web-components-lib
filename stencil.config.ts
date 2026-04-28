@@ -3,7 +3,7 @@ import { sass } from '@stencil/sass';
 import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
-  namespace: 'ss-stencil-web-componets-lib',
+  namespace: 'ss-stencil-web-components-lib',
   globalStyle: 'src/global/global.scss',
   plugins: [
     sass(),
@@ -28,9 +28,14 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null,
+      // DEV ONLY — copy test token sets to www/test-tokens/ for local visual testing.
+      // These are NOT included in dist/loader outputs.
+      // Add more sets: { src: '../test/token-set-NN', dest: 'test-tokens/token-set-NN' }
       copy: [
-        { src: 'global/tokens.css', dest: 'build/tokens.css' },
-      ]
+        { src: '../test/token-set-01', dest: 'test-tokens/token-set-01' },
+        { src: '../test/token-set-02', dest: 'test-tokens/token-set-02' },
+        { src: '../test/token-set-03', dest: 'test-tokens/token-set-03' },
+      ],
     },
     {
       type: 'docs-vscode',
