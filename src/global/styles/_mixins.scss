@@ -1,0 +1,84 @@
+// Shared mixins for ss-* components.
+// All variants use semantic tokens (--ss-color-*) → dark mode works automatically.
+
+@mixin focus-ring($color: var(--ss-color-ring)) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}
+
+// Button variant — generates solid / outline / ghost styles from a semantic color name.
+// Expects --ss-color-{$name} and --ss-color-{$name}-foreground to exist.
+@mixin btn-variant($name) {
+  $color: var(--ss-color-#{$name});
+  $fg:    var(--ss-color-#{$name}-foreground);
+
+  &.ss-button--solid {
+    background:   $color;
+    color:        $fg;
+    border-color: transparent;
+
+    &:hover:not([disabled])  { filter: brightness(0.88); }
+    &:active:not([disabled]) { filter: brightness(0.78); }
+    &:focus-visible          { @include focus-ring($color); }
+    &[disabled]              { opacity: 0.4; }
+  }
+
+  &.ss-button--outline {
+    background:   transparent;
+    color:        $color;
+    border-color: $color;
+
+    &:hover:not([disabled])  { background: color-mix(in srgb, $color 12%, transparent); }
+    &:active:not([disabled]) { background: color-mix(in srgb, $color 22%, transparent); }
+    &:focus-visible          { @include focus-ring($color); }
+    &[disabled]              { opacity: 0.4; }
+  }
+
+  &.ss-button--ghost {
+    background:   transparent;
+    color:        $color;
+    border-color: transparent;
+
+    &:hover:not([disabled])  { background: color-mix(in srgb, $color 12%, transparent); }
+    &:active:not([disabled]) { background: color-mix(in srgb, $color 22%, transparent); }
+    &:focus-visible          { @include focus-ring($color); }
+    &[disabled]              { opacity: 0.4; }
+  }
+}
+
+// Input variant — uses $name as accent color for border/ring.
+// Base bg stays neutral (--ss-color-background / surface) so text stays readable in both themes.
+@mixin input-variant($name) {
+  $accent: var(--ss-color-#{$name});
+
+  &.ss-input--solid {
+    background:   var(--ss-color-surface);
+    color:        var(--ss-color-foreground);
+    border-color: color-mix(in srgb, $accent 50%, var(--ss-color-border));
+
+    &:hover:not([disabled]) { background: var(--ss-color-surface-alt); }
+    &:focus { border-color: $accent; box-shadow: 0 0 0 2px color-mix(in srgb, $accent 25%, transparent); }
+    &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+  }
+
+  &.ss-input--outline {
+    background:   transparent;
+    color:        var(--ss-color-foreground);
+    border-color: $accent;
+
+    &:hover:not([disabled]) { background: color-mix(in srgb, $accent 7%, transparent); }
+    &:focus { border-color: $accent; box-shadow: 0 0 0 2px color-mix(in srgb, $accent 25%, transparent); }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
+  }
+
+  &.ss-input--underline {
+    background:        transparent;
+    color:             var(--ss-color-foreground);
+    border-bottom-color: $accent;
+    border-radius:     0;
+
+    &:hover:not([disabled]) { filter: brightness(0.85); }
+    &:focus { border-bottom-color: $accent; box-shadow: none; }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
+  }
+}

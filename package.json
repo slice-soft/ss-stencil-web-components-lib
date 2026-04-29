@@ -1,11 +1,11 @@
 {
-  "name": "@slice-soft/ss-stencil-web-componets-lib",
-  "version": "0.0.6",
+  "name": "@slice-soft/ss-stencil-web-components-lib",
+  "version": "0.1.0",
   "description": "Librería de Web Components reutilizables desarrollados con StencilJS por Slice Soft",
   "author": "Slice Soft <team@slicesoft.dev>",
-  "homepage": "https://github.com/slice-soft/ss-stencil-web-componets-lib#readme",
+  "homepage": "https://github.com/slice-soft/ss-stencil-web-components-lib#readme",
   "bugs": {
-    "url": "https://github.com/slice-soft/ss-stencil-web-componets-lib/issues"
+    "url": "https://github.com/slice-soft/ss-stencil-web-components-lib/issues"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
@@ -21,20 +21,16 @@
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/ss-stencil-web-componets-lib/ss-stencil-web-componets-lib.esm.js",
+  "unpkg": "dist/ss-stencil-web-components-lib/ss-stencil-web-components-lib.esm.js",
   "exports": {
     ".": {
-      "import": "./dist/ss-stencil-web-componets-lib/ss-stencil-web-componets-lib.esm.js",
-      "require": "./dist/ss-stencil-web-componets-lib/ss-stencil-web-componets-lib.cjs.js",
+      "import": "./dist/ss-stencil-web-components-lib/ss-stencil-web-components-lib.esm.js",
+      "require": "./dist/ss-stencil-web-components-lib/ss-stencil-web-components-lib.cjs.js",
       "types": "./dist/types/index.d.ts"
     },
     "./dist/*": {
       "import": "./dist/*",
       "types": "./dist/*"
-    },
-    "./my-component": {
-      "import": "./dist/components/*.js",
-      "types": "./dist/components/*.d.ts"
     },
     "./loader": {
       "import": "./loader/index.js",
@@ -44,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/slice-soft/ss-stencil-web-componets-lib.git"
+    "url": "git+https://github.com/slice-soft/ss-stencil-web-components-lib.git"
   },
   "files": [
     "dist/",

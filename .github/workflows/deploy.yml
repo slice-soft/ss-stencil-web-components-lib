@@ -1,13 +1,23 @@
-name: Deploy Library
+name: Release & Publish
 
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
 jobs:
-  deploy:
-    uses: slice-soft/ss-pipeline/.github/workflows/deploy-node-library.yml@feature/juancadev
+  release:
+    uses: slice-soft/ss-pipeline/.github/workflows/release-stencil-lib.yml@v0
     with:
-      node-version: 22
-      package-file: package.json
+      stencil-namespace: ss-stencil-web-components-lib
+    secrets:
+      R2_ACCESS_KEY_ID:     ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_ENDPOINT:          ${{ secrets.R2_ENDPOINT }}
+      R2_BUCKET:            ${{ secrets.R2_BUCKET }}
+      CDN_BASE_URL:         ${{ secrets.CDN_BASE_URL }}

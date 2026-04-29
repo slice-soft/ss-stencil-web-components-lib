@@ -5,24 +5,24 @@
       "name": "ss-button",
       "description": {
         "kind": "markdown",
-        "value": "Botón versátil para acciones del usuario:\n- Variantes (primary, secondary…)\n- Tamaños (xs–xl)\n- Estilos (solid, outline, ghost)\n- Formas (rounded, pill, circle, square)\n- Control de estado (loading, disabled)"
+        "value": ""
       },
       "attributes": [
         {
           "name": "disable-duration",
-          "description": "Milisegundos que dura la deshabilitación"
+          "description": ""
         },
         {
           "name": "disabled",
-          "description": "Deshabilitado global"
+          "description": ""
         },
         {
           "name": "full-width",
-          "description": "Ocupa todo el ancho del contenedor"
+          "description": ""
         },
         {
           "name": "icon-position",
-          "description": "Posición del ícono: left|right|only",
+          "description": "",
           "values": [
             {
               "name": "left"
@@ -37,19 +37,19 @@
         },
         {
           "name": "inline-styles",
-          "description": "Estilos personalizados"
+          "description": ""
         },
         {
           "name": "label",
-          "description": "Texto interno o slot default"
+          "description": ""
         },
         {
           "name": "one-click",
-          "description": "Sólo un clic: tras disparar ssClick\nel botón se deshabilita durante disableDuration"
+          "description": "After ssClick fires, button is disabled for disableDuration ms"
         },
         {
           "name": "shape",
-          "description": "Forma del botón",
+          "description": "",
           "values": [
             {
               "name": "circle"
@@ -67,7 +67,7 @@
         },
         {
           "name": "size",
-          "description": "Tamaño: xs, sm, md, lg, xl",
+          "description": "",
           "values": [
             {
               "name": "2xl"
@@ -94,7 +94,7 @@
         },
         {
           "name": "status",
-          "description": "Estado inicial: active|disabled|loading",
+          "description": "",
           "values": [
             {
               "name": "active"
@@ -109,7 +109,7 @@
         },
         {
           "name": "type",
-          "description": "Tipo de botón: `button`|`submit`|`reset`",
+          "description": "",
           "values": [
             {
               "name": "button"
@@ -124,7 +124,7 @@
         },
         {
           "name": "variant",
-          "description": "Variante de color",
+          "description": "",
           "values": [
             {
               "name": "error"
@@ -154,11 +154,11 @@
         },
         {
           "name": "x-id",
-          "description": "Atributo `id` del botón"
+          "description": ""
         },
         {
           "name": "x-style",
-          "description": "Estilo visual",
+          "description": "",
           "values": [
             {
               "name": "ghost"
@@ -177,12 +177,12 @@
       "name": "ss-input",
       "description": {
         "kind": "markdown",
-        "value": "Componente de entrada de texto versátil con soporte para múltiples eventos y estilos.\n- Soporta varios tipos de entrada (texto, contraseña, email, etc.)\n- Emit eventos para entrada, cambio, enfoque, teclado, selección, portapapeles y más.\n- Permite estilos personalizados a través de propiedades y clases.\n- Incluye soporte para validación HTML y eventos de interacción del usuario.\n- Compatible con diferentes tamaños y variantes de color.\n- Soporta estilos de entrada como sólido, contorno y subrayado.\n*"
+        "value": ""
       },
       "attributes": [
         {
           "name": "color",
-          "description": "Color del componente, basado en variantes predefinidas",
+          "description": "",
           "values": [
             {
               "name": "error"
@@ -212,23 +212,23 @@
         },
         {
           "name": "disabled",
-          "description": "Indica si el input está deshabilitado"
+          "description": ""
         },
         {
           "name": "full-width",
-          "description": "Indica si el input debe ocupar todo el ancho disponible"
+          "description": ""
         },
         {
           "name": "inline-styles",
-          "description": "Estilos en línea personalizados, pueden ser una cadena o un objeto"
+          "description": ""
         },
         {
           "name": "placeholder",
-          "description": "Texto de marcador de posición"
+          "description": ""
         },
         {
           "name": "size",
-          "description": "Tamaño del input, puede ser 'sm', 'md', 'lg'",
+          "description": "",
           "values": [
             {
               "name": "2xl"
@@ -255,7 +255,7 @@
         },
         {
           "name": "type",
-          "description": "Tipo de entrada HTML",
+          "description": "",
           "values": [
             {
               "name": "date"
@@ -303,15 +303,15 @@
         },
         {
           "name": "value",
-          "description": "Valor actual del input"
+          "description": ""
         },
         {
           "name": "x-id",
-          "description": "Identificador único para el componente"
+          "description": ""
         },
         {
           "name": "x-style",
-          "description": "Estilo del input, puede ser 'solid', 'outline', 'underline'",
+          "description": "",
           "values": [
             {
               "name": "outline"
@@ -330,12 +330,12 @@
       "name": "ss-typography",
       "description": {
         "kind": "markdown",
-        "value": "Componente de tipografía versátil para mostrar texto:\n- Variantes de color (dark, light, primary, secondary)\n- Tamaños de fuente (xs, sm, md, lg, xl)\n- Alineación de texto (left, center, right, justify)\n- Estilos de fuente (light, regular, medium, bold)\n- Alturas de línea (tight, normal, relaxed)\n- Espaciado de letras (tight, normal, wide)\n- Personalización de estilos"
+        "value": ""
       },
       "attributes": [
         {
           "name": "align",
-          "description": "The text alignment for the typography component",
+          "description": "",
           "values": [
             {
               "name": "center"
@@ -353,7 +353,7 @@
         },
         {
           "name": "as",
-          "description": "The HTML tag to be used for the typography component",
+          "description": "",
           "values": [
             {
               "name": "h1"
@@ -383,7 +383,7 @@
         },
         {
           "name": "color",
-          "description": "The variant of the typography component",
+          "description": "'foreground' uses the semantic foreground token and adapts to dark mode",
           "values": [
             {
               "name": "black"
@@ -392,7 +392,13 @@
               "name": "error"
             },
             {
+              "name": "foreground"
+            },
+            {
               "name": "info"
+            },
+            {
+              "name": "muted"
             },
             {
               "name": "primary"
@@ -419,7 +425,7 @@
         },
         {
           "name": "font-size",
-          "description": "The size of the typography component",
+          "description": "",
           "values": [
             {
               "name": "2xl"
@@ -446,7 +452,7 @@
         },
         {
           "name": "font-weight",
-          "description": "The font weight of the typography component",
+          "description": "",
           "values": [
             {
               "name": "bold"
@@ -459,16 +465,19 @@
             },
             {
               "name": "regular"
+            },
+            {
+              "name": "semibold"
             }
           ]
         },
         {
           "name": "inline-styles",
-          "description": "|\nCustom styles for the typography component"
+          "description": ""
         },
         {
           "name": "letter-spacing",
-          "description": "The letter spacing of the typography component",
+          "description": "",
           "values": [
             {
               "name": "normal"
@@ -478,18 +487,27 @@
             },
             {
               "name": "wide"
+            },
+            {
+              "name": "wider"
             }
           ]
         },
         {
           "name": "line-height",
-          "description": "The line height of the typography component",
+          "description": "",
           "values": [
+            {
+              "name": "loose"
+            },
             {
               "name": "normal"
             },
             {
               "name": "relaxed"
+            },
+            {
+              "name": "snug"
             },
             {
               "name": "tight"
@@ -498,7 +516,7 @@
         },
         {
           "name": "transform",
-          "description": "If true, the text will be displayed in uppercase",
+          "description": "",
           "values": [
             {
               "name": "capitalize"
@@ -516,11 +534,11 @@
         },
         {
           "name": "truncate",
-          "description": "If true, the text will be truncated with an ellipsis if it overflows its container"
+          "description": ""
         },
         {
           "name": "x-id",
-          "description": "id del componente tipográfico"
+          "description": ""
         }
       ]
     }
