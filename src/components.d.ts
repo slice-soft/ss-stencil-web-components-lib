@@ -9,15 +9,15 @@ import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
 import { InlineStyles } from "./utils/style";
-import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
-import { Event } from "@stencil/core";
+import { SsInputType } from "./components/atoms/ss-input/ss-input";
+import { InputStyle, SsInputValueEvent } from "./types/control-events";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
 export { InlineStyles } from "./utils/style";
-export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
-export { Event } from "@stencil/core";
+export { SsInputType } from "./components/atoms/ss-input/ss-input";
+export { InputStyle, SsInputValueEvent } from "./types/control-events";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
     interface SsButton {
@@ -71,10 +71,13 @@ export namespace Components {
         "xStyle": ButtonStyle;
     }
     interface SsInput {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
         /**
           * @default 'primary'
          */
         "color": Variant;
+        "describedBy"?: string;
         /**
           * @default false
          */
@@ -84,8 +87,20 @@ export namespace Components {
          */
         "fullWidth": boolean;
         "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "max"?: string;
+        "maxLength"?: number;
+        "min"?: string;
+        "minLength"?: number;
         "name"?: string;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
         /**
           * @default false
          */
@@ -94,6 +109,7 @@ export namespace Components {
           * @default 'md'
          */
         "size": Size;
+        "step"?: string;
         /**
           * @default 'text'
          */
@@ -179,40 +195,6 @@ declare global {
         "ssInvalid": SsInputValueEvent;
         "ssFocus": FocusEvent;
         "ssBlur": FocusEvent;
-        "ssFocusIn": FocusEvent;
-        "ssFocusOut": FocusEvent;
-        "ssKeyDown": KeyboardEvent;
-        "ssKeyPress": KeyboardEvent;
-        "ssKeyUp": KeyboardEvent;
-        "ssSelect": Event;
-        "ssCompositionStart": CompositionEvent;
-        "ssCompositionUpdate": CompositionEvent;
-        "ssCompositionEnd": CompositionEvent;
-        "ssCut": ClipboardEvent;
-        "ssCopy": ClipboardEvent;
-        "ssPaste": ClipboardEvent;
-        "ssClick": MouseEvent;
-        "ssDoubleClick": MouseEvent;
-        "ssMouseDown": MouseEvent;
-        "ssMouseUp": MouseEvent;
-        "ssMouseEnter": MouseEvent;
-        "ssMouseLeave": MouseEvent;
-        "ssMouseOver": MouseEvent;
-        "ssMouseOut": MouseEvent;
-        "ssMouseMove": MouseEvent;
-        "ssContextMenu": MouseEvent;
-        "ssDragStart": DragEvent;
-        "ssDrag": DragEvent;
-        "ssDragEnter": DragEvent;
-        "ssDragLeave": DragEvent;
-        "ssDragOver": DragEvent;
-        "ssDrop": DragEvent;
-        "ssDragEnd": DragEvent;
-        "ssWheel": WheelEvent;
-        "ssTouchStart": TouchEvent;
-        "ssTouchMove": TouchEvent;
-        "ssTouchEnd": TouchEvent;
-        "ssTouchCancel": TouchEvent;
     }
     interface HTMLSsInputElement extends Components.SsInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsInputElementEventMap>(type: K, listener: (this: HTMLSsInputElement, ev: SsInputCustomEvent<HTMLSsInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -293,10 +275,13 @@ declare namespace LocalJSX {
         "xStyle"?: ButtonStyle;
     }
     interface SsInput {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
         /**
           * @default 'primary'
          */
         "color"?: Variant;
+        "describedBy"?: string;
         /**
           * @default false
          */
@@ -306,47 +291,25 @@ declare namespace LocalJSX {
          */
         "fullWidth"?: boolean;
         "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "max"?: string;
+        "maxLength"?: number;
+        "min"?: string;
+        "minLength"?: number;
         "name"?: string;
         "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsChange"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
-        "onSsClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsCompositionEnd"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsCompositionStart"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsCompositionUpdate"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsContextMenu"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsCopy"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsCut"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsDoubleClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsDrag"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragEnd"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragEnter"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragLeave"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragOver"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragStart"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDrop"?: (event: SsInputCustomEvent<DragEvent>) => void;
         "onSsFocus"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsFocusIn"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsFocusOut"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsInput"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
         "onSsInvalid"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
-        "onSsKeyDown"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsKeyPress"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsKeyUp"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsMouseDown"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseEnter"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseLeave"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseMove"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseOut"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseOver"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseUp"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsPaste"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsSelect"?: (event: SsInputCustomEvent<Event>) => void;
-        "onSsTouchCancel"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchEnd"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchMove"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchStart"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsWheel"?: (event: SsInputCustomEvent<WheelEvent>) => void;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
         /**
           * @default false
          */
@@ -355,6 +318,7 @@ declare namespace LocalJSX {
           * @default 'md'
          */
         "size"?: Size;
+        "step"?: string;
         /**
           * @default 'text'
          */
