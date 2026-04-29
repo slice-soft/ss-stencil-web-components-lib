@@ -1,6 +1,11 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
-import { reactOutputTarget } from '@stencil/react-output-target';
+// Framework wrappers (React, Angular, Vue) will be generated as separate published packages
+// via GitHub Actions — not via sibling-path output targets, which write outside the CI
+// workspace and are never captured in the build artifact.
+// To re-enable locally: import { reactOutputTarget } from '@stencil/react-output-target'
+// and add the target to outputTargets with a local outDir.
+// import { reactOutputTarget } from '@stencil/react-output-target';
 
 export const config: Config = {
   namespace: 'ss-stencil-web-components-lib',
@@ -17,9 +22,6 @@ export const config: Config = {
       type: 'dist-custom-elements',
       customElementsExportBehavior: 'auto-define-custom-elements',
       externalRuntime: false,
-    },
-    {
-      type: 'docs-readme',
     },
     {
       type: 'docs-readme',
@@ -41,10 +43,11 @@ export const config: Config = {
       type: 'docs-vscode',
       file: 'vscode-data.json',
     },
-    reactOutputTarget({
-      outDir: '../ss-stencil-web-componets-lib-react/src/components',
-      
-    })
+    // Framework wrapper targets — planned for a future phase as separate published packages.
+    // Each framework package (react, angular, vue) will have its own repo and workflow.
+    // reactOutputTarget({
+    //   outDir: '../ss-stencil-web-components-lib-react/src/components',
+    // }),
   ],
   testing: {
     browserHeadless: "shell",
