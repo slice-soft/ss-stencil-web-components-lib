@@ -105,6 +105,22 @@ export namespace Components {
          */
         "xStyle": InputStyle;
     }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label": string;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "xId"?: string;
+    }
     interface SsTypography {
         /**
           * @default 'left'
@@ -228,6 +244,12 @@ declare global {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
     };
+    interface HTMLSsSpinnerElement extends Components.SsSpinner, HTMLStencilElement {
+    }
+    var HTMLSsSpinnerElement: {
+        prototype: HTMLSsSpinnerElement;
+        new (): HTMLSsSpinnerElement;
+    };
     interface HTMLSsTypographyElement extends Components.SsTypography, HTMLStencilElement {
     }
     var HTMLSsTypographyElement: {
@@ -237,6 +259,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
         "ss-input": HTMLSsInputElement;
+        "ss-spinner": HTMLSsSpinnerElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
@@ -366,6 +389,22 @@ declare namespace LocalJSX {
          */
         "xStyle"?: InputStyle;
     }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "xId"?: string;
+    }
     interface SsTypography {
         /**
           * @default 'left'
@@ -410,6 +449,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "ss-button": SsButton;
         "ss-input": SsInput;
+        "ss-spinner": SsSpinner;
         "ss-typography": SsTypography;
     }
 }
@@ -419,6 +459,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
+            "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
     }
