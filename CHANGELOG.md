@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.1.1...ss-stencil-web-components-lib-v0.1.2) (2026-04-29)
+
+
+### Features
+
+* update license to MIT, enhance workflow permissions, and clean up token sets ([#15](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/15)) ([0b1684a](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/0b1684a3742d019fcc2c2cf30fa8f641800cba35))
+
 ## [0.1.1](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.1.0...ss-stencil-web-components-lib-v0.1.1) (2026-04-29)
 
 
