@@ -9,3 +9,5 @@
  */
 
 export type * from './components.d.ts';
+export type { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from './types/typography';
+export type { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from './types/control-events';
