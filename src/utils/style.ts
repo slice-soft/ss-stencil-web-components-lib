@@ -1,3 +1,4 @@
+/** @security Only pass trusted/static CSS values — never raw user input (allows url(), UI-redress, layout attacks). */
 export type InlineStyles = string | Record<string, string>;
 
 export function parseStyleString(xstyles: string): Record<string, string> {

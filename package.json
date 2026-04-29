@@ -25,7 +25,7 @@
   "exports": {
     ".": {
       "import": "./dist/ss-stencil-web-components-lib/ss-stencil-web-components-lib.esm.js",
-      "require": "./dist/ss-stencil-web-components-lib/ss-stencil-web-components-lib.cjs.js",
+      "require": "./dist/index.cjs.js",
       "types": "./dist/types/index.d.ts"
     },
     "./dist/*": {
@@ -34,7 +34,7 @@
     },
     "./loader": {
       "import": "./loader/index.js",
-      "require": "./loader/index.cjs",
+      "require": "./loader/index.cjs.js",
       "types": "./loader/index.d.ts"
     }
   },
@@ -74,5 +74,5 @@
     "puppeteer": "^24.3.0",
     "typescript-eslint": "^8.32.1"
   },
-  "license": "SEE LICENSE IN LICENSE.md"
+  "license": "MIT"
 }
