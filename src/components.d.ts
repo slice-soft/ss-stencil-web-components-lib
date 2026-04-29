@@ -11,6 +11,7 @@ import { Variant } from "./types/variant";
 import { InlineStyles } from "./utils/style";
 import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
+import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { SsCheckedChangeEvent } from "./types/control-events";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
@@ -20,6 +21,7 @@ export { Variant } from "./types/variant";
 export { InlineStyles } from "./utils/style";
 export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
+export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { SsCheckedChangeEvent } from "./types/control-events";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
@@ -109,6 +111,47 @@ export namespace Components {
          */
         "xStyle": InputStyle;
     }
+    interface SsSelect {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color": Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "fullWidth": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * @default false
+         */
+        "multiple": boolean;
+        "name"?: string;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string | string[];
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle": SelectStyle;
+    }
     interface SsSwitch {
         /**
           * @default false
@@ -195,6 +238,10 @@ export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
 }
+export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsSelectElement;
+}
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSwitchElement;
@@ -272,6 +319,26 @@ declare global {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
     };
+    interface HTMLSsSelectElementEventMap {
+        "ssChange": SsSelectChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsSelectChangeEvent;
+    }
+    interface HTMLSsSelectElement extends Components.SsSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsSelectElementEventMap>(type: K, listener: (this: HTMLSsSelectElement, ev: SsSelectCustomEvent<HTMLSsSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsSelectElementEventMap>(type: K, listener: (this: HTMLSsSelectElement, ev: SsSelectCustomEvent<HTMLSsSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsSelectElement: {
+        prototype: HTMLSsSelectElement;
+        new (): HTMLSsSelectElement;
+    };
     interface HTMLSsSwitchElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -301,6 +368,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
         "ss-input": HTMLSsInputElement;
+        "ss-select": HTMLSsSelectElement;
         "ss-switch": HTMLSsSwitchElement;
         "ss-typography": HTMLSsTypographyElement;
     }
@@ -431,6 +499,51 @@ declare namespace LocalJSX {
          */
         "xStyle"?: InputStyle;
     }
+    interface SsSelect {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * @default false
+         */
+        "multiple"?: boolean;
+        "name"?: string;
+        "onSsBlur"?: (event: SsSelectCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsSelectCustomEvent<SsSelectChangeEvent>) => void;
+        "onSsFocus"?: (event: SsSelectCustomEvent<FocusEvent>) => void;
+        "onSsInvalid"?: (event: SsSelectCustomEvent<SsSelectChangeEvent>) => void;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string | string[];
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle"?: SelectStyle;
+    }
     interface SsSwitch {
         /**
           * @default false
@@ -515,6 +628,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "ss-button": SsButton;
         "ss-input": SsInput;
+        "ss-select": SsSelect;
         "ss-switch": SsSwitch;
         "ss-typography": SsTypography;
     }
@@ -525,6 +639,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
+            "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
