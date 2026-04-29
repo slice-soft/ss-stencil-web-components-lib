@@ -9,6 +9,7 @@ import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
 import { InlineStyles } from "./utils/style";
+import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
@@ -16,6 +17,7 @@ export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
 export { InlineStyles } from "./utils/style";
+export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
@@ -69,6 +71,23 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation": DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing": DividerSpacing;
+        "xId"?: string;
     }
     interface SsInput {
         /**
@@ -173,6 +192,12 @@ declare global {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
     };
+    interface HTMLSsDividerElement extends Components.SsDivider, HTMLStencilElement {
+    }
+    var HTMLSsDividerElement: {
+        prototype: HTMLSsDividerElement;
+        new (): HTMLSsDividerElement;
+    };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
@@ -236,6 +261,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
+        "ss-divider": HTMLSsDividerElement;
         "ss-input": HTMLSsInputElement;
         "ss-typography": HTMLSsTypographyElement;
     }
@@ -291,6 +317,23 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation"?: DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing"?: DividerSpacing;
+        "xId"?: string;
     }
     interface SsInput {
         /**
@@ -409,6 +452,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "ss-button": SsButton;
+        "ss-divider": SsDivider;
         "ss-input": SsInput;
         "ss-typography": SsTypography;
     }
@@ -418,6 +462,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
