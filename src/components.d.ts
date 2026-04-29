@@ -11,6 +11,7 @@ import { Variant } from "./types/variant";
 import { InlineStyles } from "./utils/style";
 import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
+import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
@@ -18,6 +19,7 @@ export { Variant } from "./types/variant";
 export { InlineStyles } from "./utils/style";
 export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
+export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
     interface SsButton {
@@ -105,6 +107,27 @@ export namespace Components {
          */
         "xStyle": InputStyle;
     }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * @default 'top'
+         */
+        "placement": TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger": TooltipTrigger;
+        "xId"?: string;
+    }
     interface SsTypography {
         /**
           * @default 'left'
@@ -154,6 +177,10 @@ export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
+}
+export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTooltipElement;
 }
 declare global {
     interface HTMLSsButtonElementEventMap {
@@ -228,6 +255,23 @@ declare global {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
     };
+    interface HTMLSsTooltipElementEventMap {
+        "ssOpenChange": SsTooltipOpenChangeEvent;
+    }
+    interface HTMLSsTooltipElement extends Components.SsTooltip, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTooltipElement: {
+        prototype: HTMLSsTooltipElement;
+        new (): HTMLSsTooltipElement;
+    };
     interface HTMLSsTypographyElement extends Components.SsTypography, HTMLStencilElement {
     }
     var HTMLSsTypographyElement: {
@@ -237,6 +281,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
         "ss-input": HTMLSsInputElement;
+        "ss-tooltip": HTMLSsTooltipElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
@@ -366,6 +411,28 @@ declare namespace LocalJSX {
          */
         "xStyle"?: InputStyle;
     }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "onSsOpenChange"?: (event: SsTooltipCustomEvent<SsTooltipOpenChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * @default 'top'
+         */
+        "placement"?: TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger"?: TooltipTrigger;
+        "xId"?: string;
+    }
     interface SsTypography {
         /**
           * @default 'left'
@@ -410,6 +477,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "ss-button": SsButton;
         "ss-input": SsInput;
+        "ss-tooltip": SsTooltip;
         "ss-typography": SsTypography;
     }
 }
@@ -419,6 +487,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
+            "ss-tooltip": LocalJSX.SsTooltip & JSXBase.HTMLAttributes<HTMLSsTooltipElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
     }
