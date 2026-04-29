@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  deploy:
-    uses: slice-soft/ss-pipeline/.github/workflows/deploy-node-library.yml@feature/juancadev
-    with:
-      node-version: 22
-      package-file: package.json
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dummy step
+        run: echo "Dummy workflow step"
