@@ -36,7 +36,6 @@ export const config: Config = {
       copy: [
         { src: '../test/token-set-01', dest: 'test-tokens/token-set-01' },
         { src: '../test/token-set-02', dest: 'test-tokens/token-set-02' },
-        { src: '../test/token-set-03', dest: 'test-tokens/token-set-03' },
       ],
     },
     {

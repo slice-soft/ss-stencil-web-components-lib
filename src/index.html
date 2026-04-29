@@ -13,9 +13,8 @@
 
     <script>
       var TOKEN_SETS = {
-        'token-set-01': { label: 'Set 01 — Neon Purple',         path: '/test-tokens/token-set-01/tokens.css' },
-        'token-set-02': { label: 'Set 02 — Organic Emerald',     path: '/test-tokens/token-set-02/tokens.css' },
-        'token-set-03': { label: 'Set 03 — Slice Soft Original', path: '/test-tokens/token-set-03/tokens.css' },
+        'token-set-01': { label: 'Set 01 — Neon Purple',     path: '/test-tokens/token-set-01/tokens.css' },
+        'token-set-02': { label: 'Set 02 — Organic Emerald', path: '/test-tokens/token-set-02/tokens.css' },
       };
       var activeSet = localStorage.getItem('ss-token-set') || 'token-set-01';
       document.getElementById('token-set-link').href = TOKEN_SETS[activeSet].path;
