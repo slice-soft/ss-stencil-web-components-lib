@@ -1,0 +1,86 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-2);
+  width: fit-content;
+  font-family: var(--ss-text-fonts-sans);
+  font-size: var(--ss-text-sizes-base);
+  line-height: var(--ss-text-line-heights-normal);
+  color: var(--ss-color-foreground);
+  cursor: pointer;
+}
+
+.ss-switch__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ss-switch__track {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  width: 2em;
+  height: 1em;
+  padding: var(--ss-dimensions-1);
+  background: var(--ss-color-muted);
+  border: 2px solid var(--ss-color-border);
+  border-radius: var(--ss-radius-full);
+  transition:
+    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
+    border-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+}
+
+.ss-switch__thumb {
+  display: block;
+  width: 0.75em;
+  height: 0.75em;
+  background: var(--ss-color-background);
+  border-radius: var(--ss-radius-full);
+  transition: transform var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+}
+
+.ss-switch__input:focus-visible + .ss-switch__track,
+.ss-switch__input:focus-visible + .ss-switch__label + .ss-switch__track {
+  @include mx.focus-ring(var(--ss-color-ring));
+}
+
+.ss-switch--checked .ss-switch__track {
+  background: var(--ss-color-primary);
+  border-color: var(--ss-color-primary);
+}
+
+.ss-switch--checked .ss-switch__thumb {
+  transform: translateX(1em);
+}
+
+.ss-switch--label-start .ss-switch__thumb {
+  order: 1;
+}
+
+.ss-switch--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }
+.ss-switch--sm { font-size: var(--ss-text-sizes-sm); gap: var(--ss-dimensions-1); }
+.ss-switch--md { font-size: var(--ss-text-sizes-base); }
+.ss-switch--lg { font-size: var(--ss-text-sizes-lg); }
+.ss-switch--xl,
+.ss-switch--2xl,
+.ss-switch--3xl { font-size: var(--ss-text-sizes-xl); }
+
+.ss-switch--disabled {
+  @include mx.atom-disabled;
+}
+
+.ss-switch--disabled .ss-switch__track {
+  background: var(--ss-color-muted);
+  border-color: var(--ss-color-border);
+}
+
+.ss-switch--readonly {
+  cursor: default;
+}
+
+.ss-switch--invalid .ss-switch__track {
+  border-color: var(--ss-color-error);
+}
