@@ -60,7 +60,9 @@ export class SsButton {
     this.ssClick.emit(this.xId);
     if (!this.oneClick) {
       this.renderStatus = 'loading';
-      setTimeout(() => { this.renderStatus = 'active'; }, this.disableDuration);
+      setTimeout(() => {
+        this.renderStatus = 'active';
+      }, this.disableDuration);
     } else {
       this.isTemporarilyDisabled = true;
     }
@@ -82,7 +84,7 @@ export class SsButton {
   render() {
     const disabled = this.isDisabled;
     const hasIcon = !!this.el.querySelector('[slot="icon"]');
-    const showLeft  = hasIcon && (this.iconPosition === 'left' || this.iconPosition === 'only');
+    const showLeft = hasIcon && (this.iconPosition === 'left' || this.iconPosition === 'only');
     const showRight = hasIcon && this.iconPosition === 'right';
     const showLabel = this.iconPosition !== 'only';
 
