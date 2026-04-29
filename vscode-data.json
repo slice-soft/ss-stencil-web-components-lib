@@ -364,6 +364,12 @@
           "description": "",
           "values": [
             {
+              "name": "code"
+            },
+            {
+              "name": "em"
+            },
+            {
               "name": "h1"
             },
             {
@@ -385,7 +391,13 @@
               "name": "p"
             },
             {
+              "name": "small"
+            },
+            {
               "name": "span"
+            },
+            {
+              "name": "strong"
             }
           ]
         },
@@ -404,6 +416,9 @@
             },
             {
               "name": "info"
+            },
+            {
+              "name": "inherit"
             },
             {
               "name": "muted"
@@ -432,8 +447,23 @@
           ]
         },
         {
+          "name": "family",
+          "description": "Explicit font family. Defaults: 'display' when level is set, 'mono' when\nas=\"code\", 'sans' otherwise.",
+          "values": [
+            {
+              "name": "display"
+            },
+            {
+              "name": "mono"
+            },
+            {
+              "name": "sans"
+            }
+          ]
+        },
+        {
           "name": "font-size",
-          "description": "",
+          "description": "Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.",
           "values": [
             {
               "name": "2xl"
@@ -463,7 +493,7 @@
         },
         {
           "name": "font-weight",
-          "description": "",
+          "description": "Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.",
           "values": [
             {
               "name": "bold"
@@ -505,8 +535,12 @@
           ]
         },
         {
+          "name": "level",
+          "description": "Heading level (1–6). Sets the rendered tag to h{level} and applies\ndisplay font, bold weight, tight line-height, and a size scaled to the\nlevel. All defaults are overridable via the individual props."
+        },
+        {
           "name": "line-height",
-          "description": "",
+          "description": "Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.",
           "values": [
             {
               "name": "loose"

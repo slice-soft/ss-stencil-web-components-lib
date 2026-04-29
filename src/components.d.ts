@@ -11,14 +11,16 @@ import { Variant } from "./types/variant";
 import { InlineStyles } from "./utils/style";
 import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
-import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
 export { InlineStyles } from "./utils/style";
 export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
-export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
     interface SsButton {
         /**
@@ -120,22 +122,30 @@ export namespace Components {
          */
         "color": TypographyColor;
         /**
-          * @default 'md'
+          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
          */
-        "fontSize": TypographySize;
+        "family"?: TypographyFamily;
         /**
-          * @default 'regular'
+          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
          */
-        "fontWeight": FontWeight;
+        "fontSize"?: TypographySize;
+        /**
+          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
+         */
+        "fontWeight"?: FontWeight;
         "inlineStyles"?: InlineStyles;
         /**
           * @default 'normal'
          */
         "letterSpacing": LetterSpacing;
         /**
-          * @default 'normal'
+          * Heading level (1–6). Sets the rendered tag to h{level} and applies display font, bold weight, tight line-height, and a size scaled to the level. All defaults are overridable via the individual props.
          */
-        "lineHeight": LineHeight;
+        "level"?: TypographyLevel;
+        /**
+          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
+         */
+        "lineHeight"?: LineHeight;
         /**
           * @default 'normal'
          */
@@ -381,11 +391,15 @@ declare namespace LocalJSX {
          */
         "color"?: TypographyColor;
         /**
-          * @default 'md'
+          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
+         */
+        "family"?: TypographyFamily;
+        /**
+          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
          */
         "fontSize"?: TypographySize;
         /**
-          * @default 'regular'
+          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
          */
         "fontWeight"?: FontWeight;
         "inlineStyles"?: InlineStyles;
@@ -394,7 +408,11 @@ declare namespace LocalJSX {
          */
         "letterSpacing"?: LetterSpacing;
         /**
-          * @default 'normal'
+          * Heading level (1–6). Sets the rendered tag to h{level} and applies display font, bold weight, tight line-height, and a size scaled to the level. All defaults are overridable via the individual props.
+         */
+        "level"?: TypographyLevel;
+        /**
+          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
          */
         "lineHeight"?: LineHeight;
         /**
