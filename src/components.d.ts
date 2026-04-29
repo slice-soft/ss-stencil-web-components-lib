@@ -11,6 +11,10 @@ import { Variant } from "./types/variant";
 import { InlineStyles } from "./utils/style";
 import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
+import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { SsCheckedChangeEvent } from "./types/control-events";
+import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
@@ -18,6 +22,10 @@ export { Variant } from "./types/variant";
 export { InlineStyles } from "./utils/style";
 export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
+export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { SsCheckedChangeEvent } from "./types/control-events";
+export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
     interface SsButton {
@@ -172,6 +180,22 @@ export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
+}
+export interface SsLinkCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsLinkElement;
+}
+export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsRadioElement;
+}
+export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsSelectElement;
+}
+export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsSwitchElement;
 }
 declare global {
     interface HTMLSsButtonElementEventMap {

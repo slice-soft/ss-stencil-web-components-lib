@@ -1,0 +1,76 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-radio {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-2);
+  width: fit-content;
+  font-family: var(--ss-text-fonts-sans);
+  font-size: var(--ss-text-sizes-base);
+  line-height: var(--ss-text-line-heights-normal);
+  color: var(--ss-color-foreground);
+  cursor: pointer;
+}
+
+.ss-radio__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ss-radio__control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  background: var(--ss-input-background, var(--ss-color-background));
+  border: 2px solid var(--ss-input-border, var(--ss-color-input));
+  border-radius: var(--ss-radius-full);
+}
+
+.ss-radio__mark {
+  width: 50%;
+  height: 50%;
+  background: var(--ss-color-primary);
+  border-radius: var(--ss-radius-full);
+  opacity: 0;
+}
+
+.ss-radio__input:focus-visible + .ss-radio__control {
+  @include mx.focus-ring(var(--ss-color-ring));
+}
+
+.ss-radio--checked .ss-radio__control {
+  border-color: var(--ss-color-primary);
+}
+
+.ss-radio--checked .ss-radio__mark {
+  opacity: 1;
+}
+
+.ss-radio--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }
+.ss-radio--sm { font-size: var(--ss-text-sizes-sm); gap: var(--ss-dimensions-1); }
+.ss-radio--md { font-size: var(--ss-text-sizes-base); }
+.ss-radio--lg { font-size: var(--ss-text-sizes-lg); }
+.ss-radio--xl,
+.ss-radio--2xl,
+.ss-radio--3xl { font-size: var(--ss-text-sizes-xl); }
+
+.ss-radio--disabled {
+  @include mx.atom-disabled;
+}
+
+.ss-radio--disabled .ss-radio__control {
+  background: var(--ss-color-muted);
+  border-color: var(--ss-color-border);
+}
+
+.ss-radio--readonly {
+  cursor: default;
+}
+
+.ss-radio--invalid .ss-radio__control {
+  border-color: var(--ss-color-error);
+}
