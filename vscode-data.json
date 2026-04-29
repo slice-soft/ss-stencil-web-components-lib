@@ -2,6 +2,115 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "ss-badge",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "dismiss-label",
+          "description": ""
+        },
+        {
+          "name": "dismissible",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "pill",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        },
+        {
+          "name": "x-style",
+          "description": "",
+          "values": [
+            {
+              "name": "outline"
+            },
+            {
+              "name": "solid"
+            },
+            {
+              "name": "subtle"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "ss-button",
       "description": {
         "kind": "markdown",
