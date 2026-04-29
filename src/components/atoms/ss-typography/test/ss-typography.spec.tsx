@@ -8,7 +8,7 @@ describe('ss-typography', () => {
       html: `<ss-typography></ss-typography>`,
     });
     expect(page.root).toEqualHtml(`
-      <ss-typography><p class="ss-typography ss-typography--black ss-typography--align-left ss-typography--font-weight-regular ss-typography--line-height-normal ss-typography--letter-spacing-normal ss-typography--font-size-md"></p></ss-typography>
+      <ss-typography><p class="ss-typography ss-typography--align-left ss-typography--font-size-md ss-typography--font-weight-regular ss-typography--foreground ss-typography--letter-spacing-normal ss-typography--line-height-normal"></p></ss-typography>
     `);
   });
 
