@@ -64,11 +64,22 @@ describe('ss-input', () => {
       components: [SsInput],
       html: `<ss-input></ss-input>`,
     });
-    (page.rootInstance as any).inlineStyles = { color: 'red', backgroundColor: 'blue' };
-    page.rootInstance.componentWillLoad();
+    (page.root as any).inlineStyles = { color: 'red', backgroundColor: 'blue' };
     await page.waitForChanges();
     expect(page.root.shadowRoot.querySelector('input').getAttribute('style')).toBe('color: red; background-color: blue;');
   });
+
+  it('forwards form attributes to the native input', async () => {
+    const page = await newSpecPage({
+      components: [SsInput],
+      html: `<ss-input name="email" required></ss-input>`,
+    });
+    const input = page.root.shadowRoot.querySelector('input');
+
+    expect(input.getAttribute('name')).toBe('email');
+    expect(input.required).toBe(true);
+  });
+
   it('should emit ssTouchCancel from input', async () => {
     const page = await newSpecPage({
       components: [SsInput],

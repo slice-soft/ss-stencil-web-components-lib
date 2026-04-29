@@ -39,9 +39,9 @@ describe('ss-typography', () => {
   it('applies inlineStyles as object', async () => {
     const page = await newSpecPage({
       components: [SsTypography],
-      html: `<ss-typography inline-styles="color: red; font-size: 20px;"></ss-typography>`,
+      html: `<ss-typography></ss-typography>`,
     });
-    // page.root.inlineStyles = { color: 'red', fontSize: '20px' };
+    (page.root as any).inlineStyles = { color: 'red', fontSize: '20px' };
     await page.waitForChanges();
     expect(page.root.querySelector('p').style.color).toBe('red');
     expect(page.root.querySelector('p').style.fontSize).toBe('20px');
@@ -70,5 +70,14 @@ describe('ss-typography', () => {
       html: `<ss-typography x-id="my-id"></ss-typography>`,
     });
     expect(page.root.querySelector('p').id).toBe('my-id');
+  });
+
+  it('supports the largest documented typography size', async () => {
+    const page = await newSpecPage({
+      components: [SsTypography],
+      html: `<ss-typography font-size="4xl"></ss-typography>`,
+    });
+
+    expect(page.root.querySelector('p').classList.contains('ss-typography--font-size-4xl')).toBe(true);
   });
 });

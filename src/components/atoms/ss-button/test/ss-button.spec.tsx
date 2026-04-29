@@ -144,18 +144,39 @@ describe('ss-button', () => {
     });
 
     await page.waitForChanges();
-    const instance = page.rootInstance as any;
 
     const button = page.root.shadowRoot.querySelector('button');
     button.click();
     await page.waitForChanges();
 
-    expect(instance.renderStatus).toBe('loading');
+    expect(button.hasAttribute('disabled')).toBe(true);
+    expect(button.hasAttribute('aria-busy')).toBe(true);
+    expect(button.classList.contains('ss-button--status-loading')).toBe(true);
 
     await new Promise(resolve => setTimeout(resolve, 15));
     await page.waitForChanges();
 
-    expect(instance.renderStatus).toBe('active');
+    expect(button.hasAttribute('disabled')).toBe(false);
+    expect(button.hasAttribute('aria-busy')).toBe(false);
+    expect(button.classList.contains('ss-button--status-active')).toBe(true);
+  });
+
+  it('temporarily disables after click when oneClick is true', async () => {
+    const page = await newSpecPage({
+      components: [SsButton],
+      html: `<ss-button disable-duration="10"></ss-button>`,
+    });
+    const button = page.root.shadowRoot.querySelector('button');
+
+    button.click();
+    await page.waitForChanges();
+
+    expect(button.hasAttribute('disabled')).toBe(true);
+
+    await new Promise(resolve => setTimeout(resolve, 15));
+    await page.waitForChanges();
+
+    expect(button.hasAttribute('disabled')).toBe(false);
   });
 
   it('applies inlineStyles String', async () => {
@@ -171,8 +192,7 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button></ss-button>`,
     });
-    (page.rootInstance as any).inlineStyles = { color: 'red', backgroundColor: 'blue' };
-    page.rootInstance.componentWillLoad();
+    (page.root as any).inlineStyles = { color: 'red', backgroundColor: 'blue' };
     await page.waitForChanges();
     expect(page.root.shadowRoot.querySelector('button').getAttribute('style')).toBe('color: red; background-color: blue;');
   });

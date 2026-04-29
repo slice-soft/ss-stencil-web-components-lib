@@ -2,11 +2,13 @@
 @use '../../../global/styles/mixins' as mx;
 
 $sizes: (
+  'xs':  (padding: var(--ss-dimensions-1) var(--ss-dimensions-2),  font-size: var(--ss-text-sizes-xs),   border-radius: var(--ss-radius-sm)),
   'sm':  (padding: var(--ss-dimensions-1) var(--ss-dimensions-2),  font-size: var(--ss-text-sizes-xs),   border-radius: var(--ss-radius-sm)),
   'md':  (padding: var(--ss-dimensions-2) var(--ss-dimensions-3),  font-size: var(--ss-text-sizes-sm),   border-radius: var(--ss-radius-base)),
   'lg':  (padding: var(--ss-dimensions-3) var(--ss-dimensions-4),  font-size: var(--ss-text-sizes-base), border-radius: var(--ss-radius-lg)),
   'xl':  (padding: var(--ss-dimensions-4) var(--ss-dimensions-6),  font-size: var(--ss-text-sizes-lg),   border-radius: var(--ss-radius-xl)),
   '2xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-8),  font-size: var(--ss-text-sizes-xl),   border-radius: var(--ss-radius-2xl)),
+  '3xl': (padding: var(--ss-dimensions-8) var(--ss-dimensions-10), font-size: var(--ss-text-sizes-2xl),  border-radius: var(--ss-radius-2xl)),
 );
 
 // Base
@@ -109,6 +111,8 @@ $sizes: (
 }
 
 // Status / semantic variants — use input-variant mixin (accent-colored)
+.ss-input--tertiary   { @include mx.input-variant('tertiary', 'primary'); }
+.ss-input--quaternary { @include mx.input-variant('quaternary', 'secondary'); }
 .ss-input--success { @include mx.input-variant('success'); }
 .ss-input--warning { @include mx.input-variant('warning'); }
 .ss-input--error   { @include mx.input-variant('error'); }

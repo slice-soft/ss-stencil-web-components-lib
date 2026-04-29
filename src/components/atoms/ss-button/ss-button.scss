@@ -7,6 +7,8 @@ $sizes: (
   'md': (padding: var(--ss-dimensions-2) var(--ss-dimensions-4),  font-size: var(--ss-text-sizes-base)),
   'lg': (padding: var(--ss-dimensions-3) var(--ss-dimensions-6),  font-size: var(--ss-text-sizes-lg)),
   'xl': (padding: var(--ss-dimensions-4) var(--ss-dimensions-8),  font-size: var(--ss-text-sizes-xl)),
+  '2xl': (padding: var(--ss-dimensions-5) var(--ss-dimensions-10), font-size: var(--ss-text-sizes-2xl)),
+  '3xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-12), font-size: var(--ss-text-sizes-3xl)),
 );
 
 // Base
@@ -49,6 +51,8 @@ $sizes: (
 }
 
 .ss-button--secondary  { @include mx.btn-variant('secondary'); }
+.ss-button--tertiary   { @include mx.btn-variant('tertiary', 'primary'); }
+.ss-button--quaternary { @include mx.btn-variant('quaternary', 'secondary'); }
 .ss-button--success    { @include mx.btn-variant('success'); }
 .ss-button--warning    { @include mx.btn-variant('warning'); }
 .ss-button--error      { @include mx.btn-variant('error'); }

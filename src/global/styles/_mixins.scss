@@ -8,9 +8,9 @@
 
 // Button variant — generates solid / outline / ghost styles from a semantic color name.
 // Expects --ss-color-{$name} and --ss-color-{$name}-foreground to exist.
-@mixin btn-variant($name) {
-  $color: var(--ss-color-#{$name});
-  $fg:    var(--ss-color-#{$name}-foreground);
+@mixin btn-variant($name, $fallback-name: $name) {
+  $color: var(--ss-color-#{$name}, var(--ss-color-#{$fallback-name}));
+  $fg:    var(--ss-color-#{$name}-foreground, var(--ss-color-#{$fallback-name}-foreground));
 
   &.ss-button--solid {
     background:   $color;
@@ -48,8 +48,8 @@
 
 // Input variant — uses $name as accent color for border/ring.
 // Base bg stays neutral (--ss-color-background / surface) so text stays readable in both themes.
-@mixin input-variant($name) {
-  $accent: var(--ss-color-#{$name});
+@mixin input-variant($name, $fallback-name: $name) {
+  $accent: var(--ss-color-#{$name}, var(--ss-color-#{$fallback-name}));
 
   &.ss-input--solid {
     background:   var(--ss-color-surface);

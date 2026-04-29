@@ -1,10 +1,11 @@
-import { Component, h, Prop, Event, EventEmitter, State } from '@stencil/core';
-import { resolveInlineStyles } from '../../../utils/style';
+import { Component, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
 
 export type InputStyle = 'solid' | 'outline' | 'underline';
 export type SsInputType = 'text' | 'password' | 'email' | 'number' | 'url' | 'tel' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'file' | 'hidden';
+export type SsInputValueEvent = { xId?: string; value: string };
 
 @Component({
   tag: 'ss-input',
@@ -12,23 +13,23 @@ export type SsInputType = 'text' | 'password' | 'email' | 'number' | 'url' | 'te
   shadow: true,
 })
 export class SsInput {
-  @Prop() xId: string;
+  @Prop() xId?: string;
+  @Prop() name?: string;
   @Prop() type: SsInputType = 'text';
   @Prop() color: Variant = 'primary';
   @Prop() value?: string;
   @Prop() placeholder?: string;
   @Prop() disabled: boolean = false;
-  @Prop() inlineStyles?: string | Record<string, string>;
+  @Prop() required: boolean = false;
+  @Prop() inlineStyles?: InlineStyles;
   @Prop() size: Size = 'md';
   @Prop() fullWidth: boolean = false;
   @Prop() xStyle: InputStyle = 'solid';
 
-  @State() private styles: Record<string, string> = {};
-
   // Value events
-  @Event() ssInput: EventEmitter<{ xId: string; value: string }>;
-  @Event() ssChange: EventEmitter<{ xId: string; value: string }>;
-  @Event() ssInvalid: EventEmitter<{ xId: string; value: string }>;
+  @Event() ssInput: EventEmitter<SsInputValueEvent>;
+  @Event() ssChange: EventEmitter<SsInputValueEvent>;
+  @Event() ssInvalid: EventEmitter<SsInputValueEvent>;
 
   // Focus events
   @Event() ssFocus: EventEmitter<FocusEvent>;
@@ -80,10 +81,6 @@ export class SsInput {
   @Event() ssTouchEnd: EventEmitter<TouchEvent>;
   @Event() ssTouchCancel: EventEmitter<TouchEvent>;
 
-  componentWillLoad() {
-    this.styles = resolveInlineStyles(this.inlineStyles);
-  }
-
   private getClasses() {
     const b = 'ss-input';
     return {
@@ -104,10 +101,12 @@ export class SsInput {
     return (
       <input
         id={this.xId}
+        name={this.name}
         type={this.type}
         class={this.getClasses()}
-        style={this.styles}
+        style={resolveInlineStyles(this.inlineStyles)}
         disabled={this.disabled}
+        required={this.required}
         placeholder={this.placeholder}
         value={this.value}
         onInput={ev => this.ssInput.emit(this.emitValue(ev))}
