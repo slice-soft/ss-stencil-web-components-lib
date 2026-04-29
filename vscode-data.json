@@ -335,6 +335,129 @@
       ]
     },
     {
+      "name": "ss-link",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
+          "name": "current",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "download",
+          "description": ""
+        },
+        {
+          "name": "href",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "rel",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "target",
+          "description": "",
+          "values": [
+            {
+              "name": "_blank"
+            },
+            {
+              "name": "_parent"
+            },
+            {
+              "name": "_self"
+            },
+            {
+              "name": "_top"
+            }
+          ]
+        },
+        {
+          "name": "underline",
+          "description": "",
+          "values": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "hover"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "ss-typography",
       "description": {
         "kind": "markdown",
