@@ -1,3 +1,5 @@
+export type InlineStyles = string | Record<string, string>;
+
 export function parseStyleString(xstyles: string): Record<string, string> {
   return xstyles
     .split(';')
@@ -17,7 +19,7 @@ export function parseStyleString(xstyles: string): Record<string, string> {
     );
 }
 
-export function resolveInlineStyles(value?: string | Record<string, string>): Record<string, string> {
+export function resolveInlineStyles(value?: InlineStyles): Record<string, string> {
   if (!value) return {};
   if (typeof value === 'string') return parseStyleString(value);
   return value;

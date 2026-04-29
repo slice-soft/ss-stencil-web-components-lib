@@ -1,6 +1,6 @@
 import { Component, h, Prop, Event, EventEmitter, State, Element } from '@stencil/core';
 import { Variant } from '../../../types/variant';
-import { resolveInlineStyles } from '../../../utils/style';
+import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { Size } from '../../../types/size';
 
 export type ButtonStyle = 'solid' | 'outline' | 'ghost';
@@ -30,25 +30,64 @@ export class SsButton {
   @Prop() size: Size = 'md';
   @Prop() variant: Variant = 'primary';
   @Prop() xStyle: ButtonStyle = 'solid';
-  @Prop() inlineStyles?: string | Record<string, string>;
+  @Prop() inlineStyles?: InlineStyles;
   @Prop() shape: ButtonShape = 'rounded';
   @Prop() fullWidth: boolean = false;
   @Prop() status: ButtonStatus = 'active';
   @Prop() iconPosition: IconPosition = 'right';
 
   @State() private isTemporarilyDisabled = false;
-  @State() private renderStatus: ButtonStatus = this.status;
-  @State() private styles: Record<string, string> = {};
+  @State() private feedbackStatus?: ButtonStatus;
 
-  @Event() ssClick: EventEmitter<string>;
+  private disableTimeout?: ReturnType<typeof setTimeout>;
+  private statusTimeout?: ReturnType<typeof setTimeout>;
 
-  componentWillLoad() {
-    this.styles = resolveInlineStyles(this.inlineStyles);
-    this.renderStatus = this.status;
+  @Event() ssClick: EventEmitter<string | undefined>;
+
+  disconnectedCallback() {
+    this.clearDisableTimeout();
+    this.clearStatusTimeout();
+  }
+
+  private get currentStatus(): ButtonStatus {
+    return this.feedbackStatus ?? this.status;
   }
 
   private get isDisabled() {
-    return this.disabled || this.isTemporarilyDisabled || this.status === 'disabled' || this.status === 'loading';
+    const status = this.currentStatus;
+    return this.disabled || this.isTemporarilyDisabled || status === 'disabled' || status === 'loading';
+  }
+
+  private clearDisableTimeout() {
+    if (this.disableTimeout !== undefined) {
+      clearTimeout(this.disableTimeout);
+      this.disableTimeout = undefined;
+    }
+  }
+
+  private clearStatusTimeout() {
+    if (this.statusTimeout !== undefined) {
+      clearTimeout(this.statusTimeout);
+      this.statusTimeout = undefined;
+    }
+  }
+
+  private scheduleTemporaryDisable() {
+    this.clearDisableTimeout();
+    this.isTemporarilyDisabled = true;
+    this.disableTimeout = setTimeout(() => {
+      this.isTemporarilyDisabled = false;
+      this.disableTimeout = undefined;
+    }, this.disableDuration);
+  }
+
+  private scheduleLoadingFeedback() {
+    this.clearStatusTimeout();
+    this.feedbackStatus = 'loading';
+    this.statusTimeout = setTimeout(() => {
+      this.feedbackStatus = undefined;
+      this.statusTimeout = undefined;
+    }, this.disableDuration);
   }
 
   private ssClickHandler = (event: MouseEvent) => {
@@ -58,13 +97,10 @@ export class SsButton {
       return;
     }
     this.ssClick.emit(this.xId);
-    if (!this.oneClick) {
-      this.renderStatus = 'loading';
-      setTimeout(() => {
-        this.renderStatus = 'active';
-      }, this.disableDuration);
+    if (this.oneClick) {
+      this.scheduleTemporaryDisable();
     } else {
-      this.isTemporarilyDisabled = true;
+      this.scheduleLoadingFeedback();
     }
   };
 
@@ -77,7 +113,7 @@ export class SsButton {
       [`${b}--${this.size}`]: true,
       [`${b}--${this.shape}`]: true,
       [`${b}--full-width`]: this.fullWidth,
-      [`${b}--status-${this.renderStatus}`]: true,
+      [`${b}--status-${this.currentStatus}`]: true,
     };
   }
 
@@ -93,10 +129,10 @@ export class SsButton {
         id={this.xId}
         type={this.type}
         class={this.getClasses()}
-        style={this.styles}
+        style={resolveInlineStyles(this.inlineStyles)}
         disabled={disabled}
         aria-disabled={disabled.toString()}
-        aria-busy={this.status === 'loading'}
+        aria-busy={this.currentStatus === 'loading'}
         aria-label={this.label}
         tabindex={disabled ? -1 : 0}
         onClick={this.ssClickHandler}

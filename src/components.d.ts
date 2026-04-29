@@ -8,15 +8,17 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
-import { InputStyle, SsInputType } from "./components/atoms/ss-input/ss-input";
+import { InlineStyles } from "./utils/style";
+import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
-import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
-export { InputStyle, SsInputType } from "./components/atoms/ss-input/ss-input";
+export { InlineStyles } from "./utils/style";
+export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
-export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
     interface SsButton {
         /**
@@ -35,7 +37,7 @@ export namespace Components {
           * @default 'right'
          */
         "iconPosition": IconPosition;
-        "inlineStyles"?: string | Record<string, string>;
+        "inlineStyles"?: InlineStyles;
         "label"?: string;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
@@ -81,8 +83,13 @@ export namespace Components {
           * @default false
          */
         "fullWidth": boolean;
-        "inlineStyles"?: string | Record<string, string>;
+        "inlineStyles"?: InlineStyles;
+        "name"?: string;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required": boolean;
         /**
           * @default 'md'
          */
@@ -92,7 +99,7 @@ export namespace Components {
          */
         "type": SsInputType;
         "value"?: string;
-        "xId": string;
+        "xId"?: string;
         /**
           * @default 'solid'
          */
@@ -115,15 +122,12 @@ export namespace Components {
         /**
           * @default 'md'
          */
-        "fontSize": Size;
+        "fontSize": TypographySize;
         /**
           * @default 'regular'
          */
         "fontWeight": FontWeight;
-        /**
-          * @default {}
-         */
-        "inlineStyles": Record<string, string> | string;
+        "inlineStyles"?: InlineStyles;
         /**
           * @default 'normal'
          */
@@ -140,7 +144,7 @@ export namespace Components {
           * @default false
          */
         "truncate": boolean;
-        "xId": string;
+        "xId"?: string;
     }
 }
 export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
@@ -153,7 +157,7 @@ export interface SsInputCustomEvent<T> extends CustomEvent<T> {
 }
 declare global {
     interface HTMLSsButtonElementEventMap {
-        "ssClick": string;
+        "ssClick": string | undefined;
     }
     interface HTMLSsButtonElement extends Components.SsButton, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsButtonElementEventMap>(type: K, listener: (this: HTMLSsButtonElement, ev: SsButtonCustomEvent<HTMLSsButtonElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -170,9 +174,9 @@ declare global {
         new (): HTMLSsButtonElement;
     };
     interface HTMLSsInputElementEventMap {
-        "ssInput": { xId: string; value: string };
-        "ssChange": { xId: string; value: string };
-        "ssInvalid": { xId: string; value: string };
+        "ssInput": SsInputValueEvent;
+        "ssChange": SsInputValueEvent;
+        "ssInvalid": SsInputValueEvent;
         "ssFocus": FocusEvent;
         "ssBlur": FocusEvent;
         "ssFocusIn": FocusEvent;
@@ -254,9 +258,9 @@ declare namespace LocalJSX {
           * @default 'right'
          */
         "iconPosition"?: IconPosition;
-        "inlineStyles"?: string | Record<string, string>;
+        "inlineStyles"?: InlineStyles;
         "label"?: string;
-        "onSsClick"?: (event: SsButtonCustomEvent<string>) => void;
+        "onSsClick"?: (event: SsButtonCustomEvent<string | undefined>) => void;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
           * @default true
@@ -301,9 +305,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "fullWidth"?: boolean;
-        "inlineStyles"?: string | Record<string, string>;
+        "inlineStyles"?: InlineStyles;
+        "name"?: string;
         "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsChange"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
+        "onSsChange"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
         "onSsClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
         "onSsCompositionEnd"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
         "onSsCompositionStart"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
@@ -322,8 +327,8 @@ declare namespace LocalJSX {
         "onSsFocus"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsFocusIn"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsFocusOut"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsInput"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
-        "onSsInvalid"?: (event: SsInputCustomEvent<{ xId: string; value: string }>) => void;
+        "onSsInput"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
+        "onSsInvalid"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
         "onSsKeyDown"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
         "onSsKeyPress"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
         "onSsKeyUp"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
@@ -342,6 +347,10 @@ declare namespace LocalJSX {
         "onSsTouchStart"?: (event: SsInputCustomEvent<TouchEvent>) => void;
         "onSsWheel"?: (event: SsInputCustomEvent<WheelEvent>) => void;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
         /**
           * @default 'md'
          */
@@ -374,15 +383,12 @@ declare namespace LocalJSX {
         /**
           * @default 'md'
          */
-        "fontSize"?: Size;
+        "fontSize"?: TypographySize;
         /**
           * @default 'regular'
          */
         "fontWeight"?: FontWeight;
-        /**
-          * @default {}
-         */
-        "inlineStyles"?: Record<string, string> | string;
+        "inlineStyles"?: InlineStyles;
         /**
           * @default 'normal'
          */

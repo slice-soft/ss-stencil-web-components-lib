@@ -223,7 +223,15 @@
           "description": ""
         },
         {
+          "name": "name",
+          "description": ""
+        },
+        {
           "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "required",
           "description": ""
         },
         {
@@ -432,6 +440,9 @@
             },
             {
               "name": "3xl"
+            },
+            {
+              "name": "4xl"
             },
             {
               "name": "lg"

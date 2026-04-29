@@ -1,9 +1,10 @@
-import { Component, JSX, Prop, State, h } from '@stencil/core';
+import { Component, JSX, Prop, h } from '@stencil/core';
 import { Variant } from '../../../types/variant';
 import { Size } from '../../../types/size';
-import { resolveInlineStyles } from '../../../utils/style';
+import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 
 export type TypographyColor = Variant | 'foreground' | 'muted' | 'black' | 'white';
+export type TypographySize = Size | '4xl';
 export type TypographyTag = 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span';
 export type FontWeight = 'light' | 'regular' | 'medium' | 'semibold' | 'bold';
 export type LineHeight = 'tight' | 'snug' | 'normal' | 'relaxed' | 'loose';
@@ -20,24 +21,18 @@ export type TextAlign = 'left' | 'center' | 'right' | 'justify';
   scoped: true,
 })
 export class SsTypography {
-  @Prop() xId: string;
+  @Prop() xId?: string;
   @Prop() as: TypographyTag = 'p';
-  @Prop() fontSize: Size = 'md';
+  @Prop() fontSize: TypographySize = 'md';
   @Prop() align: TextAlign = 'left';
   /** 'foreground' uses the semantic foreground token and adapts to dark mode */
   @Prop() color: TypographyColor = 'foreground';
   @Prop() fontWeight: FontWeight = 'regular';
   @Prop() lineHeight: LineHeight = 'normal';
   @Prop() letterSpacing: LetterSpacing = 'normal';
-  @Prop() inlineStyles: Record<string, string> | string = {};
+  @Prop() inlineStyles?: InlineStyles;
   @Prop() truncate: boolean = false;
   @Prop() transform: TextTransform = 'normal';
-
-  @State() private styles: Record<string, string> = {};
-
-  componentWillLoad() {
-    this.styles = resolveInlineStyles(this.inlineStyles);
-  }
 
   private getClasses() {
     const b = 'ss-typography';
@@ -57,7 +52,7 @@ export class SsTypography {
   render() {
     const Tag = this.as as keyof JSX.IntrinsicElements;
     return (
-      <Tag id={this.xId} class={this.getClasses()} style={this.styles}>
+      <Tag id={this.xId} class={this.getClasses()} style={resolveInlineStyles(this.inlineStyles)}>
         <slot />
       </Tag>
     );
