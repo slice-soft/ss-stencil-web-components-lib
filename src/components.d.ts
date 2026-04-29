@@ -9,6 +9,7 @@ import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
 import { InlineStyles } from "./utils/style";
+import { SsCheckedChangeEvent } from "./types/control-events";
 import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
@@ -16,6 +17,7 @@ export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
 export { InlineStyles } from "./utils/style";
+export { SsCheckedChangeEvent } from "./types/control-events";
 export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 export { Event } from "@stencil/core";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
@@ -69,6 +71,42 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
+    }
+    interface SsCheckbox {
+        /**
+          * @default false
+         */
+        "checked": boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "indeterminate": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "label"?: string;
+        "name"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string;
+        "xId"?: string;
     }
     interface SsInput {
         /**
@@ -151,6 +189,10 @@ export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsButtonElement;
 }
+export interface SsCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsCheckboxElement;
+}
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
@@ -172,6 +214,26 @@ declare global {
     var HTMLSsButtonElement: {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
+    };
+    interface HTMLSsCheckboxElementEventMap {
+        "ssChange": SsCheckedChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsCheckedChangeEvent;
+    }
+    interface HTMLSsCheckboxElement extends Components.SsCheckbox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsCheckboxElementEventMap>(type: K, listener: (this: HTMLSsCheckboxElement, ev: SsCheckboxCustomEvent<HTMLSsCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsCheckboxElementEventMap>(type: K, listener: (this: HTMLSsCheckboxElement, ev: SsCheckboxCustomEvent<HTMLSsCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsCheckboxElement: {
+        prototype: HTMLSsCheckboxElement;
+        new (): HTMLSsCheckboxElement;
     };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
@@ -236,6 +298,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
+        "ss-checkbox": HTMLSsCheckboxElement;
         "ss-input": HTMLSsInputElement;
         "ss-typography": HTMLSsTypographyElement;
     }
@@ -291,6 +354,46 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    interface SsCheckbox {
+        /**
+          * @default false
+         */
+        "checked"?: boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "indeterminate"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "label"?: string;
+        "name"?: string;
+        "onSsBlur"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
+        "onSsFocus"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        "onSsInvalid"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string;
+        "xId"?: string;
     }
     interface SsInput {
         /**
@@ -409,6 +512,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "ss-button": SsButton;
+        "ss-checkbox": SsCheckbox;
         "ss-input": SsInput;
         "ss-typography": SsTypography;
     }
@@ -418,6 +522,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
