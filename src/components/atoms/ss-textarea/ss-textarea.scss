@@ -1,0 +1,41 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-textarea {
+  @include mx.atom-control-base;
+  display: inline-block;
+  min-height: var(--ss-dimensions-20);
+  line-height: var(--ss-text-line-heights-normal);
+}
+
+@include mx.atom-control-sizes('ss-textarea');
+@include mx.atom-accent-variants('ss-textarea');
+
+.ss-textarea--outline {
+  background: transparent;
+}
+
+.ss-textarea--underline {
+  background: transparent;
+  border-width: 0 0 2px;
+  border-radius: 0;
+}
+
+.ss-textarea--success,
+.ss-textarea--warning,
+.ss-textarea--error,
+.ss-textarea--info {
+  border-color: var(--atom-accent);
+}
+
+.ss-textarea--invalid {
+  border-color: var(--ss-color-error);
+}
+
+.ss-textarea--resize-none { resize: none; }
+.ss-textarea--resize-vertical { resize: vertical; }
+.ss-textarea--resize-horizontal { resize: horizontal; }
+.ss-textarea--resize-both { resize: both; }
+
+.ss-textarea--full-width {
+  width: 100%;
+}
