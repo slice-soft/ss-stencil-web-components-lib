@@ -7,9 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 import { InlineStyles } from "./utils/style";
-import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
-import { Size } from "./types/size";
 import { Variant } from "./types/variant";
+import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+import { Size } from "./types/size";
+import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
@@ -22,9 +23,10 @@ import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, Typ
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 export { InlineStyles } from "./utils/style";
-export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
-export { Size } from "./types/size";
 export { Variant } from "./types/variant";
+export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+export { Size } from "./types/size";
+export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
@@ -54,6 +56,39 @@ export namespace Components {
         "size": AvatarSize;
         "src"?: string;
         "xId"?: string;
+    }
+    interface SsBadge {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default 'Dismiss'
+         */
+        "dismissLabel": string;
+        /**
+          * @default false
+         */
+        "dismissible": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default false
+         */
+        "pill": boolean;
+        /**
+          * @default 'sm'
+         */
+        "size": Size;
+        /**
+          * @default 'primary'
+         */
+        "variant": Variant;
+        "xId"?: string;
+        /**
+          * @default 'subtle'
+         */
+        "xStyle": BadgeStyle;
     }
     interface SsButton {
         "accessibilityLabel"?: string;
@@ -440,6 +475,10 @@ export interface SsAvatarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsAvatarElement;
 }
+export interface SsBadgeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsBadgeElement;
+}
 export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsButtonElement;
@@ -486,6 +525,23 @@ declare global {
     var HTMLSsAvatarElement: {
         prototype: HTMLSsAvatarElement;
         new (): HTMLSsAvatarElement;
+    };
+    interface HTMLSsBadgeElementEventMap {
+        "ssDismiss": SsBadgeDismissEvent;
+    }
+    interface HTMLSsBadgeElement extends Components.SsBadge, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsBadgeElementEventMap>(type: K, listener: (this: HTMLSsBadgeElement, ev: SsBadgeCustomEvent<HTMLSsBadgeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsBadgeElementEventMap>(type: K, listener: (this: HTMLSsBadgeElement, ev: SsBadgeCustomEvent<HTMLSsBadgeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsBadgeElement: {
+        prototype: HTMLSsBadgeElement;
+        new (): HTMLSsBadgeElement;
     };
     interface HTMLSsButtonElementEventMap {
         "ssClick": string | undefined;
@@ -651,6 +707,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "ss-avatar": HTMLSsAvatarElement;
+        "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
         "ss-divider": HTMLSsDividerElement;
         "ss-icon": HTMLSsIconElement;
@@ -686,6 +743,40 @@ declare namespace LocalJSX {
         "size"?: AvatarSize;
         "src"?: string;
         "xId"?: string;
+    }
+    interface SsBadge {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default 'Dismiss'
+         */
+        "dismissLabel"?: string;
+        /**
+          * @default false
+         */
+        "dismissible"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        "onSsDismiss"?: (event: SsBadgeCustomEvent<SsBadgeDismissEvent>) => void;
+        /**
+          * @default false
+         */
+        "pill"?: boolean;
+        /**
+          * @default 'sm'
+         */
+        "size"?: Size;
+        /**
+          * @default 'primary'
+         */
+        "variant"?: Variant;
+        "xId"?: string;
+        /**
+          * @default 'subtle'
+         */
+        "xStyle"?: BadgeStyle;
     }
     interface SsButton {
         "accessibilityLabel"?: string;
@@ -1089,6 +1180,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "ss-avatar": SsAvatar;
+        "ss-badge": SsBadge;
         "ss-button": SsButton;
         "ss-divider": SsDivider;
         "ss-icon": SsIcon;
@@ -1108,6 +1200,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
+            "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
