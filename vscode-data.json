@@ -189,6 +189,14 @@
       },
       "attributes": [
         {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
+          "name": "autocomplete",
+          "description": ""
+        },
+        {
           "name": "color",
           "description": "",
           "values": [
@@ -219,6 +227,10 @@
           ]
         },
         {
+          "name": "described-by",
+          "description": ""
+        },
+        {
           "name": "disabled",
           "description": ""
         },
@@ -231,11 +243,35 @@
           "description": ""
         },
         {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "max",
+          "description": ""
+        },
+        {
+          "name": "max-length",
+          "description": ""
+        },
+        {
+          "name": "min",
+          "description": ""
+        },
+        {
+          "name": "min-length",
+          "description": ""
+        },
+        {
           "name": "name",
           "description": ""
         },
         {
           "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "readonly",
           "description": ""
         },
         {
@@ -268,6 +304,10 @@
               "name": "xs"
             }
           ]
+        },
+        {
+          "name": "step",
+          "description": ""
         },
         {
           "name": "type",
