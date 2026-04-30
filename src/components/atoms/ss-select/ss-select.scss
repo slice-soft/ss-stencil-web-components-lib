@@ -1,0 +1,36 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-select {
+  @include mx.atom-control-base;
+  display: inline-block;
+  line-height: var(--ss-text-line-heights-normal);
+  cursor: pointer;
+}
+
+@include mx.atom-control-sizes('ss-select');
+@include mx.atom-accent-variants('ss-select');
+
+.ss-select--outline {
+  background: transparent;
+}
+
+.ss-select--underline {
+  background: transparent;
+  border-width: 0 0 2px;
+  border-radius: 0;
+}
+
+.ss-select--success,
+.ss-select--warning,
+.ss-select--error,
+.ss-select--info {
+  border-color: var(--atom-accent);
+}
+
+.ss-select--invalid {
+  border-color: var(--ss-color-error);
+}
+
+.ss-select--full-width {
+  width: 100%;
+}
