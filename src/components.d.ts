@@ -11,21 +11,32 @@ import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 import { Size } from "./types/size";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
-import { Size } from "./types/size";
-import { Variant } from "./types/variant";
-import { InlineStyles } from "./utils/style";
-import { SsCheckedChangeEvent } from "./types/control-events";
-import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
-import { Event } from "@stencil/core";
-import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
-export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
-export { Size } from "./types/size";
-export { Variant } from "./types/variant";
+import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
+import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { IconSize } from "./components/atoms/ss-icon/ss-icon";
+import { SsInputType } from "./components/atoms/ss-input/ss-input";
+import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
+import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
+export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 export { InlineStyles } from "./utils/style";
-export { SsCheckedChangeEvent } from "./types/control-events";
-export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
-export { Event } from "@stencil/core";
-export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+export { Variant } from "./types/variant";
+export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+export { Size } from "./types/size";
+export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
+export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { IconSize } from "./components/atoms/ss-icon/ss-icon";
+export { SsInputType } from "./components/atoms/ss-input/ss-input";
+export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
+export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
+export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
     interface SsAvatar {
         "alt"?: string;
@@ -168,6 +179,40 @@ export namespace Components {
          */
         "size": Size;
         "value"?: string;
+        "xId"?: string;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation": DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing": DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size": IconSize;
         "xId"?: string;
     }
     interface SsInput {
@@ -575,6 +620,18 @@ declare global {
         prototype: HTMLSsCheckboxElement;
         new (): HTMLSsCheckboxElement;
     };
+    interface HTMLSsDividerElement extends Components.SsDivider, HTMLStencilElement {
+    }
+    var HTMLSsDividerElement: {
+        prototype: HTMLSsDividerElement;
+        new (): HTMLSsDividerElement;
+    };
+    interface HTMLSsIconElement extends Components.SsIcon, HTMLStencilElement {
+    }
+    var HTMLSsIconElement: {
+        prototype: HTMLSsIconElement;
+        new (): HTMLSsIconElement;
+    };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
@@ -713,6 +770,8 @@ declare global {
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
         "ss-checkbox": HTMLSsCheckboxElement;
+        "ss-divider": HTMLSsDividerElement;
+        "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
@@ -874,6 +933,40 @@ declare namespace LocalJSX {
          */
         "size"?: Size;
         "value"?: string;
+        "xId"?: string;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation"?: DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing"?: DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: IconSize;
         "xId"?: string;
     }
     interface SsInput {
@@ -1191,6 +1284,8 @@ declare namespace LocalJSX {
         "ss-badge": SsBadge;
         "ss-button": SsButton;
         "ss-checkbox": SsCheckbox;
+        "ss-divider": SsDivider;
+        "ss-icon": SsIcon;
         "ss-input": SsInput;
         "ss-label": SsLabel;
         "ss-link": SsLink;
@@ -1210,6 +1305,8 @@ declare module "@stencil/core" {
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
+            "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
