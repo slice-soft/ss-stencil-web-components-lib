@@ -139,6 +139,23 @@ export namespace Components {
          */
         "xStyle": ButtonStyle;
     }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation": DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing": DividerSpacing;
+        "xId"?: string;
+    }
     interface SsInput {
         "accessibilityLabel"?: string;
         "autocomplete"?: string;
@@ -479,6 +496,12 @@ declare global {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
     };
+    interface HTMLSsDividerElement extends Components.SsDivider, HTMLStencilElement {
+    }
+    var HTMLSsDividerElement: {
+        prototype: HTMLSsDividerElement;
+        new (): HTMLSsDividerElement;
+    };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
@@ -593,6 +616,7 @@ declare global {
         "ss-avatar": HTMLSsAvatarElement;
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
+        "ss-divider": HTMLSsDividerElement;
         "ss-input": HTMLSsInputElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
@@ -713,6 +737,23 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation"?: DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing"?: DividerSpacing;
+        "xId"?: string;
     }
     interface SsInput {
         "accessibilityLabel"?: string;
@@ -990,6 +1031,7 @@ declare namespace LocalJSX {
         "ss-avatar": SsAvatar;
         "ss-badge": SsBadge;
         "ss-button": SsButton;
+        "ss-divider": SsDivider;
         "ss-input": SsInput;
         "ss-label": SsLabel;
         "ss-link": SsLink;
@@ -1006,6 +1048,7 @@ declare module "@stencil/core" {
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
