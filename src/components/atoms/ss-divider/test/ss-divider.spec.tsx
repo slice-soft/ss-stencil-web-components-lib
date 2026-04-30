@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsDivider } from '../ss-divider';
+import { getRoot, getElement, getShadowRoot } from '../../../../test/utils';
 
 describe('ss-divider', () => {
   it('is decorative by default', async () => {
@@ -7,7 +8,9 @@ describe('ss-divider', () => {
       components: [SsDivider],
       html: `<ss-divider></ss-divider>`,
     });
-    const divider = page.root.shadowRoot.querySelector('.ss-divider');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const divider = getElement(shadow, '.ss-divider');
 
     expect(divider.getAttribute('role')).toBeNull();
   });
@@ -17,7 +20,9 @@ describe('ss-divider', () => {
       components: [SsDivider],
       html: `<ss-divider decorative="false" orientation="vertical" label="Or"></ss-divider>`,
     });
-    const divider = page.root.shadowRoot.querySelector('.ss-divider');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const divider = getElement(shadow, '.ss-divider');
 
     expect(divider.getAttribute('role')).toBe('separator');
     expect(divider.getAttribute('aria-orientation')).toBe('vertical');

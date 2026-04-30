@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsBadge } from '../ss-badge';
+import { getRoot, getElement, getShadowRoot } from '../../../../test/utils';
 
 describe('ss-badge', () => {
   it('renders label, variant, style, size, and pill classes', async () => {
@@ -7,7 +8,9 @@ describe('ss-badge', () => {
       components: [SsBadge],
       html: `<ss-badge label="New" variant="success" x-style="solid" size="md" pill></ss-badge>`,
     });
-    const badge = page.root.shadowRoot.querySelector('.ss-badge');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const badge = getElement(shadow, '.ss-badge');
 
     expect(badge.textContent).toContain('New');
     expect(badge.classList.contains('ss-badge--success')).toBe(true);
@@ -22,15 +25,17 @@ describe('ss-badge', () => {
       html: `<ss-badge x-id="badge-1" dismissible label="Filter"></ss-badge>`,
     });
     const spy = jest.fn();
-    page.root.addEventListener('ssDismiss', spy);
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    root.addEventListener('ssDismiss', spy);
 
-    page.root.shadowRoot.querySelector('button').click();
+    getElement<HTMLButtonElement>(shadow, 'button').click();
     await page.waitForChanges();
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ detail: { xId: 'badge-1' } }));
 
-    (page.root as any).disabled = true;
+    (root as any).disabled = true;
     await page.waitForChanges();
-    page.root.shadowRoot.querySelector('button').click();
+    getElement<HTMLButtonElement>(shadow, 'button').click();
     expect(spy).toHaveBeenCalledTimes(1);
   });
 });
