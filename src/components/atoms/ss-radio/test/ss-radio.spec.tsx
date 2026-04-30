@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsRadio } from '../ss-radio';
+import { getRoot, getElement } from '../../../../test/utils';
 
 describe('ss-radio', () => {
   it('renders a native radio with label and invalid state', async () => {
@@ -7,13 +8,14 @@ describe('ss-radio', () => {
       components: [SsRadio],
       html: `<ss-radio name="size" value="m" invalid label="Medium"></ss-radio>`,
     });
-    const input = page.root.querySelector('input');
+    const root = getRoot(page);
+    const input = getElement<HTMLInputElement>(root, 'input');
 
     expect(input.type).toBe('radio');
     expect(input.name).toBe('size');
     expect(input.value).toBe('m');
     expect(input.getAttribute('aria-invalid')).toBe('true');
-    expect(page.root.textContent).toContain('Medium');
+    expect(root.textContent).toContain('Medium');
   });
 
   it('emits ssChange with checked value', async () => {
@@ -22,14 +24,15 @@ describe('ss-radio', () => {
       html: `<ss-radio x-id="option" name="group" value="a"></ss-radio>`,
     });
     const spy = jest.fn();
-    page.root.addEventListener('ssChange', spy);
-    const input = page.root.querySelector('input');
+    const root = getRoot(page);
+    root.addEventListener('ssChange', spy);
+    const input = getElement<HTMLInputElement>(root, 'input');
 
     input.checked = true;
     input.dispatchEvent(new Event('change'));
     await page.waitForChanges();
 
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ detail: { xId: 'option', name: 'group', value: 'a', checked: true } }));
-    expect((page.root as any).checked).toBe(true);
+    expect((root as any).checked).toBe(true);
   });
 });

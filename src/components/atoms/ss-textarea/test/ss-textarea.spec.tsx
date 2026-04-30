@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsTextarea } from '../ss-textarea';
+import { getRoot, getElement, getShadowRoot } from '../../../../test/utils';
 
 describe('ss-textarea', () => {
   it('renders props and accessibility state', async () => {
@@ -7,7 +8,9 @@ describe('ss-textarea', () => {
       components: [SsTextarea],
       html: `<ss-textarea value="Hello" rows="4" required readonly invalid accessibility-label="Message"></ss-textarea>`,
     });
-    const textarea = page.root.shadowRoot.querySelector('textarea');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const textarea = getElement<HTMLTextAreaElement>(shadow, 'textarea');
 
     expect(textarea.getAttribute('value')).toBe('Hello');
     expect(textarea.getAttribute('rows')).toBe('4');
@@ -24,9 +27,11 @@ describe('ss-textarea', () => {
     });
     const inputSpy = jest.fn();
     const changeSpy = jest.fn();
-    page.root.addEventListener('ssInput', inputSpy);
-    page.root.addEventListener('ssChange', changeSpy);
-    const textarea = page.root.shadowRoot.querySelector('textarea');
+    const root = getRoot(page);
+    root.addEventListener('ssInput', inputSpy);
+    root.addEventListener('ssChange', changeSpy);
+    const shadow = getShadowRoot(root);
+    const textarea = getElement<HTMLTextAreaElement>(shadow, 'textarea');
 
     textarea.value = 'Updated';
     textarea.dispatchEvent(new Event('input'));

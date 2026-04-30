@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsButton } from '../ss-button';
+import { getRoot, getElement, getShadowRoot } from '../../../../test/utils';
 
 describe('ss-button', () => {
   it('renders default', async () => {
@@ -7,7 +8,7 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button></ss-button>`,
     });
-    expect(page.root).toEqualHtml(`
+    expect(getRoot(page)).toEqualHtml(`
       <ss-button>
         <mock:shadow-root>
           <button
@@ -30,7 +31,9 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button label="Hola"></ss-button>`,
     });
-    expect(page.root.shadowRoot.querySelector('.ss-button__label').textContent).toBe('Hola');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    expect(getElement(shadow, '.ss-button__label').textContent).toBe('Hola');
   });
 
   it('renders with icon slot (left)', async () => {
@@ -40,7 +43,9 @@ describe('ss-button', () => {
     });
     page.rootInstance.el.querySelector = () => true;
     await page.waitForChanges();
-    expect(page.root.shadowRoot.querySelector('.ss-button__icon--left')).not.toBeNull();
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    expect(shadow.querySelector('.ss-button__icon--left')).not.toBeNull();
   });
 
   it('renders with icon slot (right)', async () => {
@@ -50,7 +55,9 @@ describe('ss-button', () => {
     });
     page.rootInstance.el.querySelector = () => true;
     await page.waitForChanges();
-    expect(page.root.shadowRoot.querySelector('.ss-button__icon--right')).not.toBeNull();
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    expect(shadow.querySelector('.ss-button__icon--right')).not.toBeNull();
   });
 
   it('renders with icon only', async () => {
@@ -60,8 +67,10 @@ describe('ss-button', () => {
     });
     page.rootInstance.el.querySelector = () => true;
     await page.waitForChanges();
-    expect(page.root.shadowRoot.querySelector('.ss-button__icon--left')).not.toBeNull();
-    expect(page.root.shadowRoot.querySelector('.ss-button__label')).toBeNull();
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    expect(shadow.querySelector('.ss-button__icon--left')).not.toBeNull();
+    expect(shadow.querySelector('.ss-button__label')).toBeNull();
   });
 
   it('applies disabled prop', async () => {
@@ -70,7 +79,9 @@ describe('ss-button', () => {
       html: `<ss-button disabled status="active"></ss-button>`,
     });
     await page.waitForChanges();
-    const result = page.root.shadowRoot.querySelector('button');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const result = getElement<HTMLButtonElement>(shadow, 'button');
     expect(result.disabled).not.toBeNull();
   });
 
@@ -80,7 +91,8 @@ describe('ss-button', () => {
       html: `<ss-button disabled></ss-button>`,
     });
     await page.waitForChanges();
-    expect(page.root.getAttribute('disabled')).not.toBeNull();
+    const root = getRoot(page);
+    expect(root.getAttribute('disabled')).not.toBeNull();
   });
 
   it('applies fullWidth prop', async () => {
@@ -88,7 +100,9 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button full-width></ss-button>`,
     });
-    expect(page.root.shadowRoot.querySelector('button').classList.contains('ss-button--full-width')).toBe(true);
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    expect(getElement<HTMLButtonElement>(shadow, 'button').classList.contains('ss-button--full-width')).toBe(true);
   });
 
   it('emits ssClick event', async () => {
@@ -97,8 +111,10 @@ describe('ss-button', () => {
       html: `<ss-button x-id="btn1"></ss-button>`,
     });
     const spy = jest.fn();
-    page.root.addEventListener('ssClick', spy);
-    page.root.shadowRoot.querySelector('button').click();
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    root.addEventListener('ssClick', spy);
+    getElement<HTMLButtonElement>(shadow, 'button').click();
     await page.waitForChanges();
     expect(spy).toHaveBeenCalled();
   });
@@ -109,8 +125,10 @@ describe('ss-button', () => {
       html: `<ss-button disabled></ss-button>`,
     });
     const spy = jest.fn();
-    page.root.addEventListener('ssClick', spy);
-    page.root.shadowRoot.querySelector('button').click();
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    root.addEventListener('ssClick', spy);
+    getElement<HTMLButtonElement>(shadow, 'button').click();
     await page.waitForChanges();
     expect(spy).not.toHaveBeenCalled();
   });
@@ -120,7 +138,9 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button variant="success" size="lg" x-style="outline" shape="pill"></ss-button>`,
     });
-    const btn = page.root.shadowRoot.querySelector('button');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const btn = getElement<HTMLButtonElement>(shadow, 'button');
     expect(btn.classList.contains('ss-button--success')).toBe(true);
     expect(btn.classList.contains('ss-button--lg')).toBe(true);
     expect(btn.classList.contains('ss-button--outline')).toBe(true);
@@ -133,8 +153,11 @@ describe('ss-button', () => {
       html: `<ss-button status="loading"></ss-button>`,
     });
     await page.waitForChanges();
-    expect(page.root.shadowRoot.querySelector('button').getAttribute('aria-busy')).not.toBeNull();
-    expect(page.root.shadowRoot.querySelector('button').classList.contains('ss-button--status-loading')).toBe(true);
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const button = getElement<HTMLButtonElement>(shadow, 'button');
+    expect(button.getAttribute('aria-busy')).not.toBeNull();
+    expect(button.classList.contains('ss-button--status-loading')).toBe(true);
   });
 
   it('supports loading and accessibilityLabel props', async () => {
@@ -142,7 +165,9 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button loading accessibility-label="Save changes"></ss-button>`,
     });
-    const button = page.root.shadowRoot.querySelector('button');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const button = getElement<HTMLButtonElement>(shadow, 'button');
 
     expect(button.getAttribute('aria-label')).toBe('Save changes');
     expect(button.hasAttribute('disabled')).toBe(true);
@@ -157,7 +182,9 @@ describe('ss-button', () => {
 
     await page.waitForChanges();
 
-    const button = page.root.shadowRoot.querySelector('button');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const button = getElement<HTMLButtonElement>(shadow, 'button');
     button.click();
     await page.waitForChanges();
 
@@ -178,7 +205,9 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button disable-duration="10"></ss-button>`,
     });
-    const button = page.root.shadowRoot.querySelector('button');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const button = getElement<HTMLButtonElement>(shadow, 'button');
 
     button.click();
     await page.waitForChanges();
@@ -196,7 +225,9 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button inline-styles="color: red;"></ss-button>`,
     });
-    expect(page.root.shadowRoot.querySelector('button').getAttribute('style')).toBe('color: red;');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    expect(getElement<HTMLButtonElement>(shadow, 'button').getAttribute('style')).toBe('color: red;');
   });
 
   it('applies inlineStyles Object', async () => {
@@ -204,8 +235,10 @@ describe('ss-button', () => {
       components: [SsButton],
       html: `<ss-button></ss-button>`,
     });
-    (page.root as any).inlineStyles = { color: 'red', backgroundColor: 'blue' };
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    (root as any).inlineStyles = { color: 'red', backgroundColor: 'blue' };
     await page.waitForChanges();
-    expect(page.root.shadowRoot.querySelector('button').getAttribute('style')).toBe('color: red; background-color: blue;');
+    expect(getElement<HTMLButtonElement>(shadow, 'button').getAttribute('style')).toBe('color: red; background-color: blue;');
   });
 });

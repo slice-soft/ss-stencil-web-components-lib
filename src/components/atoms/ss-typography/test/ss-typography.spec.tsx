@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsTypography } from '../ss-typography';
+import { getRoot, getElement } from '../../../../test/utils';
 
 describe('ss-typography', () => {
   it('renders', async () => {
@@ -7,7 +8,7 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography></ss-typography>`,
     });
-    expect(page.root).toEqualHtml(`
+    expect(getRoot(page)).toEqualHtml(`
       <ss-typography><p class="ss-typography ss-typography--align-left ss-typography--font-size-md ss-typography--font-weight-regular ss-typography--foreground ss-typography--letter-spacing-normal ss-typography--line-height-normal"></p></ss-typography>
     `);
   });
@@ -17,7 +18,7 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography as="h2">Heading</ss-typography>`,
     });
-    expect(page.root.querySelector('h2')).not.toBeNull();
+    expect(getRoot(page).querySelector('h2')).not.toBeNull();
   });
 
   it('applies fontSize, align, color, fontWeight, lineHeight, letterSpacing, truncate, and transform classes', async () => {
@@ -25,7 +26,8 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography font-size="lg" align="center" color="primary" font-weight="bold" line-height="relaxed" letter-spacing="wide" truncate transform="uppercase">Test</ss-typography>`,
     });
-    const el = page.root.querySelector('p');
+    const root = getRoot(page);
+    const el = getElement<HTMLParagraphElement>(root, 'p');
     expect(el.classList.contains('ss-typography--font-size-lg')).toBe(true);
     expect(el.classList.contains('ss-typography--align-center')).toBe(true);
     expect(el.classList.contains('ss-typography--primary')).toBe(true);
@@ -41,10 +43,12 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography></ss-typography>`,
     });
-    (page.root as any).inlineStyles = { color: 'red', fontSize: '20px' };
+    const root = getRoot(page);
+    (root as any).inlineStyles = { color: 'red', fontSize: '20px' };
     await page.waitForChanges();
-    expect(page.root.querySelector('p').style.color).toBe('red');
-    expect(page.root.querySelector('p').style.fontSize).toBe('20px');
+    const el = getElement<HTMLParagraphElement>(root, 'p');
+    expect(el.style.color).toBe('red');
+    expect(el.style.fontSize).toBe('20px');
   });
 
   it('applies inlineStyles as string', async () => {
@@ -52,8 +56,10 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography inline-styles="color: blue; font-size: 18px;"></ss-typography>`,
     });
-    expect(page.root.querySelector('p').style.color).toBe('blue');
-    expect(page.root.querySelector('p').style.fontSize).toBe('18px');
+    const root = getRoot(page);
+    const el = getElement<HTMLParagraphElement>(root, 'p');
+    expect(el.style.color).toBe('blue');
+    expect(el.style.fontSize).toBe('18px');
   });
 
   it('renders slot content', async () => {
@@ -61,7 +67,7 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography>Slot Content</ss-typography>`,
     });
-    expect(page.root.textContent).toContain('Slot Content');
+    expect(getRoot(page).textContent).toContain('Slot Content');
   });
 
   it('applies xId to the rendered tag', async () => {
@@ -69,7 +75,7 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography x-id="my-id"></ss-typography>`,
     });
-    expect(page.root.querySelector('p').id).toBe('my-id');
+    expect(getElement<HTMLParagraphElement>(getRoot(page), 'p').id).toBe('my-id');
   });
 
   it('supports the largest documented typography size', async () => {
@@ -77,7 +83,7 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography font-size="4xl"></ss-typography>`,
     });
-    expect(page.root.querySelector('p').classList.contains('ss-typography--font-size-4xl')).toBe(true);
+    expect(getElement<HTMLParagraphElement>(getRoot(page), 'p').classList.contains('ss-typography--font-size-4xl')).toBe(true);
   });
 
   it('applies inherit color class', async () => {
@@ -85,7 +91,7 @@ describe('ss-typography', () => {
       components: [SsTypography],
       html: `<ss-typography color="inherit"></ss-typography>`,
     });
-    expect(page.root.querySelector('p').classList.contains('ss-typography--inherit')).toBe(true);
+    expect(getElement<HTMLParagraphElement>(getRoot(page), 'p').classList.contains('ss-typography--inherit')).toBe(true);
   });
 
   it('renders extended inline tags', async () => {
@@ -94,7 +100,7 @@ describe('ss-typography', () => {
         components: [SsTypography],
         html: `<ss-typography as="${tag}"></ss-typography>`,
       });
-      expect(page.root.querySelector(tag)).not.toBeNull();
+      expect(getRoot(page).querySelector(tag)).not.toBeNull();
     }
   });
 });
@@ -105,8 +111,8 @@ describe('ss-typography — level (heading convenience)', () => {
       components: [SsTypography],
       html: `<ss-typography level="1">Title</ss-typography>`,
     });
-    const h = page.root.querySelector('h1');
-    expect(h).not.toBeNull();
+    const root = getRoot(page);
+    const h = getElement<HTMLHeadingElement>(root, 'h1');
     expect(h.textContent).toBe('Title');
     expect(h.classList.contains('ss-typography--font-size-4xl')).toBe(true);
     expect(h.classList.contains('ss-typography--font-weight-bold')).toBe(true);
@@ -128,7 +134,8 @@ describe('ss-typography — level (heading convenience)', () => {
         components: [SsTypography],
         html: `<ss-typography level="${lvl}"></ss-typography>`,
       });
-      const h = page.root.querySelector(`h${lvl}`);
+      const root = getRoot(page);
+      const h = getElement<HTMLHeadingElement>(root, `h${lvl}`);
       expect(h.classList.contains(`ss-typography--font-size-${size}`)).toBe(true);
     }
   });
@@ -138,7 +145,8 @@ describe('ss-typography — level (heading convenience)', () => {
       components: [SsTypography],
       html: `<ss-typography level="1" font-size="xl">Title</ss-typography>`,
     });
-    const h = page.root.querySelector('h1');
+    const root = getRoot(page);
+    const h = getElement<HTMLHeadingElement>(root, 'h1');
     expect(h.classList.contains('ss-typography--font-size-xl')).toBe(true);
     expect(h.classList.contains('ss-typography--font-size-4xl')).toBe(false);
   });
@@ -148,7 +156,8 @@ describe('ss-typography — level (heading convenience)', () => {
       components: [SsTypography],
       html: `<ss-typography level="2" font-weight="regular">Heading</ss-typography>`,
     });
-    const h = page.root.querySelector('h2');
+    const root = getRoot(page);
+    const h = getElement<HTMLHeadingElement>(root, 'h2');
     expect(h.classList.contains('ss-typography--font-weight-regular')).toBe(true);
     expect(h.classList.contains('ss-typography--font-weight-bold')).toBe(false);
   });
@@ -158,7 +167,8 @@ describe('ss-typography — level (heading convenience)', () => {
       components: [SsTypography],
       html: `<ss-typography level="2" line-height="relaxed">Heading</ss-typography>`,
     });
-    const h = page.root.querySelector('h2');
+    const root = getRoot(page);
+    const h = getElement<HTMLHeadingElement>(root, 'h2');
     expect(h.classList.contains('ss-typography--line-height-relaxed')).toBe(true);
   });
 
@@ -167,7 +177,8 @@ describe('ss-typography — level (heading convenience)', () => {
       components: [SsTypography],
       html: `<ss-typography level="1" family="sans">Title</ss-typography>`,
     });
-    const h = page.root.querySelector('h1');
+    const root = getRoot(page);
+    const h = getElement<HTMLHeadingElement>(root, 'h1');
     expect(h.classList.contains('ss-typography--family-display')).toBe(false);
     expect(h.classList.contains('ss-typography--family-mono')).toBe(false);
   });
@@ -179,7 +190,7 @@ describe('ss-typography — family', () => {
       components: [SsTypography],
       html: `<ss-typography family="display">Text</ss-typography>`,
     });
-    expect(page.root.querySelector('p').classList.contains('ss-typography--family-display')).toBe(true);
+    expect(getElement<HTMLParagraphElement>(getRoot(page), 'p').classList.contains('ss-typography--family-display')).toBe(true);
   });
 
   it('applies mono class for family="mono"', async () => {
@@ -187,7 +198,7 @@ describe('ss-typography — family', () => {
       components: [SsTypography],
       html: `<ss-typography family="mono">Text</ss-typography>`,
     });
-    expect(page.root.querySelector('p').classList.contains('ss-typography--family-mono')).toBe(true);
+    expect(getElement<HTMLParagraphElement>(getRoot(page), 'p').classList.contains('ss-typography--family-mono')).toBe(true);
   });
 
   it('applies mono class automatically for as="code"', async () => {
@@ -195,7 +206,7 @@ describe('ss-typography — family', () => {
       components: [SsTypography],
       html: `<ss-typography as="code">const x = 1</ss-typography>`,
     });
-    expect(page.root.querySelector('code').classList.contains('ss-typography--family-mono')).toBe(true);
+    expect(getElement<HTMLElement>(getRoot(page), 'code').classList.contains('ss-typography--family-mono')).toBe(true);
   });
 
   it('does not add a family class for the default sans family', async () => {
@@ -203,7 +214,8 @@ describe('ss-typography — family', () => {
       components: [SsTypography],
       html: `<ss-typography></ss-typography>`,
     });
-    const el = page.root.querySelector('p');
+    const root = getRoot(page);
+    const el = getElement<HTMLParagraphElement>(root, 'p');
     expect(el.classList.contains('ss-typography--family-display')).toBe(false);
     expect(el.classList.contains('ss-typography--family-mono')).toBe(false);
   });

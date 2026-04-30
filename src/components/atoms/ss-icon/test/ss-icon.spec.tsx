@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsIcon } from '../ss-icon';
+import { getRoot, getElement, getShadowRoot } from '../../../../test/utils';
 
 describe('ss-icon', () => {
   it('renders decorative icons hidden from assistive tech by default', async () => {
@@ -7,7 +8,9 @@ describe('ss-icon', () => {
       components: [SsIcon],
       html: `<ss-icon><svg></svg></ss-icon>`,
     });
-    const icon = page.root.shadowRoot.querySelector('span');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const icon = getElement<HTMLSpanElement>(shadow, 'span');
 
     expect(icon.getAttribute('aria-hidden')).toBe('true');
     expect(icon.getAttribute('role')).toBeNull();
@@ -18,7 +21,9 @@ describe('ss-icon', () => {
       components: [SsIcon],
       html: `<ss-icon label="Search" decorative="false"></ss-icon>`,
     });
-    const icon = page.root.shadowRoot.querySelector('span');
+    const root = getRoot(page);
+    const shadow = getShadowRoot(root);
+    const icon = getElement<HTMLSpanElement>(shadow, 'span');
 
     expect(icon.getAttribute('role')).toBe('img');
     expect(icon.getAttribute('aria-label')).toBe('Search');
