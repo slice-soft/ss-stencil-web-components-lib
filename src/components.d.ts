@@ -18,6 +18,7 @@ import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
@@ -34,6 +35,7 @@ export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
@@ -436,6 +438,58 @@ export namespace Components {
         "value"?: string;
         "xId"?: string;
     }
+    interface SsTextarea {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color": Variant;
+        "cols"?: number;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "fullWidth": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "maxLength"?: number;
+        "minLength"?: number;
+        "name"?: string;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'vertical'
+         */
+        "resize": TextareaResize;
+        /**
+          * @default 3
+         */
+        "rows": number;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string;
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle": InputStyle;
+    }
     interface SsTooltip {
         "content"?: string;
         /**
@@ -542,6 +596,10 @@ export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSwitchElement;
+}
+export interface SsTextareaCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTextareaElement;
 }
 export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -742,6 +800,27 @@ declare global {
         prototype: HTMLSsSwitchElement;
         new (): HTMLSsSwitchElement;
     };
+    interface HTMLSsTextareaElementEventMap {
+        "ssInput": SsInputValueEvent;
+        "ssChange": SsInputValueEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsInputValueEvent;
+    }
+    interface HTMLSsTextareaElement extends Components.SsTextarea, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTextareaElementEventMap>(type: K, listener: (this: HTMLSsTextareaElement, ev: SsTextareaCustomEvent<HTMLSsTextareaElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTextareaElementEventMap>(type: K, listener: (this: HTMLSsTextareaElement, ev: SsTextareaCustomEvent<HTMLSsTextareaElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTextareaElement: {
+        prototype: HTMLSsTextareaElement;
+        new (): HTMLSsTextareaElement;
+    };
     interface HTMLSsTooltipElementEventMap {
         "ssOpenChange": SsTooltipOpenChangeEvent;
     }
@@ -779,6 +858,7 @@ declare global {
         "ss-select": HTMLSsSelectElement;
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
+        "ss-textarea": HTMLSsTextareaElement;
         "ss-tooltip": HTMLSsTooltipElement;
         "ss-typography": HTMLSsTypographyElement;
     }
@@ -1208,6 +1288,63 @@ declare namespace LocalJSX {
         "value"?: string;
         "xId"?: string;
     }
+    interface SsTextarea {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant;
+        "cols"?: number;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "maxLength"?: number;
+        "minLength"?: number;
+        "name"?: string;
+        "onSsBlur"?: (event: SsTextareaCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsTextareaCustomEvent<SsInputValueEvent>) => void;
+        "onSsFocus"?: (event: SsTextareaCustomEvent<FocusEvent>) => void;
+        "onSsInput"?: (event: SsTextareaCustomEvent<SsInputValueEvent>) => void;
+        "onSsInvalid"?: (event: SsTextareaCustomEvent<SsInputValueEvent>) => void;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'vertical'
+         */
+        "resize"?: TextareaResize;
+        /**
+          * @default 3
+         */
+        "rows"?: number;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string;
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle"?: InputStyle;
+    }
     interface SsTooltip {
         "content"?: string;
         /**
@@ -1293,6 +1430,7 @@ declare namespace LocalJSX {
         "ss-select": SsSelect;
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
+        "ss-textarea": SsTextarea;
         "ss-tooltip": SsTooltip;
         "ss-typography": SsTypography;
     }
@@ -1314,6 +1452,7 @@ declare module "@stencil/core" {
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
+            "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;
             "ss-tooltip": LocalJSX.SsTooltip & JSXBase.HTMLAttributes<HTMLSsTooltipElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
