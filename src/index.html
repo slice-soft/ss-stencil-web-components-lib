@@ -31,7 +31,7 @@
         background:   var(--ss-color-background, #fff);
         color:        var(--ss-color-foreground, #020617);
         padding:      40px 24px;
-        max-width:    900px;
+        max-width:    960px;
         margin:       0 auto;
         transition:   background-color 0.3s ease, color 0.3s ease;
       }
@@ -85,7 +85,7 @@
 
       section { margin-bottom: 56px; }
 
-      section h2 {
+      section > h2 {
         font-size:      var(--ss-text-sizes-lg, 18px);
         font-weight:    600;
         margin-bottom:  4px;
@@ -107,6 +107,7 @@
         align-items:   center;
         margin-bottom: 16px;
       }
+      .row:last-child { margin-bottom: 0; }
 
       .col {
         display:        flex;
@@ -128,6 +129,45 @@
         background:    var(--ss-color-surface, #f8fafc);
         margin-bottom: 16px;
         transition:    background-color 0.3s ease, border-color 0.3s ease;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: var(--ss-dimensions-4, 16px);
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: var(--ss-dimensions-2, 8px);
+      }
+
+      .demo-icon-shape {
+        display:       inline-block;
+        width:         1em;
+        height:        1em;
+        background:    currentColor;
+        border-radius: var(--ss-radius-sm, 2px);
+      }
+
+      /* Vertical divider demo needs a fixed-height flex row */
+      .demo-row-h60 {
+        display:     flex;
+        align-items: stretch;
+        height:      60px;
+        gap:         16px;
+      }
+
+      /* Badge icon helper */
+      .badge-icon {
+        display:        inline-flex;
+        align-items:    center;
+        justify-content: center;
+        width:          0.75em;
+        height:         0.75em;
+        background:     currentColor;
+        border-radius:  50%;
       }
     </style>
   </head>
@@ -153,46 +193,47 @@
         var html    = document.documentElement;
 
         Object.keys(TOKEN_SETS).forEach(function (key) {
-          var opt       = document.createElement('option');
-          opt.value     = key;
+          var opt         = document.createElement('option');
+          opt.value       = key;
           opt.textContent = TOKEN_SETS[key].label;
           if (key === activeSet) opt.selected = true;
           select.appendChild(opt);
         });
 
         function applySet(key) {
-          activeSet = key;
-          link.href = TOKEN_SETS[key].path;
-          label.textContent = TOKEN_SETS[key].label;
+          activeSet           = key;
+          link.href           = TOKEN_SETS[key].path;
+          label.textContent   = TOKEN_SETS[key].label;
           localStorage.setItem('ss-token-set', key);
         }
 
         applySet(activeSet);
-
         select.addEventListener('change', function () { applySet(select.value); });
 
         var isDark = function () { return html.dataset.theme === 'dark'; };
         toggle.addEventListener('click', function () {
-          html.dataset.theme    = isDark() ? 'light' : 'dark';
-          toggle.textContent    = isDark() ? '☀️ Light' : '🌙 Dark';
+          html.dataset.theme  = isDark() ? 'light' : 'dark';
+          toggle.textContent  = isDark() ? '☀️ Light' : '🌙 Dark';
         });
       })();
     </script>
 
-    <!-- ===================== BUTTON ===================== -->
+    <!-- ===================== ss-button ===================== -->
     <section>
       <h2>ss-button</h2>
-      <p class="section-desc">variant · size · xStyle · shape · status · fullWidth</p>
+      <p class="section-desc">variant · xStyle · size · shape · status · fullWidth · iconPosition</p>
 
       <div class="card">
         <p class="label">variant (solid)</p>
         <div class="row">
-          <ss-button variant="primary"   label="Primary"></ss-button>
-          <ss-button variant="secondary" label="Secondary"></ss-button>
-          <ss-button variant="success"   label="Success"></ss-button>
-          <ss-button variant="warning"   label="Warning"></ss-button>
-          <ss-button variant="error"     label="Error"></ss-button>
-          <ss-button variant="info"      label="Info"></ss-button>
+          <ss-button variant="primary"     label="Primary"></ss-button>
+          <ss-button variant="secondary"   label="Secondary"></ss-button>
+          <ss-button variant="tertiary"    label="Tertiary"></ss-button>
+          <ss-button variant="quaternary"  label="Quaternary"></ss-button>
+          <ss-button variant="success"     label="Success"></ss-button>
+          <ss-button variant="warning"     label="Warning"></ss-button>
+          <ss-button variant="error"       label="Error"></ss-button>
+          <ss-button variant="info"        label="Info"></ss-button>
         </div>
       </div>
 
@@ -202,6 +243,11 @@
           <ss-button x-style="solid"   label="Solid"></ss-button>
           <ss-button x-style="outline" label="Outline"></ss-button>
           <ss-button x-style="ghost"   label="Ghost"></ss-button>
+        </div>
+        <div class="row">
+          <ss-button variant="error" x-style="solid"   label="Solid"></ss-button>
+          <ss-button variant="error" x-style="outline" label="Outline"></ss-button>
+          <ss-button variant="error" x-style="ghost"   label="Ghost"></ss-button>
         </div>
       </div>
 
@@ -213,6 +259,7 @@
           <ss-button size="md" label="Medium"></ss-button>
           <ss-button size="lg" label="Large"></ss-button>
           <ss-button size="xl" label="XLarge"></ss-button>
+          <ss-button size="2xl" label="2XL"></ss-button>
         </div>
       </div>
 
@@ -232,6 +279,23 @@
           <ss-button status="active"   label="Active"></ss-button>
           <ss-button status="disabled" label="Disabled"></ss-button>
           <ss-button status="loading"  label="Loading"></ss-button>
+          <ss-button disabled label="disabled prop"></ss-button>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">iconPosition (left · right · only)</p>
+        <div class="row">
+          <ss-button label="Left icon" icon-position="left">
+            <span slot="icon" class="demo-icon-shape"></span>
+          </ss-button>
+          <ss-button label="Right icon" icon-position="right">
+            <span slot="icon" class="demo-icon-shape"></span>
+          </ss-button>
+          <ss-button icon-position="only" accessibility-label="Icon only">
+            <span slot="icon" class="demo-icon-shape"></span>
+          </ss-button>
+          <ss-button label="No icon"></ss-button>
         </div>
       </div>
 
@@ -239,35 +303,15 @@
         <p class="label">fullWidth</p>
         <ss-button label="Full width button" full-width="true"></ss-button>
       </div>
-
-      <div class="card">
-        <p class="label">outline variants</p>
-        <div class="row">
-          <ss-button variant="primary"   x-style="outline" label="Primary"></ss-button>
-          <ss-button variant="secondary" x-style="outline" label="Secondary"></ss-button>
-          <ss-button variant="error"     x-style="outline" label="Error"></ss-button>
-          <ss-button variant="success"   x-style="outline" label="Success"></ss-button>
-          <ss-button variant="info"      x-style="outline" label="Info"></ss-button>
-        </div>
-      </div>
-
-      <div class="card">
-        <p class="label">ghost variants</p>
-        <div class="row">
-          <ss-button variant="primary"   x-style="ghost" label="Primary"></ss-button>
-          <ss-button variant="secondary" x-style="ghost" label="Secondary"></ss-button>
-          <ss-button variant="error"     x-style="ghost" label="Error"></ss-button>
-        </div>
-      </div>
     </section>
 
-    <!-- ===================== INPUT ===================== -->
+    <!-- ===================== ss-input ===================== -->
     <section>
       <h2>ss-input</h2>
-      <p class="section-desc">xStyle · size · color · type · disabled</p>
+      <p class="section-desc">xStyle · size · color · type · state</p>
 
       <div class="card">
-        <p class="label">xStyle (primary)</p>
+        <p class="label">xStyle</p>
         <div class="col">
           <ss-input x-style="solid"     placeholder="solid style"></ss-input>
           <ss-input x-style="outline"   placeholder="outline style"></ss-input>
@@ -278,57 +322,100 @@
       <div class="card">
         <p class="label">size (outline)</p>
         <div class="col">
-          <ss-input size="sm" x-style="outline" placeholder="Small input"></ss-input>
-          <ss-input size="md" x-style="outline" placeholder="Medium input"></ss-input>
-          <ss-input size="lg" x-style="outline" placeholder="Large input"></ss-input>
+          <ss-input size="xs" x-style="outline" placeholder="XSmall"></ss-input>
+          <ss-input size="sm" x-style="outline" placeholder="Small"></ss-input>
+          <ss-input size="md" x-style="outline" placeholder="Medium"></ss-input>
+          <ss-input size="lg" x-style="outline" placeholder="Large"></ss-input>
+          <ss-input size="xl" x-style="outline" placeholder="XLarge"></ss-input>
         </div>
       </div>
 
       <div class="card">
-        <p class="label">color variants (outline · md)</p>
+        <p class="label">color (outline · md)</p>
         <div class="col">
-          <ss-input color="primary"   x-style="outline" placeholder="primary" value="primary"></ss-input>
+          <ss-input color="primary"   x-style="outline" placeholder="primary"   value="primary"></ss-input>
           <ss-input color="secondary" x-style="outline" placeholder="secondary"></ss-input>
-          <ss-input color="error"     x-style="outline" placeholder="error state"></ss-input>
-          <ss-input color="success"   x-style="outline" placeholder="success state"></ss-input>
-          <ss-input color="warning"   x-style="outline" placeholder="warning state"></ss-input>
-          <ss-input color="info"      x-style="outline" placeholder="info state"></ss-input>
+          <ss-input color="success"   x-style="outline" placeholder="success"></ss-input>
+          <ss-input color="warning"   x-style="outline" placeholder="warning"></ss-input>
+          <ss-input color="error"     x-style="outline" placeholder="error"></ss-input>
+          <ss-input color="info"      x-style="outline" placeholder="info"></ss-input>
         </div>
       </div>
 
       <div class="card">
-        <p class="label">type (outline · md)</p>
+        <p class="label">type</p>
         <div class="col">
+          <ss-input type="text"     x-style="outline" placeholder="text (default)"></ss-input>
           <ss-input type="email"    x-style="outline" placeholder="email@example.com"></ss-input>
-          <ss-input type="password" x-style="outline" placeholder="Password"></ss-input>
-          <ss-input type="number"   x-style="outline" placeholder="0"></ss-input>
+          <ss-input type="password" x-style="outline" placeholder="password"></ss-input>
+          <ss-input type="number"   x-style="outline" placeholder="0" min="0" max="100" step="1"></ss-input>
           <ss-input type="date"     x-style="outline"></ss-input>
+          <ss-input type="search"   x-style="outline" placeholder="search…"></ss-input>
+          <ss-input type="url"      x-style="outline" placeholder="https://"></ss-input>
+          <ss-input type="tel"      x-style="outline" placeholder="+1 (555) 000-0000"></ss-input>
         </div>
       </div>
 
       <div class="card">
-        <p class="label">disabled + fullWidth</p>
+        <p class="label">state (outline · md)</p>
         <div class="col">
-          <ss-input disabled="true"   x-style="outline" placeholder="Disabled" value="Can't touch this"></ss-input>
-          <ss-input full-width="true" x-style="outline" placeholder="Full width input"></ss-input>
+          <ss-input x-style="outline" value="Normal value"></ss-input>
+          <ss-input x-style="outline" value="Read only" readonly></ss-input>
+          <ss-input x-style="outline" value="Disabled" disabled></ss-input>
+          <ss-input x-style="outline" placeholder="Invalid" invalid></ss-input>
+          <ss-input x-style="outline" placeholder="Required" required></ss-input>
+          <ss-input x-style="outline" placeholder="Full width" full-width></ss-input>
         </div>
       </div>
     </section>
 
-    <!-- ===================== TYPOGRAPHY ===================== -->
+    <!-- ===================== ss-typography ===================== -->
     <section>
       <h2>ss-typography</h2>
-      <p class="section-desc">as · fontSize · fontWeight · color · align · transform · truncate · lineHeight</p>
+      <p class="section-desc">level · as · family · fontSize · fontWeight · color · align · lineHeight · letterSpacing · transform · truncate</p>
 
       <div class="card">
-        <p class="label">heading tags (as prop)</p>
+        <p class="label">level — heading convenience (auto: display font · bold · tight line-height · scaled size)</p>
         <div class="col">
-          <ss-typography as="h1" font-size="xl"  font-weight="bold">Heading H1</ss-typography>
-          <ss-typography as="h2" font-size="lg"  font-weight="bold">Heading H2</ss-typography>
-          <ss-typography as="h3" font-size="md"  font-weight="semibold">Heading H3</ss-typography>
-          <ss-typography as="h4" font-size="sm"  font-weight="medium">Heading H4</ss-typography>
-          <ss-typography as="p"  font-size="sm">Paragraph — lorem ipsum dolor sit amet.</ss-typography>
-          <ss-typography as="span" font-size="xs" color="muted">Span · muted · xs</ss-typography>
+          <ss-typography level="1">Level 1 — h1, 4xl, bold, display</ss-typography>
+          <ss-typography level="2">Level 2 — h2, 3xl, bold, display</ss-typography>
+          <ss-typography level="3">Level 3 — h3, 2xl, bold, display</ss-typography>
+          <ss-typography level="4">Level 4 — h4, xl, bold, display</ss-typography>
+          <ss-typography level="5">Level 5 — h5, lg, bold, display</ss-typography>
+          <ss-typography level="6">Level 6 — h6, md, bold, display</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">level — explicit prop overrides</p>
+        <div class="col">
+          <ss-typography level="2" font-size="xl">level 2 · font-size="xl" override</ss-typography>
+          <ss-typography level="2" font-weight="regular">level 2 · font-weight="regular" override</ss-typography>
+          <ss-typography level="2" line-height="relaxed">level 2 · line-height="relaxed" override</ss-typography>
+          <ss-typography level="2" family="sans">level 2 · family="sans" override</ss-typography>
+          <ss-typography level="2" color="primary">level 2 · color="primary"</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">as — all supported tags</p>
+        <div class="col">
+          <ss-typography as="p">p — paragraph (default)</ss-typography>
+          <ss-typography as="h1" font-size="xl" font-weight="bold">h1 — explicit, sans font</ss-typography>
+          <ss-typography as="span" font-size="sm">span — inline text</ss-typography>
+          <ss-typography as="small" font-size="xs" color="muted">small — caption / help text</ss-typography>
+          <ss-typography as="strong" font-weight="bold">strong — bold / important</ss-typography>
+          <ss-typography as="em">em — emphasis / italic via browser</ss-typography>
+          <ss-typography as="code">code — auto mono family: const answer = 42;</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">family</p>
+        <div class="col">
+          <ss-typography family="sans">sans (default) — The quick brown fox</ss-typography>
+          <ss-typography family="display">display — The quick brown fox</ss-typography>
+          <ss-typography family="mono">mono — const fox = 'quick brown';</ss-typography>
         </div>
       </div>
 
@@ -336,54 +423,55 @@
         <p class="label">color</p>
         <div class="col">
           <ss-typography color="foreground">foreground (default — adapts to theme)</ss-typography>
-          <ss-typography color="muted">muted</ss-typography>
+          <ss-typography color="muted">muted — helper / secondary text</ss-typography>
           <ss-typography color="primary">primary</ss-typography>
           <ss-typography color="secondary">secondary</ss-typography>
+          <ss-typography color="tertiary">tertiary (→ primary fallback)</ss-typography>
+          <ss-typography color="quaternary">quaternary (→ secondary fallback)</ss-typography>
           <ss-typography color="success">success</ss-typography>
           <ss-typography color="warning">warning</ss-typography>
-          <ss-typography color="error">error</ss-typography>
+          <ss-typography color="error">error — validation / alert text</ss-typography>
           <ss-typography color="info">info</ss-typography>
-        </div>
-      </div>
-
-      <div class="card" style="background: var(--ss-color-background);">
-        <p class="label">explicit black / white</p>
-        <div class="col">
-          <ss-typography color="black">black (always black)</ss-typography>
-          <ss-typography color="white" inline-styles="background:#374151;padding:4px 8px;border-radius:4px">white (always white)</ss-typography>
+          <ss-typography color="black">black (always)</ss-typography>
+          <ss-typography color="white" inline-styles="background:#374151;padding:2px 8px;border-radius:4px">white (always)</ss-typography>
+          <span style="color:var(--ss-color-success)">
+            <ss-typography as="span" color="inherit">inherit — takes parent color (success)</ss-typography>
+          </span>
         </div>
       </div>
 
       <div class="card">
         <p class="label">fontWeight</p>
+        <div class="row">
+          <ss-typography font-weight="light">light</ss-typography>
+          <ss-typography font-weight="regular">regular</ss-typography>
+          <ss-typography font-weight="medium">medium</ss-typography>
+          <ss-typography font-weight="semibold">semibold</ss-typography>
+          <ss-typography font-weight="bold">bold</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">fontSize</p>
         <div class="col">
-          <ss-typography font-weight="light">light weight</ss-typography>
-          <ss-typography font-weight="regular">regular weight</ss-typography>
-          <ss-typography font-weight="medium">medium weight</ss-typography>
-          <ss-typography font-weight="semibold">semibold weight</ss-typography>
-          <ss-typography font-weight="bold">bold weight</ss-typography>
+          <ss-typography font-size="xs">xs — 12px</ss-typography>
+          <ss-typography font-size="sm">sm — 14px</ss-typography>
+          <ss-typography font-size="md">md — 16px (base, default)</ss-typography>
+          <ss-typography font-size="lg">lg — 18px</ss-typography>
+          <ss-typography font-size="xl">xl — 20px</ss-typography>
+          <ss-typography font-size="2xl">2xl — 24px</ss-typography>
+          <ss-typography font-size="3xl">3xl — 30px</ss-typography>
+          <ss-typography font-size="4xl">4xl — 36px</ss-typography>
         </div>
       </div>
 
       <div class="card">
         <p class="label">align</p>
         <div class="col" style="width:100%">
-          <ss-typography align="left">left aligned</ss-typography>
+          <ss-typography align="left">left aligned (default)</ss-typography>
           <ss-typography align="center">center aligned</ss-typography>
           <ss-typography align="right">right aligned</ss-typography>
-          <ss-typography align="justify">justify — lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</ss-typography>
-        </div>
-      </div>
-
-      <div class="card">
-        <p class="label">transform + truncate</p>
-        <div class="col">
-          <ss-typography transform="uppercase">uppercase transform</ss-typography>
-          <ss-typography transform="capitalize">capitalize transform</ss-typography>
-          <ss-typography transform="lowercase">LOWERCASE TRANSFORM</ss-typography>
-          <ss-typography truncate="true" inline-styles="max-width:240px;display:block">
-            Truncated — this is a very long sentence that should be cut off
-          </ss-typography>
+          <ss-typography align="justify">justify — Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</ss-typography>
         </div>
       </div>
 
@@ -391,8 +479,612 @@
         <p class="label">lineHeight</p>
         <div class="col">
           <ss-typography line-height="tight">tight — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
+          <ss-typography line-height="snug">snug — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
           <ss-typography line-height="normal">normal — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
           <ss-typography line-height="relaxed">relaxed — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
+          <ss-typography line-height="loose">loose — The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">letterSpacing</p>
+        <div class="col">
+          <ss-typography letter-spacing="tight">tight letter-spacing — Typography demo text</ss-typography>
+          <ss-typography letter-spacing="normal">normal letter-spacing — Typography demo text</ss-typography>
+          <ss-typography letter-spacing="wide">wide letter-spacing — Typography demo text</ss-typography>
+          <ss-typography letter-spacing="wider">wider letter-spacing — Typography demo text</ss-typography>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">transform · truncate</p>
+        <div class="col">
+          <ss-typography transform="uppercase">uppercase transform</ss-typography>
+          <ss-typography transform="capitalize">capitalize transform</ss-typography>
+          <ss-typography transform="lowercase">LOWERCASE TRANSFORM</ss-typography>
+          <ss-typography truncate="true" inline-styles="max-width:280px;display:block">
+            Truncated — this is a very long sentence that should be cut off at the edge
+          </ss-typography>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-label ===================== -->
+    <section>
+      <h2>ss-label</h2>
+      <p class="section-desc">size · required · disabled · htmlFor · slot vs label prop</p>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="row">
+          <ss-label size="xs">XSmall label</ss-label>
+          <ss-label size="sm">Small label</ss-label>
+          <ss-label size="md">Medium label (default)</ss-label>
+          <ss-label size="lg">Large label</ss-label>
+          <ss-label size="xl">XLarge label</ss-label>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">required · disabled</p>
+        <div class="row">
+          <ss-label>Normal</ss-label>
+          <ss-label required>Required field</ss-label>
+          <ss-label disabled>Disabled label</ss-label>
+          <ss-label required disabled>Required + disabled</ss-label>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">htmlFor wiring (click label to focus input)</p>
+        <div class="col">
+          <div class="field">
+            <ss-label for="demo-label-input" required>Email address</ss-label>
+            <ss-input x-id="demo-label-input" type="email" x-style="outline" placeholder="email@example.com" full-width></ss-input>
+          </div>
+          <div class="field">
+            <ss-label label="Via label prop" for="demo-label-input2"></ss-label>
+            <ss-input x-id="demo-label-input2" x-style="outline" placeholder="label prop fallback" full-width></ss-input>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-link ===================== -->
+    <section>
+      <h2>ss-link</h2>
+      <p class="section-desc">variant · size · underline · disabled</p>
+
+      <div class="card">
+        <p class="label">variant</p>
+        <div class="row">
+          <ss-link href="#demo">primary (default)</ss-link>
+          <ss-link href="#demo" variant="secondary">secondary</ss-link>
+          <ss-link href="#demo" variant="tertiary">tertiary</ss-link>
+          <ss-link href="#demo" variant="quaternary">quaternary</ss-link>
+          <ss-link href="#demo" variant="success">success</ss-link>
+          <ss-link href="#demo" variant="warning">warning</ss-link>
+          <ss-link href="#demo" variant="error">error</ss-link>
+          <ss-link href="#demo" variant="info">info</ss-link>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="row">
+          <ss-link href="#demo" size="sm">small link</ss-link>
+          <ss-link href="#demo" size="md">medium link (default)</ss-link>
+          <ss-link href="#demo" size="lg">large link</ss-link>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">underline</p>
+        <div class="row">
+          <ss-link href="#demo" underline="none">underline="none"</ss-link>
+          <ss-link href="#demo" underline="hover">underline="hover" (default)</ss-link>
+          <ss-link href="#demo" underline="always">underline="always"</ss-link>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">disabled · external</p>
+        <div class="row">
+          <ss-link href="#demo">Normal link</ss-link>
+          <ss-link href="#demo" disabled>Disabled link</ss-link>
+          <ss-link href="#demo" target="_blank">Opens in new tab (rel auto)</ss-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-icon ===================== -->
+    <section>
+      <h2>ss-icon</h2>
+      <p class="section-desc">size · color · decorative vs accessible</p>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="row">
+          <ss-icon size="xs"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon size="sm"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon size="md"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon size="xl"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon size="2xl"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon size="3xl"><span class="demo-icon-shape"></span></ss-icon>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color</p>
+        <div class="row">
+          <ss-icon color="current" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="foreground" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="muted" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="primary" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="secondary" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="success" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="warning" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="error" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+          <ss-icon color="info" size="lg"><span class="demo-icon-shape"></span></ss-icon>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">decorative (aria-hidden) vs accessible (role="img" + label)</p>
+        <div class="row">
+          <ss-icon decorative="true" size="lg" title="decorative (hidden from AT)">
+            <span class="demo-icon-shape"></span>
+          </ss-icon>
+          <ss-icon decorative="false" label="Settings" size="lg">
+            <span class="demo-icon-shape"></span>
+          </ss-icon>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-badge ===================== -->
+    <section>
+      <h2>ss-badge</h2>
+      <p class="section-desc">variant · xStyle · size · pill · dismissible · icon slot</p>
+
+      <div class="card">
+        <p class="label">variant (subtle — default xStyle)</p>
+        <div class="row">
+          <ss-badge label="primary" variant="primary"></ss-badge>
+          <ss-badge label="secondary" variant="secondary"></ss-badge>
+          <ss-badge label="tertiary" variant="tertiary"></ss-badge>
+          <ss-badge label="quaternary" variant="quaternary"></ss-badge>
+          <ss-badge label="success" variant="success"></ss-badge>
+          <ss-badge label="warning" variant="warning"></ss-badge>
+          <ss-badge label="error" variant="error"></ss-badge>
+          <ss-badge label="info" variant="info"></ss-badge>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">xStyle (primary)</p>
+        <div class="row">
+          <ss-badge label="subtle (default)" x-style="subtle"></ss-badge>
+          <ss-badge label="solid" x-style="solid"></ss-badge>
+          <ss-badge label="outline" x-style="outline"></ss-badge>
+        </div>
+        <div class="row">
+          <ss-badge label="success · subtle" variant="success" x-style="subtle"></ss-badge>
+          <ss-badge label="success · solid"  variant="success" x-style="solid"></ss-badge>
+          <ss-badge label="success · outline" variant="success" x-style="outline"></ss-badge>
+        </div>
+        <div class="row">
+          <ss-badge label="error · subtle"   variant="error" x-style="subtle"></ss-badge>
+          <ss-badge label="error · solid"    variant="error" x-style="solid"></ss-badge>
+          <ss-badge label="error · outline"  variant="error" x-style="outline"></ss-badge>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size (primary · subtle)</p>
+        <div class="row">
+          <ss-badge label="xs"  size="xs"></ss-badge>
+          <ss-badge label="sm"  size="sm"></ss-badge>
+          <ss-badge label="md"  size="md"></ss-badge>
+          <ss-badge label="lg"  size="lg"></ss-badge>
+          <ss-badge label="xl"  size="xl"></ss-badge>
+          <ss-badge label="2xl" size="2xl"></ss-badge>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">pill · dismissible · disabled</p>
+        <div class="row">
+          <ss-badge label="default (rounded)"></ss-badge>
+          <ss-badge label="pill" pill></ss-badge>
+          <ss-badge label="dismissible" dismissible variant="success"></ss-badge>
+          <ss-badge label="pill + dismissible" pill dismissible variant="info"></ss-badge>
+          <ss-badge label="disabled" disabled></ss-badge>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">icon slot</p>
+        <div class="row">
+          <ss-badge label="With icon" variant="primary" x-style="solid" size="sm">
+            <span slot="icon" class="badge-icon"></span>
+          </ss-badge>
+          <ss-badge label="Success icon" variant="success" x-style="subtle" size="sm">
+            <span slot="icon" class="badge-icon"></span>
+          </ss-badge>
+          <ss-badge label="Error icon" variant="error" x-style="solid" pill size="sm">
+            <span slot="icon" class="badge-icon"></span>
+          </ss-badge>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-avatar ===================== -->
+    <section>
+      <h2>ss-avatar</h2>
+      <p class="section-desc">size · shape · src · initials · fallback slot</p>
+
+      <div class="card">
+        <p class="label">size (circle · initials)</p>
+        <div class="row">
+          <ss-avatar size="xs"  initials="XS" alt="XS avatar"></ss-avatar>
+          <ss-avatar size="sm"  initials="SM" alt="SM avatar"></ss-avatar>
+          <ss-avatar size="md"  initials="MD" alt="MD avatar"></ss-avatar>
+          <ss-avatar size="lg"  initials="LG" alt="LG avatar"></ss-avatar>
+          <ss-avatar size="xl"  initials="XL" alt="XL avatar"></ss-avatar>
+          <ss-avatar size="2xl" initials="2X" alt="2XL avatar"></ss-avatar>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">shape (md)</p>
+        <div class="row">
+          <ss-avatar shape="circle"  size="lg" initials="CI" alt="circle"></ss-avatar>
+          <ss-avatar shape="rounded" size="lg" initials="RO" alt="rounded"></ss-avatar>
+          <ss-avatar shape="square"  size="lg" initials="SQ" alt="square"></ss-avatar>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">image · image error (shows initials fallback) · fallback slot</p>
+        <div class="row">
+          <ss-avatar size="lg" src="https://picsum.photos/seed/avatar1/80" alt="User photo" loading="eager"></ss-avatar>
+          <ss-avatar size="lg" src="https://invalid.example/broken.jpg" initials="ER" alt="Error fallback"></ss-avatar>
+          <ss-avatar size="lg" alt="Slot fallback">
+            <span style="font-size:1.5em">🦊</span>
+          </ss-avatar>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-spinner ===================== -->
+    <section>
+      <h2>ss-spinner</h2>
+      <p class="section-desc">size · color · label</p>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="row">
+          <ss-spinner size="xs"  label="Loading xs"></ss-spinner>
+          <ss-spinner size="sm"  label="Loading sm"></ss-spinner>
+          <ss-spinner size="md"  label="Loading md"></ss-spinner>
+          <ss-spinner size="lg"  label="Loading lg"></ss-spinner>
+          <ss-spinner size="xl"  label="Loading xl"></ss-spinner>
+          <ss-spinner size="2xl" label="Loading 2xl"></ss-spinner>
+          <ss-spinner size="3xl" label="Loading 3xl"></ss-spinner>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color (md)</p>
+        <div class="row">
+          <ss-spinner color="primary"    size="md" label="primary"></ss-spinner>
+          <ss-spinner color="secondary"  size="md" label="secondary"></ss-spinner>
+          <ss-spinner color="success"    size="md" label="success"></ss-spinner>
+          <ss-spinner color="warning"    size="md" label="warning"></ss-spinner>
+          <ss-spinner color="error"      size="md" label="error"></ss-spinner>
+          <ss-spinner color="info"       size="md" label="info"></ss-spinner>
+          <ss-spinner color="foreground" size="md" label="foreground"></ss-spinner>
+          <ss-spinner color="muted"      size="md" label="muted"></ss-spinner>
+          <ss-spinner color="current"    size="md" label="current"></ss-spinner>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-divider ===================== -->
+    <section>
+      <h2>ss-divider</h2>
+      <p class="section-desc">orientation · spacing · label · decorative</p>
+
+      <div class="card">
+        <p class="label">horizontal (decorative)</p>
+        <ss-divider></ss-divider>
+      </div>
+
+      <div class="card">
+        <p class="label">horizontal with label</p>
+        <ss-divider label="OR" decorative="false"></ss-divider>
+      </div>
+
+      <div class="card">
+        <p class="label">horizontal spacing</p>
+        <div class="col">
+          <ss-typography as="small" color="muted">spacing="none"</ss-typography>
+          <ss-divider spacing="none"></ss-divider>
+          <ss-typography as="small" color="muted">spacing="sm"</ss-typography>
+          <ss-divider spacing="sm"></ss-divider>
+          <ss-typography as="small" color="muted">spacing="md" (default)</ss-typography>
+          <ss-divider spacing="md"></ss-divider>
+          <ss-typography as="small" color="muted">spacing="lg"</ss-typography>
+          <ss-divider spacing="lg"></ss-divider>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">vertical (orientation="vertical")</p>
+        <div class="demo-row-h60">
+          <ss-typography as="span">Left text</ss-typography>
+          <ss-divider orientation="vertical" decorative="false"></ss-divider>
+          <ss-typography as="span">Right text</ss-typography>
+          <ss-divider orientation="vertical" spacing="sm" decorative="false"></ss-divider>
+          <ss-typography as="span">More text</ss-typography>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-tooltip ===================== -->
+    <section>
+      <h2>ss-tooltip</h2>
+      <p class="section-desc">placement · trigger · content · disabled</p>
+
+      <div class="card">
+        <p class="label">placement</p>
+        <div class="row" style="padding:48px 0;justify-content:center;gap:32px">
+          <ss-tooltip content="Top tooltip" placement="top">
+            <ss-button slot="trigger" label="Top" x-style="outline" size="sm"></ss-button>
+          </ss-tooltip>
+          <ss-tooltip content="Right tooltip" placement="right">
+            <ss-button slot="trigger" label="Right" x-style="outline" size="sm"></ss-button>
+          </ss-tooltip>
+          <ss-tooltip content="Bottom tooltip" placement="bottom">
+            <ss-button slot="trigger" label="Bottom" x-style="outline" size="sm"></ss-button>
+          </ss-tooltip>
+          <ss-tooltip content="Left tooltip" placement="left">
+            <ss-button slot="trigger" label="Left" x-style="outline" size="sm"></ss-button>
+          </ss-tooltip>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">trigger</p>
+        <div class="row" style="gap:24px">
+          <ss-tooltip content="Hover to show" trigger="hover">
+            <ss-button slot="trigger" label="Hover" x-style="outline"></ss-button>
+          </ss-tooltip>
+          <ss-tooltip content="Click to toggle" trigger="click">
+            <ss-button slot="trigger" label="Click" x-style="outline"></ss-button>
+          </ss-tooltip>
+          <ss-tooltip content="Always visible" trigger="manual" open>
+            <ss-button slot="trigger" label="Manual (open)" x-style="outline"></ss-button>
+          </ss-tooltip>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">disabled</p>
+        <div class="row">
+          <ss-tooltip content="This won't show" disabled>
+            <ss-button slot="trigger" label="Disabled tooltip" x-style="outline"></ss-button>
+          </ss-tooltip>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-checkbox ===================== -->
+    <section>
+      <h2>ss-checkbox</h2>
+      <p class="section-desc">checked · indeterminate · disabled · readonly · invalid · required · size</p>
+
+      <div class="card">
+        <p class="label">state</p>
+        <div class="col">
+          <ss-checkbox name="cb-demo" value="a">Unchecked (default)</ss-checkbox>
+          <ss-checkbox name="cb-demo" value="b" checked>Checked</ss-checkbox>
+          <ss-checkbox name="cb-demo" value="c" indeterminate>Indeterminate</ss-checkbox>
+          <ss-checkbox name="cb-demo" value="d" disabled>Disabled unchecked</ss-checkbox>
+          <ss-checkbox name="cb-demo" value="e" checked disabled>Disabled checked</ss-checkbox>
+          <ss-checkbox name="cb-demo" value="f" readonly checked>Readonly checked</ss-checkbox>
+          <ss-checkbox name="cb-demo" value="g" invalid>Invalid</ss-checkbox>
+          <ss-checkbox name="cb-demo" value="h" required>Required</ss-checkbox>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="row">
+          <ss-checkbox size="xs" checked>xs</ss-checkbox>
+          <ss-checkbox size="sm" checked>sm</ss-checkbox>
+          <ss-checkbox size="md" checked>md (default)</ss-checkbox>
+          <ss-checkbox size="lg" checked>lg</ss-checkbox>
+          <ss-checkbox size="xl" checked>xl</ss-checkbox>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-radio ===================== -->
+    <section>
+      <h2>ss-radio</h2>
+      <p class="section-desc">checked · disabled · readonly · invalid · required · size</p>
+
+      <div class="card">
+        <p class="label">state</p>
+        <div class="col">
+          <ss-radio name="rd-state" value="a">Unchecked (default)</ss-radio>
+          <ss-radio name="rd-state" value="b" checked>Checked</ss-radio>
+          <ss-radio name="rd-state" value="c" disabled>Disabled</ss-radio>
+          <ss-radio name="rd-state" value="d" checked disabled>Checked disabled</ss-radio>
+          <ss-radio name="rd-state" value="e" readonly checked>Readonly checked</ss-radio>
+          <ss-radio name="rd-state" value="f" invalid>Invalid</ss-radio>
+          <ss-radio name="rd-state" value="g" required>Required</ss-radio>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="row">
+          <ss-radio name="rd-size" value="xs" size="xs" checked>xs</ss-radio>
+          <ss-radio name="rd-size" value="sm" size="sm">sm</ss-radio>
+          <ss-radio name="rd-size" value="md" size="md">md (default)</ss-radio>
+          <ss-radio name="rd-size" value="lg" size="lg">lg</ss-radio>
+          <ss-radio name="rd-size" value="xl" size="xl">xl</ss-radio>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-switch ===================== -->
+    <section>
+      <h2>ss-switch</h2>
+      <p class="section-desc">checked · disabled · readonly · invalid · labelPosition · size</p>
+
+      <div class="card">
+        <p class="label">state</p>
+        <div class="col">
+          <ss-switch name="sw-state" value="a">Unchecked (default)</ss-switch>
+          <ss-switch name="sw-state" value="b" checked>Checked</ss-switch>
+          <ss-switch name="sw-state" value="c" disabled>Disabled</ss-switch>
+          <ss-switch name="sw-state" value="d" checked disabled>Checked disabled</ss-switch>
+          <ss-switch name="sw-state" value="e" readonly checked>Readonly checked</ss-switch>
+          <ss-switch name="sw-state" value="f" invalid>Invalid</ss-switch>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">labelPosition</p>
+        <div class="col">
+          <ss-switch label-position="end" checked>Label at end (default)</ss-switch>
+          <ss-switch label-position="start" checked>Label at start</ss-switch>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="row">
+          <ss-switch size="xs" checked>xs</ss-switch>
+          <ss-switch size="sm" checked>sm</ss-switch>
+          <ss-switch size="md" checked>md (default)</ss-switch>
+          <ss-switch size="lg" checked>lg</ss-switch>
+          <ss-switch size="xl" checked>xl</ss-switch>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-select ===================== -->
+    <section>
+      <h2>ss-select</h2>
+      <p class="section-desc">xStyle · size · color · disabled · invalid · multiple · placeholder</p>
+
+      <div class="card">
+        <p class="label">xStyle</p>
+        <div class="col">
+          <ss-select x-style="solid" placeholder="solid (default)">
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+            <option value="c">Option C</option>
+          </ss-select>
+          <ss-select x-style="outline" placeholder="outline">
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+            <option value="c">Option C</option>
+          </ss-select>
+          <ss-select x-style="underline" placeholder="underline">
+            <option value="a">Option A</option>
+            <option value="b">Option B</option>
+            <option value="c">Option C</option>
+          </ss-select>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size (outline)</p>
+        <div class="col">
+          <ss-select size="xs" x-style="outline"><option>XSmall</option></ss-select>
+          <ss-select size="sm" x-style="outline"><option>Small</option></ss-select>
+          <ss-select size="md" x-style="outline"><option>Medium (default)</option></ss-select>
+          <ss-select size="lg" x-style="outline"><option>Large</option></ss-select>
+          <ss-select size="xl" x-style="outline"><option>XLarge</option></ss-select>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color (outline)</p>
+        <div class="col">
+          <ss-select color="primary"   x-style="outline"><option>Primary</option></ss-select>
+          <ss-select color="secondary" x-style="outline"><option>Secondary</option></ss-select>
+          <ss-select color="success"   x-style="outline"><option>Success</option></ss-select>
+          <ss-select color="error"     x-style="outline"><option>Error</option></ss-select>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">state · multiple</p>
+        <div class="col">
+          <ss-select x-style="outline" disabled><option>Disabled</option></ss-select>
+          <ss-select x-style="outline" invalid><option>Invalid</option></ss-select>
+          <ss-select x-style="outline" required placeholder="Required"></ss-select>
+          <ss-select x-style="outline" multiple full-width>
+            <option value="a">Option A (multiple — hold Ctrl/Cmd)</option>
+            <option value="b">Option B</option>
+            <option value="c">Option C</option>
+            <option value="d">Option D</option>
+          </ss-select>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-textarea ===================== -->
+    <section>
+      <h2>ss-textarea</h2>
+      <p class="section-desc">xStyle · size · resize · rows · disabled · readonly · invalid</p>
+
+      <div class="card">
+        <p class="label">xStyle</p>
+        <div class="col">
+          <ss-textarea x-style="solid"     placeholder="solid style" rows="2"></ss-textarea>
+          <ss-textarea x-style="outline"   placeholder="outline style" rows="2"></ss-textarea>
+          <ss-textarea x-style="underline" placeholder="underline style" rows="2"></ss-textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size (outline)</p>
+        <div class="col">
+          <ss-textarea size="xs" x-style="outline" placeholder="XSmall" rows="2"></ss-textarea>
+          <ss-textarea size="sm" x-style="outline" placeholder="Small" rows="2"></ss-textarea>
+          <ss-textarea size="md" x-style="outline" placeholder="Medium (default)" rows="2"></ss-textarea>
+          <ss-textarea size="lg" x-style="outline" placeholder="Large" rows="2"></ss-textarea>
+          <ss-textarea size="xl" x-style="outline" placeholder="XLarge" rows="2"></ss-textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">resize</p>
+        <div class="col">
+          <ss-textarea x-style="outline" resize="none"       placeholder='resize="none"'       rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" resize="vertical"   placeholder='resize="vertical" (default)' rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" resize="horizontal" placeholder='resize="horizontal"' rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" resize="both"       placeholder='resize="both"'       rows="2"></ss-textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">state</p>
+        <div class="col">
+          <ss-textarea x-style="outline" value="Normal textarea" rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" value="Readonly textarea" readonly rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" value="Disabled textarea" disabled rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" placeholder="Invalid textarea" invalid rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" placeholder="Full width" full-width rows="2"></ss-textarea>
         </div>
       </div>
     </section>
