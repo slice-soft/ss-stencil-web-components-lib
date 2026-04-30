@@ -31,6 +31,10 @@ $sizes: (
     border-color: var(--ss-input-border-focus, var(--ss-color-ring));
     box-shadow:   0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent);
   }
+
+  &[readonly] {
+    background: var(--ss-color-surface);
+  }
 }
 
 // Sizes
@@ -120,3 +124,12 @@ $sizes: (
 
 // Full width
 .ss-input--full-width { width: 100%; }
+
+.ss-input--invalid {
+  border-color: var(--ss-color-error);
+
+  &:focus {
+    border-color: var(--ss-color-error);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-error) 25%, transparent);
+  }
+}
