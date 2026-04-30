@@ -1,9 +1,80 @@
 // Shared mixins for ss-* components.
 // All variants use semantic tokens (--ss-color-*) → dark mode works automatically.
+@use 'sass:map';
+
+$atom-control-sizes: (
+  'xs': (padding: var(--ss-dimensions-1) var(--ss-dimensions-2), font-size: var(--ss-text-sizes-xs), radius: var(--ss-radius-sm), gap: var(--ss-dimensions-1)),
+  'sm': (padding: var(--ss-dimensions-1) var(--ss-dimensions-2), font-size: var(--ss-text-sizes-sm), radius: var(--ss-radius-sm), gap: var(--ss-dimensions-1)),
+  'md': (padding: var(--ss-dimensions-2) var(--ss-dimensions-3), font-size: var(--ss-text-sizes-base), radius: var(--ss-radius-base), gap: var(--ss-dimensions-2)),
+  'lg': (padding: var(--ss-dimensions-3) var(--ss-dimensions-4), font-size: var(--ss-text-sizes-lg), radius: var(--ss-radius-lg), gap: var(--ss-dimensions-2)),
+  'xl': (padding: var(--ss-dimensions-4) var(--ss-dimensions-5), font-size: var(--ss-text-sizes-xl), radius: var(--ss-radius-xl), gap: var(--ss-dimensions-3)),
+  '2xl': (padding: var(--ss-dimensions-5) var(--ss-dimensions-6), font-size: var(--ss-text-sizes-2xl), radius: var(--ss-radius-2xl), gap: var(--ss-dimensions-3)),
+  '3xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-8), font-size: var(--ss-text-sizes-3xl), radius: var(--ss-radius-2xl), gap: var(--ss-dimensions-4)),
+);
 
 @mixin focus-ring($color: var(--ss-color-ring)) {
   outline: 2px solid $color;
   outline-offset: 2px;
+}
+
+@mixin atom-disabled {
+  color: var(--ss-color-muted-foreground);
+  cursor: not-allowed;
+}
+
+@mixin atom-control-base {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  font-family: var(--ss-input-font-family, var(--ss-text-fonts-sans));
+  font-size: var(--ss-input-font-size, var(--ss-text-sizes-base));
+  color: var(--ss-input-foreground, var(--ss-color-foreground));
+  background: var(--ss-input-background, var(--ss-color-background));
+  border: 2px solid var(--ss-input-border, var(--ss-color-input));
+  border-radius: var(--ss-input-border-radius, var(--ss-radius-base));
+  transition:
+    border-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
+    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
+    box-shadow var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border-color: var(--ss-input-border-focus, var(--ss-color-ring));
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background: var(--ss-color-muted);
+    @include atom-disabled;
+  }
+
+  &[readonly] {
+    background: var(--ss-color-surface);
+  }
+}
+
+@mixin atom-control-sizes($block) {
+  @each $size, $values in $atom-control-sizes {
+    .#{$block}--#{$size} {
+      padding: map.get($values, 'padding');
+      font-size: map.get($values, 'font-size');
+      border-radius: map.get($values, 'radius');
+      gap: map.get($values, 'gap');
+    }
+  }
+}
+
+@mixin atom-accent-variants($block) {
+  .#{$block}--primary { --atom-accent: var(--ss-color-primary); --atom-accent-foreground: var(--ss-color-primary-foreground); }
+  .#{$block}--secondary { --atom-accent: var(--ss-color-secondary); --atom-accent-foreground: var(--ss-color-secondary-foreground); }
+  .#{$block}--tertiary { --atom-accent: var(--ss-color-primary); --atom-accent-foreground: var(--ss-color-primary-foreground); }
+  .#{$block}--quaternary { --atom-accent: var(--ss-color-secondary); --atom-accent-foreground: var(--ss-color-secondary-foreground); }
+  .#{$block}--success { --atom-accent: var(--ss-color-success); --atom-accent-foreground: var(--ss-color-success-foreground); }
+  .#{$block}--warning { --atom-accent: var(--ss-color-warning); --atom-accent-foreground: var(--ss-color-warning-foreground); }
+  .#{$block}--error { --atom-accent: var(--ss-color-error); --atom-accent-foreground: var(--ss-color-error-foreground); }
+  .#{$block}--info { --atom-accent: var(--ss-color-info); --atom-accent-foreground: var(--ss-color-info-foreground); }
 }
 
 // Button variant — generates solid / outline / ghost styles from a semantic color name.

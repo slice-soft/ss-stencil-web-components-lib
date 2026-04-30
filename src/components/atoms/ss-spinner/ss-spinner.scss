@@ -1,0 +1,40 @@
+.ss-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ss-color-primary);
+}
+
+.ss-spinner__track {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border: var(--ss-dimensions-1) solid color-mix(in srgb, currentColor 24%, transparent);
+  border-top-color: currentColor;
+  border-radius: var(--ss-radius-full);
+  animation: ss-spinner-rotate var(--ss-transitions-durations-long) linear infinite;
+}
+
+.ss-spinner--xs { font-size: var(--ss-text-sizes-xs); }
+.ss-spinner--sm { font-size: var(--ss-text-sizes-sm); }
+.ss-spinner--md { font-size: var(--ss-text-sizes-xl); }
+.ss-spinner--lg { font-size: var(--ss-text-sizes-2xl); }
+.ss-spinner--xl { font-size: var(--ss-text-sizes-3xl); }
+.ss-spinner--2xl,
+.ss-spinner--3xl { font-size: var(--ss-text-sizes-4xl); }
+
+.ss-spinner--current { color: currentColor; }
+.ss-spinner--foreground { color: var(--ss-color-foreground); }
+.ss-spinner--muted { color: var(--ss-color-muted-foreground); }
+.ss-spinner--primary { color: var(--ss-color-primary); }
+.ss-spinner--secondary { color: var(--ss-color-secondary-foreground); }
+.ss-spinner--tertiary { color: var(--ss-color-primary); }
+.ss-spinner--quaternary { color: var(--ss-color-secondary-foreground); }
+.ss-spinner--success { color: var(--ss-color-success); }
+.ss-spinner--warning { color: var(--ss-color-warning); }
+.ss-spinner--error { color: var(--ss-color-error); }
+.ss-spinner--info { color: var(--ss-color-info); }
+
+@keyframes ss-spinner-rotate {
+  to { transform: rotate(360deg); }
+}
