@@ -5,10 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+import { InlineStyles } from "./utils/style";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
-import { InlineStyles } from "./utils/style";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -16,10 +17,11 @@ import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/s
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
+export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+export { InlineStyles } from "./utils/style";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
-export { InlineStyles } from "./utils/style";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -28,6 +30,25 @@ export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
+    interface SsAvatar {
+        "alt"?: string;
+        "initials"?: string;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'lazy'
+         */
+        "loading": 'eager' | 'lazy';
+        /**
+          * @default 'circle'
+         */
+        "shape": AvatarShape;
+        /**
+          * @default 'md'
+         */
+        "size": AvatarSize;
+        "src"?: string;
+        "xId"?: string;
+    }
     interface SsButton {
         "accessibilityLabel"?: string;
         /**
@@ -338,6 +359,10 @@ export namespace Components {
         "xId"?: string;
     }
 }
+export interface SsAvatarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsAvatarElement;
+}
 export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsButtonElement;
@@ -363,6 +388,24 @@ export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSsSwitchElement;
 }
 declare global {
+    interface HTMLSsAvatarElementEventMap {
+        "ssLoad": SsAvatarImageEvent;
+        "ssError": SsAvatarImageEvent;
+    }
+    interface HTMLSsAvatarElement extends Components.SsAvatar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsAvatarElementEventMap>(type: K, listener: (this: HTMLSsAvatarElement, ev: SsAvatarCustomEvent<HTMLSsAvatarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsAvatarElementEventMap>(type: K, listener: (this: HTMLSsAvatarElement, ev: SsAvatarCustomEvent<HTMLSsAvatarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsAvatarElement: {
+        prototype: HTMLSsAvatarElement;
+        new (): HTMLSsAvatarElement;
+    };
     interface HTMLSsButtonElementEventMap {
         "ssClick": string | undefined;
     }
@@ -491,6 +534,7 @@ declare global {
         new (): HTMLSsTypographyElement;
     };
     interface HTMLElementTagNameMap {
+        "ss-avatar": HTMLSsAvatarElement;
         "ss-button": HTMLSsButtonElement;
         "ss-input": HTMLSsInputElement;
         "ss-label": HTMLSsLabelElement;
@@ -502,6 +546,27 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    interface SsAvatar {
+        "alt"?: string;
+        "initials"?: string;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'lazy'
+         */
+        "loading"?: 'eager' | 'lazy';
+        "onSsError"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
+        "onSsLoad"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
+        /**
+          * @default 'circle'
+         */
+        "shape"?: AvatarShape;
+        /**
+          * @default 'md'
+         */
+        "size"?: AvatarSize;
+        "src"?: string;
+        "xId"?: string;
+    }
     interface SsButton {
         "accessibilityLabel"?: string;
         /**
@@ -831,6 +896,7 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface IntrinsicElements {
+        "ss-avatar": SsAvatar;
         "ss-button": SsButton;
         "ss-input": SsInput;
         "ss-label": SsLabel;
@@ -845,6 +911,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;

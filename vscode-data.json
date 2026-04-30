@@ -2,6 +2,86 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "ss-avatar",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "alt",
+          "description": ""
+        },
+        {
+          "name": "initials",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "loading",
+          "description": "",
+          "values": [
+            {
+              "name": "eager"
+            },
+            {
+              "name": "lazy"
+            }
+          ]
+        },
+        {
+          "name": "shape",
+          "description": "",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "rounded"
+            },
+            {
+              "name": "square"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "src",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "ss-button",
       "description": {
         "kind": "markdown",
