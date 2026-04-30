@@ -1,0 +1,28 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-1);
+  width: fit-content;
+  font-family: var(--ss-text-fonts-sans);
+  font-weight: var(--ss-text-weights-medium);
+  line-height: var(--ss-text-line-heights-normal);
+  color: var(--ss-color-foreground);
+}
+
+.ss-label--xs { font-size: var(--ss-text-sizes-xs); }
+.ss-label--sm { font-size: var(--ss-text-sizes-sm); }
+.ss-label--md { font-size: var(--ss-text-sizes-base); }
+.ss-label--lg { font-size: var(--ss-text-sizes-lg); }
+.ss-label--xl,
+.ss-label--2xl,
+.ss-label--3xl { font-size: var(--ss-text-sizes-xl); }
+
+.ss-label--disabled {
+  @include mx.atom-disabled;
+}
+
+.ss-label__required {
+  color: var(--ss-color-error);
+}
