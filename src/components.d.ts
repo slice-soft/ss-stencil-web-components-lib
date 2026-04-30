@@ -5,6 +5,11 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+import { InlineStyles } from "./utils/style";
+import { Variant } from "./types/variant";
+import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+import { Size } from "./types/size";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
@@ -22,7 +27,60 @@ export { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/s
 export { Event } from "@stencil/core";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
+    interface SsAvatar {
+        "alt"?: string;
+        "initials"?: string;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'lazy'
+         */
+        "loading": 'eager' | 'lazy';
+        /**
+          * @default 'circle'
+         */
+        "shape": AvatarShape;
+        /**
+          * @default 'md'
+         */
+        "size": AvatarSize;
+        "src"?: string;
+        "xId"?: string;
+    }
+    interface SsBadge {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default 'Dismiss'
+         */
+        "dismissLabel": string;
+        /**
+          * @default false
+         */
+        "dismissible": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default false
+         */
+        "pill": boolean;
+        /**
+          * @default 'sm'
+         */
+        "size": Size;
+        /**
+          * @default 'primary'
+         */
+        "variant": Variant;
+        "xId"?: string;
+        /**
+          * @default 'subtle'
+         */
+        "xStyle": BadgeStyle;
+    }
     interface SsButton {
+        "accessibilityLabel"?: string;
         /**
           * @default 1000
          */
@@ -41,6 +99,10 @@ export namespace Components {
         "iconPosition": IconPosition;
         "inlineStyles"?: InlineStyles;
         "label"?: string;
+        /**
+          * @default false
+         */
+        "loading": boolean;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
           * @default true
@@ -109,10 +171,13 @@ export namespace Components {
         "xId"?: string;
     }
     interface SsInput {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
         /**
           * @default 'primary'
          */
         "color": Variant;
+        "describedBy"?: string;
         /**
           * @default false
          */
@@ -122,8 +187,20 @@ export namespace Components {
          */
         "fullWidth": boolean;
         "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "max"?: string;
+        "maxLength"?: number;
+        "min"?: string;
+        "minLength"?: number;
         "name"?: string;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
         /**
           * @default false
          */
@@ -132,6 +209,7 @@ export namespace Components {
           * @default 'md'
          */
         "size": Size;
+        "step"?: string;
         /**
           * @default 'text'
          */
@@ -142,6 +220,197 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": InputStyle;
+    }
+    interface SsLabel {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "htmlFor"?: string;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "xId"?: string;
+    }
+    interface SsLink {
+        "accessibilityLabel"?: string;
+        "current"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "download"?: string;
+        "href"?: string;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        "rel"?: string;
+        /**
+          * @default 'md'
+         */
+        "size": LinkSize;
+        "target"?: LinkTarget;
+        /**
+          * @default 'hover'
+         */
+        "underline": LinkUnderline;
+        /**
+          * @default 'primary'
+         */
+        "variant": Variant;
+        "xId"?: string;
+    }
+    interface SsRadio {
+        /**
+          * @default false
+         */
+        "checked": boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "label"?: string;
+        "name"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string;
+        "xId"?: string;
+    }
+    interface SsSelect {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color": Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "fullWidth": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * @default false
+         */
+        "multiple": boolean;
+        "name"?: string;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string | string[];
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle": SelectStyle;
+    }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label": string;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "xId"?: string;
+    }
+    interface SsSwitch {
+        /**
+          * @default false
+         */
+        "checked": boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "label"?: string;
+        /**
+          * @default 'end'
+         */
+        "labelPosition": SwitchLabelPosition;
+        "name"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string;
+        "xId"?: string;
+    }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * @default 'top'
+         */
+        "placement": TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger": TooltipTrigger;
+        "xId"?: string;
     }
     interface SsTypography {
         /**
@@ -158,22 +427,30 @@ export namespace Components {
          */
         "color": TypographyColor;
         /**
-          * @default 'md'
+          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
          */
-        "fontSize": TypographySize;
+        "family"?: TypographyFamily;
         /**
-          * @default 'regular'
+          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
          */
-        "fontWeight": FontWeight;
+        "fontSize"?: TypographySize;
+        /**
+          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
+         */
+        "fontWeight"?: FontWeight;
         "inlineStyles"?: InlineStyles;
         /**
           * @default 'normal'
          */
         "letterSpacing": LetterSpacing;
         /**
-          * @default 'normal'
+          * Heading level (1–6). Sets the rendered tag to h{level} and applies display font, bold weight, tight line-height, and a size scaled to the level. All defaults are overridable via the individual props.
          */
-        "lineHeight": LineHeight;
+        "level"?: TypographyLevel;
+        /**
+          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
+         */
+        "lineHeight"?: LineHeight;
         /**
           * @default 'normal'
          */
@@ -184,6 +461,14 @@ export namespace Components {
         "truncate": boolean;
         "xId"?: string;
     }
+}
+export interface SsAvatarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsAvatarElement;
+}
+export interface SsBadgeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsBadgeElement;
 }
 export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -197,7 +482,62 @@ export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
 }
+export interface SsLinkCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsLinkElement;
+}
+export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsRadioElement;
+}
+export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsSelectElement;
+}
+export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsSwitchElement;
+}
+export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTooltipElement;
+}
 declare global {
+    interface HTMLSsAvatarElementEventMap {
+        "ssLoad": SsAvatarImageEvent;
+        "ssError": SsAvatarImageEvent;
+    }
+    interface HTMLSsAvatarElement extends Components.SsAvatar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsAvatarElementEventMap>(type: K, listener: (this: HTMLSsAvatarElement, ev: SsAvatarCustomEvent<HTMLSsAvatarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsAvatarElementEventMap>(type: K, listener: (this: HTMLSsAvatarElement, ev: SsAvatarCustomEvent<HTMLSsAvatarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsAvatarElement: {
+        prototype: HTMLSsAvatarElement;
+        new (): HTMLSsAvatarElement;
+    };
+    interface HTMLSsBadgeElementEventMap {
+        "ssDismiss": SsBadgeDismissEvent;
+    }
+    interface HTMLSsBadgeElement extends Components.SsBadge, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsBadgeElementEventMap>(type: K, listener: (this: HTMLSsBadgeElement, ev: SsBadgeCustomEvent<HTMLSsBadgeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsBadgeElementEventMap>(type: K, listener: (this: HTMLSsBadgeElement, ev: SsBadgeCustomEvent<HTMLSsBadgeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsBadgeElement: {
+        prototype: HTMLSsBadgeElement;
+        new (): HTMLSsBadgeElement;
+    };
     interface HTMLSsButtonElementEventMap {
         "ssClick": string | undefined;
     }
@@ -241,40 +581,6 @@ declare global {
         "ssInvalid": SsInputValueEvent;
         "ssFocus": FocusEvent;
         "ssBlur": FocusEvent;
-        "ssFocusIn": FocusEvent;
-        "ssFocusOut": FocusEvent;
-        "ssKeyDown": KeyboardEvent;
-        "ssKeyPress": KeyboardEvent;
-        "ssKeyUp": KeyboardEvent;
-        "ssSelect": Event;
-        "ssCompositionStart": CompositionEvent;
-        "ssCompositionUpdate": CompositionEvent;
-        "ssCompositionEnd": CompositionEvent;
-        "ssCut": ClipboardEvent;
-        "ssCopy": ClipboardEvent;
-        "ssPaste": ClipboardEvent;
-        "ssClick": MouseEvent;
-        "ssDoubleClick": MouseEvent;
-        "ssMouseDown": MouseEvent;
-        "ssMouseUp": MouseEvent;
-        "ssMouseEnter": MouseEvent;
-        "ssMouseLeave": MouseEvent;
-        "ssMouseOver": MouseEvent;
-        "ssMouseOut": MouseEvent;
-        "ssMouseMove": MouseEvent;
-        "ssContextMenu": MouseEvent;
-        "ssDragStart": DragEvent;
-        "ssDrag": DragEvent;
-        "ssDragEnter": DragEvent;
-        "ssDragLeave": DragEvent;
-        "ssDragOver": DragEvent;
-        "ssDrop": DragEvent;
-        "ssDragEnd": DragEvent;
-        "ssWheel": WheelEvent;
-        "ssTouchStart": TouchEvent;
-        "ssTouchMove": TouchEvent;
-        "ssTouchEnd": TouchEvent;
-        "ssTouchCancel": TouchEvent;
     }
     interface HTMLSsInputElement extends Components.SsInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsInputElementEventMap>(type: K, listener: (this: HTMLSsInputElement, ev: SsInputCustomEvent<HTMLSsInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -290,6 +596,112 @@ declare global {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
     };
+    interface HTMLSsLabelElement extends Components.SsLabel, HTMLStencilElement {
+    }
+    var HTMLSsLabelElement: {
+        prototype: HTMLSsLabelElement;
+        new (): HTMLSsLabelElement;
+    };
+    interface HTMLSsLinkElementEventMap {
+        "ssClick": SsLinkClickEvent;
+    }
+    interface HTMLSsLinkElement extends Components.SsLink, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsLinkElementEventMap>(type: K, listener: (this: HTMLSsLinkElement, ev: SsLinkCustomEvent<HTMLSsLinkElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsLinkElementEventMap>(type: K, listener: (this: HTMLSsLinkElement, ev: SsLinkCustomEvent<HTMLSsLinkElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsLinkElement: {
+        prototype: HTMLSsLinkElement;
+        new (): HTMLSsLinkElement;
+    };
+    interface HTMLSsRadioElementEventMap {
+        "ssChange": SsCheckedChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsCheckedChangeEvent;
+    }
+    interface HTMLSsRadioElement extends Components.SsRadio, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsRadioElementEventMap>(type: K, listener: (this: HTMLSsRadioElement, ev: SsRadioCustomEvent<HTMLSsRadioElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsRadioElementEventMap>(type: K, listener: (this: HTMLSsRadioElement, ev: SsRadioCustomEvent<HTMLSsRadioElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsRadioElement: {
+        prototype: HTMLSsRadioElement;
+        new (): HTMLSsRadioElement;
+    };
+    interface HTMLSsSelectElementEventMap {
+        "ssChange": SsSelectChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsSelectChangeEvent;
+    }
+    interface HTMLSsSelectElement extends Components.SsSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsSelectElementEventMap>(type: K, listener: (this: HTMLSsSelectElement, ev: SsSelectCustomEvent<HTMLSsSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsSelectElementEventMap>(type: K, listener: (this: HTMLSsSelectElement, ev: SsSelectCustomEvent<HTMLSsSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsSelectElement: {
+        prototype: HTMLSsSelectElement;
+        new (): HTMLSsSelectElement;
+    };
+    interface HTMLSsSpinnerElement extends Components.SsSpinner, HTMLStencilElement {
+    }
+    var HTMLSsSpinnerElement: {
+        prototype: HTMLSsSpinnerElement;
+        new (): HTMLSsSpinnerElement;
+    };
+    interface HTMLSsSwitchElementEventMap {
+        "ssChange": SsCheckedChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsCheckedChangeEvent;
+    }
+    interface HTMLSsSwitchElement extends Components.SsSwitch, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsSwitchElementEventMap>(type: K, listener: (this: HTMLSsSwitchElement, ev: SsSwitchCustomEvent<HTMLSsSwitchElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsSwitchElementEventMap>(type: K, listener: (this: HTMLSsSwitchElement, ev: SsSwitchCustomEvent<HTMLSsSwitchElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsSwitchElement: {
+        prototype: HTMLSsSwitchElement;
+        new (): HTMLSsSwitchElement;
+    };
+    interface HTMLSsTooltipElementEventMap {
+        "ssOpenChange": SsTooltipOpenChangeEvent;
+    }
+    interface HTMLSsTooltipElement extends Components.SsTooltip, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTooltipElement: {
+        prototype: HTMLSsTooltipElement;
+        new (): HTMLSsTooltipElement;
+    };
     interface HTMLSsTypographyElement extends Components.SsTypography, HTMLStencilElement {
     }
     var HTMLSsTypographyElement: {
@@ -297,14 +709,79 @@ declare global {
         new (): HTMLSsTypographyElement;
     };
     interface HTMLElementTagNameMap {
+        "ss-avatar": HTMLSsAvatarElement;
+        "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
         "ss-checkbox": HTMLSsCheckboxElement;
         "ss-input": HTMLSsInputElement;
+        "ss-label": HTMLSsLabelElement;
+        "ss-link": HTMLSsLinkElement;
+        "ss-radio": HTMLSsRadioElement;
+        "ss-select": HTMLSsSelectElement;
+        "ss-spinner": HTMLSsSpinnerElement;
+        "ss-switch": HTMLSsSwitchElement;
+        "ss-tooltip": HTMLSsTooltipElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
 declare namespace LocalJSX {
+    interface SsAvatar {
+        "alt"?: string;
+        "initials"?: string;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'lazy'
+         */
+        "loading"?: 'eager' | 'lazy';
+        "onSsError"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
+        "onSsLoad"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
+        /**
+          * @default 'circle'
+         */
+        "shape"?: AvatarShape;
+        /**
+          * @default 'md'
+         */
+        "size"?: AvatarSize;
+        "src"?: string;
+        "xId"?: string;
+    }
+    interface SsBadge {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default 'Dismiss'
+         */
+        "dismissLabel"?: string;
+        /**
+          * @default false
+         */
+        "dismissible"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        "onSsDismiss"?: (event: SsBadgeCustomEvent<SsBadgeDismissEvent>) => void;
+        /**
+          * @default false
+         */
+        "pill"?: boolean;
+        /**
+          * @default 'sm'
+         */
+        "size"?: Size;
+        /**
+          * @default 'primary'
+         */
+        "variant"?: Variant;
+        "xId"?: string;
+        /**
+          * @default 'subtle'
+         */
+        "xStyle"?: BadgeStyle;
+    }
     interface SsButton {
+        "accessibilityLabel"?: string;
         /**
           * @default 1000
          */
@@ -323,6 +800,10 @@ declare namespace LocalJSX {
         "iconPosition"?: IconPosition;
         "inlineStyles"?: InlineStyles;
         "label"?: string;
+        /**
+          * @default false
+         */
+        "loading"?: boolean;
         "onSsClick"?: (event: SsButtonCustomEvent<string | undefined>) => void;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
@@ -396,10 +877,13 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface SsInput {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
         /**
           * @default 'primary'
          */
         "color"?: Variant;
+        "describedBy"?: string;
         /**
           * @default false
          */
@@ -409,47 +893,25 @@ declare namespace LocalJSX {
          */
         "fullWidth"?: boolean;
         "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "max"?: string;
+        "maxLength"?: number;
+        "min"?: string;
+        "minLength"?: number;
         "name"?: string;
         "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsChange"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
-        "onSsClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsCompositionEnd"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsCompositionStart"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsCompositionUpdate"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsContextMenu"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsCopy"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsCut"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsDoubleClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsDrag"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragEnd"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragEnter"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragLeave"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragOver"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragStart"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDrop"?: (event: SsInputCustomEvent<DragEvent>) => void;
         "onSsFocus"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsFocusIn"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsFocusOut"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsInput"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
         "onSsInvalid"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
-        "onSsKeyDown"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsKeyPress"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsKeyUp"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsMouseDown"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseEnter"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseLeave"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseMove"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseOut"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseOver"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseUp"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsPaste"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsSelect"?: (event: SsInputCustomEvent<Event>) => void;
-        "onSsTouchCancel"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchEnd"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchMove"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchStart"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsWheel"?: (event: SsInputCustomEvent<WheelEvent>) => void;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
         /**
           * @default false
          */
@@ -458,6 +920,7 @@ declare namespace LocalJSX {
           * @default 'md'
          */
         "size"?: Size;
+        "step"?: string;
         /**
           * @default 'text'
          */
@@ -468,6 +931,211 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
+    }
+    interface SsLabel {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "htmlFor"?: string;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "xId"?: string;
+    }
+    interface SsLink {
+        "accessibilityLabel"?: string;
+        "current"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "download"?: string;
+        "href"?: string;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        "onSsClick"?: (event: SsLinkCustomEvent<SsLinkClickEvent>) => void;
+        "rel"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: LinkSize;
+        "target"?: LinkTarget;
+        /**
+          * @default 'hover'
+         */
+        "underline"?: LinkUnderline;
+        /**
+          * @default 'primary'
+         */
+        "variant"?: Variant;
+        "xId"?: string;
+    }
+    interface SsRadio {
+        /**
+          * @default false
+         */
+        "checked"?: boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "label"?: string;
+        "name"?: string;
+        "onSsBlur"?: (event: SsRadioCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsRadioCustomEvent<SsCheckedChangeEvent>) => void;
+        "onSsFocus"?: (event: SsRadioCustomEvent<FocusEvent>) => void;
+        "onSsInvalid"?: (event: SsRadioCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string;
+        "xId"?: string;
+    }
+    interface SsSelect {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * @default false
+         */
+        "multiple"?: boolean;
+        "name"?: string;
+        "onSsBlur"?: (event: SsSelectCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsSelectCustomEvent<SsSelectChangeEvent>) => void;
+        "onSsFocus"?: (event: SsSelectCustomEvent<FocusEvent>) => void;
+        "onSsInvalid"?: (event: SsSelectCustomEvent<SsSelectChangeEvent>) => void;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string | string[];
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle"?: SelectStyle;
+    }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "xId"?: string;
+    }
+    interface SsSwitch {
+        /**
+          * @default false
+         */
+        "checked"?: boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "label"?: string;
+        /**
+          * @default 'end'
+         */
+        "labelPosition"?: SwitchLabelPosition;
+        "name"?: string;
+        "onSsBlur"?: (event: SsSwitchCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsSwitchCustomEvent<SsCheckedChangeEvent>) => void;
+        "onSsFocus"?: (event: SsSwitchCustomEvent<FocusEvent>) => void;
+        "onSsInvalid"?: (event: SsSwitchCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string;
+        "xId"?: string;
+    }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "onSsOpenChange"?: (event: SsTooltipCustomEvent<SsTooltipOpenChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * @default 'top'
+         */
+        "placement"?: TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger"?: TooltipTrigger;
+        "xId"?: string;
     }
     interface SsTypography {
         /**
@@ -484,11 +1152,15 @@ declare namespace LocalJSX {
          */
         "color"?: TypographyColor;
         /**
-          * @default 'md'
+          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
+         */
+        "family"?: TypographyFamily;
+        /**
+          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
          */
         "fontSize"?: TypographySize;
         /**
-          * @default 'regular'
+          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
          */
         "fontWeight"?: FontWeight;
         "inlineStyles"?: InlineStyles;
@@ -497,7 +1169,11 @@ declare namespace LocalJSX {
          */
         "letterSpacing"?: LetterSpacing;
         /**
-          * @default 'normal'
+          * Heading level (1–6). Sets the rendered tag to h{level} and applies display font, bold weight, tight line-height, and a size scaled to the level. All defaults are overridable via the individual props.
+         */
+        "level"?: TypographyLevel;
+        /**
+          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
          */
         "lineHeight"?: LineHeight;
         /**
@@ -511,9 +1187,18 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface IntrinsicElements {
+        "ss-avatar": SsAvatar;
+        "ss-badge": SsBadge;
         "ss-button": SsButton;
         "ss-checkbox": SsCheckbox;
         "ss-input": SsInput;
+        "ss-label": SsLabel;
+        "ss-link": SsLink;
+        "ss-radio": SsRadio;
+        "ss-select": SsSelect;
+        "ss-spinner": SsSpinner;
+        "ss-switch": SsSwitch;
+        "ss-tooltip": SsTooltip;
         "ss-typography": SsTypography;
     }
 }
@@ -521,9 +1206,18 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
+            "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
+            "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
+            "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
+            "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
+            "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
+            "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
+            "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
+            "ss-tooltip": LocalJSX.SsTooltip & JSXBase.HTMLAttributes<HTMLSsTooltipElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
     }

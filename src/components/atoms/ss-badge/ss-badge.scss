@@ -1,0 +1,79 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  font-family: var(--ss-text-fonts-sans);
+  font-weight: var(--ss-text-weights-medium);
+  line-height: var(--ss-text-line-heights-none);
+  border: 2px solid transparent;
+  border-radius: var(--ss-radius-base);
+  color: var(--atom-accent);
+  background: color-mix(in srgb, var(--atom-accent) 12%, var(--ss-color-background));
+}
+
+@include mx.atom-accent-variants('ss-badge');
+
+.ss-badge--xs { padding: var(--ss-dimensions-1) var(--ss-dimensions-2); gap: var(--ss-dimensions-1); font-size: var(--ss-text-sizes-xs); }
+.ss-badge--sm { padding: var(--ss-dimensions-1) var(--ss-dimensions-2); gap: var(--ss-dimensions-1); font-size: var(--ss-text-sizes-sm); }
+.ss-badge--md { padding: var(--ss-dimensions-2) var(--ss-dimensions-3); gap: var(--ss-dimensions-2); font-size: var(--ss-text-sizes-base); }
+.ss-badge--lg { padding: var(--ss-dimensions-2) var(--ss-dimensions-4); gap: var(--ss-dimensions-2); font-size: var(--ss-text-sizes-lg); }
+.ss-badge--xl,
+.ss-badge--2xl,
+.ss-badge--3xl { padding: var(--ss-dimensions-3) var(--ss-dimensions-5); gap: var(--ss-dimensions-3); font-size: var(--ss-text-sizes-xl); }
+
+.ss-badge--solid {
+  color: var(--atom-accent-foreground);
+  background: var(--atom-accent);
+  border-color: var(--atom-accent);
+}
+
+.ss-badge--outline {
+  color: var(--atom-accent);
+  background: transparent;
+  border-color: var(--atom-accent);
+}
+
+.ss-badge--pill {
+  border-radius: var(--ss-radius-full);
+}
+
+.ss-badge--disabled {
+  background: var(--ss-color-muted);
+  border-color: var(--ss-color-muted);
+  @include mx.atom-disabled;
+}
+
+.ss-badge__icon {
+  display: inline-flex;
+}
+
+.ss-badge__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ss-badge__dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  line-height: var(--ss-text-line-heights-none);
+}
+
+.ss-badge__dismiss:focus-visible {
+  @include mx.focus-ring(currentColor);
+}
+
+.ss-badge__dismiss:disabled {
+  cursor: not-allowed;
+}
