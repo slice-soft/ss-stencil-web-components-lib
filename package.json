@@ -1,6 +1,6 @@
 {
   "name": "@slice-soft/ss-stencil-web-components-lib",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Librería de Web Components reutilizables desarrollados con StencilJS por Slice Soft",
   "author": "Slice Soft <team@slicesoft.dev>",
   "homepage": "https://github.com/slice-soft/ss-stencil-web-components-lib#readme",
