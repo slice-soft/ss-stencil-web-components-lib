@@ -2,12 +2,205 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "ss-avatar",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "alt",
+          "description": ""
+        },
+        {
+          "name": "initials",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "loading",
+          "description": "",
+          "values": [
+            {
+              "name": "eager"
+            },
+            {
+              "name": "lazy"
+            }
+          ]
+        },
+        {
+          "name": "shape",
+          "description": "",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "rounded"
+            },
+            {
+              "name": "square"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "src",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "ss-badge",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "dismiss-label",
+          "description": ""
+        },
+        {
+          "name": "dismissible",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "pill",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        },
+        {
+          "name": "x-style",
+          "description": "",
+          "values": [
+            {
+              "name": "outline"
+            },
+            {
+              "name": "solid"
+            },
+            {
+              "name": "subtle"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "ss-button",
       "description": {
         "kind": "markdown",
         "value": ""
       },
       "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": ""
+        },
         {
           "name": "disable-duration",
           "description": ""
@@ -41,6 +234,10 @@
         },
         {
           "name": "label",
+          "description": ""
+        },
+        {
+          "name": "loading",
           "description": ""
         },
         {
@@ -174,7 +371,146 @@
       ]
     },
     {
-      "name": "ss-input",
+      "name": "ss-checkbox",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "checked",
+          "description": ""
+        },
+        {
+          "name": "described-by",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "indeterminate",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "ss-divider",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "decorative",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "description": "",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "spacing",
+          "description": "",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "ss-icon",
       "description": {
         "kind": "markdown",
         "value": ""
@@ -211,6 +547,10 @@
           ]
         },
         {
+          "name": "described-by",
+          "description": ""
+        },
+        {
           "name": "disabled",
           "description": ""
         },
@@ -223,11 +563,35 @@
           "description": ""
         },
         {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "max",
+          "description": ""
+        },
+        {
+          "name": "max-length",
+          "description": ""
+        },
+        {
+          "name": "min",
+          "description": ""
+        },
+        {
+          "name": "min-length",
+          "description": ""
+        },
+        {
           "name": "name",
           "description": ""
         },
         {
           "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "readonly",
           "description": ""
         },
         {
@@ -260,6 +624,10 @@
               "name": "xs"
             }
           ]
+        },
+        {
+          "name": "step",
+          "description": ""
         },
         {
           "name": "type",
@@ -527,6 +895,12 @@
           "description": "",
           "values": [
             {
+              "name": "code"
+            },
+            {
+              "name": "em"
+            },
+            {
               "name": "h1"
             },
             {
@@ -548,7 +922,13 @@
               "name": "p"
             },
             {
+              "name": "small"
+            },
+            {
               "name": "span"
+            },
+            {
+              "name": "strong"
             }
           ]
         },
@@ -567,6 +947,9 @@
             },
             {
               "name": "info"
+            },
+            {
+              "name": "inherit"
             },
             {
               "name": "muted"
@@ -595,8 +978,23 @@
           ]
         },
         {
+          "name": "family",
+          "description": "Explicit font family. Defaults: 'display' when level is set, 'mono' when\nas=\"code\", 'sans' otherwise.",
+          "values": [
+            {
+              "name": "display"
+            },
+            {
+              "name": "mono"
+            },
+            {
+              "name": "sans"
+            }
+          ]
+        },
+        {
           "name": "font-size",
-          "description": "",
+          "description": "Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.",
           "values": [
             {
               "name": "2xl"
@@ -626,7 +1024,7 @@
         },
         {
           "name": "font-weight",
-          "description": "",
+          "description": "Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.",
           "values": [
             {
               "name": "bold"
@@ -668,8 +1066,12 @@
           ]
         },
         {
+          "name": "level",
+          "description": "Heading level (1–6). Sets the rendered tag to h{level} and applies\ndisplay font, bold weight, tight line-height, and a size scaled to the\nlevel. All defaults are overridable via the individual props."
+        },
+        {
           "name": "line-height",
-          "description": "",
+          "description": "Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.",
           "values": [
             {
               "name": "loose"

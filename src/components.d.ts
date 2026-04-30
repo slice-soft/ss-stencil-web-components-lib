@@ -5,9 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
-import { Size } from "./types/size";
-import { Variant } from "./types/variant";
+import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 import { InlineStyles } from "./utils/style";
 import { InputStyle, SsInputType, SsInputValueEvent } from "./components/atoms/ss-input/ss-input";
 import { Event } from "@stencil/core";
@@ -24,7 +22,60 @@ export { InputStyle as InputStyle1, SsInputValueEvent as SsInputValueEvent1 } fr
 export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
+    interface SsAvatar {
+        "alt"?: string;
+        "initials"?: string;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'lazy'
+         */
+        "loading": 'eager' | 'lazy';
+        /**
+          * @default 'circle'
+         */
+        "shape": AvatarShape;
+        /**
+          * @default 'md'
+         */
+        "size": AvatarSize;
+        "src"?: string;
+        "xId"?: string;
+    }
+    interface SsBadge {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default 'Dismiss'
+         */
+        "dismissLabel": string;
+        /**
+          * @default false
+         */
+        "dismissible": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default false
+         */
+        "pill": boolean;
+        /**
+          * @default 'sm'
+         */
+        "size": Size;
+        /**
+          * @default 'primary'
+         */
+        "variant": Variant;
+        "xId"?: string;
+        /**
+          * @default 'subtle'
+         */
+        "xStyle": BadgeStyle;
+    }
     interface SsButton {
+        "accessibilityLabel"?: string;
         /**
           * @default 1000
          */
@@ -43,6 +94,10 @@ export namespace Components {
         "iconPosition": IconPosition;
         "inlineStyles"?: InlineStyles;
         "label"?: string;
+        /**
+          * @default false
+         */
+        "loading": boolean;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
           * @default true
@@ -74,11 +129,84 @@ export namespace Components {
          */
         "xStyle": ButtonStyle;
     }
+    interface SsCheckbox {
+        /**
+          * @default false
+         */
+        "checked": boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "indeterminate": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "label"?: string;
+        "name"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string;
+        "xId"?: string;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation": DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing": DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size": IconSize;
+        "xId"?: string;
+    }
     interface SsInput {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
         /**
           * @default 'primary'
          */
         "color": Variant;
+        "describedBy"?: string;
         /**
           * @default false
          */
@@ -88,8 +216,20 @@ export namespace Components {
          */
         "fullWidth": boolean;
         "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "max"?: string;
+        "maxLength"?: number;
+        "min"?: string;
+        "minLength"?: number;
         "name"?: string;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
         /**
           * @default false
          */
@@ -98,6 +238,7 @@ export namespace Components {
           * @default 'md'
          */
         "size": Size;
+        "step"?: string;
         /**
           * @default 'text'
          */
@@ -176,22 +317,30 @@ export namespace Components {
          */
         "color": TypographyColor;
         /**
-          * @default 'md'
+          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
          */
-        "fontSize": TypographySize;
+        "family"?: TypographyFamily;
         /**
-          * @default 'regular'
+          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
          */
-        "fontWeight": FontWeight;
+        "fontSize"?: TypographySize;
+        /**
+          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
+         */
+        "fontWeight"?: FontWeight;
         "inlineStyles"?: InlineStyles;
         /**
           * @default 'normal'
          */
         "letterSpacing": LetterSpacing;
         /**
-          * @default 'normal'
+          * Heading level (1–6). Sets the rendered tag to h{level} and applies display font, bold weight, tight line-height, and a size scaled to the level. All defaults are overridable via the individual props.
          */
-        "lineHeight": LineHeight;
+        "level"?: TypographyLevel;
+        /**
+          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
+         */
+        "lineHeight"?: LineHeight;
         /**
           * @default 'normal'
          */
@@ -203,9 +352,21 @@ export namespace Components {
         "xId"?: string;
     }
 }
+export interface SsAvatarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsAvatarElement;
+}
+export interface SsBadgeCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsBadgeElement;
+}
 export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsButtonElement;
+}
+export interface SsCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsCheckboxElement;
 }
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -216,6 +377,41 @@ export interface SsTextareaCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSsTextareaElement;
 }
 declare global {
+    interface HTMLSsAvatarElementEventMap {
+        "ssLoad": SsAvatarImageEvent;
+        "ssError": SsAvatarImageEvent;
+    }
+    interface HTMLSsAvatarElement extends Components.SsAvatar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsAvatarElementEventMap>(type: K, listener: (this: HTMLSsAvatarElement, ev: SsAvatarCustomEvent<HTMLSsAvatarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsAvatarElementEventMap>(type: K, listener: (this: HTMLSsAvatarElement, ev: SsAvatarCustomEvent<HTMLSsAvatarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsAvatarElement: {
+        prototype: HTMLSsAvatarElement;
+        new (): HTMLSsAvatarElement;
+    };
+    interface HTMLSsBadgeElementEventMap {
+        "ssDismiss": SsBadgeDismissEvent;
+    }
+    interface HTMLSsBadgeElement extends Components.SsBadge, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsBadgeElementEventMap>(type: K, listener: (this: HTMLSsBadgeElement, ev: SsBadgeCustomEvent<HTMLSsBadgeElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsBadgeElementEventMap>(type: K, listener: (this: HTMLSsBadgeElement, ev: SsBadgeCustomEvent<HTMLSsBadgeElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsBadgeElement: {
+        prototype: HTMLSsBadgeElement;
+        new (): HTMLSsBadgeElement;
+    };
     interface HTMLSsButtonElementEventMap {
         "ssClick": string | undefined;
     }
@@ -233,46 +429,44 @@ declare global {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
     };
+    interface HTMLSsCheckboxElementEventMap {
+        "ssChange": SsCheckedChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsCheckedChangeEvent;
+    }
+    interface HTMLSsCheckboxElement extends Components.SsCheckbox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsCheckboxElementEventMap>(type: K, listener: (this: HTMLSsCheckboxElement, ev: SsCheckboxCustomEvent<HTMLSsCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsCheckboxElementEventMap>(type: K, listener: (this: HTMLSsCheckboxElement, ev: SsCheckboxCustomEvent<HTMLSsCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsCheckboxElement: {
+        prototype: HTMLSsCheckboxElement;
+        new (): HTMLSsCheckboxElement;
+    };
+    interface HTMLSsDividerElement extends Components.SsDivider, HTMLStencilElement {
+    }
+    var HTMLSsDividerElement: {
+        prototype: HTMLSsDividerElement;
+        new (): HTMLSsDividerElement;
+    };
+    interface HTMLSsIconElement extends Components.SsIcon, HTMLStencilElement {
+    }
+    var HTMLSsIconElement: {
+        prototype: HTMLSsIconElement;
+        new (): HTMLSsIconElement;
+    };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
         "ssInvalid": SsInputValueEvent;
         "ssFocus": FocusEvent;
         "ssBlur": FocusEvent;
-        "ssFocusIn": FocusEvent;
-        "ssFocusOut": FocusEvent;
-        "ssKeyDown": KeyboardEvent;
-        "ssKeyPress": KeyboardEvent;
-        "ssKeyUp": KeyboardEvent;
-        "ssSelect": Event;
-        "ssCompositionStart": CompositionEvent;
-        "ssCompositionUpdate": CompositionEvent;
-        "ssCompositionEnd": CompositionEvent;
-        "ssCut": ClipboardEvent;
-        "ssCopy": ClipboardEvent;
-        "ssPaste": ClipboardEvent;
-        "ssClick": MouseEvent;
-        "ssDoubleClick": MouseEvent;
-        "ssMouseDown": MouseEvent;
-        "ssMouseUp": MouseEvent;
-        "ssMouseEnter": MouseEvent;
-        "ssMouseLeave": MouseEvent;
-        "ssMouseOver": MouseEvent;
-        "ssMouseOut": MouseEvent;
-        "ssMouseMove": MouseEvent;
-        "ssContextMenu": MouseEvent;
-        "ssDragStart": DragEvent;
-        "ssDrag": DragEvent;
-        "ssDragEnter": DragEvent;
-        "ssDragLeave": DragEvent;
-        "ssDragOver": DragEvent;
-        "ssDrop": DragEvent;
-        "ssDragEnd": DragEvent;
-        "ssWheel": WheelEvent;
-        "ssTouchStart": TouchEvent;
-        "ssTouchMove": TouchEvent;
-        "ssTouchEnd": TouchEvent;
-        "ssTouchCancel": TouchEvent;
     }
     interface HTMLSsInputElement extends Components.SsInput, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsInputElementEventMap>(type: K, listener: (this: HTMLSsInputElement, ev: SsInputCustomEvent<HTMLSsInputElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -316,14 +510,75 @@ declare global {
         new (): HTMLSsTypographyElement;
     };
     interface HTMLElementTagNameMap {
+        "ss-avatar": HTMLSsAvatarElement;
+        "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
+        "ss-checkbox": HTMLSsCheckboxElement;
+        "ss-divider": HTMLSsDividerElement;
+        "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
         "ss-textarea": HTMLSsTextareaElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
 declare namespace LocalJSX {
+    interface SsAvatar {
+        "alt"?: string;
+        "initials"?: string;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'lazy'
+         */
+        "loading"?: 'eager' | 'lazy';
+        "onSsError"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
+        "onSsLoad"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
+        /**
+          * @default 'circle'
+         */
+        "shape"?: AvatarShape;
+        /**
+          * @default 'md'
+         */
+        "size"?: AvatarSize;
+        "src"?: string;
+        "xId"?: string;
+    }
+    interface SsBadge {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default 'Dismiss'
+         */
+        "dismissLabel"?: string;
+        /**
+          * @default false
+         */
+        "dismissible"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        "onSsDismiss"?: (event: SsBadgeCustomEvent<SsBadgeDismissEvent>) => void;
+        /**
+          * @default false
+         */
+        "pill"?: boolean;
+        /**
+          * @default 'sm'
+         */
+        "size"?: Size;
+        /**
+          * @default 'primary'
+         */
+        "variant"?: Variant;
+        "xId"?: string;
+        /**
+          * @default 'subtle'
+         */
+        "xStyle"?: BadgeStyle;
+    }
     interface SsButton {
+        "accessibilityLabel"?: string;
         /**
           * @default 1000
          */
@@ -342,6 +597,10 @@ declare namespace LocalJSX {
         "iconPosition"?: IconPosition;
         "inlineStyles"?: InlineStyles;
         "label"?: string;
+        /**
+          * @default false
+         */
+        "loading"?: boolean;
         "onSsClick"?: (event: SsButtonCustomEvent<string | undefined>) => void;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
@@ -374,11 +633,88 @@ declare namespace LocalJSX {
          */
         "xStyle"?: ButtonStyle;
     }
+    interface SsCheckbox {
+        /**
+          * @default false
+         */
+        "checked"?: boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "indeterminate"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "label"?: string;
+        "name"?: string;
+        "onSsBlur"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
+        "onSsFocus"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        "onSsInvalid"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string;
+        "xId"?: string;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation"?: DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing"?: DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: IconSize;
+        "xId"?: string;
+    }
     interface SsInput {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
         /**
           * @default 'primary'
          */
         "color"?: Variant;
+        "describedBy"?: string;
         /**
           * @default false
          */
@@ -388,47 +724,25 @@ declare namespace LocalJSX {
          */
         "fullWidth"?: boolean;
         "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "max"?: string;
+        "maxLength"?: number;
+        "min"?: string;
+        "minLength"?: number;
         "name"?: string;
         "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsChange"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
-        "onSsClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsCompositionEnd"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsCompositionStart"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsCompositionUpdate"?: (event: SsInputCustomEvent<CompositionEvent>) => void;
-        "onSsContextMenu"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsCopy"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsCut"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsDoubleClick"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsDrag"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragEnd"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragEnter"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragLeave"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragOver"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDragStart"?: (event: SsInputCustomEvent<DragEvent>) => void;
-        "onSsDrop"?: (event: SsInputCustomEvent<DragEvent>) => void;
         "onSsFocus"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsFocusIn"?: (event: SsInputCustomEvent<FocusEvent>) => void;
-        "onSsFocusOut"?: (event: SsInputCustomEvent<FocusEvent>) => void;
         "onSsInput"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
         "onSsInvalid"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
-        "onSsKeyDown"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsKeyPress"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsKeyUp"?: (event: SsInputCustomEvent<KeyboardEvent>) => void;
-        "onSsMouseDown"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseEnter"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseLeave"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseMove"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseOut"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseOver"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsMouseUp"?: (event: SsInputCustomEvent<MouseEvent>) => void;
-        "onSsPaste"?: (event: SsInputCustomEvent<ClipboardEvent>) => void;
-        "onSsSelect"?: (event: SsInputCustomEvent<Event>) => void;
-        "onSsTouchCancel"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchEnd"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchMove"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsTouchStart"?: (event: SsInputCustomEvent<TouchEvent>) => void;
-        "onSsWheel"?: (event: SsInputCustomEvent<WheelEvent>) => void;
         "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
         /**
           * @default false
          */
@@ -437,6 +751,7 @@ declare namespace LocalJSX {
           * @default 'md'
          */
         "size"?: Size;
+        "step"?: string;
         /**
           * @default 'text'
          */
@@ -520,11 +835,15 @@ declare namespace LocalJSX {
          */
         "color"?: TypographyColor;
         /**
-          * @default 'md'
+          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
+         */
+        "family"?: TypographyFamily;
+        /**
+          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
          */
         "fontSize"?: TypographySize;
         /**
-          * @default 'regular'
+          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
          */
         "fontWeight"?: FontWeight;
         "inlineStyles"?: InlineStyles;
@@ -533,7 +852,11 @@ declare namespace LocalJSX {
          */
         "letterSpacing"?: LetterSpacing;
         /**
-          * @default 'normal'
+          * Heading level (1–6). Sets the rendered tag to h{level} and applies display font, bold weight, tight line-height, and a size scaled to the level. All defaults are overridable via the individual props.
+         */
+        "level"?: TypographyLevel;
+        /**
+          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
          */
         "lineHeight"?: LineHeight;
         /**
@@ -547,7 +870,12 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface IntrinsicElements {
+        "ss-avatar": SsAvatar;
+        "ss-badge": SsBadge;
         "ss-button": SsButton;
+        "ss-checkbox": SsCheckbox;
+        "ss-divider": SsDivider;
+        "ss-icon": SsIcon;
         "ss-input": SsInput;
         "ss-textarea": SsTextarea;
         "ss-typography": SsTypography;
@@ -557,7 +885,12 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
+            "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
+            "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
