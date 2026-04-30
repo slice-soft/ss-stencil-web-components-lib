@@ -17,6 +17,7 @@ import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/con
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
@@ -31,6 +32,7 @@ export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/con
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
@@ -363,6 +365,27 @@ export namespace Components {
         "value"?: string;
         "xId"?: string;
     }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * @default 'top'
+         */
+        "placement": TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger": TooltipTrigger;
+        "xId"?: string;
+    }
     interface SsTypography {
         /**
           * @default 'left'
@@ -440,6 +463,10 @@ export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSwitchElement;
+}
+export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTooltipElement;
 }
 declare global {
     interface HTMLSsAvatarElementEventMap {
@@ -599,6 +626,23 @@ declare global {
         prototype: HTMLSsSwitchElement;
         new (): HTMLSsSwitchElement;
     };
+    interface HTMLSsTooltipElementEventMap {
+        "ssOpenChange": SsTooltipOpenChangeEvent;
+    }
+    interface HTMLSsTooltipElement extends Components.SsTooltip, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTooltipElement: {
+        prototype: HTMLSsTooltipElement;
+        new (): HTMLSsTooltipElement;
+    };
     interface HTMLSsTypographyElement extends Components.SsTypography, HTMLStencilElement {
     }
     var HTMLSsTypographyElement: {
@@ -617,6 +661,7 @@ declare global {
         "ss-select": HTMLSsSelectElement;
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
+        "ss-tooltip": HTMLSsTooltipElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
@@ -971,6 +1016,28 @@ declare namespace LocalJSX {
         "value"?: string;
         "xId"?: string;
     }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "onSsOpenChange"?: (event: SsTooltipCustomEvent<SsTooltipOpenChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * @default 'top'
+         */
+        "placement"?: TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger"?: TooltipTrigger;
+        "xId"?: string;
+    }
     interface SsTypography {
         /**
           * @default 'left'
@@ -1032,6 +1099,7 @@ declare namespace LocalJSX {
         "ss-select": SsSelect;
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
+        "ss-tooltip": SsTooltip;
         "ss-typography": SsTypography;
     }
 }
@@ -1050,6 +1118,7 @@ declare module "@stencil/core" {
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
+            "ss-tooltip": LocalJSX.SsTooltip & JSXBase.HTMLAttributes<HTMLSsTooltipElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
     }
