@@ -29,6 +29,7 @@ export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform, TypographyColor, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export namespace Components {
     interface SsButton {
+        "accessibilityLabel"?: string;
         /**
           * @default 1000
          */
@@ -47,6 +48,10 @@ export namespace Components {
         "iconPosition": IconPosition;
         "inlineStyles"?: InlineStyles;
         "label"?: string;
+        /**
+          * @default false
+         */
+        "loading": boolean;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
           * @default true
@@ -508,6 +513,7 @@ declare global {
 }
 declare namespace LocalJSX {
     interface SsButton {
+        "accessibilityLabel"?: string;
         /**
           * @default 1000
          */
@@ -526,6 +532,10 @@ declare namespace LocalJSX {
         "iconPosition"?: IconPosition;
         "inlineStyles"?: InlineStyles;
         "label"?: string;
+        /**
+          * @default false
+         */
+        "loading"?: boolean;
         "onSsClick"?: (event: SsButtonCustomEvent<string | undefined>) => void;
         /**
           * After ssClick fires, button is disabled for disableDuration ms

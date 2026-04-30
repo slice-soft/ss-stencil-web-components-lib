@@ -9,6 +9,10 @@
       },
       "attributes": [
         {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
           "name": "disable-duration",
           "description": ""
         },
@@ -41,6 +45,10 @@
         },
         {
           "name": "label",
+          "description": ""
+        },
+        {
+          "name": "loading",
           "description": ""
         },
         {
