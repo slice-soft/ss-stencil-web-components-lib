@@ -371,6 +371,90 @@
       ]
     },
     {
+      "name": "ss-checkbox",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "checked",
+          "description": ""
+        },
+        {
+          "name": "described-by",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "indeterminate",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "ss-divider",
       "description": {
         "kind": "markdown",

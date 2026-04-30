@@ -11,10 +11,10 @@ import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 import { Size } from "./types/size";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
-import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
@@ -27,10 +27,10 @@ export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 export { Size } from "./types/size";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
-export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
@@ -144,6 +144,42 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
+    }
+    interface SsCheckbox {
+        /**
+          * @default false
+         */
+        "checked": boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "indeterminate": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "label"?: string;
+        "name"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string;
+        "xId"?: string;
     }
     interface SsDivider {
         /**
@@ -483,6 +519,10 @@ export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsButtonElement;
 }
+export interface SsCheckboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsCheckboxElement;
+}
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
@@ -559,6 +599,26 @@ declare global {
     var HTMLSsButtonElement: {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
+    };
+    interface HTMLSsCheckboxElementEventMap {
+        "ssChange": SsCheckedChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsCheckedChangeEvent;
+    }
+    interface HTMLSsCheckboxElement extends Components.SsCheckbox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsCheckboxElementEventMap>(type: K, listener: (this: HTMLSsCheckboxElement, ev: SsCheckboxCustomEvent<HTMLSsCheckboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsCheckboxElementEventMap>(type: K, listener: (this: HTMLSsCheckboxElement, ev: SsCheckboxCustomEvent<HTMLSsCheckboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsCheckboxElement: {
+        prototype: HTMLSsCheckboxElement;
+        new (): HTMLSsCheckboxElement;
     };
     interface HTMLSsDividerElement extends Components.SsDivider, HTMLStencilElement {
     }
@@ -709,6 +769,7 @@ declare global {
         "ss-avatar": HTMLSsAvatarElement;
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
+        "ss-checkbox": HTMLSsCheckboxElement;
         "ss-divider": HTMLSsDividerElement;
         "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
@@ -833,6 +894,46 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    interface SsCheckbox {
+        /**
+          * @default false
+         */
+        "checked"?: boolean;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "indeterminate"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "label"?: string;
+        "name"?: string;
+        "onSsBlur"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
+        "onSsFocus"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        "onSsInvalid"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string;
+        "xId"?: string;
     }
     interface SsDivider {
         /**
@@ -1182,6 +1283,7 @@ declare namespace LocalJSX {
         "ss-avatar": SsAvatar;
         "ss-badge": SsBadge;
         "ss-button": SsButton;
+        "ss-checkbox": SsCheckbox;
         "ss-divider": SsDivider;
         "ss-icon": SsIcon;
         "ss-input": SsInput;
@@ -1202,6 +1304,7 @@ declare module "@stencil/core" {
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;

@@ -1,0 +1,91 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-2);
+  width: fit-content;
+  font-family: var(--ss-text-fonts-sans);
+  font-size: var(--ss-text-sizes-base);
+  line-height: var(--ss-text-line-heights-normal);
+  color: var(--ss-color-foreground);
+  cursor: pointer;
+}
+
+.ss-checkbox__input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ss-checkbox__control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1em;
+  height: 1em;
+  color: var(--ss-color-primary-foreground);
+  background: var(--ss-input-background, var(--ss-color-background));
+  border: 2px solid var(--ss-input-border, var(--ss-color-input));
+  border-radius: var(--ss-radius-sm);
+  transition:
+    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
+    border-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+}
+
+.ss-checkbox__mark {
+  display: block;
+  width: 50%;
+  height: 50%;
+  background: currentColor;
+  opacity: 0;
+}
+
+.ss-checkbox__input:focus-visible + .ss-checkbox__control {
+  @include mx.focus-ring(var(--ss-color-ring));
+}
+
+.ss-checkbox--checked .ss-checkbox__control,
+.ss-checkbox--indeterminate .ss-checkbox__control {
+  background: var(--ss-color-primary);
+  border-color: var(--ss-color-primary);
+}
+
+.ss-checkbox--checked .ss-checkbox__mark,
+.ss-checkbox--indeterminate .ss-checkbox__mark {
+  opacity: 1;
+}
+
+.ss-checkbox--checked .ss-checkbox__mark {
+  clip-path: polygon(14% 44%, 0 60%, 42% 100%, 100% 16%, 84% 0, 38% 66%);
+}
+
+.ss-checkbox--indeterminate .ss-checkbox__mark {
+  height: 20%;
+}
+
+.ss-checkbox--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }
+.ss-checkbox--sm { font-size: var(--ss-text-sizes-sm); gap: var(--ss-dimensions-1); }
+.ss-checkbox--md { font-size: var(--ss-text-sizes-base); }
+.ss-checkbox--lg { font-size: var(--ss-text-sizes-lg); }
+.ss-checkbox--xl,
+.ss-checkbox--2xl,
+.ss-checkbox--3xl { font-size: var(--ss-text-sizes-xl); }
+
+.ss-checkbox--disabled {
+  @include mx.atom-disabled;
+}
+
+.ss-checkbox--disabled .ss-checkbox__control {
+  background: var(--ss-color-muted);
+  border-color: var(--ss-color-border);
+}
+
+.ss-checkbox--readonly {
+  cursor: default;
+}
+
+.ss-checkbox--invalid .ss-checkbox__control {
+  border-color: var(--ss-color-error);
+}
