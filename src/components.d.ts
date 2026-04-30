@@ -311,6 +311,22 @@ export namespace Components {
          */
         "xStyle": SelectStyle;
     }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label": string;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "xId"?: string;
+    }
     interface SsSwitch {
         /**
           * @default false
@@ -557,6 +573,12 @@ declare global {
         prototype: HTMLSsSelectElement;
         new (): HTMLSsSelectElement;
     };
+    interface HTMLSsSpinnerElement extends Components.SsSpinner, HTMLStencilElement {
+    }
+    var HTMLSsSpinnerElement: {
+        prototype: HTMLSsSpinnerElement;
+        new (): HTMLSsSpinnerElement;
+    };
     interface HTMLSsSwitchElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -593,6 +615,7 @@ declare global {
         "ss-link": HTMLSsLinkElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-select": HTMLSsSelectElement;
+        "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
         "ss-typography": HTMLSsTypographyElement;
     }
@@ -892,6 +915,22 @@ declare namespace LocalJSX {
          */
         "xStyle"?: SelectStyle;
     }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "xId"?: string;
+    }
     interface SsSwitch {
         /**
           * @default false
@@ -991,6 +1030,7 @@ declare namespace LocalJSX {
         "ss-link": SsLink;
         "ss-radio": SsRadio;
         "ss-select": SsSelect;
+        "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
         "ss-typography": SsTypography;
     }
@@ -1008,6 +1048,7 @@ declare module "@stencil/core" {
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
+            "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }

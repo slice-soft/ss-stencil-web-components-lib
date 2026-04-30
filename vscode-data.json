@@ -1004,6 +1004,93 @@
       ]
     },
     {
+      "name": "ss-spinner",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": "",
+          "values": [
+            {
+              "name": "current"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "foreground"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "muted"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "ss-switch",
       "description": {
         "kind": "markdown",
