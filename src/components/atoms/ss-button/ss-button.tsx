@@ -22,8 +22,10 @@ export class SsButton {
 
   @Prop() xId?: string;
   @Prop() label?: string;
+  @Prop() accessibilityLabel?: string;
   @Prop() type: ButtonType = 'button';
   @Prop() disabled: boolean = false;
+  @Prop() loading: boolean = false;
   /** After ssClick fires, button is disabled for disableDuration ms */
   @Prop() oneClick: boolean = true;
   @Prop() disableDuration: number = 1000;
@@ -50,6 +52,7 @@ export class SsButton {
   }
 
   private get currentStatus(): ButtonStatus {
+    if (this.loading) return 'loading';
     return this.feedbackStatus ?? this.status;
   }
 
@@ -133,7 +136,7 @@ export class SsButton {
         disabled={disabled}
         aria-disabled={disabled.toString()}
         aria-busy={this.currentStatus === 'loading'}
-        aria-label={this.label}
+        aria-label={this.accessibilityLabel || this.label}
         tabindex={disabled ? -1 : 0}
         onClick={this.ssClickHandler}
       >

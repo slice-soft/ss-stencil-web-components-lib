@@ -35,16 +35,20 @@ describe('ss-input attributes and events', () => {
 });
 
 describe('ss-input events', () => {
-  it('should emit key events', async () => {
+  it('should emit focus and blur events on keyboard interaction', async () => {
     const page = await newE2EPage();
     await page.setContent('<ss-input></ss-input>');
     const input = await page.find('ss-input >>> input');
-    const keyDownSpy = await page.spyOnEvent('ssKeyDown');
-    const keyUpSpy = await page.spyOnEvent('ssKeyUp');
+    const focusSpy = await page.spyOnEvent('ssFocus');
+    const blurSpy = await page.spyOnEvent('ssBlur');
 
-    await input.press('a');
-    expect(keyDownSpy).toHaveReceivedEvent();
-    expect(keyUpSpy).toHaveReceivedEvent();
+    await input.focus();
+    await page.waitForChanges();
+    expect(focusSpy).toHaveReceivedEvent();
+
+    await input.press('Tab');
+    await page.waitForChanges();
+    expect(blurSpy).toHaveReceivedEvent();
   });
 });
 

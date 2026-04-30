@@ -137,6 +137,18 @@ describe('ss-button', () => {
     expect(page.root.shadowRoot.querySelector('button').classList.contains('ss-button--status-loading')).toBe(true);
   });
 
+  it('supports loading and accessibilityLabel props', async () => {
+    const page = await newSpecPage({
+      components: [SsButton],
+      html: `<ss-button loading accessibility-label="Save changes"></ss-button>`,
+    });
+    const button = page.root.shadowRoot.querySelector('button');
+
+    expect(button.getAttribute('aria-label')).toBe('Save changes');
+    expect(button.hasAttribute('disabled')).toBe(true);
+    expect(button.classList.contains('ss-button--status-loading')).toBe(true);
+  });
+
   it('applies loading and resets status when oneClick is false', async () => {
     const page = await newSpecPage({
       components: [SsButton],
