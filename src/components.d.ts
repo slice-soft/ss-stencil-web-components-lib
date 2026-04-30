@@ -10,6 +10,8 @@ import { InlineStyles } from "./utils/style";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
+import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -22,6 +24,8 @@ export { InlineStyles } from "./utils/style";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
+export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -103,6 +107,40 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation": DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing": DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size": IconSize;
+        "xId"?: string;
     }
     interface SsInput {
         "accessibilityLabel"?: string;
@@ -439,6 +477,18 @@ declare global {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
     };
+    interface HTMLSsDividerElement extends Components.SsDivider, HTMLStencilElement {
+    }
+    var HTMLSsDividerElement: {
+        prototype: HTMLSsDividerElement;
+        new (): HTMLSsDividerElement;
+    };
+    interface HTMLSsIconElement extends Components.SsIcon, HTMLStencilElement {
+    }
+    var HTMLSsIconElement: {
+        prototype: HTMLSsIconElement;
+        new (): HTMLSsIconElement;
+    };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
@@ -558,6 +608,8 @@ declare global {
     interface HTMLElementTagNameMap {
         "ss-avatar": HTMLSsAvatarElement;
         "ss-button": HTMLSsButtonElement;
+        "ss-divider": HTMLSsDividerElement;
+        "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
@@ -645,6 +697,40 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    interface SsDivider {
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'horizontal'
+         */
+        "orientation"?: DividerOrientation;
+        /**
+          * @default 'md'
+         */
+        "spacing"?: DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: IconSize;
+        "xId"?: string;
     }
     interface SsInput {
         "accessibilityLabel"?: string;
@@ -937,6 +1023,8 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "ss-avatar": SsAvatar;
         "ss-button": SsButton;
+        "ss-divider": SsDivider;
+        "ss-icon": SsIcon;
         "ss-input": SsInput;
         "ss-label": SsLabel;
         "ss-link": SsLink;
@@ -953,6 +1041,8 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;

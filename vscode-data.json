@@ -262,6 +262,155 @@
       ]
     },
     {
+      "name": "ss-divider",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "decorative",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "orientation",
+          "description": "",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "spacing",
+          "description": "",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "ss-icon",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": "",
+          "values": [
+            {
+              "name": "current"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "foreground"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "muted"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "decorative",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "inherit"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "ss-input",
       "description": {
         "kind": "markdown",
