@@ -12,11 +12,13 @@ import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-
 import { Size } from "./types/size";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
@@ -26,11 +28,13 @@ export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-
 export { Size } from "./types/size";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
@@ -156,6 +160,23 @@ export namespace Components {
           * @default 'md'
          */
         "spacing": DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size": IconSize;
         "xId"?: string;
     }
     interface SsInput {
@@ -327,6 +348,22 @@ export namespace Components {
          */
         "xStyle": SelectStyle;
     }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label": string;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "xId"?: string;
+    }
     interface SsSwitch {
         /**
           * @default false
@@ -361,6 +398,27 @@ export namespace Components {
          */
         "size": Size;
         "value"?: string;
+        "xId"?: string;
+    }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * @default 'top'
+         */
+        "placement": TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger": TooltipTrigger;
         "xId"?: string;
     }
     interface SsTypography {
@@ -445,6 +503,10 @@ export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSwitchElement;
 }
+export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTooltipElement;
+}
 declare global {
     interface HTMLSsAvatarElementEventMap {
         "ssLoad": SsAvatarImageEvent;
@@ -503,6 +565,12 @@ declare global {
     var HTMLSsDividerElement: {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
+    };
+    interface HTMLSsIconElement extends Components.SsIcon, HTMLStencilElement {
+    }
+    var HTMLSsIconElement: {
+        prototype: HTMLSsIconElement;
+        new (): HTMLSsIconElement;
     };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
@@ -588,6 +656,12 @@ declare global {
         prototype: HTMLSsSelectElement;
         new (): HTMLSsSelectElement;
     };
+    interface HTMLSsSpinnerElement extends Components.SsSpinner, HTMLStencilElement {
+    }
+    var HTMLSsSpinnerElement: {
+        prototype: HTMLSsSpinnerElement;
+        new (): HTMLSsSpinnerElement;
+    };
     interface HTMLSsSwitchElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -608,6 +682,23 @@ declare global {
         prototype: HTMLSsSwitchElement;
         new (): HTMLSsSwitchElement;
     };
+    interface HTMLSsTooltipElementEventMap {
+        "ssOpenChange": SsTooltipOpenChangeEvent;
+    }
+    interface HTMLSsTooltipElement extends Components.SsTooltip, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTooltipElement: {
+        prototype: HTMLSsTooltipElement;
+        new (): HTMLSsTooltipElement;
+    };
     interface HTMLSsTypographyElement extends Components.SsTypography, HTMLStencilElement {
     }
     var HTMLSsTypographyElement: {
@@ -619,12 +710,15 @@ declare global {
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-select": HTMLSsSelectElement;
+        "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
+        "ss-tooltip": HTMLSsTooltipElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
@@ -755,6 +849,23 @@ declare namespace LocalJSX {
           * @default 'md'
          */
         "spacing"?: DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: IconSize;
         "xId"?: string;
     }
     interface SsInput {
@@ -940,6 +1051,22 @@ declare namespace LocalJSX {
          */
         "xStyle"?: SelectStyle;
     }
+    interface SsSpinner {
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default 'Loading'
+         */
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "xId"?: string;
+    }
     interface SsSwitch {
         /**
           * @default false
@@ -978,6 +1105,28 @@ declare namespace LocalJSX {
          */
         "size"?: Size;
         "value"?: string;
+        "xId"?: string;
+    }
+    interface SsTooltip {
+        "content"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "onSsOpenChange"?: (event: SsTooltipCustomEvent<SsTooltipOpenChangeEvent>) => void;
+        /**
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * @default 'top'
+         */
+        "placement"?: TooltipPlacement;
+        /**
+          * @default 'hover'
+         */
+        "trigger"?: TooltipTrigger;
         "xId"?: string;
     }
     interface SsTypography {
@@ -1034,12 +1183,15 @@ declare namespace LocalJSX {
         "ss-badge": SsBadge;
         "ss-button": SsButton;
         "ss-divider": SsDivider;
+        "ss-icon": SsIcon;
         "ss-input": SsInput;
         "ss-label": SsLabel;
         "ss-link": SsLink;
         "ss-radio": SsRadio;
         "ss-select": SsSelect;
+        "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
+        "ss-tooltip": SsTooltip;
         "ss-typography": SsTypography;
     }
 }
@@ -1051,12 +1203,15 @@ declare module "@stencil/core" {
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
+            "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
+            "ss-tooltip": LocalJSX.SsTooltip & JSXBase.HTMLAttributes<HTMLSsTooltipElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }
     }
