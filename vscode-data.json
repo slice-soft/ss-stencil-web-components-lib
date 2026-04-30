@@ -89,6 +89,10 @@
       },
       "attributes": [
         {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
           "name": "disable-duration",
           "description": ""
         },
@@ -121,6 +125,10 @@
         },
         {
           "name": "label",
+          "description": ""
+        },
+        {
+          "name": "loading",
           "description": ""
         },
         {
@@ -261,6 +269,14 @@
       },
       "attributes": [
         {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
+          "name": "autocomplete",
+          "description": ""
+        },
+        {
           "name": "color",
           "description": "",
           "values": [
@@ -291,6 +307,10 @@
           ]
         },
         {
+          "name": "described-by",
+          "description": ""
+        },
+        {
           "name": "disabled",
           "description": ""
         },
@@ -303,11 +323,35 @@
           "description": ""
         },
         {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "max",
+          "description": ""
+        },
+        {
+          "name": "max-length",
+          "description": ""
+        },
+        {
+          "name": "min",
+          "description": ""
+        },
+        {
+          "name": "min-length",
+          "description": ""
+        },
+        {
           "name": "name",
           "description": ""
         },
         {
           "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "readonly",
           "description": ""
         },
         {
@@ -340,6 +384,10 @@
               "name": "xs"
             }
           ]
+        },
+        {
+          "name": "step",
+          "description": ""
         },
         {
           "name": "type",
@@ -415,6 +463,490 @@
       ]
     },
     {
+      "name": "ss-label",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "html-for",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "ss-link",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
+          "name": "current",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "download",
+          "description": ""
+        },
+        {
+          "name": "href",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "rel",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "target",
+          "description": "",
+          "values": [
+            {
+              "name": "_blank"
+            },
+            {
+              "name": "_parent"
+            },
+            {
+              "name": "_self"
+            },
+            {
+              "name": "_top"
+            }
+          ]
+        },
+        {
+          "name": "underline",
+          "description": "",
+          "values": [
+            {
+              "name": "always"
+            },
+            {
+              "name": "hover"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "ss-radio",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "checked",
+          "description": ""
+        },
+        {
+          "name": "described-by",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "name": "ss-select",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
+          "name": "color",
+          "description": "",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "described-by",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "full-width",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "multiple",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        },
+        {
+          "name": "x-style",
+          "description": "",
+          "values": [
+            {
+              "name": "outline"
+            },
+            {
+              "name": "solid"
+            },
+            {
+              "name": "underline"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ss-switch",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "checked",
+          "description": ""
+        },
+        {
+          "name": "described-by",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "label",
+          "description": ""
+        },
+        {
+          "name": "label-position",
+          "description": "",
+          "values": [
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "ss-typography",
       "description": {
         "kind": "markdown",
@@ -444,6 +976,12 @@
           "description": "",
           "values": [
             {
+              "name": "code"
+            },
+            {
+              "name": "em"
+            },
+            {
               "name": "h1"
             },
             {
@@ -465,7 +1003,13 @@
               "name": "p"
             },
             {
+              "name": "small"
+            },
+            {
               "name": "span"
+            },
+            {
+              "name": "strong"
             }
           ]
         },
@@ -484,6 +1028,9 @@
             },
             {
               "name": "info"
+            },
+            {
+              "name": "inherit"
             },
             {
               "name": "muted"
@@ -512,8 +1059,23 @@
           ]
         },
         {
+          "name": "family",
+          "description": "Explicit font family. Defaults: 'display' when level is set, 'mono' when\nas=\"code\", 'sans' otherwise.",
+          "values": [
+            {
+              "name": "display"
+            },
+            {
+              "name": "mono"
+            },
+            {
+              "name": "sans"
+            }
+          ]
+        },
+        {
           "name": "font-size",
-          "description": "",
+          "description": "Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.",
           "values": [
             {
               "name": "2xl"
@@ -543,7 +1105,7 @@
         },
         {
           "name": "font-weight",
-          "description": "",
+          "description": "Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.",
           "values": [
             {
               "name": "bold"
@@ -585,8 +1147,12 @@
           ]
         },
         {
+          "name": "level",
+          "description": "Heading level (1–6). Sets the rendered tag to h{level} and applies\ndisplay font, bold weight, tight line-height, and a size scaled to the\nlevel. All defaults are overridable via the individual props."
+        },
+        {
           "name": "line-height",
-          "description": "",
+          "description": "Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.",
           "values": [
             {
               "name": "loose"

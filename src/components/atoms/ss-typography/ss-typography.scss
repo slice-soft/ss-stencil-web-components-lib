@@ -10,25 +10,31 @@
     text-overflow: ellipsis;
     white-space:   nowrap;
   }
+}
 
-  &--mono {
-    font-family: var(--ss-typography-component-font-family-mono, var(--ss-text-fonts-mono));
-  }
+// Font family variants
+.ss-typography--family-display {
+  font-family: var(--ss-text-fonts-display);
+}
+
+.ss-typography--family-mono {
+  font-family: var(--ss-typography-component-font-family-mono, var(--ss-text-fonts-mono));
 }
 
 // Color variants — semantic tokens → dark mode automatic
-.ss-typography--foreground { color: var(--ss-color-foreground); }
-.ss-typography--muted      { color: var(--ss-typography-component-color-muted, var(--ss-color-muted-foreground)); }
-.ss-typography--primary    { color: var(--ss-typography-component-color-primary, var(--ss-color-primary)); }
-.ss-typography--secondary  { color: var(--ss-typography-component-color-secondary, var(--ss-color-secondary-foreground)); }
-.ss-typography--tertiary   { color: var(--ss-typography-component-color-tertiary, var(--ss-color-tertiary, var(--ss-color-primary))); }
-.ss-typography--quaternary { color: var(--ss-typography-component-color-quaternary, var(--ss-color-quaternary, var(--ss-color-secondary-foreground))); }
-.ss-typography--success    { color: var(--ss-typography-component-color-success, var(--ss-color-success)); }
-.ss-typography--warning    { color: var(--ss-typography-component-color-warning, var(--ss-color-warning)); }
-.ss-typography--error      { color: var(--ss-typography-component-color-error, var(--ss-color-error)); }
-.ss-typography--info       { color: var(--ss-typography-component-color-info, var(--ss-color-info)); }
-.ss-typography--black      { color: var(--ss-colors-black); }
-.ss-typography--white      { color: var(--ss-colors-white); }
+.ss-typography--foreground  { color: var(--ss-color-foreground); }
+.ss-typography--inherit     { color: inherit; }
+.ss-typography--muted       { color: var(--ss-typography-component-color-muted, var(--ss-color-muted-foreground)); }
+.ss-typography--primary     { color: var(--ss-typography-component-color-primary, var(--ss-color-primary)); }
+.ss-typography--secondary   { color: var(--ss-typography-component-color-secondary, var(--ss-color-secondary-foreground)); }
+.ss-typography--tertiary    { color: var(--ss-typography-component-color-tertiary, var(--ss-color-tertiary, var(--ss-color-primary))); }
+.ss-typography--quaternary  { color: var(--ss-typography-component-color-quaternary, var(--ss-color-quaternary, var(--ss-color-secondary-foreground))); }
+.ss-typography--success     { color: var(--ss-typography-component-color-success, var(--ss-color-success)); }
+.ss-typography--warning     { color: var(--ss-typography-component-color-warning, var(--ss-color-warning)); }
+.ss-typography--error       { color: var(--ss-typography-component-color-error, var(--ss-color-error)); }
+.ss-typography--info        { color: var(--ss-typography-component-color-info, var(--ss-color-info)); }
+.ss-typography--black       { color: var(--ss-colors-black); }
+.ss-typography--white       { color: var(--ss-colors-white); }
 
 // Text alignment
 @each $align in left, center, right, justify {
