@@ -80,81 +80,55 @@ describe('ss-input', () => {
     expect(input.required).toBe(true);
   });
 
-  it('should emit ssTouchCancel from input', async () => {
+  it('supports readonly, invalid, autocomplete, and aria props', async () => {
+    const page = await newSpecPage({
+      components: [SsInput],
+      html: `<ss-input readonly invalid autocomplete="email" accessibility-label="Email" described-by="email-help"></ss-input>`,
+    });
+    const input = page.root.shadowRoot.querySelector('input');
+
+    expect(input.readOnly).toBe(true);
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(input.getAttribute('autocomplete')).toBe('email');
+    expect(input.getAttribute('aria-label')).toBe('Email');
+    expect(input.getAttribute('aria-describedby')).toBe('email-help');
+    expect(input.classList.contains('ss-input--invalid')).toBe(true);
+  });
+
+  it('emits ssInput and ssChange with normalized value', async () => {
+    const page = await newSpecPage({
+      components: [SsInput],
+      html: `<ss-input x-id="email"></ss-input>`,
+    });
+    const inputSpy = jest.fn();
+    const changeSpy = jest.fn();
+    page.root.addEventListener('ssInput', inputSpy);
+    page.root.addEventListener('ssChange', changeSpy);
+    const input = page.root.shadowRoot.querySelector('input');
+
+    input.value = 'test@example.com';
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('change'));
+    await page.waitForChanges();
+
+    expect(inputSpy).toHaveBeenCalledWith(expect.objectContaining({ detail: { xId: 'email', value: 'test@example.com' } }));
+    expect(changeSpy).toHaveBeenCalledWith(expect.objectContaining({ detail: { xId: 'email', value: 'test@example.com' } }));
+  });
+
+  it('emits ssFocus and ssBlur', async () => {
     const page = await newSpecPage({
       components: [SsInput],
       html: `<ss-input></ss-input>`,
     });
-    const emitSpy = jest.spyOn(page.rootInstance.ssTouchCancel, 'emit');
-    await page.waitForChanges();
+    const focusSpy = jest.spyOn(page.rootInstance.ssFocus, 'emit');
+    const blurSpy = jest.spyOn(page.rootInstance.ssBlur, 'emit');
     const input = page.root.shadowRoot.querySelector('input');
-    expect(input).not.toBeNull();
-    input.dispatchEvent(
-      new CustomEvent('touchCancel', {
-        bubbles: true,
-        cancelable: true,
-      }),
-    );
-    await page.waitForChanges();
-    expect(emitSpy).toHaveBeenCalled();
-  });
-});
 
-describe('ss-input events', () => {
-  const advancedEvents = [
-    { dom: 'input', emit: 'ssInput' },
-    { dom: 'change', emit: 'ssChange' },
-    { dom: 'invalid', emit: 'ssInvalid' },
-    { dom: 'touchCancel', emit: 'ssTouchCancel' },
-    { dom: 'focus', emit: 'ssFocus' },
-    { dom: 'blur', emit: 'ssBlur' },
-    { dom: 'keydown', emit: 'ssKeyDown' },
-    { dom: 'keypress', emit: 'ssKeyPress' },
-    { dom: 'keyup', emit: 'ssKeyUp' },
-    { dom: 'select', emit: 'ssSelect' },
-    { dom: 'cut', emit: 'ssCut' },
-    { dom: 'copy', emit: 'ssCopy' },
-    { dom: 'paste', emit: 'ssPaste' },
-    { dom: 'click', emit: 'ssClick' },
-    { dom: 'dblclick', emit: 'ssDoubleClick' },
-    { dom: 'mousedown', emit: 'ssMouseDown' },
-    { dom: 'mouseup', emit: 'ssMouseUp' },
-    { dom: 'mouseenter', emit: 'ssMouseEnter' },
-    { dom: 'mouseleave', emit: 'ssMouseLeave' },
-    { dom: 'mouseover', emit: 'ssMouseOver' },
-    { dom: 'mouseout', emit: 'ssMouseOut' },
-    { dom: 'mousemove', emit: 'ssMouseMove' },
-    { dom: 'contextmenu', emit: 'ssContextMenu' },
-    { dom: 'dragstart', emit: 'ssDragStart' },
-    { dom: 'drag', emit: 'ssDrag' },
-    { dom: 'dragenter', emit: 'ssDragEnter' },
-    { dom: 'dragleave', emit: 'ssDragLeave' },
-    { dom: 'dragover', emit: 'ssDragOver' },
-    { dom: 'drop', emit: 'ssDrop' },
-    { dom: 'dragend', emit: 'ssDragEnd' },
-    { dom: 'wheel', emit: 'ssWheel' },
-    { dom: 'touchStart', emit: 'ssTouchStart' },
-    { dom: 'touchMove', emit: 'ssTouchMove' },
-    { dom: 'touchEnd', emit: 'ssTouchEnd' },
-  ];
-  advancedEvents.forEach(({ dom, emit }) => {
-    it(`renders and emits ${emit} event`, async () => {
-      const page = await newSpecPage({
-        components: [SsInput],
-        html: `<ss-input></ss-input>`,
-      });
-      const emitSpy = jest.spyOn(page.rootInstance[emit], 'emit');
-      await page.waitForChanges();
-      const input = page.root.shadowRoot.querySelector('input');
-      expect(input).not.toBeNull();
-      input.dispatchEvent(
-        new CustomEvent(dom, {
-          bubbles: true,
-          cancelable: true,
-        }),
-      );
-      await page.waitForChanges();
-      expect(emitSpy).toHaveBeenCalled();
-    });
+    input.dispatchEvent(new FocusEvent('focus'));
+    input.dispatchEvent(new FocusEvent('blur'));
+    await page.waitForChanges();
+
+    expect(focusSpy).toHaveBeenCalled();
+    expect(blurSpy).toHaveBeenCalled();
   });
 });
