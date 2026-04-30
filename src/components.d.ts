@@ -11,6 +11,7 @@ import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from
 import { Size } from "./types/size";
 import { Variant } from "./types/variant";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -24,6 +25,7 @@ export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from
 export { Size } from "./types/size";
 export { Variant } from "./types/variant";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -121,6 +123,23 @@ export namespace Components {
           * @default 'md'
          */
         "spacing": DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color": Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative": boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size": IconSize;
         "xId"?: string;
     }
     interface SsInput {
@@ -448,6 +467,12 @@ declare global {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
     };
+    interface HTMLSsIconElement extends Components.SsIcon, HTMLStencilElement {
+    }
+    var HTMLSsIconElement: {
+        prototype: HTMLSsIconElement;
+        new (): HTMLSsIconElement;
+    };
     interface HTMLSsInputElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
@@ -562,6 +587,7 @@ declare global {
         "ss-avatar": HTMLSsAvatarElement;
         "ss-button": HTMLSsButtonElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
@@ -664,6 +690,23 @@ declare namespace LocalJSX {
           * @default 'md'
          */
         "spacing"?: DividerSpacing;
+        "xId"?: string;
+    }
+    interface SsIcon {
+        /**
+          * @default 'current'
+         */
+        "color"?: Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * @default true
+         */
+        "decorative"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default 'md'
+         */
+        "size"?: IconSize;
         "xId"?: string;
     }
     interface SsInput {
@@ -942,6 +985,7 @@ declare namespace LocalJSX {
         "ss-avatar": SsAvatar;
         "ss-button": SsButton;
         "ss-divider": SsDivider;
+        "ss-icon": SsIcon;
         "ss-input": SsInput;
         "ss-label": SsLabel;
         "ss-link": SsLink;
@@ -958,6 +1002,7 @@ declare module "@stencil/core" {
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
