@@ -1,0 +1,40 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-link {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  font-family: var(--ss-text-fonts-sans);
+  font-weight: var(--ss-text-weights-medium);
+  line-height: var(--ss-text-line-heights-normal);
+  color: var(--atom-accent);
+  cursor: pointer;
+  text-underline-offset: var(--ss-dimensions-1);
+  transition:
+    color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
+    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+
+  &:focus-visible {
+    @include mx.focus-ring(var(--atom-accent));
+  }
+
+  &:hover:not(.ss-link--disabled) {
+    color: color-mix(in srgb, var(--atom-accent) 82%, var(--ss-color-foreground));
+  }
+}
+
+@include mx.atom-accent-variants('ss-link');
+
+.ss-link--sm { font-size: var(--ss-text-sizes-sm); }
+.ss-link--md { font-size: var(--ss-text-sizes-base); }
+.ss-link--lg { font-size: var(--ss-text-sizes-lg); }
+
+.ss-link--underline-none { text-decoration: none; }
+.ss-link--underline-hover { text-decoration: none; }
+.ss-link--underline-hover:hover:not(.ss-link--disabled),
+.ss-link--underline-always { text-decoration: underline; }
+
+.ss-link--disabled {
+  @include mx.atom-disabled;
+  text-decoration: none;
+}
