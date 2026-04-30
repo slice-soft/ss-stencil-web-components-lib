@@ -113,6 +113,24 @@ export namespace Components {
          */
         "xStyle": InputStyle;
     }
+    interface SsLabel {
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        "htmlFor"?: string;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "xId"?: string;
+    }
     interface SsLink {
         "accessibilityLabel"?: string;
         "current"?: string;
@@ -388,6 +406,12 @@ declare global {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
     };
+    interface HTMLSsLabelElement extends Components.SsLabel, HTMLStencilElement {
+    }
+    var HTMLSsLabelElement: {
+        prototype: HTMLSsLabelElement;
+        new (): HTMLSsLabelElement;
+    };
     interface HTMLSsLinkElementEventMap {
         "ssClick": SsLinkClickEvent;
     }
@@ -474,6 +498,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "ss-button": HTMLSsButtonElement;
         "ss-input": HTMLSsInputElement;
+        "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-select": HTMLSsSelectElement;
@@ -606,6 +631,24 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
+    }
+    interface SsLabel {
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        "htmlFor"?: string;
+        "inlineStyles"?: InlineStyles;
+        "label"?: string;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "xId"?: string;
     }
     interface SsLink {
         "accessibilityLabel"?: string;
@@ -800,6 +843,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "ss-button": SsButton;
         "ss-input": SsInput;
+        "ss-label": SsLabel;
         "ss-link": SsLink;
         "ss-radio": SsRadio;
         "ss-select": SsSelect;
@@ -813,6 +857,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
+            "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
