@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.2.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.1.2...ss-stencil-web-components-lib-v0.2.0) (2026-04-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ss-input:** ss-input no longer re-emits native keyboard, selection, clipboard, mouse, drag, wheel, or touch events; use ssInput, ssChange, ssInvalid, ssFocus, ssBlur, or native listeners where appropriate.
+
+### Features
+
+* **atoms:** add shared control types and mixins ([#23](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/23)) ([9f60f43](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/9f60f43a8b4c49cb6777f2311f8a8919c537348a))
+* ss radio atom ([#20](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/20)) ([2e64188](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/2e64188b6c7f8f6b3620d7a4350e9d7162e4628a))
+* ss select atom ([#19](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/19)) ([3c42e7b](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/3c42e7b11f93ae34e55e8ac89a5589b504a5988b))
+* ss switch atom ([#17](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/17)) ([bf9fe38](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/bf9fe38685e40d5bc27427fdf90ac228d1cbea45))
+* **ss-avatar:** add avatar atom ([#27](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/27)) ([faf3bde](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/faf3bdee2f7738aa0dcd8338aef4da66130f03bf))
+* **ss-badge:** add badge atom ([#32](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/32)) ([b553a88](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/b553a88f2e2303f72dfcc1299acae714c586562c))
+* **ss-button:** add loading and accessibility label props ([#24](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/24)) ([7eaf6dd](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/7eaf6dddb8ca7b05e361fd8b24c12674710ab4f1))
+* **ss-checkbox:** add checkbox atom ([#33](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/33)) ([b9a28c1](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/b9a28c12b60e0810e47189bc06864ac14e8c3fa4))
+* **ss-divider:** add divider atom ([#28](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/28)) ([9fc856d](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/9fc856d48d0d8feef946232c1467d088cdca58dd))
+* **ss-input:** add form state and accessibility props  ([#26](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/26)) ([0891bd2](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/0891bd2f417a7b83b6d2f5c69ee1a9a3a1a916db))
+* **ss-label:** add label atom ([#22](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/22)) ([99316bb](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/99316bb1747b1f884e3ecb1c66c53903e4643e08))
+* **ss-spinner:** add spinner atom ([#30](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/30)) ([3005a92](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/3005a92e90a89d4af26ea5cce6ab436eb6838558))
+* **ss-textarea:** add textarea atom  [@juancadev-io](https://github.com/juancadev-io) ([#34](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/34)) ([7805b92](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/7805b9284c24d2e911f768683ae5828bc824254e))
+* **ss-tooltip:** add tooltip atom ([#31](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/31)) ([c38cbf7](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/c38cbf7b9780b84b202e23418ec7dbb484fc0438))
+* **ss-typography:** add heading levels and font family controls ([#25](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/25)) ([ad57743](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/ad577439ed53cb6e462ff92453ef7110e9bb24d8))
+
 ## [0.1.2](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.1.1...ss-stencil-web-components-lib-v0.1.2) (2026-04-29)
 
 
