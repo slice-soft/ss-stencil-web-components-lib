@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.0...ss-stencil-web-components-lib-v0.2.1) (2026-05-06)
+
+
+### Features
+
+* add ss-combobox and ss-slider components with updated variants ([#37](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/37)) ([9bba38d](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/9bba38d63b9df971231c7e08bec38e9b849bad9c))
+
 ## [0.2.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.1.2...ss-stencil-web-components-lib-v0.2.0) (2026-04-30)
 
 
