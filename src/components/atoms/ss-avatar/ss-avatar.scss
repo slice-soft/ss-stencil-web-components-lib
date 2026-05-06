@@ -11,7 +11,7 @@
   line-height: var(--ss-text-line-heights-none);
   color: var(--ss-color-secondary-foreground);
   background: var(--ss-color-secondary);
-  border: 2px solid var(--ss-color-border);
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
 }
 
 .ss-avatar--xs { width: var(--ss-dimensions-6); height: var(--ss-dimensions-6); font-size: var(--ss-text-sizes-xs); }
@@ -27,8 +27,8 @@
 
 .ss-avatar__image {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: var(--ss-sizing-full);
+  height: var(--ss-sizing-full);
   object-fit: cover;
 }
 
@@ -36,7 +36,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  width: var(--ss-sizing-full);
+  height: var(--ss-sizing-full);
   text-transform: uppercase;
 }

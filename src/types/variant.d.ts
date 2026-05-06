@@ -1,1 +1,1 @@
-export type Variant = 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'success' | 'warning' | 'error' | 'info';
+export type Variant = 'default' | 'brand' | 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'success' | 'warning' | 'error' | 'destructive' | 'info';

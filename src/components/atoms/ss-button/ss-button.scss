@@ -19,7 +19,7 @@ $sizes: (
   text-align:     center;
   text-transform: capitalize;
   width:          fit-content;
-  border:         2px solid transparent;
+  border:         var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-colors-transparent);
   cursor:         pointer;
   font-family:    var(--ss-button-font-family, var(--ss-text-fonts-sans));
   font-size:      var(--ss-button-font-size, var(--ss-text-sizes-sm));
@@ -40,6 +40,9 @@ $sizes: (
 }
 
 // Variants — semantic tokens → dark mode automatic
+.ss-button--default { @include mx.btn-variant('secondary'); }
+.ss-button--brand { @include mx.btn-variant('primary'); }
+
 .ss-button--primary {
   @include mx.btn-variant('primary');
 
@@ -56,16 +59,17 @@ $sizes: (
 .ss-button--success    { @include mx.btn-variant('success'); }
 .ss-button--warning    { @include mx.btn-variant('warning'); }
 .ss-button--error      { @include mx.btn-variant('error'); }
+.ss-button--destructive { @include mx.btn-variant('destructive'); }
 .ss-button--info       { @include mx.btn-variant('info'); }
 
 // Shapes
 .ss-button--rounded { border-radius: var(--ss-button-border-radius, var(--ss-radius-base)); }
 .ss-button--pill    { border-radius: var(--ss-radius-full); }
-.ss-button--circle  { border-radius: 50%; padding: 0; aspect-ratio: 1; width: 2.5em; height: 2.5em; }
-.ss-button--square  { border-radius: 0; }
+.ss-button--circle  { border-radius: var(--ss-radius-full); padding: var(--ss-sizing-none); aspect-ratio: var(--ss-ratios-square); width: var(--ss-sizing-button-icon-only); height: var(--ss-sizing-button-icon-only); }
+.ss-button--square  { border-radius: var(--ss-radius-none); }
 
 // Full width
-.ss-button--full-width { width: 100%; }
+.ss-button--full-width { width: var(--ss-sizing-full); }
 
 // Loading state
 .ss-button--status-loading {
@@ -73,23 +77,33 @@ $sizes: (
   cursor:   wait;
 
   .ss-button__label,
-  .ss-button__icon { opacity: 0; }
+  .ss-button__icon { opacity: var(--ss-opacity-hidden); }
 
   &::after {
     content:       '';
     position:      absolute;
-    width:         1em;
-    height:        1em;
-    border:        2px solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation:     ss-button-spin 0.75s linear infinite;
+    width:         var(--ss-sizing-icon);
+    height:        var(--ss-sizing-icon);
+    border:        var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-keywords-current);
+    border-right-color: var(--ss-colors-transparent);
+    border-radius: var(--ss-radius-full);
+    animation:     ss-button-spin var(--ss-transitions-durations-spin) var(--ss-transitions-easing-keywords-linear) var(--ss-animation-iteration-counts-infinite);
   }
 }
 
 @keyframes ss-button-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from { transform: rotate(var(--ss-angles-none)); }
+  to   { transform: rotate(var(--ss-angles-full)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-button {
+    transition-duration: var(--ss-transitions-durations-instant);
+  }
+
+  .ss-button--status-loading::after {
+    animation: none;
+  }
 }
 
 // Icon / label slots

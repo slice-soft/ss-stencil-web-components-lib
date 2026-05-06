@@ -5,14 +5,14 @@
   align-items: center;
   justify-content: center;
   width: fit-content;
-  max-width: 100%;
+  max-width: var(--ss-sizing-full);
   font-family: var(--ss-text-fonts-sans);
   font-weight: var(--ss-text-weights-medium);
   line-height: var(--ss-text-line-heights-none);
-  border: 2px solid transparent;
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-colors-transparent);
   border-radius: var(--ss-radius-base);
   color: var(--atom-accent);
-  background: color-mix(in srgb, var(--atom-accent) 12%, var(--ss-color-background));
+  background: color-mix(in srgb, var(--atom-accent) calc(var(--ss-opacity-hover-subtle) * var(--ss-sizing-full)), var(--ss-color-background));
 }
 
 @include mx.atom-accent-variants('ss-badge');
@@ -33,7 +33,7 @@
 
 .ss-badge--outline {
   color: var(--atom-accent);
-  background: transparent;
+  background: var(--ss-colors-transparent);
   border-color: var(--atom-accent);
 }
 
@@ -61,17 +61,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  border: 0;
+  padding: var(--ss-sizing-none);
+  border: var(--ss-borders-width-none);
   color: inherit;
-  background: transparent;
+  background: var(--ss-colors-transparent);
   cursor: pointer;
   font: inherit;
   line-height: var(--ss-text-line-heights-none);
 }
 
 .ss-badge__dismiss:focus-visible {
-  @include mx.focus-ring(currentColor);
+  @include mx.focus-ring(var(--ss-color-keywords-current));
 }
 
 .ss-badge__dismiss:disabled {

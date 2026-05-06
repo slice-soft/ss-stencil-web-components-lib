@@ -14,7 +14,7 @@
 
 .ss-switch__input {
   position: absolute;
-  opacity: 0;
+  opacity: var(--ss-opacity-hidden);
   pointer-events: none;
 }
 
@@ -22,11 +22,11 @@
   display: inline-flex;
   align-items: center;
   flex: none;
-  width: 2em;
-  height: 1em;
+  width: var(--ss-sizing-switch-track);
+  height: var(--ss-sizing-icon);
   padding: var(--ss-dimensions-1);
   background: var(--ss-color-muted);
-  border: 2px solid var(--ss-color-border);
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
   border-radius: var(--ss-radius-full);
   transition:
     background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
@@ -35,8 +35,8 @@
 
 .ss-switch__thumb {
   display: block;
-  width: 0.75em;
-  height: 0.75em;
+  width: var(--ss-sizing-thumb);
+  height: var(--ss-sizing-thumb);
   background: var(--ss-color-background);
   border-radius: var(--ss-radius-full);
   transition: transform var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
@@ -53,7 +53,7 @@
 }
 
 .ss-switch--checked .ss-switch__thumb {
-  transform: translateX(1em);
+  transform: translateX(var(--ss-sizing-icon));
 }
 
 .ss-switch--label-start .ss-switch__thumb {

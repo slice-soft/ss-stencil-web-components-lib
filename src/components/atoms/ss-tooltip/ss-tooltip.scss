@@ -21,7 +21,7 @@
   background: var(--ss-color-foreground);
   border-radius: var(--ss-radius-base);
   box-shadow: var(--ss-shadows-md);
-  opacity: 0;
+  opacity: var(--ss-opacity-hidden);
   pointer-events: none;
   visibility: hidden;
   white-space: normal;
@@ -31,30 +31,30 @@
 }
 
 .ss-tooltip--open .ss-tooltip__content {
-  opacity: 1;
+  opacity: var(--ss-opacity-visible);
   visibility: visible;
 }
 
 .ss-tooltip--top .ss-tooltip__content {
-  bottom: calc(100% + var(--ss-dimensions-2));
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
+  left: var(--ss-sizing-half);
+  transform: translateX(var(--ss-sizing-negative-half));
 }
 
 .ss-tooltip--right .ss-tooltip__content {
-  top: 50%;
-  left: calc(100% + var(--ss-dimensions-2));
-  transform: translateY(-50%);
+  top: var(--ss-sizing-half);
+  left: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
+  transform: translateY(var(--ss-sizing-negative-half));
 }
 
 .ss-tooltip--bottom .ss-tooltip__content {
-  top: calc(100% + var(--ss-dimensions-2));
-  left: 50%;
-  transform: translateX(-50%);
+  top: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
+  left: var(--ss-sizing-half);
+  transform: translateX(var(--ss-sizing-negative-half));
 }
 
 .ss-tooltip--left .ss-tooltip__content {
-  top: 50%;
-  right: calc(100% + var(--ss-dimensions-2));
-  transform: translateY(-50%);
+  top: var(--ss-sizing-half);
+  right: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
+  transform: translateY(var(--ss-sizing-negative-half));
 }

@@ -11,18 +11,19 @@
 @include mx.atom-accent-variants('ss-select');
 
 .ss-select--outline {
-  background: transparent;
+  background: var(--ss-colors-transparent);
 }
 
 .ss-select--underline {
-  background: transparent;
-  border-width: 0 0 2px;
-  border-radius: 0;
+  background: var(--ss-colors-transparent);
+  border-width: var(--ss-borders-width-none) var(--ss-borders-width-none) var(--ss-borders-width-base);
+  border-radius: var(--ss-radius-none);
 }
 
 .ss-select--success,
 .ss-select--warning,
 .ss-select--error,
+.ss-select--destructive,
 .ss-select--info {
   border-color: var(--atom-accent);
 }
@@ -32,5 +33,5 @@
 }
 
 .ss-select--full-width {
-  width: 100%;
+  width: var(--ss-sizing-full);
 }
