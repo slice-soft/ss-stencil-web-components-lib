@@ -1,0 +1,66 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-slider {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-3);
+  width: auto;
+  font-family: var(--ss-text-fonts-sans);
+  color: var(--ss-color-foreground);
+}
+
+@include mx.atom-accent-variants('ss-slider');
+
+.ss-slider__input {
+  width: var(--ss-dimensions-32);
+  min-width: var(--ss-dimensions-20);
+  accent-color: var(--atom-accent, var(--ss-color-primary));
+  cursor: pointer;
+}
+
+.ss-slider__input:focus-visible {
+  @include mx.focus-ring(var(--atom-accent, var(--ss-color-ring)));
+}
+
+.ss-slider__value {
+  min-width: var(--ss-dimensions-8);
+  font-size: var(--ss-text-sizes-sm);
+  font-weight: var(--ss-text-weights-medium);
+  color: var(--ss-color-muted-foreground);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.ss-slider--xs .ss-slider__input,
+.ss-slider--sm .ss-slider__input {
+  width: var(--ss-dimensions-20);
+}
+
+.ss-slider--lg .ss-slider__input,
+.ss-slider--xl .ss-slider__input,
+.ss-slider--2xl .ss-slider__input,
+.ss-slider--3xl .ss-slider__input {
+  width: calc(var(--ss-dimensions-32) + var(--ss-dimensions-12));
+}
+
+.ss-slider--full-width,
+.ss-slider--full-width .ss-slider__input {
+  width: var(--ss-sizing-full);
+}
+
+.ss-slider--disabled,
+.ss-slider--readonly {
+  @include mx.atom-disabled;
+}
+
+.ss-slider--disabled .ss-slider__input {
+  cursor: not-allowed;
+}
+
+.ss-slider--readonly .ss-slider__input {
+  cursor: default;
+}
+
+.ss-slider--invalid .ss-slider__input {
+  accent-color: var(--ss-color-error);
+}

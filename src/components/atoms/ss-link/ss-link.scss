@@ -19,7 +19,7 @@
   }
 
   &:hover:not(.ss-link--disabled) {
-    color: color-mix(in srgb, var(--atom-accent) 82%, var(--ss-color-foreground));
+    color: color-mix(in srgb, var(--atom-accent) calc(var(--ss-opacity-link-hover) * var(--ss-sizing-full)), var(--ss-color-foreground));
   }
 }
 

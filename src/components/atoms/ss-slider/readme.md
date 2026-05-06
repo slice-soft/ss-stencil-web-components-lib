@@ -1,4 +1,4 @@
-# ss-select
+# ss-slider
 
 
 
@@ -16,31 +16,27 @@
 | `fullWidth`          | `full-width`          |             | `boolean`                                                                                                                                        | `false`     |
 | `inlineStyles`       | `inline-styles`       |             | `string \| { [x: string]: string; }`                                                                                                             | `undefined` |
 | `invalid`            | `invalid`             |             | `boolean`                                                                                                                                        | `false`     |
-| `multiple`           | `multiple`            |             | `boolean`                                                                                                                                        | `false`     |
+| `max`                | `max`                 |             | `number`                                                                                                                                         | `100`       |
+| `min`                | `min`                 |             | `number`                                                                                                                                         | `0`         |
 | `name`               | `name`                |             | `string`                                                                                                                                         | `undefined` |
-| `placeholder`        | `placeholder`         |             | `string`                                                                                                                                         | `undefined` |
-| `required`           | `required`            |             | `boolean`                                                                                                                                        | `false`     |
+| `readonly`           | `readonly`            |             | `boolean`                                                                                                                                        | `false`     |
+| `showValue`          | `show-value`          |             | `boolean`                                                                                                                                        | `false`     |
 | `size`               | `size`                |             | `"2xl" \| "3xl" \| "lg" \| "md" \| "sm" \| "xl" \| "xs"`                                                                                         | `'md'`      |
-| `value`              | `value`               |             | `string \| string[]`                                                                                                                             | `undefined` |
+| `step`               | `step`                |             | `number`                                                                                                                                         | `1`         |
+| `value`              | `value`               |             | `number`                                                                                                                                         | `0`         |
+| `valueLabel`         | `value-label`         |             | `string`                                                                                                                                         | `undefined` |
 | `xId`                | `x-id`                |             | `string`                                                                                                                                         | `undefined` |
-| `xStyle`             | `x-style`             |             | `"outline" \| "solid" \| "underline"`                                                                                                            | `'solid'`   |
 
 
 ## Events
 
-| Event       | Description | Type                                                                       |
-| ----------- | ----------- | -------------------------------------------------------------------------- |
-| `ssBlur`    |             | `CustomEvent<FocusEvent>`                                                  |
-| `ssChange`  |             | `CustomEvent<{ xId?: string; name?: string; value: string \| string[]; }>` |
-| `ssFocus`   |             | `CustomEvent<FocusEvent>`                                                  |
-| `ssInvalid` |             | `CustomEvent<{ xId?: string; name?: string; value: string \| string[]; }>` |
-
-
-## Slots
-
-| Slot | Description                         |
-| ---- | ----------------------------------- |
-|      | Native option or optgroup elements. |
+| Event       | Description | Type                                                           |
+| ----------- | ----------- | -------------------------------------------------------------- |
+| `ssBlur`    |             | `CustomEvent<FocusEvent>`                                      |
+| `ssChange`  |             | `CustomEvent<{ xId?: string; name?: string; value: number; }>` |
+| `ssFocus`   |             | `CustomEvent<FocusEvent>`                                      |
+| `ssInput`   |             | `CustomEvent<{ xId?: string; name?: string; value: number; }>` |
+| `ssInvalid` |             | `CustomEvent<{ xId?: string; name?: string; value: number; }>` |
 
 
 ----------------------------------------------

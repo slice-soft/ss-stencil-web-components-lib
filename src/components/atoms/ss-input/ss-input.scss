@@ -19,17 +19,22 @@ $sizes: (
   font-family:   var(--ss-input-font-family, var(--ss-text-fonts-sans));
   font-size:     var(--ss-input-font-size, var(--ss-text-sizes-sm));
   color:         var(--ss-input-foreground, var(--ss-color-foreground));
-  border:        2px solid var(--ss-input-border, var(--ss-color-input));
+  border:        var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
   border-radius: var(--ss-input-border-radius, var(--ss-radius-base));
   transition:
-    border-color       var(--ss-transitions-durations-short) ease,
-    background-color   var(--ss-transitions-durations-short) ease,
-    box-shadow         var(--ss-transitions-durations-short) ease;
+    border-color       var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
+    background-color   var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
+    box-shadow         var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
 
   &:focus {
     outline:      none;
     border-color: var(--ss-input-border-focus, var(--ss-color-ring));
-    box-shadow:   0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent);
+    box-shadow:
+      var(--ss-sizing-none)
+      var(--ss-sizing-none)
+      var(--ss-sizing-none)
+      var(--ss-borders-width-base)
+      color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
   }
 
   &[readonly] {
@@ -54,25 +59,41 @@ $sizes: (
     border-color: var(--ss-input-border, var(--ss-color-input));
 
     &:hover:not([disabled]) { background: var(--ss-color-surface); }
-    &:focus { border-color: var(--ss-color-ring); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent); }
+    &:focus {
+      border-color: var(--ss-color-ring);
+      box-shadow:
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-borders-width-base)
+        color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    }
     &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
   }
 
   &.ss-input--outline {
-    background:   transparent;
+    background:   var(--ss-colors-transparent);
     color:        var(--ss-color-foreground);
     border-color: var(--ss-color-border);
 
     &:hover:not([disabled]) { background: var(--ss-color-surface); }
-    &:focus { border-color: var(--ss-color-ring); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent); }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
+    &:focus {
+      border-color: var(--ss-color-ring);
+      box-shadow:
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-borders-width-base)
+        color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
   }
 
   &.ss-input--underline {
-    background:          transparent;
+    background:          var(--ss-colors-transparent);
     color:               var(--ss-color-foreground);
     border-bottom-color: var(--ss-color-border);
-    border-radius:       0;
+    border-radius:       var(--ss-radius-none);
 
     &:hover:not([disabled]) { border-bottom-color: var(--ss-color-primary); }
     &:focus { border-bottom-color: var(--ss-color-ring); box-shadow: none; }
@@ -88,25 +109,41 @@ $sizes: (
     border-color: var(--ss-color-border);
 
     &:hover:not([disabled]) { background: var(--ss-color-surface-alt); }
-    &:focus { border-color: var(--ss-color-foreground); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-foreground) 15%, transparent); }
+    &:focus {
+      border-color: var(--ss-color-foreground);
+      box-shadow:
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-borders-width-base)
+        color-mix(in srgb, var(--ss-color-foreground) calc(var(--ss-opacity-focus-ring-muted) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    }
     &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
   }
 
   &.ss-input--outline {
-    background:   transparent;
+    background:   var(--ss-colors-transparent);
     color:        var(--ss-color-foreground);
     border-color: var(--ss-color-border);
 
     &:hover:not([disabled]) { background: var(--ss-color-surface); }
-    &:focus { border-color: var(--ss-color-foreground); box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-foreground) 15%, transparent); }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
+    &:focus {
+      border-color: var(--ss-color-foreground);
+      box-shadow:
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-borders-width-base)
+        color-mix(in srgb, var(--ss-color-foreground) calc(var(--ss-opacity-focus-ring-muted) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
   }
 
   &.ss-input--underline {
-    background:          transparent;
+    background:          var(--ss-colors-transparent);
     color:               var(--ss-color-foreground);
     border-bottom-color: var(--ss-color-border);
-    border-radius:       0;
+    border-radius:       var(--ss-radius-none);
 
     &:hover:not([disabled]) { border-bottom-color: var(--ss-color-foreground); }
     &:focus { border-bottom-color: var(--ss-color-foreground); box-shadow: none; }
@@ -115,21 +152,29 @@ $sizes: (
 }
 
 // Status / semantic variants — use input-variant mixin (accent-colored)
+.ss-input--default { @include mx.input-variant('secondary'); }
+.ss-input--brand { @include mx.input-variant('primary'); }
 .ss-input--tertiary   { @include mx.input-variant('tertiary', 'primary'); }
 .ss-input--quaternary { @include mx.input-variant('quaternary', 'secondary'); }
 .ss-input--success { @include mx.input-variant('success'); }
 .ss-input--warning { @include mx.input-variant('warning'); }
 .ss-input--error   { @include mx.input-variant('error'); }
+.ss-input--destructive { @include mx.input-variant('destructive'); }
 .ss-input--info    { @include mx.input-variant('info'); }
 
 // Full width
-.ss-input--full-width { width: 100%; }
+.ss-input--full-width { width: var(--ss-sizing-full); }
 
 .ss-input--invalid {
   border-color: var(--ss-color-error);
 
   &:focus {
     border-color: var(--ss-color-error);
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-error) 25%, transparent);
+    box-shadow:
+      var(--ss-sizing-none)
+      var(--ss-sizing-none)
+      var(--ss-sizing-none)
+      var(--ss-borders-width-base)
+      color-mix(in srgb, var(--ss-color-error) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
   }
 }

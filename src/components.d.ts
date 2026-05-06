@@ -17,6 +17,7 @@ import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
@@ -34,6 +35,7 @@ export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
@@ -182,6 +184,51 @@ export namespace Components {
         "size": Size;
         "value"?: string;
         "xId"?: string;
+    }
+    interface SsCombobox {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color": Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "fullWidth": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        "listId"?: string;
+        "maxLength"?: number;
+        "minLength"?: number;
+        "name"?: string;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        "value"?: string;
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle": InputStyle;
     }
     interface SsDivider {
         /**
@@ -386,6 +433,58 @@ export namespace Components {
          */
         "xStyle": SelectStyle;
     }
+    interface SsSlider {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color": Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * @default false
+         */
+        "fullWidth": boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * @default 100
+         */
+        "max": number;
+        /**
+          * @default 0
+         */
+        "min": number;
+        "name"?: string;
+        /**
+          * @default false
+         */
+        "readonly": boolean;
+        /**
+          * @default false
+         */
+        "showValue": boolean;
+        /**
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * @default 1
+         */
+        "step": number;
+        /**
+          * @default 0
+         */
+        "value": number;
+        "valueLabel"?: string;
+        "xId"?: string;
+    }
     interface SsSpinner {
         /**
           * @default 'primary'
@@ -577,6 +676,10 @@ export interface SsCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsCheckboxElement;
 }
+export interface SsComboboxCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsComboboxElement;
+}
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
@@ -592,6 +695,10 @@ export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
 export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSelectElement;
+}
+export interface SsSliderCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsSliderElement;
 }
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -677,6 +784,27 @@ declare global {
     var HTMLSsCheckboxElement: {
         prototype: HTMLSsCheckboxElement;
         new (): HTMLSsCheckboxElement;
+    };
+    interface HTMLSsComboboxElementEventMap {
+        "ssInput": SsInputValueEvent;
+        "ssChange": SsInputValueEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsInputValueEvent;
+    }
+    interface HTMLSsComboboxElement extends Components.SsCombobox, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsComboboxElementEventMap>(type: K, listener: (this: HTMLSsComboboxElement, ev: SsComboboxCustomEvent<HTMLSsComboboxElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsComboboxElementEventMap>(type: K, listener: (this: HTMLSsComboboxElement, ev: SsComboboxCustomEvent<HTMLSsComboboxElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsComboboxElement: {
+        prototype: HTMLSsComboboxElement;
+        new (): HTMLSsComboboxElement;
     };
     interface HTMLSsDividerElement extends Components.SsDivider, HTMLStencilElement {
     }
@@ -774,6 +902,27 @@ declare global {
         prototype: HTMLSsSelectElement;
         new (): HTMLSsSelectElement;
     };
+    interface HTMLSsSliderElementEventMap {
+        "ssInput": SsSliderValueEvent;
+        "ssChange": SsSliderValueEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+        "ssInvalid": SsSliderValueEvent;
+    }
+    interface HTMLSsSliderElement extends Components.SsSlider, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsSliderElementEventMap>(type: K, listener: (this: HTMLSsSliderElement, ev: SsSliderCustomEvent<HTMLSsSliderElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsSliderElementEventMap>(type: K, listener: (this: HTMLSsSliderElement, ev: SsSliderCustomEvent<HTMLSsSliderElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsSliderElement: {
+        prototype: HTMLSsSliderElement;
+        new (): HTMLSsSliderElement;
+    };
     interface HTMLSsSpinnerElement extends Components.SsSpinner, HTMLStencilElement {
     }
     var HTMLSsSpinnerElement: {
@@ -849,6 +998,7 @@ declare global {
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
         "ss-checkbox": HTMLSsCheckboxElement;
+        "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
         "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
@@ -856,6 +1006,7 @@ declare global {
         "ss-link": HTMLSsLinkElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-select": HTMLSsSelectElement;
+        "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
         "ss-textarea": HTMLSsTextareaElement;
@@ -1014,6 +1165,56 @@ declare namespace LocalJSX {
         "size"?: Size;
         "value"?: string;
         "xId"?: string;
+    }
+    interface SsCombobox {
+        "accessibilityLabel"?: string;
+        "autocomplete"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        "listId"?: string;
+        "maxLength"?: number;
+        "minLength"?: number;
+        "name"?: string;
+        "onSsBlur"?: (event: SsComboboxCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsComboboxCustomEvent<SsInputValueEvent>) => void;
+        "onSsFocus"?: (event: SsComboboxCustomEvent<FocusEvent>) => void;
+        "onSsInput"?: (event: SsComboboxCustomEvent<SsInputValueEvent>) => void;
+        "onSsInvalid"?: (event: SsComboboxCustomEvent<SsInputValueEvent>) => void;
+        "placeholder"?: string;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        "value"?: string;
+        "xId"?: string;
+        /**
+          * @default 'solid'
+         */
+        "xStyle"?: InputStyle;
     }
     interface SsDivider {
         /**
@@ -1232,6 +1433,63 @@ declare namespace LocalJSX {
          */
         "xStyle"?: SelectStyle;
     }
+    interface SsSlider {
+        "accessibilityLabel"?: string;
+        /**
+          * @default 'primary'
+         */
+        "color"?: Variant;
+        "describedBy"?: string;
+        /**
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        "inlineStyles"?: InlineStyles;
+        /**
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * @default 100
+         */
+        "max"?: number;
+        /**
+          * @default 0
+         */
+        "min"?: number;
+        "name"?: string;
+        "onSsBlur"?: (event: SsSliderCustomEvent<FocusEvent>) => void;
+        "onSsChange"?: (event: SsSliderCustomEvent<SsSliderValueEvent>) => void;
+        "onSsFocus"?: (event: SsSliderCustomEvent<FocusEvent>) => void;
+        "onSsInput"?: (event: SsSliderCustomEvent<SsSliderValueEvent>) => void;
+        "onSsInvalid"?: (event: SsSliderCustomEvent<SsSliderValueEvent>) => void;
+        /**
+          * @default false
+         */
+        "readonly"?: boolean;
+        /**
+          * @default false
+         */
+        "showValue"?: boolean;
+        /**
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * @default 1
+         */
+        "step"?: number;
+        /**
+          * @default 0
+         */
+        "value"?: number;
+        "valueLabel"?: string;
+        "xId"?: string;
+    }
     interface SsSpinner {
         /**
           * @default 'primary'
@@ -1421,6 +1679,7 @@ declare namespace LocalJSX {
         "ss-badge": SsBadge;
         "ss-button": SsButton;
         "ss-checkbox": SsCheckbox;
+        "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
         "ss-icon": SsIcon;
         "ss-input": SsInput;
@@ -1428,6 +1687,7 @@ declare namespace LocalJSX {
         "ss-link": SsLink;
         "ss-radio": SsRadio;
         "ss-select": SsSelect;
+        "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
         "ss-textarea": SsTextarea;
@@ -1443,6 +1703,7 @@ declare module "@stencil/core" {
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
+            "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
@@ -1450,6 +1711,7 @@ declare module "@stencil/core" {
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
+            "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;

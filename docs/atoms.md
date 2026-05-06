@@ -10,6 +10,7 @@ This library keeps atoms as small, generic Web Components that map directly to t
 | `ss-badge`      | `ss-badge`      | Inline status label, dismissible                                         |
 | `ss-button`     | `ss-button`     | Interactive trigger, all variants and states                             |
 | `ss-checkbox`   | `ss-checkbox`   | Native checkbox with indeterminate support                               |
+| `ss-combobox`   | `ss-combobox`   | Native text input with datalist-backed suggestions                       |
 | `ss-divider`    | `ss-divider`    | Horizontal or vertical separator                                         |
 | `ss-icon`       | `ss-icon`       | Size/color wrapper for SVG or icon-font glyphs                           |
 | `ss-input`      | `ss-input`      | Native text input, all types                                             |
@@ -17,6 +18,7 @@ This library keeps atoms as small, generic Web Components that map directly to t
 | `ss-link`       | `ss-link`       | Anchor with variant, underline, and disabled state                       |
 | `ss-radio`      | `ss-radio`      | Native radio button                                                      |
 | `ss-select`     | `ss-select`     | Native select with style variants                                        |
+| `ss-slider`     | `ss-slider`     | Native range input with optional value output                            |
 | `ss-spinner`    | `ss-spinner`    | Loading indicator                                                        |
 | `ss-switch`     | `ss-switch`     | Toggle switch (checkbox role)                                            |
 | `ss-textarea`   | `ss-textarea`   | Native multiline input                                                   |

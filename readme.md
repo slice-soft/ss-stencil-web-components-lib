@@ -1,76 +1,49 @@
-# ss-stencil-web-componets-lib
+# ss-stencil-web-components-lib
 
-## Descripción
-Este proyecto es una librería de Web Components reutilizables desarrollados con [StencilJS](https://stenciljs.com/), pensada para ser utilizada en cualquier framework moderno o sin framework. Todos los componentes se encuentran en el directorio `src` y comparten estilos globales y tokens de diseño.
+Libreria de Web Components reutilizables desarrollados con StencilJS para SliceSoft.
 
-- **Componentes:** Todos los componentes están en `src/components`.
-- **Estilos globales:** Se gestionan desde `src/global/global.scss` y se usan tokens CSS (`src/global/tokens.css`).
-- **Sass:** El proyecto utiliza Sass como preprocesador de estilos.
-- **Tokens:** Los tokens de diseño se copian automáticamente a la carpeta de build.
-- **Output targets:**
-  - `dist` (ESM y CJS)
-  - `dist-custom-elements` (componentes individuales)
-  - `docs-readme` (documentación automática)
-  - `docs-vscode` (soporte para VSCode)
-  - `www` (build demo, sin service worker)
+## Uso
 
-La configuración completa está en `stencil.config.ts`.
+Los componentes consumen tokens CSS de `@slice-soft/ss-design-system`. Carga `_variables.css` antes de usar la libreria y `_dark.css` despues si necesitas modo oscuro.
 
-## Instalación y uso
-
-Clona el repositorio y ejecuta:
+```html
+<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_variables.css">
+<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_dark.css">
+```
 
 ```bash
-git clone https://github.com/slice-soft/ss-stencil-web-componets-lib.git
-cd ss-stencil-web-componets-lib
+npm install @slice-soft/ss-stencil-web-components-lib
+```
+
+```ts
+import { defineCustomElements } from '@slice-soft/ss-stencil-web-components-lib/loader';
+
+defineCustomElements();
+```
+
+## Desarrollo local
+
+```bash
+git clone https://github.com/slice-soft/ss-stencil-web-components-lib.git
+cd ss-stencil-web-components-lib
 npm install
 npm start
 ```
 
-Para construir para producción:
+## Scripts
 
 ```bash
 npm run build
-```
-
-Para ejecutar los tests:
-
-```bash
 npm test
+npm run lint
 ```
 
-## Importar componentes
+## Salidas
 
-Puedes importar los componentes de dos formas:
+- `dist`: loader ESM/CJS y bundles lazy-loaded.
+- `dist-custom-elements`: componentes standalone.
+- `docs-readme`: documentacion generada por componente.
+- `docs-vscode`: metadata para autocompletado.
+- `www`: demo local de Stencil.
 
-### 1. Lazy loading (via dist)
-
-Incluye el script ESM generado en tu HTML o en tu entrypoint JS/TS:
-
-```html
-<script type="module" src="https://unpkg.com/ss-stencil-web-componets-lib"></script>
-```
-
-O en tu app:
-
-```ts
-import 'ss-stencil-web-componets-lib/dist/ss-stencil-web-componets-lib/ss-stencil-web-componets-lib.esm.js';
-```
-
-### 2. Standalone (via dist-custom-elements)
-
-Importa solo el componente que necesitas:
-
-```ts
-import 'ss-stencil-web-componets-lib/my-component';
-```
-
-## Personalización y desarrollo
-
-- Todos los componentes nuevos deben crearse en `src/components`.
-- Los estilos globales y tokens están en `src/global`.
-- La documentación de cada componente se genera automáticamente en su README.
-
-## Créditos
-
-*Built with love ❤️ by [Slice Soft](https://slicesoft.dev/) Team*
+La fuente de verdad de tokens es `@slice-soft/ss-design-system`; los tokens legacy locales fueron retirados del codigo fuente.

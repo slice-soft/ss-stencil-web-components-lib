@@ -7,12 +7,12 @@
 
 .ss-spinner__track {
   display: inline-block;
-  width: 1em;
-  height: 1em;
-  border: var(--ss-dimensions-1) solid color-mix(in srgb, currentColor 24%, transparent);
-  border-top-color: currentColor;
+  width: var(--ss-sizing-icon);
+  height: var(--ss-sizing-icon);
+  border: var(--ss-dimensions-1) var(--ss-borders-styles-solid) color-mix(in srgb, var(--ss-color-keywords-current) calc(var(--ss-opacity-spinner-track) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+  border-top-color: var(--ss-color-keywords-current);
   border-radius: var(--ss-radius-full);
-  animation: ss-spinner-rotate var(--ss-transitions-durations-long) linear infinite;
+  animation: ss-spinner-rotate var(--ss-transitions-durations-long) var(--ss-transitions-easing-keywords-linear) var(--ss-animation-iteration-counts-infinite);
 }
 
 .ss-spinner--xs { font-size: var(--ss-text-sizes-xs); }
@@ -23,9 +23,11 @@
 .ss-spinner--2xl,
 .ss-spinner--3xl { font-size: var(--ss-text-sizes-4xl); }
 
-.ss-spinner--current { color: currentColor; }
+.ss-spinner--current { color: var(--ss-color-keywords-current); }
 .ss-spinner--foreground { color: var(--ss-color-foreground); }
 .ss-spinner--muted { color: var(--ss-color-muted-foreground); }
+.ss-spinner--default { color: var(--ss-color-secondary-foreground); }
+.ss-spinner--brand { color: var(--ss-color-primary); }
 .ss-spinner--primary { color: var(--ss-color-primary); }
 .ss-spinner--secondary { color: var(--ss-color-secondary-foreground); }
 .ss-spinner--tertiary { color: var(--ss-color-primary); }
@@ -33,8 +35,15 @@
 .ss-spinner--success { color: var(--ss-color-success); }
 .ss-spinner--warning { color: var(--ss-color-warning); }
 .ss-spinner--error { color: var(--ss-color-error); }
+.ss-spinner--destructive { color: var(--ss-color-destructive); }
 .ss-spinner--info { color: var(--ss-color-info); }
 
 @keyframes ss-spinner-rotate {
-  to { transform: rotate(360deg); }
+  to { transform: rotate(var(--ss-angles-full)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-spinner__track {
+    animation: none;
+  }
 }

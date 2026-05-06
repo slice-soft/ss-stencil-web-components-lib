@@ -14,7 +14,7 @@
 
 .ss-radio__input {
   position: absolute;
-  opacity: 0;
+  opacity: var(--ss-opacity-hidden);
   pointer-events: none;
 }
 
@@ -23,19 +23,19 @@
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 1em;
-  height: 1em;
+  width: var(--ss-sizing-icon);
+  height: var(--ss-sizing-icon);
   background: var(--ss-input-background, var(--ss-color-background));
-  border: 2px solid var(--ss-input-border, var(--ss-color-input));
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
   border-radius: var(--ss-radius-full);
 }
 
 .ss-radio__mark {
-  width: 50%;
-  height: 50%;
+  width: var(--ss-sizing-half);
+  height: var(--ss-sizing-half);
   background: var(--ss-color-primary);
   border-radius: var(--ss-radius-full);
-  opacity: 0;
+  opacity: var(--ss-opacity-hidden);
 }
 
 .ss-radio__input:focus-visible + .ss-radio__control {
@@ -47,7 +47,7 @@
 }
 
 .ss-radio--checked .ss-radio__mark {
-  opacity: 1;
+  opacity: var(--ss-opacity-visible);
 }
 
 .ss-radio--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }

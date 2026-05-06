@@ -11,18 +11,20 @@ describe('ss-button', () => {
   it('emits ssClick event on click', async () => {
     const page = await newE2EPage();
     await page.setContent('<ss-button x-id="btn1"></ss-button>');
-    const button = await page.find('ss-button >>> button');
     const spy = await page.spyOnEvent('ssClick');
-    await button.click();
+    await page.evaluate(() => {
+      document.querySelector('ss-button')?.shadowRoot?.querySelector('button')?.click();
+    });
     expect(spy).toHaveReceivedEventDetail('btn1');
   });
 
   it('does not emit ssClick if disabled', async () => {
     const page = await newE2EPage();
     await page.setContent('<ss-button disabled x-id="btn2"></ss-button>');
-    const button = await page.find('ss-button >>> button');
     const spy = await page.spyOnEvent('ssClick');
-    await button.click();
+    await page.evaluate(() => {
+      document.querySelector('ss-button')?.shadowRoot?.querySelector('button')?.click();
+    });
     expect(spy).not.toHaveReceivedEvent();
   });
 

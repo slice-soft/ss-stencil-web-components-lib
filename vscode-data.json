@@ -144,6 +144,15 @@
           "description": "",
           "values": [
             {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
               "name": "error"
             },
             {
@@ -324,6 +333,15 @@
           "description": "",
           "values": [
             {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
               "name": "error"
             },
             {
@@ -455,6 +473,160 @@
       ]
     },
     {
+      "name": "ss-combobox",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
+          "name": "autocomplete",
+          "description": ""
+        },
+        {
+          "name": "color",
+          "description": "",
+          "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "described-by",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "full-width",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "list-id",
+          "description": ""
+        },
+        {
+          "name": "max-length",
+          "description": ""
+        },
+        {
+          "name": "min-length",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "placeholder",
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "description": ""
+        },
+        {
+          "name": "required",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        },
+        {
+          "name": "x-style",
+          "description": "",
+          "values": [
+            {
+              "name": "outline"
+            },
+            {
+              "name": "solid"
+            },
+            {
+              "name": "underline"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "ss-divider",
       "description": {
         "kind": "markdown",
@@ -521,7 +693,16 @@
           "description": "",
           "values": [
             {
+              "name": "brand"
+            },
+            {
               "name": "current"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
             },
             {
               "name": "error"
@@ -622,6 +803,15 @@
           "name": "color",
           "description": "",
           "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
             {
               "name": "error"
             },
@@ -956,6 +1146,15 @@
           "description": "",
           "values": [
             {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
               "name": "error"
             },
             {
@@ -1083,6 +1282,15 @@
           "description": "",
           "values": [
             {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
               "name": "error"
             },
             {
@@ -1197,6 +1405,141 @@
       ]
     },
     {
+      "name": "ss-slider",
+      "description": {
+        "kind": "markdown",
+        "value": ""
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": ""
+        },
+        {
+          "name": "color",
+          "description": "",
+          "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "described-by",
+          "description": ""
+        },
+        {
+          "name": "disabled",
+          "description": ""
+        },
+        {
+          "name": "full-width",
+          "description": ""
+        },
+        {
+          "name": "inline-styles",
+          "description": ""
+        },
+        {
+          "name": "invalid",
+          "description": ""
+        },
+        {
+          "name": "max",
+          "description": ""
+        },
+        {
+          "name": "min",
+          "description": ""
+        },
+        {
+          "name": "name",
+          "description": ""
+        },
+        {
+          "name": "readonly",
+          "description": ""
+        },
+        {
+          "name": "show-value",
+          "description": ""
+        },
+        {
+          "name": "size",
+          "description": "",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "step",
+          "description": ""
+        },
+        {
+          "name": "value",
+          "description": ""
+        },
+        {
+          "name": "value-label",
+          "description": ""
+        },
+        {
+          "name": "x-id",
+          "description": ""
+        }
+      ]
+    },
+    {
       "name": "ss-spinner",
       "description": {
         "kind": "markdown",
@@ -1208,7 +1551,16 @@
           "description": "",
           "values": [
             {
+              "name": "brand"
+            },
+            {
               "name": "current"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
             },
             {
               "name": "error"
@@ -1390,6 +1742,15 @@
           "name": "color",
           "description": "",
           "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
             {
               "name": "error"
             },
@@ -1673,6 +2034,15 @@
           "values": [
             {
               "name": "black"
+            },
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
             },
             {
               "name": "error"

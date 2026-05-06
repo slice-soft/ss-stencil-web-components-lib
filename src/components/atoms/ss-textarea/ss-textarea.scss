@@ -11,18 +11,19 @@
 @include mx.atom-accent-variants('ss-textarea');
 
 .ss-textarea--outline {
-  background: transparent;
+  background: var(--ss-colors-transparent);
 }
 
 .ss-textarea--underline {
-  background: transparent;
-  border-width: 0 0 2px;
-  border-radius: 0;
+  background: var(--ss-colors-transparent);
+  border-width: var(--ss-borders-width-none) var(--ss-borders-width-none) var(--ss-borders-width-base);
+  border-radius: var(--ss-radius-none);
 }
 
 .ss-textarea--success,
 .ss-textarea--warning,
 .ss-textarea--error,
+.ss-textarea--destructive,
 .ss-textarea--info {
   border-color: var(--atom-accent);
 }
@@ -37,5 +38,5 @@
 .ss-textarea--resize-both { resize: both; }
 
 .ss-textarea--full-width {
-  width: 100%;
+  width: var(--ss-sizing-full);
 }

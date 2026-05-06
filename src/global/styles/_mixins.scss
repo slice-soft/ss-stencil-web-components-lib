@@ -13,8 +13,8 @@ $atom-control-sizes: (
 );
 
 @mixin focus-ring($color: var(--ss-color-ring)) {
-  outline: 2px solid $color;
-  outline-offset: 2px;
+  outline: var(--ss-borders-width-base) var(--ss-borders-styles-solid) $color;
+  outline-offset: var(--ss-borders-width-base);
 }
 
 @mixin atom-disabled {
@@ -25,12 +25,12 @@ $atom-control-sizes: (
 @mixin atom-control-base {
   box-sizing: border-box;
   width: auto;
-  min-width: 0;
+  min-width: var(--ss-sizing-none);
   font-family: var(--ss-input-font-family, var(--ss-text-fonts-sans));
   font-size: var(--ss-input-font-size, var(--ss-text-sizes-base));
   color: var(--ss-input-foreground, var(--ss-color-foreground));
   background: var(--ss-input-background, var(--ss-color-background));
-  border: 2px solid var(--ss-input-border, var(--ss-color-input));
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
   border-radius: var(--ss-input-border-radius, var(--ss-radius-base));
   transition:
     border-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
@@ -41,7 +41,12 @@ $atom-control-sizes: (
   &:focus-visible {
     outline: none;
     border-color: var(--ss-input-border-focus, var(--ss-color-ring));
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--ss-color-ring) 25%, transparent);
+    box-shadow:
+      var(--ss-sizing-none)
+      var(--ss-sizing-none)
+      var(--ss-sizing-none)
+      var(--ss-borders-width-base)
+      color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
   }
 
   &:disabled,
@@ -67,6 +72,8 @@ $atom-control-sizes: (
 }
 
 @mixin atom-accent-variants($block) {
+  .#{$block}--default { --atom-accent: var(--ss-color-secondary); --atom-accent-foreground: var(--ss-color-secondary-foreground); }
+  .#{$block}--brand { --atom-accent: var(--ss-color-primary); --atom-accent-foreground: var(--ss-color-primary-foreground); }
   .#{$block}--primary { --atom-accent: var(--ss-color-primary); --atom-accent-foreground: var(--ss-color-primary-foreground); }
   .#{$block}--secondary { --atom-accent: var(--ss-color-secondary); --atom-accent-foreground: var(--ss-color-secondary-foreground); }
   .#{$block}--tertiary { --atom-accent: var(--ss-color-primary); --atom-accent-foreground: var(--ss-color-primary-foreground); }
@@ -74,6 +81,7 @@ $atom-control-sizes: (
   .#{$block}--success { --atom-accent: var(--ss-color-success); --atom-accent-foreground: var(--ss-color-success-foreground); }
   .#{$block}--warning { --atom-accent: var(--ss-color-warning); --atom-accent-foreground: var(--ss-color-warning-foreground); }
   .#{$block}--error { --atom-accent: var(--ss-color-error); --atom-accent-foreground: var(--ss-color-error-foreground); }
+  .#{$block}--destructive { --atom-accent: var(--ss-color-destructive); --atom-accent-foreground: var(--ss-color-destructive-foreground); }
   .#{$block}--info { --atom-accent: var(--ss-color-info); --atom-accent-foreground: var(--ss-color-info-foreground); }
 }
 
@@ -86,34 +94,34 @@ $atom-control-sizes: (
   &.ss-button--solid {
     background:   $color;
     color:        $fg;
-    border-color: transparent;
+    border-color: var(--ss-colors-transparent);
 
-    &:hover:not([disabled])  { filter: brightness(0.88); }
-    &:active:not([disabled]) { filter: brightness(0.78); }
+    &:hover:not([disabled])  { filter: brightness(var(--ss-effects-brightness-button-hover)); }
+    &:active:not([disabled]) { transform: scale(var(--ss-effects-scale-active)); }
     &:focus-visible          { @include focus-ring($color); }
-    &[disabled]              { opacity: 0.4; }
+    &[disabled]              { opacity: var(--ss-opacity-disabled); }
   }
 
   &.ss-button--outline {
-    background:   transparent;
+    background:   var(--ss-colors-transparent);
     color:        $color;
     border-color: $color;
 
-    &:hover:not([disabled])  { background: color-mix(in srgb, $color 12%, transparent); }
-    &:active:not([disabled]) { background: color-mix(in srgb, $color 22%, transparent); }
+    &:hover:not([disabled])  { background: color-mix(in srgb, $color calc(var(--ss-opacity-hover-subtle) * var(--ss-sizing-full)), var(--ss-colors-transparent)); }
+    &:active:not([disabled]) { transform: scale(var(--ss-effects-scale-active)); }
     &:focus-visible          { @include focus-ring($color); }
-    &[disabled]              { opacity: 0.4; }
+    &[disabled]              { opacity: var(--ss-opacity-disabled); }
   }
 
   &.ss-button--ghost {
-    background:   transparent;
+    background:   var(--ss-colors-transparent);
     color:        $color;
-    border-color: transparent;
+    border-color: var(--ss-colors-transparent);
 
-    &:hover:not([disabled])  { background: color-mix(in srgb, $color 12%, transparent); }
-    &:active:not([disabled]) { background: color-mix(in srgb, $color 22%, transparent); }
+    &:hover:not([disabled])  { background: color-mix(in srgb, $color calc(var(--ss-opacity-hover-subtle) * var(--ss-sizing-full)), var(--ss-colors-transparent)); }
+    &:active:not([disabled]) { transform: scale(var(--ss-effects-scale-active)); }
     &:focus-visible          { @include focus-ring($color); }
-    &[disabled]              { opacity: 0.4; }
+    &[disabled]              { opacity: var(--ss-opacity-disabled); }
   }
 }
 
@@ -125,31 +133,47 @@ $atom-control-sizes: (
   &.ss-input--solid {
     background:   var(--ss-color-surface);
     color:        var(--ss-color-foreground);
-    border-color: color-mix(in srgb, $accent 50%, var(--ss-color-border));
+    border-color: color-mix(in srgb, $accent calc(var(--ss-opacity-accent-border) * var(--ss-sizing-full)), var(--ss-color-border));
 
     &:hover:not([disabled]) { background: var(--ss-color-surface-alt); }
-    &:focus { border-color: $accent; box-shadow: 0 0 0 2px color-mix(in srgb, $accent 25%, transparent); }
+    &:focus {
+      border-color: $accent;
+      box-shadow:
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-borders-width-base)
+        color-mix(in srgb, $accent calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    }
     &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
   }
 
   &.ss-input--outline {
-    background:   transparent;
+    background:   var(--ss-colors-transparent);
     color:        var(--ss-color-foreground);
     border-color: $accent;
 
-    &:hover:not([disabled]) { background: color-mix(in srgb, $accent 7%, transparent); }
-    &:focus { border-color: $accent; box-shadow: 0 0 0 2px color-mix(in srgb, $accent 25%, transparent); }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
+    &:hover:not([disabled]) { background: color-mix(in srgb, $accent calc(var(--ss-opacity-hover-quiet) * var(--ss-sizing-full)), var(--ss-colors-transparent)); }
+    &:focus {
+      border-color: $accent;
+      box-shadow:
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-sizing-none)
+        var(--ss-borders-width-base)
+        color-mix(in srgb, $accent calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
   }
 
   &.ss-input--underline {
-    background:        transparent;
+    background:        var(--ss-colors-transparent);
     color:             var(--ss-color-foreground);
     border-bottom-color: $accent;
-    border-radius:     0;
+    border-radius:     var(--ss-radius-none);
 
-    &:hover:not([disabled]) { filter: brightness(0.85); }
+    &:hover:not([disabled]) { filter: brightness(var(--ss-effects-brightness-input-underline-hover)); }
     &:focus { border-bottom-color: $accent; box-shadow: none; }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: 0.6; }
+    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
   }
 }

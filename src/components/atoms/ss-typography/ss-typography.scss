@@ -1,7 +1,7 @@
 @use 'sass:map';
 
 .ss-typography {
-  margin:      0;
+  margin:      var(--ss-sizing-none);
   font-family: var(--ss-typography-component-font-family, var(--ss-text-fonts-sans));
   color:       var(--ss-typography-component-color-default, var(--ss-color-foreground));
 
@@ -25,6 +25,8 @@
 .ss-typography--foreground  { color: var(--ss-color-foreground); }
 .ss-typography--inherit     { color: inherit; }
 .ss-typography--muted       { color: var(--ss-typography-component-color-muted, var(--ss-color-muted-foreground)); }
+.ss-typography--default     { color: var(--ss-typography-component-color-secondary, var(--ss-color-secondary-foreground)); }
+.ss-typography--brand       { color: var(--ss-typography-component-color-primary, var(--ss-color-primary)); }
 .ss-typography--primary     { color: var(--ss-typography-component-color-primary, var(--ss-color-primary)); }
 .ss-typography--secondary   { color: var(--ss-typography-component-color-secondary, var(--ss-color-secondary-foreground)); }
 .ss-typography--tertiary    { color: var(--ss-typography-component-color-tertiary, var(--ss-color-tertiary, var(--ss-color-primary))); }
@@ -32,6 +34,7 @@
 .ss-typography--success     { color: var(--ss-typography-component-color-success, var(--ss-color-success)); }
 .ss-typography--warning     { color: var(--ss-typography-component-color-warning, var(--ss-color-warning)); }
 .ss-typography--error       { color: var(--ss-typography-component-color-error, var(--ss-color-error)); }
+.ss-typography--destructive { color: var(--ss-color-destructive); }
 .ss-typography--info        { color: var(--ss-typography-component-color-info, var(--ss-color-info)); }
 .ss-typography--black       { color: var(--ss-colors-black); }
 .ss-typography--white       { color: var(--ss-colors-white); }
@@ -60,7 +63,7 @@ $font-sizes: (
 
 // Font weights — 'regular' maps to the design token 'normal' weight
 $font-weights: (
-  'light':    300,
+  'light':     var(--ss-text-weights-light),
   'regular':  var(--ss-text-weights-normal),
   'medium':   var(--ss-text-weights-medium),
   'semibold': var(--ss-text-weights-semibold),
@@ -86,10 +89,10 @@ $line-heights: (
 
 // Letter spacing
 $letter-spacings: (
-  'tight':  -0.05em,
-  'normal': 0,
-  'wide':   0.05em,
-  'wider':  0.08em,
+  'tight':  var(--ss-text-letter-spacings-tight),
+  'normal': var(--ss-text-letter-spacings-normal),
+  'wide':   var(--ss-text-letter-spacings-wide),
+  'wider':  var(--ss-text-letter-spacings-wider),
 );
 
 @each $key, $value in $letter-spacings {

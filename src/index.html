@@ -24,139 +24,139 @@
     <script nomodule src="/build/ss-stencil-web-components-lib.js"></script>
 
     <style>
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      *, *::before, *::after { box-sizing: border-box; margin: var(--ss-sizing-none); padding: var(--ss-sizing-none); }
 
       body {
-        font-family:  var(--ss-text-fonts-sans, 'Sora', sans-serif);
-        background:   var(--ss-color-background, #fff);
-        color:        var(--ss-color-foreground, #020617);
-        padding:      40px 24px;
-        max-width:    960px;
-        margin:       0 auto;
-        transition:   background-color 0.3s ease, color 0.3s ease;
+        font-family:  var(--ss-text-fonts-sans);
+        background:   var(--ss-color-background);
+        color:        var(--ss-color-foreground);
+        padding:      var(--ss-dimensions-10) var(--ss-dimensions-6);
+        max-width:    var(--ss-layout-max-widths-component-demo);
+        margin:       var(--ss-sizing-none) auto;
+        transition:   background-color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate), color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate);
       }
 
       .page-header {
         display:         flex;
         align-items:     center;
         justify-content: space-between;
-        gap:             12px;
-        margin-bottom:   48px;
+        gap:             var(--ss-dimensions-3);
+        margin-bottom:   var(--ss-dimensions-12);
       }
 
       .page-header-info { flex: 1; }
 
       h1 {
-        font-size:     var(--ss-text-sizes-3xl, 30px);
-        font-weight:   700;
-        margin-bottom: 4px;
+        font-size:     var(--ss-text-sizes-3xl);
+        font-weight:   var(--ss-text-weights-bold);
+        margin-bottom: var(--ss-dimensions-1);
       }
 
       .subtitle {
-        color:     var(--ss-color-muted-foreground, #64748b);
-        font-size: var(--ss-text-sizes-sm, 14px);
+        color:     var(--ss-color-muted-foreground);
+        font-size: var(--ss-text-sizes-sm);
       }
 
       .header-controls {
         display:     flex;
         align-items: center;
-        gap:         8px;
-        flex-shrink: 0;
+        gap:         var(--ss-dimensions-2);
+        flex-shrink: var(--ss-sizing-none);
       }
 
       #token-set-select,
       #theme-toggle {
-        padding:       8px 12px;
-        border-radius: var(--ss-radius-base, 8px);
-        border:        1px solid var(--ss-color-border, #e2e8f0);
-        background:    var(--ss-color-surface, #f8fafc);
-        color:         var(--ss-color-foreground, #020617);
-        font-family:   var(--ss-text-fonts-sans, sans-serif);
-        font-size:     var(--ss-text-sizes-sm, 14px);
+        padding:       var(--ss-dimensions-2) var(--ss-dimensions-3);
+        border-radius: var(--ss-radius-base);
+        border:        var(--ss-borders-width-hairline) var(--ss-borders-styles-solid) var(--ss-color-border);
+        background:    var(--ss-color-surface);
+        color:         var(--ss-color-foreground);
+        font-family:   var(--ss-text-fonts-sans);
+        font-size:     var(--ss-text-sizes-sm);
         cursor:        pointer;
-        transition:    all 0.2s ease;
+        transition:    all var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
         white-space:   nowrap;
       }
 
       #token-set-select:hover,
       #theme-toggle:hover {
-        background: var(--ss-color-surface-alt, #f1f5f9);
+        background: var(--ss-color-surface-alt);
       }
 
-      section { margin-bottom: 56px; }
+      section { margin-bottom: calc(var(--ss-dimensions-12) + var(--ss-dimensions-2)); }
 
       section > h2 {
-        font-size:      var(--ss-text-sizes-lg, 18px);
-        font-weight:    600;
-        margin-bottom:  4px;
-        padding-bottom: 8px;
-        border-bottom:  1px solid var(--ss-color-border, #e2e8f0);
+        font-size:      var(--ss-text-sizes-lg);
+        font-weight:    var(--ss-text-weights-semibold);
+        margin-bottom:  var(--ss-dimensions-1);
+        padding-bottom: var(--ss-dimensions-2);
+        border-bottom:  var(--ss-borders-width-hairline) var(--ss-borders-styles-solid) var(--ss-color-border);
       }
 
       .section-desc {
-        font-size:     var(--ss-text-sizes-xs, 12px);
-        color:         var(--ss-color-muted-foreground, #64748b);
-        margin-bottom: 20px;
-        margin-top:    6px;
+        font-size:     var(--ss-text-sizes-xs);
+        color:         var(--ss-color-muted-foreground);
+        margin-bottom: var(--ss-dimensions-5);
+        margin-top:    var(--ss-radius-md);
       }
 
       .row {
         display:       flex;
         flex-wrap:     wrap;
-        gap:           12px;
+        gap:           var(--ss-dimensions-3);
         align-items:   center;
-        margin-bottom: 16px;
+        margin-bottom: var(--ss-dimensions-4);
       }
-      .row:last-child { margin-bottom: 0; }
+      .row:last-child { margin-bottom: var(--ss-sizing-none); }
 
       .col {
         display:        flex;
         flex-direction: column;
-        gap:            12px;
+        gap:            var(--ss-dimensions-3);
       }
 
       .label {
-        font-size:     11px;
-        color:         var(--ss-color-muted-foreground, #64748b);
-        font-family:   var(--ss-text-fonts-mono, monospace);
-        margin-bottom: 4px;
+        font-size:     var(--ss-text-sizes-xs);
+        color:         var(--ss-color-muted-foreground);
+        font-family:   var(--ss-text-fonts-mono);
+        margin-bottom: var(--ss-dimensions-1);
       }
 
       .card {
-        border:        1px solid var(--ss-color-border, #e2e8f0);
-        border-radius: var(--ss-radius-lg, 12px);
-        padding:       20px 24px;
-        background:    var(--ss-color-surface, #f8fafc);
-        margin-bottom: 16px;
-        transition:    background-color 0.3s ease, border-color 0.3s ease;
+        border:        var(--ss-borders-width-hairline) var(--ss-borders-styles-solid) var(--ss-color-border);
+        border-radius: var(--ss-radius-lg);
+        padding:       var(--ss-dimensions-5) var(--ss-dimensions-6);
+        background:    var(--ss-color-surface);
+        margin-bottom: var(--ss-dimensions-4);
+        transition:    background-color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate), border-color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate);
       }
 
       .field-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: var(--ss-dimensions-4, 16px);
+        grid-template-columns: repeat(auto-fit, minmax(calc(var(--ss-dimensions-20) + var(--ss-dimensions-32) + var(--ss-dimensions-3)), 1fr));
+        gap: var(--ss-dimensions-4);
       }
 
       .field {
         display: flex;
         flex-direction: column;
-        gap: var(--ss-dimensions-2, 8px);
+        gap: var(--ss-dimensions-2);
       }
 
       .demo-icon-shape {
         display:       inline-block;
-        width:         1em;
-        height:        1em;
-        background:    currentColor;
-        border-radius: var(--ss-radius-sm, 2px);
+        width:         var(--ss-sizing-icon);
+        height:        var(--ss-sizing-icon);
+        background:    var(--ss-color-keywords-current);
+        border-radius: var(--ss-radius-sm);
       }
 
       /* Vertical divider demo needs a fixed-height flex row */
       .demo-row-h60 {
         display:     flex;
         align-items: stretch;
-        height:      60px;
-        gap:         16px;
+        height:      calc(var(--ss-dimensions-12) + var(--ss-dimensions-3));
+        gap:         var(--ss-dimensions-4);
       }
 
       /* Badge icon helper */
@@ -164,10 +164,10 @@
         display:        inline-flex;
         align-items:    center;
         justify-content: center;
-        width:          0.75em;
-        height:         0.75em;
-        background:     currentColor;
-        border-radius:  50%;
+        width:          var(--ss-sizing-thumb);
+        height:         var(--ss-sizing-thumb);
+        background:     var(--ss-color-keywords-current);
+        border-radius:  var(--ss-radius-full);
       }
     </style>
   </head>
@@ -433,7 +433,7 @@
           <ss-typography color="error">error — validation / alert text</ss-typography>
           <ss-typography color="info">info</ss-typography>
           <ss-typography color="black">black (always)</ss-typography>
-          <ss-typography color="white" inline-styles="background:#374151;padding:2px 8px;border-radius:4px">white (always)</ss-typography>
+          <ss-typography color="white" inline-styles="background:var(--ss-color-foreground);padding:var(--ss-borders-width-base) var(--ss-dimensions-2);border-radius:var(--ss-radius-sm)">white (always)</ss-typography>
           <span style="color:var(--ss-color-success)">
             <ss-typography as="span" color="inherit">inherit — takes parent color (success)</ss-typography>
           </span>
@@ -467,7 +467,7 @@
 
       <div class="card">
         <p class="label">align</p>
-        <div class="col" style="width:100%">
+        <div class="col" style="width:var(--ss-sizing-full)">
           <ss-typography align="left">left aligned (default)</ss-typography>
           <ss-typography align="center">center aligned</ss-typography>
           <ss-typography align="right">right aligned</ss-typography>
@@ -502,7 +502,7 @@
           <ss-typography transform="uppercase">uppercase transform</ss-typography>
           <ss-typography transform="capitalize">capitalize transform</ss-typography>
           <ss-typography transform="lowercase">LOWERCASE TRANSFORM</ss-typography>
-          <ss-typography truncate="true" inline-styles="max-width:280px;display:block">
+          <ss-typography truncate="true" inline-styles="max-width:calc(var(--ss-dimensions-32) + var(--ss-dimensions-32) + var(--ss-dimensions-6));display:block">
             Truncated — this is a very long sentence that should be cut off at the edge
           </ss-typography>
         </div>
@@ -752,7 +752,7 @@
           <ss-avatar size="lg" src="https://picsum.photos/seed/avatar1/80" alt="User photo" loading="eager"></ss-avatar>
           <ss-avatar size="lg" src="https://invalid.example/broken.jpg" initials="ER" alt="Error fallback"></ss-avatar>
           <ss-avatar size="lg" alt="Slot fallback">
-            <span style="font-size:1.5em">🦊</span>
+            <span style="font-size:var(--ss-text-sizes-2xl)">🦊</span>
           </ss-avatar>
         </div>
       </div>
@@ -840,7 +840,7 @@
 
       <div class="card">
         <p class="label">placement</p>
-        <div class="row" style="padding:48px 0;justify-content:center;gap:32px">
+        <div class="row" style="padding:var(--ss-dimensions-12) var(--ss-sizing-none);justify-content:center;gap:var(--ss-dimensions-8)">
           <ss-tooltip content="Top tooltip" placement="top">
             <ss-button slot="trigger" label="Top" x-style="outline" size="sm"></ss-button>
           </ss-tooltip>
@@ -858,7 +858,7 @@
 
       <div class="card">
         <p class="label">trigger</p>
-        <div class="row" style="gap:24px">
+        <div class="row" style="gap:var(--ss-dimensions-6)">
           <ss-tooltip content="Hover to show" trigger="hover">
             <ss-button slot="trigger" label="Hover" x-style="outline"></ss-button>
           </ss-tooltip>

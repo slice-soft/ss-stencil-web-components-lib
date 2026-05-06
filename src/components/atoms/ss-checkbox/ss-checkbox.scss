@@ -14,7 +14,7 @@
 
 .ss-checkbox__input {
   position: absolute;
-  opacity: 0;
+  opacity: var(--ss-opacity-hidden);
   pointer-events: none;
 }
 
@@ -23,11 +23,11 @@
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 1em;
-  height: 1em;
+  width: var(--ss-sizing-icon);
+  height: var(--ss-sizing-icon);
   color: var(--ss-color-primary-foreground);
   background: var(--ss-input-background, var(--ss-color-background));
-  border: 2px solid var(--ss-input-border, var(--ss-color-input));
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
   border-radius: var(--ss-radius-sm);
   transition:
     background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
@@ -36,10 +36,10 @@
 
 .ss-checkbox__mark {
   display: block;
-  width: 50%;
-  height: 50%;
-  background: currentColor;
-  opacity: 0;
+  width: var(--ss-sizing-half);
+  height: var(--ss-sizing-half);
+  background: var(--ss-color-keywords-current);
+  opacity: var(--ss-opacity-hidden);
 }
 
 .ss-checkbox__input:focus-visible + .ss-checkbox__control {
@@ -54,15 +54,15 @@
 
 .ss-checkbox--checked .ss-checkbox__mark,
 .ss-checkbox--indeterminate .ss-checkbox__mark {
-  opacity: 1;
+  opacity: var(--ss-opacity-visible);
 }
 
 .ss-checkbox--checked .ss-checkbox__mark {
-  clip-path: polygon(14% 44%, 0 60%, 42% 100%, 100% 16%, 84% 0, 38% 66%);
+  clip-path: var(--ss-shapes-checkbox-checkmark);
 }
 
 .ss-checkbox--indeterminate .ss-checkbox__mark {
-  height: 20%;
+  height: var(--ss-sizing-fifth);
 }
 
 .ss-checkbox--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }
