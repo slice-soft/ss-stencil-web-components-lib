@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.1...ss-stencil-web-components-lib-v0.2.2) (2026-09-02)
+
+
+### Bug Fixes
+
+* **forms:** synchronize checkbox state and expand e2e coverage ([#41](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/41)) ([#42](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/42)) ([27c1282](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/27c12827af0d0ef9597e775c81c74452737b7b81))
+* **ss-tooltip:** stack content on the tooltip layer token ([#44](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/44)) ([68c24db](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/68c24db17cce431e3b63f8876dcb005aaad98b64))
+
 ## [0.2.1](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.0...ss-stencil-web-components-lib-v0.2.1) (2026-05-06)
 
 
