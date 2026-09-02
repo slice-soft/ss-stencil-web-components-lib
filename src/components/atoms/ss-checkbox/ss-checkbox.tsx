@@ -18,7 +18,7 @@ export class SsCheckbox {
   @Prop() name?: string;
   @Prop() value?: string;
   @Prop({ mutable: true, reflect: true }) checked: boolean = false;
-  @Prop() indeterminate: boolean = false;
+  @Prop({ mutable: true, reflect: true }) indeterminate: boolean = false;
   @Prop() disabled: boolean = false;
   @Prop() readonly: boolean = false;
   @Prop() required: boolean = false;
@@ -69,8 +69,10 @@ export class SsCheckbox {
     if (this.readonly) {
       event.preventDefault();
       this.input!.checked = this.checked;
+      this.input!.indeterminate = this.indeterminate;
       return;
     }
+    this.indeterminate = false;
     this.checked = (event.target as HTMLInputElement).checked;
     this.ssChange.emit(this.emitValue());
   };
