@@ -43,22 +43,40 @@ export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, Typ
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
     interface SsAvatar {
+        /**
+          * Alt text for the image; also used as the accessible label of the avatar.
+         */
         "alt"?: string;
+        /**
+          * Initials shown as fallback when no image is available and no slot content is provided.
+         */
         "initials"?: string;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Native image loading behavior; lazy defers loading until the image is near the viewport.
           * @default 'lazy'
          */
         "loading": 'eager' | 'lazy';
         /**
+          * Shape of the avatar: circle, rounded or square.
           * @default 'circle'
          */
         "shape": AvatarShape;
         /**
+          * Size of the avatar.
           * @default 'md'
          */
         "size": AvatarSize;
+        /**
+          * Image URL to display; the fallback content is shown when omitted or when loading fails.
+         */
         "src"?: string;
+        /**
+          * Id applied to the root element; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsBadge {
@@ -95,26 +113,40 @@ export namespace Components {
         "xStyle": BadgeStyle;
     }
     interface SsButton {
+        /**
+          * Accessible label for screen readers; falls back to label.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click.
           * @default 1000
          */
         "disableDuration": number;
         /**
+          * Disables the button.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Expands the button to the full width of its container.
           * @default false
          */
         "fullWidth": boolean;
         /**
+          * Position of the icon slot relative to the label: left, right or only (hides the label).
           * @default 'right'
          */
         "iconPosition": IconPosition;
+        /**
+          * Inline CSS styles applied to the button element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Text rendered inside the button when no slot content is provided; also the aria-label fallback.
+         */
         "label"?: string;
         /**
+          * Shows the loading state and disables the button.
           * @default false
          */
         "loading": boolean;
@@ -124,240 +156,433 @@ export namespace Components {
          */
         "oneClick": boolean;
         /**
+          * Shape of the button: rounded, pill, circle or square.
           * @default 'rounded'
          */
         "shape": ButtonShape;
         /**
+          * Size of the button.
           * @default 'md'
          */
         "size": Size;
         /**
+          * Button status: active, disabled or loading; disabled and loading also disable the button.
           * @default 'active'
          */
         "status": ButtonStatus;
         /**
+          * Native button type: button, submit or reset.
           * @default 'button'
          */
         "type": ButtonType;
         /**
+          * Color variant of the button.
           * @default 'primary'
          */
         "variant": Variant;
+        /**
+          * Id applied to the button element; emitted as the ssClick detail.
+         */
         "xId"?: string;
         /**
+          * Visual style: solid, outline or ghost.
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
     }
     interface SsCheckbox {
         /**
+          * Whether the checkbox is checked; updated on user interaction and reflected as an attribute.
           * @default false
          */
         "checked": boolean;
+        /**
+          * Id of the element that describes the checkbox, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the checkbox.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Shows the indeterminate state; cleared when the user toggles the checkbox.
           * @default false
          */
         "indeterminate": boolean;
+        /**
+          * Inline CSS styles applied to the root label element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
         /**
+          * Prevents changes to the checked state while still allowing focus and blur events.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Marks the checkbox as required for form validation.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the checkbox.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Value of the native input sent on form submission.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsCombobox {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
+        /**
+          * Native autocomplete attribute of the input.
+         */
         "autocomplete"?: string;
         /**
+          * Color variant of the combobox.
           * @default 'primary'
          */
         "color": Variant;
+        /**
+          * Id of the element that describes the input, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the input.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Expands the combobox to the full width of its container.
           * @default false
          */
         "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the wrapper element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Custom id for the internal datalist; defaults to xId-list or a generated id.
+         */
         "listId"?: string;
+        /**
+          * Maximum number of characters allowed.
+         */
         "maxLength"?: number;
+        /**
+          * Minimum number of characters allowed.
+         */
         "minLength"?: number;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
+        /**
+          * Placeholder text shown when the input is empty.
+         */
         "placeholder"?: string;
         /**
+          * Makes the input read-only.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Marks the input as required for form validation.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the combobox.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Current value of the input.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details and used to derive the datalist id.
+         */
         "xId"?: string;
         /**
+          * Visual style of the input field.
           * @default 'solid'
          */
         "xStyle": InputStyle;
     }
     interface SsDivider {
         /**
+          * When true the divider is purely visual; when false it gets role separator and aria-orientation.
           * @default true
          */
         "decorative": boolean;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Label text rendered between the lines when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Orientation of the divider: horizontal or vertical.
           * @default 'horizontal'
          */
         "orientation": DividerOrientation;
         /**
+          * Outer margin along the divider axis: none, sm, md or lg.
           * @default 'md'
          */
         "spacing": DividerSpacing;
+        /**
+          * Id applied to the root element.
+         */
         "xId"?: string;
     }
     interface SsIcon {
         /**
+          * Color token applied to the icon; current uses the current text color.
           * @default 'current'
          */
         "color": Variant | 'foreground' | 'muted' | 'current';
         /**
+          * Hides the icon from assistive technology with aria-hidden when true and no label is provided.
           * @default true
          */
         "decorative": boolean;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Accessible label; when provided the icon is exposed with role img instead of being hidden.
+         */
         "label"?: string;
         /**
+          * Size of the icon; inherit follows the surrounding font size.
           * @default 'md'
          */
         "size": IconSize;
+        /**
+          * Id applied to the root element.
+         */
         "xId"?: string;
     }
     interface SsInput {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
+        /**
+          * Native autocomplete attribute of the input.
+         */
         "autocomplete"?: string;
         /**
+          * Color variant of the input.
           * @default 'primary'
          */
         "color": Variant;
+        /**
+          * Id of the element that describes the input, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the input.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Expands the input to the full width of its container.
           * @default false
          */
         "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the input element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid without changing native validity.
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Maximum value for numeric and date inputs.
+         */
         "max"?: string;
+        /**
+          * Maximum number of characters allowed.
+         */
         "maxLength"?: number;
+        /**
+          * Minimum value for numeric and date inputs.
+         */
         "min"?: string;
+        /**
+          * Minimum number of characters allowed.
+         */
         "minLength"?: number;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
+        /**
+          * Placeholder text shown when the input is empty.
+         */
         "placeholder"?: string;
         /**
+          * Makes the input read-only.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Marks the input as required for form validation.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the input.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Step granularity for numeric and date inputs.
+         */
         "step"?: string;
         /**
+          * Native input type.
           * @default 'text'
          */
         "type": SsInputType;
+        /**
+          * Current value of the input.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
         /**
+          * Visual style of the input.
           * @default 'solid'
          */
         "xStyle": InputStyle;
     }
     interface SsLabel {
         /**
+          * Applies the disabled styling.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Id of the form control this label is associated with, set as the for attribute.
+         */
         "htmlFor"?: string;
+        /**
+          * Inline CSS styles applied to the label element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Appends a required marker (*) to the label.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the label.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Id applied to the rendered label element.
+         */
         "xId"?: string;
     }
     interface SsLink {
+        /**
+          * Accessible label for screen readers; falls back to label.
+         */
         "accessibilityLabel"?: string;
+        /**
+          * Value for aria-current, for example page.
+         */
         "current"?: string;
         /**
+          * Disables the link: removes href, blocks clicks and sets aria-disabled.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Native download attribute; prompts a download instead of navigating.
+         */
         "download"?: string;
+        /**
+          * Destination URL; omitted from the anchor while disabled.
+         */
         "href"?: string;
+        /**
+          * Inline CSS styles applied to the anchor element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Link text rendered when no slot content is provided; also the aria-label fallback.
+         */
         "label"?: string;
+        /**
+          * Custom rel attribute; defaults to noopener noreferrer when target is _blank.
+         */
         "rel"?: string;
         /**
+          * Size of the link: sm, md or lg.
           * @default 'md'
          */
         "size": LinkSize;
+        /**
+          * Where to open the link: _self, _blank, _parent or _top.
+         */
         "target"?: LinkTarget;
         /**
+          * Underline behavior: none, hover or always.
           * @default 'hover'
          */
         "underline": LinkUnderline;
         /**
+          * Color variant of the link.
           * @default 'primary'
          */
         "variant": Variant;
+        /**
+          * Id applied to the anchor element; also included in the ssClick detail.
+         */
         "xId"?: string;
     }
     interface SsRadio {
@@ -393,251 +618,402 @@ export namespace Components {
         "xId"?: string;
     }
     interface SsSelect {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Color variant of the select.
           * @default 'primary'
          */
         "color": Variant;
+        /**
+          * Id of the element that describes the select, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the select.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Expands the select to the full width of its container.
           * @default false
          */
         "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the select element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
         /**
+          * Allows selecting multiple options.
           * @default false
          */
         "multiple": boolean;
+        /**
+          * Name of the native select for form submission.
+         */
         "name"?: string;
+        /**
+          * Text of a disabled empty option rendered first; only in single-selection mode.
+         */
         "placeholder"?: string;
         /**
+          * Marks the select as required for form validation.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the select.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Selected value, or an array of values when multiple is enabled.
+         */
         "value"?: string | string[];
+        /**
+          * Id applied to the native select; also included in event details.
+         */
         "xId"?: string;
         /**
+          * Visual style: solid, outline or underline.
           * @default 'solid'
          */
         "xStyle": SelectStyle;
     }
     interface SsSlider {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Color variant of the slider.
           * @default 'primary'
          */
         "color": Variant;
+        /**
+          * Id of the element that describes the slider, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the slider.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Expands the slider to the full width of its container.
           * @default false
          */
         "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the wrapper element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
         /**
+          * Maximum value.
           * @default 100
          */
         "max": number;
         /**
+          * Minimum value.
           * @default 0
          */
         "min": number;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
         /**
+          * Prevents changing the value while keeping the slider focusable.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Renders the current value next to the slider.
           * @default false
          */
         "showValue": boolean;
         /**
+          * Size of the slider.
           * @default 'md'
          */
         "size": Size;
         /**
+          * Step granularity of the value.
           * @default 1
          */
         "step": number;
         /**
+          * Current value of the slider; updated on user interaction.
           * @default 0
          */
         "value": number;
+        /**
+          * Custom text rendered instead of the numeric value when showValue is enabled.
+         */
         "valueLabel"?: string;
+        /**
+          * Id applied to the native range input; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsSpinner {
         /**
+          * Color variant of the spinner; current uses the current text color.
           * @default 'primary'
          */
         "color": Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Accessible label announced to screen readers.
           * @default 'Loading'
          */
         "label": string;
         /**
+          * Size of the spinner.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Id applied to the root element.
+         */
         "xId"?: string;
     }
     interface SsSwitch {
         /**
+          * Whether the switch is on; updated on user interaction and reflected as an attribute.
           * @default false
          */
         "checked": boolean;
+        /**
+          * Id of the element that describes the switch, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the switch.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the root label element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Position of the label relative to the control: start or end.
           * @default 'end'
          */
         "labelPosition": SwitchLabelPosition;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
         /**
+          * Prevents toggling while still allowing focus and blur events.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Marks the switch as required for form validation.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the switch.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Value of the native input sent on form submission.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsTextarea {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Color variant of the textarea.
           * @default 'primary'
          */
         "color": Variant;
+        /**
+          * Native cols attribute: visible width in characters.
+         */
         "cols"?: number;
+        /**
+          * Id of the element that describes the textarea, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the textarea.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Expands the textarea to the full width of its container.
           * @default false
          */
         "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the textarea element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Maximum number of characters allowed.
+         */
         "maxLength"?: number;
+        /**
+          * Minimum number of characters allowed.
+         */
         "minLength"?: number;
+        /**
+          * Name of the native textarea for form submission.
+         */
         "name"?: string;
+        /**
+          * Placeholder text shown when the textarea is empty.
+         */
         "placeholder"?: string;
         /**
+          * Makes the textarea read-only.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Marks the textarea as required for form validation.
           * @default false
          */
         "required": boolean;
         /**
+          * Allowed resize direction: none, vertical, horizontal or both.
           * @default 'vertical'
          */
         "resize": TextareaResize;
         /**
+          * Number of visible text rows.
           * @default 3
          */
         "rows": number;
         /**
+          * Size of the textarea.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Current value of the textarea.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native textarea; also included in event details.
+         */
         "xId"?: string;
         /**
+          * Visual style of the textarea.
           * @default 'solid'
          */
         "xStyle": InputStyle;
     }
     interface SsTooltip {
+        /**
+          * Tooltip text rendered when no default slot content is provided.
+         */
         "content"?: string;
         /**
+          * Disables the tooltip; it stays closed and ignores interactions.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Whether the tooltip is open; updated by hover and click interactions and reflected as an attribute.
           * @default false
          */
         "open": boolean;
         /**
+          * Placement relative to the trigger: top, right, bottom or left.
           * @default 'top'
          */
         "placement": TooltipPlacement;
         /**
+          * Interaction that toggles the tooltip: hover (also focus), click, or manual (controlled through open).
           * @default 'hover'
          */
         "trigger": TooltipTrigger;
+        /**
+          * Id applied to the root element; also included in the ssOpenChange detail.
+         */
         "xId"?: string;
     }
     interface SsTypography {
         /**
+          * Text alignment.
           * @default 'left'
          */
         "align": TextAlign;
         /**
+          * HTML tag to render; ignored when level is set.
           * @default 'p'
          */
         "as": TypographyTag;
         /**
-          * 'foreground' uses the semantic foreground token and adapts to dark mode
+          * Text color; foreground uses the semantic foreground token and adapts to dark mode.
           * @default 'foreground'
          */
         "color": TypographyColor;
         /**
-          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
+          * Font family. Defaults to display when level is set, mono when as is code, sans otherwise.
          */
         "family"?: TypographyFamily;
         /**
-          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
+          * Font size. Defaults to the level-based size when level is set, md otherwise.
          */
         "fontSize"?: TypographySize;
         /**
-          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
+          * Font weight. Defaults to bold when level is set, regular otherwise.
          */
         "fontWeight"?: FontWeight;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Letter spacing.
           * @default 'normal'
          */
         "letterSpacing": LetterSpacing;
@@ -646,17 +1022,22 @@ export namespace Components {
          */
         "level"?: TypographyLevel;
         /**
-          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
+          * Line height. Defaults to tight when level is set, normal otherwise.
          */
         "lineHeight"?: LineHeight;
         /**
+          * Text transform, for example uppercase.
           * @default 'normal'
          */
         "transform": TextTransform;
         /**
+          * Truncates overflowing text with an ellipsis on a single line.
           * @default false
          */
         "truncate": boolean;
+        /**
+          * Id applied to the rendered element.
+         */
         "xId"?: string;
     }
 }
@@ -1016,24 +1397,48 @@ declare global {
 }
 declare namespace LocalJSX {
     interface SsAvatar {
+        /**
+          * Alt text for the image; also used as the accessible label of the avatar.
+         */
         "alt"?: string;
+        /**
+          * Initials shown as fallback when no image is available and no slot content is provided.
+         */
         "initials"?: string;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Native image loading behavior; lazy defers loading until the image is near the viewport.
           * @default 'lazy'
          */
         "loading"?: 'eager' | 'lazy';
+        /**
+          * Emitted when the image fails to load; detail contains xId and src.
+         */
         "onSsError"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
+        /**
+          * Emitted when the image loads successfully; detail contains xId and src.
+         */
         "onSsLoad"?: (event: SsAvatarCustomEvent<SsAvatarImageEvent>) => void;
         /**
+          * Shape of the avatar: circle, rounded or square.
           * @default 'circle'
          */
         "shape"?: AvatarShape;
         /**
+          * Size of the avatar.
           * @default 'md'
          */
         "size"?: AvatarSize;
+        /**
+          * Image URL to display; the fallback content is shown when omitted or when loading fails.
+         */
         "src"?: string;
+        /**
+          * Id applied to the root element; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsBadge {
@@ -1071,29 +1476,46 @@ declare namespace LocalJSX {
         "xStyle"?: BadgeStyle;
     }
     interface SsButton {
+        /**
+          * Accessible label for screen readers; falls back to label.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click.
           * @default 1000
          */
         "disableDuration"?: number;
         /**
+          * Disables the button.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Expands the button to the full width of its container.
           * @default false
          */
         "fullWidth"?: boolean;
         /**
+          * Position of the icon slot relative to the label: left, right or only (hides the label).
           * @default 'right'
          */
         "iconPosition"?: IconPosition;
+        /**
+          * Inline CSS styles applied to the button element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Text rendered inside the button when no slot content is provided; also the aria-label fallback.
+         */
         "label"?: string;
         /**
+          * Shows the loading state and disables the button.
           * @default false
          */
         "loading"?: boolean;
+        /**
+          * Emitted when the button is clicked while enabled; detail is the xId.
+         */
         "onSsClick"?: (event: SsButtonCustomEvent<string | undefined>) => void;
         /**
           * After ssClick fires, button is disabled for disableDuration ms
@@ -1101,255 +1523,493 @@ declare namespace LocalJSX {
          */
         "oneClick"?: boolean;
         /**
+          * Shape of the button: rounded, pill, circle or square.
           * @default 'rounded'
          */
         "shape"?: ButtonShape;
         /**
+          * Size of the button.
           * @default 'md'
          */
         "size"?: Size;
         /**
+          * Button status: active, disabled or loading; disabled and loading also disable the button.
           * @default 'active'
          */
         "status"?: ButtonStatus;
         /**
+          * Native button type: button, submit or reset.
           * @default 'button'
          */
         "type"?: ButtonType;
         /**
+          * Color variant of the button.
           * @default 'primary'
          */
         "variant"?: Variant;
+        /**
+          * Id applied to the button element; emitted as the ssClick detail.
+         */
         "xId"?: string;
         /**
+          * Visual style: solid, outline or ghost.
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
     }
     interface SsCheckbox {
         /**
+          * Whether the checkbox is checked; updated on user interaction and reflected as an attribute.
           * @default false
          */
         "checked"?: boolean;
+        /**
+          * Id of the element that describes the checkbox, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the checkbox.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Shows the indeterminate state; cleared when the user toggles the checkbox.
           * @default false
          */
         "indeterminate"?: boolean;
+        /**
+          * Inline CSS styles applied to the root label element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
+        /**
+          * Emitted when the checkbox loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the checked state changes; detail contains xId, name, value and checked.
+         */
         "onSsChange"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * Emitted when the checkbox gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsCheckboxCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId, name, value and checked.
+         */
         "onSsInvalid"?: (event: SsCheckboxCustomEvent<SsCheckedChangeEvent>) => void;
         /**
+          * Prevents changes to the checked state while still allowing focus and blur events.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Marks the checkbox as required for form validation.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the checkbox.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Value of the native input sent on form submission.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsCombobox {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
+        /**
+          * Native autocomplete attribute of the input.
+         */
         "autocomplete"?: string;
         /**
+          * Color variant of the combobox.
           * @default 'primary'
          */
         "color"?: Variant;
+        /**
+          * Id of the element that describes the input, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the input.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Expands the combobox to the full width of its container.
           * @default false
          */
         "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the wrapper element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Custom id for the internal datalist; defaults to xId-list or a generated id.
+         */
         "listId"?: string;
+        /**
+          * Maximum number of characters allowed.
+         */
         "maxLength"?: number;
+        /**
+          * Minimum number of characters allowed.
+         */
         "minLength"?: number;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
+        /**
+          * Emitted when the input loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsComboboxCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native change events; detail contains xId and value.
+         */
         "onSsChange"?: (event: SsComboboxCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Emitted when the input gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsComboboxCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native input events; detail contains xId and the current value.
+         */
         "onSsInput"?: (event: SsComboboxCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId and value.
+         */
         "onSsInvalid"?: (event: SsComboboxCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Placeholder text shown when the input is empty.
+         */
         "placeholder"?: string;
         /**
+          * Makes the input read-only.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Marks the input as required for form validation.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the combobox.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Current value of the input.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details and used to derive the datalist id.
+         */
         "xId"?: string;
         /**
+          * Visual style of the input field.
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
     }
     interface SsDivider {
         /**
+          * When true the divider is purely visual; when false it gets role separator and aria-orientation.
           * @default true
          */
         "decorative"?: boolean;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Label text rendered between the lines when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Orientation of the divider: horizontal or vertical.
           * @default 'horizontal'
          */
         "orientation"?: DividerOrientation;
         /**
+          * Outer margin along the divider axis: none, sm, md or lg.
           * @default 'md'
          */
         "spacing"?: DividerSpacing;
+        /**
+          * Id applied to the root element.
+         */
         "xId"?: string;
     }
     interface SsIcon {
         /**
+          * Color token applied to the icon; current uses the current text color.
           * @default 'current'
          */
         "color"?: Variant | 'foreground' | 'muted' | 'current';
         /**
+          * Hides the icon from assistive technology with aria-hidden when true and no label is provided.
           * @default true
          */
         "decorative"?: boolean;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Accessible label; when provided the icon is exposed with role img instead of being hidden.
+         */
         "label"?: string;
         /**
+          * Size of the icon; inherit follows the surrounding font size.
           * @default 'md'
          */
         "size"?: IconSize;
+        /**
+          * Id applied to the root element.
+         */
         "xId"?: string;
     }
     interface SsInput {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
+        /**
+          * Native autocomplete attribute of the input.
+         */
         "autocomplete"?: string;
         /**
+          * Color variant of the input.
           * @default 'primary'
          */
         "color"?: Variant;
+        /**
+          * Id of the element that describes the input, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the input.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Expands the input to the full width of its container.
           * @default false
          */
         "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the input element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid without changing native validity.
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Maximum value for numeric and date inputs.
+         */
         "max"?: string;
+        /**
+          * Maximum number of characters allowed.
+         */
         "maxLength"?: number;
+        /**
+          * Minimum value for numeric and date inputs.
+         */
         "min"?: string;
+        /**
+          * Minimum number of characters allowed.
+         */
         "minLength"?: number;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
+        /**
+          * Emitted when the input loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native change events; detail contains xId and value.
+         */
         "onSsChange"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Emitted when the input gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsInputCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native input events; detail contains xId and value.
+         */
         "onSsInput"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId and value.
+         */
         "onSsInvalid"?: (event: SsInputCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Placeholder text shown when the input is empty.
+         */
         "placeholder"?: string;
         /**
+          * Makes the input read-only.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Marks the input as required for form validation.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the input.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Step granularity for numeric and date inputs.
+         */
         "step"?: string;
         /**
+          * Native input type.
           * @default 'text'
          */
         "type"?: SsInputType;
+        /**
+          * Current value of the input.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
         /**
+          * Visual style of the input.
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
     }
     interface SsLabel {
         /**
+          * Applies the disabled styling.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Id of the form control this label is associated with, set as the for attribute.
+         */
         "htmlFor"?: string;
+        /**
+          * Inline CSS styles applied to the label element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Appends a required marker (*) to the label.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the label.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Id applied to the rendered label element.
+         */
         "xId"?: string;
     }
     interface SsLink {
+        /**
+          * Accessible label for screen readers; falls back to label.
+         */
         "accessibilityLabel"?: string;
+        /**
+          * Value for aria-current, for example page.
+         */
         "current"?: string;
         /**
+          * Disables the link: removes href, blocks clicks and sets aria-disabled.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Native download attribute; prompts a download instead of navigating.
+         */
         "download"?: string;
+        /**
+          * Destination URL; omitted from the anchor while disabled.
+         */
         "href"?: string;
+        /**
+          * Inline CSS styles applied to the anchor element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Link text rendered when no slot content is provided; also the aria-label fallback.
+         */
         "label"?: string;
+        /**
+          * Emitted when the link is clicked while enabled; detail contains xId and href.
+         */
         "onSsClick"?: (event: SsLinkCustomEvent<SsLinkClickEvent>) => void;
+        /**
+          * Custom rel attribute; defaults to noopener noreferrer when target is _blank.
+         */
         "rel"?: string;
         /**
+          * Size of the link: sm, md or lg.
           * @default 'md'
          */
         "size"?: LinkSize;
+        /**
+          * Where to open the link: _self, _blank, _parent or _top.
+         */
         "target"?: LinkTarget;
         /**
+          * Underline behavior: none, hover or always.
           * @default 'hover'
          */
         "underline"?: LinkUnderline;
         /**
+          * Color variant of the link.
           * @default 'primary'
          */
         "variant"?: Variant;
+        /**
+          * Id applied to the anchor element; also included in the ssClick detail.
+         */
         "xId"?: string;
     }
     interface SsRadio {
@@ -1389,270 +2049,478 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface SsSelect {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Color variant of the select.
           * @default 'primary'
          */
         "color"?: Variant;
+        /**
+          * Id of the element that describes the select, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the select.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Expands the select to the full width of its container.
           * @default false
          */
         "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the select element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
         /**
+          * Allows selecting multiple options.
           * @default false
          */
         "multiple"?: boolean;
+        /**
+          * Name of the native select for form submission.
+         */
         "name"?: string;
+        /**
+          * Emitted when the select loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsSelectCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the selection changes; detail contains xId, name and value (a string, or an array when multiple).
+         */
         "onSsChange"?: (event: SsSelectCustomEvent<SsSelectChangeEvent>) => void;
+        /**
+          * Emitted when the select gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsSelectCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId, name and value (a string, or an array when multiple).
+         */
         "onSsInvalid"?: (event: SsSelectCustomEvent<SsSelectChangeEvent>) => void;
+        /**
+          * Text of a disabled empty option rendered first; only in single-selection mode.
+         */
         "placeholder"?: string;
         /**
+          * Marks the select as required for form validation.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the select.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Selected value, or an array of values when multiple is enabled.
+         */
         "value"?: string | string[];
+        /**
+          * Id applied to the native select; also included in event details.
+         */
         "xId"?: string;
         /**
+          * Visual style: solid, outline or underline.
           * @default 'solid'
          */
         "xStyle"?: SelectStyle;
     }
     interface SsSlider {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Color variant of the slider.
           * @default 'primary'
          */
         "color"?: Variant;
+        /**
+          * Id of the element that describes the slider, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the slider.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Expands the slider to the full width of its container.
           * @default false
          */
         "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the wrapper element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
         /**
+          * Maximum value.
           * @default 100
          */
         "max"?: number;
         /**
+          * Minimum value.
           * @default 0
          */
         "min"?: number;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
+        /**
+          * Emitted when the slider loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsSliderCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native change events; detail contains xId, name and value.
+         */
         "onSsChange"?: (event: SsSliderCustomEvent<SsSliderValueEvent>) => void;
+        /**
+          * Emitted when the slider gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsSliderCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native input events while dragging; detail contains xId, name and value.
+         */
         "onSsInput"?: (event: SsSliderCustomEvent<SsSliderValueEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId, name and value.
+         */
         "onSsInvalid"?: (event: SsSliderCustomEvent<SsSliderValueEvent>) => void;
         /**
+          * Prevents changing the value while keeping the slider focusable.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Renders the current value next to the slider.
           * @default false
          */
         "showValue"?: boolean;
         /**
+          * Size of the slider.
           * @default 'md'
          */
         "size"?: Size;
         /**
+          * Step granularity of the value.
           * @default 1
          */
         "step"?: number;
         /**
+          * Current value of the slider; updated on user interaction.
           * @default 0
          */
         "value"?: number;
+        /**
+          * Custom text rendered instead of the numeric value when showValue is enabled.
+         */
         "valueLabel"?: string;
+        /**
+          * Id applied to the native range input; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsSpinner {
         /**
+          * Color variant of the spinner; current uses the current text color.
           * @default 'primary'
          */
         "color"?: Variant | 'foreground' | 'muted' | 'current';
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Accessible label announced to screen readers.
           * @default 'Loading'
          */
         "label"?: string;
         /**
+          * Size of the spinner.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Id applied to the root element.
+         */
         "xId"?: string;
     }
     interface SsSwitch {
         /**
+          * Whether the switch is on; updated on user interaction and reflected as an attribute.
           * @default false
          */
         "checked"?: boolean;
+        /**
+          * Id of the element that describes the switch, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the switch.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the root label element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Position of the label relative to the control: start or end.
           * @default 'end'
          */
         "labelPosition"?: SwitchLabelPosition;
+        /**
+          * Name of the native input for form submission.
+         */
         "name"?: string;
+        /**
+          * Emitted when the switch loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsSwitchCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the checked state changes; detail contains xId, name, value and checked.
+         */
         "onSsChange"?: (event: SsSwitchCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * Emitted when the switch gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsSwitchCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId, name, value and checked.
+         */
         "onSsInvalid"?: (event: SsSwitchCustomEvent<SsCheckedChangeEvent>) => void;
         /**
+          * Prevents toggling while still allowing focus and blur events.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Marks the switch as required for form validation.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the switch.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Value of the native input sent on form submission.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
     }
     interface SsTextarea {
+        /**
+          * Accessible label for screen readers.
+         */
         "accessibilityLabel"?: string;
         /**
+          * Color variant of the textarea.
           * @default 'primary'
          */
         "color"?: Variant;
+        /**
+          * Native cols attribute: visible width in characters.
+         */
         "cols"?: number;
+        /**
+          * Id of the element that describes the textarea, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the textarea.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Expands the textarea to the full width of its container.
           * @default false
          */
         "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the textarea element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Maximum number of characters allowed.
+         */
         "maxLength"?: number;
+        /**
+          * Minimum number of characters allowed.
+         */
         "minLength"?: number;
+        /**
+          * Name of the native textarea for form submission.
+         */
         "name"?: string;
+        /**
+          * Emitted when the textarea loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsTextareaCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native change events; detail contains xId and value.
+         */
         "onSsChange"?: (event: SsTextareaCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Emitted when the textarea gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsTextareaCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native input events; detail contains xId and value.
+         */
         "onSsInput"?: (event: SsTextareaCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId and value.
+         */
         "onSsInvalid"?: (event: SsTextareaCustomEvent<SsInputValueEvent>) => void;
+        /**
+          * Placeholder text shown when the textarea is empty.
+         */
         "placeholder"?: string;
         /**
+          * Makes the textarea read-only.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Marks the textarea as required for form validation.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Allowed resize direction: none, vertical, horizontal or both.
           * @default 'vertical'
          */
         "resize"?: TextareaResize;
         /**
+          * Number of visible text rows.
           * @default 3
          */
         "rows"?: number;
         /**
+          * Size of the textarea.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Current value of the textarea.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native textarea; also included in event details.
+         */
         "xId"?: string;
         /**
+          * Visual style of the textarea.
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
     }
     interface SsTooltip {
+        /**
+          * Tooltip text rendered when no default slot content is provided.
+         */
         "content"?: string;
         /**
+          * Disables the tooltip; it stays closed and ignores interactions.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an interaction changes the open state, not when the open prop is set externally; detail contains xId and open.
+         */
         "onSsOpenChange"?: (event: SsTooltipCustomEvent<SsTooltipOpenChangeEvent>) => void;
         /**
+          * Whether the tooltip is open; updated by hover and click interactions and reflected as an attribute.
           * @default false
          */
         "open"?: boolean;
         /**
+          * Placement relative to the trigger: top, right, bottom or left.
           * @default 'top'
          */
         "placement"?: TooltipPlacement;
         /**
+          * Interaction that toggles the tooltip: hover (also focus), click, or manual (controlled through open).
           * @default 'hover'
          */
         "trigger"?: TooltipTrigger;
+        /**
+          * Id applied to the root element; also included in the ssOpenChange detail.
+         */
         "xId"?: string;
     }
     interface SsTypography {
         /**
+          * Text alignment.
           * @default 'left'
          */
         "align"?: TextAlign;
         /**
+          * HTML tag to render; ignored when level is set.
           * @default 'p'
          */
         "as"?: TypographyTag;
         /**
-          * 'foreground' uses the semantic foreground token and adapts to dark mode
+          * Text color; foreground uses the semantic foreground token and adapts to dark mode.
           * @default 'foreground'
          */
         "color"?: TypographyColor;
         /**
-          * Explicit font family. Defaults: 'display' when level is set, 'mono' when as="code", 'sans' otherwise.
+          * Font family. Defaults to display when level is set, mono when as is code, sans otherwise.
          */
         "family"?: TypographyFamily;
         /**
-          * Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.
+          * Font size. Defaults to the level-based size when level is set, md otherwise.
          */
         "fontSize"?: TypographySize;
         /**
-          * Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.
+          * Font weight. Defaults to bold when level is set, regular otherwise.
          */
         "fontWeight"?: FontWeight;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Letter spacing.
           * @default 'normal'
          */
         "letterSpacing"?: LetterSpacing;
@@ -1661,17 +2529,22 @@ declare namespace LocalJSX {
          */
         "level"?: TypographyLevel;
         /**
-          * Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.
+          * Line height. Defaults to tight when level is set, normal otherwise.
          */
         "lineHeight"?: LineHeight;
         /**
+          * Text transform, for example uppercase.
           * @default 'normal'
          */
         "transform"?: TextTransform;
         /**
+          * Truncates overflowing text with an ellipsis on a single line.
           * @default false
          */
         "truncate"?: boolean;
+        /**
+          * Id applied to the rendered element.
+         */
         "xId"?: string;
     }
     interface IntrinsicElements {

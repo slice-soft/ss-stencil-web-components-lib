@@ -14,23 +14,40 @@ import { SsCheckedChangeEvent } from '../../../types/control-events';
 export class SsCheckbox {
   private input?: HTMLInputElement;
 
+  /** Id applied to the native input; also included in event details. */
   @Prop() xId?: string;
+  /** Name of the native input for form submission. */
   @Prop() name?: string;
+  /** Value of the native input sent on form submission. */
   @Prop() value?: string;
+  /** Whether the checkbox is checked; updated on user interaction and reflected as an attribute. */
   @Prop({ mutable: true, reflect: true }) checked: boolean = false;
+  /** Shows the indeterminate state; cleared when the user toggles the checkbox. */
   @Prop({ mutable: true, reflect: true }) indeterminate: boolean = false;
+  /** Disables the checkbox. */
   @Prop() disabled: boolean = false;
+  /** Prevents changes to the checked state while still allowing focus and blur events. */
   @Prop() readonly: boolean = false;
+  /** Marks the checkbox as required for form validation. */
   @Prop() required: boolean = false;
+  /** Applies error styling and sets aria-invalid. */
   @Prop() invalid: boolean = false;
+  /** Label text rendered when no slot content is provided. */
   @Prop() label?: string;
+  /** Size of the checkbox. */
   @Prop() size: Size = 'md';
+  /** Id of the element that describes the checkbox, set as aria-describedby. */
   @Prop() describedBy?: string;
+  /** Inline CSS styles applied to the root label element. */
   @Prop() inlineStyles?: InlineStyles;
 
+  /** Emitted when the checked state changes; detail contains xId, name, value and checked. */
   @Event() ssChange: EventEmitter<SsCheckedChangeEvent>;
+  /** Emitted when the checkbox gains focus; detail is the native FocusEvent. */
   @Event() ssFocus: EventEmitter<FocusEvent>;
+  /** Emitted when the checkbox loses focus; detail is the native FocusEvent. */
   @Event() ssBlur: EventEmitter<FocusEvent>;
+  /** Emitted on native invalid events; detail contains xId, name, value and checked. */
   @Event() ssInvalid: EventEmitter<SsCheckedChangeEvent>;
 
   componentDidLoad() {

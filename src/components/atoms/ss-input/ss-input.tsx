@@ -12,33 +12,60 @@ export type SsInputType = 'text' | 'password' | 'email' | 'number' | 'url' | 'te
   shadow: true,
 })
 export class SsInput {
+  /** Id applied to the native input; also included in event details. */
   @Prop() xId?: string;
+  /** Name of the native input for form submission. */
   @Prop() name?: string;
+  /** Native input type. */
   @Prop() type: SsInputType = 'text';
+  /** Color variant of the input. */
   @Prop() color: Variant = 'primary';
+  /** Current value of the input. */
   @Prop() value?: string;
+  /** Placeholder text shown when the input is empty. */
   @Prop() placeholder?: string;
+  /** Disables the input. */
   @Prop() disabled: boolean = false;
+  /** Makes the input read-only. */
   @Prop() readonly: boolean = false;
+  /** Marks the input as required for form validation. */
   @Prop() required: boolean = false;
+  /** Applies error styling and sets aria-invalid without changing native validity. */
   @Prop() invalid: boolean = false;
+  /** Native autocomplete attribute of the input. */
   @Prop() autocomplete?: string;
+  /** Minimum value for numeric and date inputs. */
   @Prop() min?: string;
+  /** Maximum value for numeric and date inputs. */
   @Prop() max?: string;
+  /** Step granularity for numeric and date inputs. */
   @Prop() step?: string;
+  /** Minimum number of characters allowed. */
   @Prop() minLength?: number;
+  /** Maximum number of characters allowed. */
   @Prop() maxLength?: number;
+  /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that describes the input, set as aria-describedby. */
   @Prop() describedBy?: string;
+  /** Inline CSS styles applied to the input element. */
   @Prop() inlineStyles?: InlineStyles;
+  /** Size of the input. */
   @Prop() size: Size = 'md';
+  /** Expands the input to the full width of its container. */
   @Prop() fullWidth: boolean = false;
+  /** Visual style of the input. */
   @Prop() xStyle: InputStyle = 'solid';
 
+  /** Emitted on native input events; detail contains xId and value. */
   @Event() ssInput: EventEmitter<SsInputValueEvent>;
+  /** Emitted on native change events; detail contains xId and value. */
   @Event() ssChange: EventEmitter<SsInputValueEvent>;
+  /** Emitted on native invalid events; detail contains xId and value. */
   @Event() ssInvalid: EventEmitter<SsInputValueEvent>;
+  /** Emitted when the input gains focus; detail is the native FocusEvent. */
   @Event() ssFocus: EventEmitter<FocusEvent>;
+  /** Emitted when the input loses focus; detail is the native FocusEvent. */
   @Event() ssBlur: EventEmitter<FocusEvent>;
 
   private getClasses() {

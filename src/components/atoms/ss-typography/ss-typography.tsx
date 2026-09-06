@@ -28,7 +28,9 @@ const LEVEL_SIZE: Record<TypographyLevel, TypographySize> = {
   scoped: true,
 })
 export class SsTypography {
+  /** Id applied to the rendered element. */
   @Prop() xId?: string;
+  /** HTML tag to render; ignored when level is set. */
   @Prop() as: TypographyTag = 'p';
   /**
    * Heading level (1–6). Sets the rendered tag to h{level} and applies
@@ -36,23 +38,25 @@ export class SsTypography {
    * level. All defaults are overridable via the individual props.
    */
   @Prop() level?: TypographyLevel;
-  /**
-   * Explicit font family. Defaults: 'display' when level is set, 'mono' when
-   * as="code", 'sans' otherwise.
-   */
+  /** Font family. Defaults to display when level is set, mono when as is code, sans otherwise. */
   @Prop() family?: TypographyFamily;
-  /** Explicit font size. Defaults to level-based size when level is set, 'md' otherwise. */
+  /** Font size. Defaults to the level-based size when level is set, md otherwise. */
   @Prop() fontSize?: TypographySize;
+  /** Text alignment. */
   @Prop() align: TextAlign = 'left';
-  /** 'foreground' uses the semantic foreground token and adapts to dark mode */
+  /** Text color; foreground uses the semantic foreground token and adapts to dark mode. */
   @Prop() color: TypographyColor = 'foreground';
-  /** Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise. */
+  /** Font weight. Defaults to bold when level is set, regular otherwise. */
   @Prop() fontWeight?: FontWeight;
-  /** Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise. */
+  /** Line height. Defaults to tight when level is set, normal otherwise. */
   @Prop() lineHeight?: LineHeight;
+  /** Letter spacing. */
   @Prop() letterSpacing: LetterSpacing = 'normal';
+  /** Inline CSS styles applied to the rendered element. */
   @Prop() inlineStyles?: InlineStyles;
+  /** Truncates overflowing text with an ellipsis on a single line. */
   @Prop() truncate: boolean = false;
+  /** Text transform, for example uppercase. */
   @Prop() transform: TextTransform = 'normal';
 
   private get effectiveTag(): keyof JSX.IntrinsicElements {

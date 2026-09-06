@@ -19,14 +19,22 @@ export type SsTooltipOpenChangeEvent = { xId?: string; open: boolean };
 export class SsTooltip {
   private contentId = `ss-tooltip-${++tooltipId}`;
 
+  /** Id applied to the root element; also included in the ssOpenChange detail. */
   @Prop() xId?: string;
+  /** Whether the tooltip is open; updated by hover and click interactions and reflected as an attribute. */
   @Prop({ mutable: true, reflect: true }) open: boolean = false;
+  /** Tooltip text rendered when no default slot content is provided. */
   @Prop() content?: string;
+  /** Placement relative to the trigger: top, right, bottom or left. */
   @Prop() placement: TooltipPlacement = 'top';
+  /** Interaction that toggles the tooltip: hover (also focus), click, or manual (controlled through open). */
   @Prop() trigger: TooltipTrigger = 'hover';
+  /** Disables the tooltip; it stays closed and ignores interactions. */
   @Prop() disabled: boolean = false;
+  /** Inline CSS styles applied to the root element. */
   @Prop() inlineStyles?: InlineStyles;
 
+  /** Emitted when an interaction changes the open state, not when the open prop is set externally; detail contains xId and open. */
   @Event() ssOpenChange: EventEmitter<SsTooltipOpenChangeEvent>;
 
   private getClasses() {

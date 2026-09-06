@@ -14,11 +14,17 @@ export type IconSize = Size | 'inherit';
   shadow: true,
 })
 export class SsIcon {
+  /** Id applied to the root element. */
   @Prop() xId?: string;
+  /** Accessible label; when provided the icon is exposed with role img instead of being hidden. */
   @Prop() label?: string;
+  /** Size of the icon; inherit follows the surrounding font size. */
   @Prop() size: IconSize = 'md';
+  /** Color token applied to the icon; current uses the current text color. */
   @Prop() color: Variant | 'foreground' | 'muted' | 'current' = 'current';
+  /** Hides the icon from assistive technology with aria-hidden when true and no label is provided. */
   @Prop() decorative: boolean = true;
+  /** Inline CSS styles applied to the root element. */
   @Prop() inlineStyles?: InlineStyles;
 
   private getClasses() {
