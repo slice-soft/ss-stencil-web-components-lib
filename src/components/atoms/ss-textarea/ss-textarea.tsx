@@ -12,31 +12,56 @@ export type TextareaResize = 'none' | 'vertical' | 'horizontal' | 'both';
   shadow: true,
 })
 export class SsTextarea {
+  /** Id applied to the native textarea; also included in event details. */
   @Prop() xId?: string;
+  /** Name of the native textarea for form submission. */
   @Prop() name?: string;
+  /** Current value of the textarea. */
   @Prop() value?: string;
+  /** Placeholder text shown when the textarea is empty. */
   @Prop() placeholder?: string;
+  /** Color variant of the textarea. */
   @Prop() color: Variant = 'primary';
+  /** Visual style of the textarea. */
   @Prop() xStyle: InputStyle = 'solid';
+  /** Size of the textarea. */
   @Prop() size: Size = 'md';
+  /** Number of visible text rows. */
   @Prop() rows: number = 3;
+  /** Native cols attribute: visible width in characters. */
   @Prop() cols?: number;
+  /** Disables the textarea. */
   @Prop() disabled: boolean = false;
+  /** Makes the textarea read-only. */
   @Prop() readonly: boolean = false;
+  /** Marks the textarea as required for form validation. */
   @Prop() required: boolean = false;
+  /** Applies error styling and sets aria-invalid. */
   @Prop() invalid: boolean = false;
+  /** Expands the textarea to the full width of its container. */
   @Prop() fullWidth: boolean = false;
+  /** Allowed resize direction: none, vertical, horizontal or both. */
   @Prop() resize: TextareaResize = 'vertical';
+  /** Minimum number of characters allowed. */
   @Prop() minLength?: number;
+  /** Maximum number of characters allowed. */
   @Prop() maxLength?: number;
+  /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that describes the textarea, set as aria-describedby. */
   @Prop() describedBy?: string;
+  /** Inline CSS styles applied to the textarea element. */
   @Prop() inlineStyles?: InlineStyles;
 
+  /** Emitted on native input events; detail contains xId and value. */
   @Event() ssInput: EventEmitter<SsInputValueEvent>;
+  /** Emitted on native change events; detail contains xId and value. */
   @Event() ssChange: EventEmitter<SsInputValueEvent>;
+  /** Emitted when the textarea gains focus; detail is the native FocusEvent. */
   @Event() ssFocus: EventEmitter<FocusEvent>;
+  /** Emitted when the textarea loses focus; detail is the native FocusEvent. */
   @Event() ssBlur: EventEmitter<FocusEvent>;
+  /** Emitted on native invalid events; detail contains xId and value. */
   @Event() ssInvalid: EventEmitter<SsInputValueEvent>;
 
   private getClasses() {

@@ -13,11 +13,17 @@ export type DividerSpacing = 'none' | 'sm' | 'md' | 'lg';
   shadow: true,
 })
 export class SsDivider {
+  /** Id applied to the root element. */
   @Prop() xId?: string;
+  /** Orientation of the divider: horizontal or vertical. */
   @Prop() orientation: DividerOrientation = 'horizontal';
+  /** Outer margin along the divider axis: none, sm, md or lg. */
   @Prop() spacing: DividerSpacing = 'md';
+  /** When true the divider is purely visual; when false it gets role separator and aria-orientation. */
   @Prop() decorative: boolean = true;
+  /** Label text rendered between the lines when no slot content is provided. */
   @Prop() label?: string;
+  /** Inline CSS styles applied to the root element. */
   @Prop() inlineStyles?: InlineStyles;
 
   private getClasses() {

@@ -9,10 +9,15 @@ import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
   shadow: true,
 })
 export class SsSpinner {
+  /** Id applied to the root element. */
   @Prop() xId?: string;
+  /** Size of the spinner. */
   @Prop() size: Size = 'md';
+  /** Color variant of the spinner; current uses the current text color. */
   @Prop() color: Variant | 'foreground' | 'muted' | 'current' = 'primary';
+  /** Accessible label announced to screen readers. */
   @Prop() label: string = 'Loading';
+  /** Inline CSS styles applied to the root element. */
   @Prop() inlineStyles?: InlineStyles;
 
   private getClasses() {

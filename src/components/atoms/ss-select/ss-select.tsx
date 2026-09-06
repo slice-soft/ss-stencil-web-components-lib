@@ -17,25 +17,44 @@ export type SsSelectChangeEvent = { xId?: string; name?: string; value: string |
 export class SsSelect {
   private select?: HTMLSelectElement;
 
+  /** Id applied to the native select; also included in event details. */
   @Prop() xId?: string;
+  /** Name of the native select for form submission. */
   @Prop() name?: string;
+  /** Selected value, or an array of values when multiple is enabled. */
   @Prop() value?: string | string[];
+  /** Text of a disabled empty option rendered first; only in single-selection mode. */
   @Prop() placeholder?: string;
+  /** Color variant of the select. */
   @Prop() color: Variant = 'primary';
+  /** Visual style: solid, outline or underline. */
   @Prop() xStyle: SelectStyle = 'solid';
+  /** Size of the select. */
   @Prop() size: Size = 'md';
+  /** Disables the select. */
   @Prop() disabled: boolean = false;
+  /** Marks the select as required for form validation. */
   @Prop() required: boolean = false;
+  /** Applies error styling and sets aria-invalid. */
   @Prop() invalid: boolean = false;
+  /** Allows selecting multiple options. */
   @Prop() multiple: boolean = false;
+  /** Expands the select to the full width of its container. */
   @Prop() fullWidth: boolean = false;
+  /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that describes the select, set as aria-describedby. */
   @Prop() describedBy?: string;
+  /** Inline CSS styles applied to the select element. */
   @Prop() inlineStyles?: InlineStyles;
 
+  /** Emitted when the selection changes; detail contains xId, name and value (a string, or an array when multiple). */
   @Event() ssChange: EventEmitter<SsSelectChangeEvent>;
+  /** Emitted when the select gains focus; detail is the native FocusEvent. */
   @Event() ssFocus: EventEmitter<FocusEvent>;
+  /** Emitted when the select loses focus; detail is the native FocusEvent. */
   @Event() ssBlur: EventEmitter<FocusEvent>;
+  /** Emitted on native invalid events; detail contains xId, name and value (a string, or an array when multiple). */
   @Event() ssInvalid: EventEmitter<SsSelectChangeEvent>;
 
   componentDidLoad() {

@@ -14,18 +14,28 @@ export type SsAvatarImageEvent = { xId?: string; src?: string };
   shadow: true,
 })
 export class SsAvatar {
+  /** Id applied to the root element; also included in event details. */
   @Prop() xId?: string;
+  /** Image URL to display; the fallback content is shown when omitted or when loading fails. */
   @Prop() src?: string;
+  /** Alt text for the image; also used as the accessible label of the avatar. */
   @Prop() alt?: string;
+  /** Initials shown as fallback when no image is available and no slot content is provided. */
   @Prop() initials?: string;
+  /** Size of the avatar. */
   @Prop() size: AvatarSize = 'md';
+  /** Shape of the avatar: circle, rounded or square. */
   @Prop() shape: AvatarShape = 'circle';
+  /** Native image loading behavior; lazy defers loading until the image is near the viewport. */
   @Prop() loading: 'eager' | 'lazy' = 'lazy';
+  /** Inline CSS styles applied to the root element. */
   @Prop() inlineStyles?: InlineStyles;
 
   @State() private imageFailed = false;
 
+  /** Emitted when the image loads successfully; detail contains xId and src. */
   @Event() ssLoad: EventEmitter<SsAvatarImageEvent>;
+  /** Emitted when the image fails to load; detail contains xId and src. */
   @Event() ssError: EventEmitter<SsAvatarImageEvent>;
 
   private get showImage() {

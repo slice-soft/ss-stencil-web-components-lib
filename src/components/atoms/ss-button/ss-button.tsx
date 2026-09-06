@@ -20,22 +20,37 @@ export type IconPosition = 'left' | 'right' | 'only';
 export class SsButton {
   @Element() el!: HTMLElement;
 
+  /** Id applied to the button element; emitted as the ssClick detail. */
   @Prop() xId?: string;
+  /** Text rendered inside the button when no slot content is provided; also the aria-label fallback. */
   @Prop() label?: string;
+  /** Accessible label for screen readers; falls back to label. */
   @Prop() accessibilityLabel?: string;
+  /** Native button type: button, submit or reset. */
   @Prop() type: ButtonType = 'button';
+  /** Disables the button. */
   @Prop() disabled: boolean = false;
+  /** Shows the loading state and disables the button. */
   @Prop() loading: boolean = false;
   /** After ssClick fires, button is disabled for disableDuration ms */
   @Prop() oneClick: boolean = true;
+  /** Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click. */
   @Prop() disableDuration: number = 1000;
+  /** Size of the button. */
   @Prop() size: Size = 'md';
+  /** Color variant of the button. */
   @Prop() variant: Variant = 'primary';
+  /** Visual style: solid, outline or ghost. */
   @Prop() xStyle: ButtonStyle = 'solid';
+  /** Inline CSS styles applied to the button element. */
   @Prop() inlineStyles?: InlineStyles;
+  /** Shape of the button: rounded, pill, circle or square. */
   @Prop() shape: ButtonShape = 'rounded';
+  /** Expands the button to the full width of its container. */
   @Prop() fullWidth: boolean = false;
+  /** Button status: active, disabled or loading; disabled and loading also disable the button. */
   @Prop() status: ButtonStatus = 'active';
+  /** Position of the icon slot relative to the label: left, right or only (hides the label). */
   @Prop() iconPosition: IconPosition = 'right';
 
   @State() private isTemporarilyDisabled = false;
@@ -44,6 +59,7 @@ export class SsButton {
   private disableTimeout?: ReturnType<typeof setTimeout>;
   private statusTimeout?: ReturnType<typeof setTimeout>;
 
+  /** Emitted when the button is clicked while enabled; detail is the xId. */
   @Event() ssClick: EventEmitter<string | undefined>;
 
   disconnectedCallback() {

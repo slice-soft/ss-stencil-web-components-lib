@@ -13,12 +13,19 @@ import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 export class SsLabel {
   @Element() el!: HTMLElement;
 
+  /** Id applied to the rendered label element. */
   @Prop() xId?: string;
+  /** Id of the form control this label is associated with, set as the for attribute. */
   @Prop() htmlFor?: string;
+  /** Label text rendered when no slot content is provided. */
   @Prop() label?: string;
+  /** Size of the label. */
   @Prop() size: Size = 'md';
+  /** Appends a required marker (*) to the label. */
   @Prop() required: boolean = false;
+  /** Applies the disabled styling. */
   @Prop() disabled: boolean = false;
+  /** Inline CSS styles applied to the label element. */
   @Prop() inlineStyles?: InlineStyles;
 
   private getClasses() {

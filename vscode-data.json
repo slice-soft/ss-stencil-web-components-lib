@@ -10,19 +10,19 @@
       "attributes": [
         {
           "name": "alt",
-          "description": ""
+          "description": "Alt text for the image; also used as the accessible label of the avatar."
         },
         {
           "name": "initials",
-          "description": ""
+          "description": "Initials shown as fallback when no image is available and no slot content is provided."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the root element."
         },
         {
           "name": "loading",
-          "description": "",
+          "description": "Native image loading behavior; lazy defers loading until the image is near the viewport.",
           "values": [
             {
               "name": "eager"
@@ -34,7 +34,7 @@
         },
         {
           "name": "shape",
-          "description": "",
+          "description": "Shape of the avatar: circle, rounded or square.",
           "values": [
             {
               "name": "circle"
@@ -49,7 +49,7 @@
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the avatar.",
           "values": [
             {
               "name": "2xl"
@@ -73,11 +73,11 @@
         },
         {
           "name": "src",
-          "description": ""
+          "description": "Image URL to display; the fallback content is shown when omitted or when loading fails."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the root element; also included in event details."
         }
       ]
     },
@@ -208,23 +208,23 @@
       "attributes": [
         {
           "name": "accessibility-label",
-          "description": ""
+          "description": "Accessible label for screen readers; falls back to label."
         },
         {
           "name": "disable-duration",
-          "description": ""
+          "description": "Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the button."
         },
         {
           "name": "full-width",
-          "description": ""
+          "description": "Expands the button to the full width of its container."
         },
         {
           "name": "icon-position",
-          "description": "",
+          "description": "Position of the icon slot relative to the label: left, right or only (hides the label).",
           "values": [
             {
               "name": "left"
@@ -239,15 +239,15 @@
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the button element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Text rendered inside the button when no slot content is provided; also the aria-label fallback."
         },
         {
           "name": "loading",
-          "description": ""
+          "description": "Shows the loading state and disables the button."
         },
         {
           "name": "one-click",
@@ -255,7 +255,7 @@
         },
         {
           "name": "shape",
-          "description": "",
+          "description": "Shape of the button: rounded, pill, circle or square.",
           "values": [
             {
               "name": "circle"
@@ -273,7 +273,7 @@
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the button.",
           "values": [
             {
               "name": "2xl"
@@ -300,7 +300,7 @@
         },
         {
           "name": "status",
-          "description": "",
+          "description": "Button status: active, disabled or loading; disabled and loading also disable the button.",
           "values": [
             {
               "name": "active"
@@ -315,7 +315,7 @@
         },
         {
           "name": "type",
-          "description": "",
+          "description": "Native button type: button, submit or reset.",
           "values": [
             {
               "name": "button"
@@ -330,7 +330,7 @@
         },
         {
           "name": "variant",
-          "description": "",
+          "description": "Color variant of the button.",
           "values": [
             {
               "name": "brand"
@@ -369,11 +369,11 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the button element; emitted as the ssClick detail."
         },
         {
           "name": "x-style",
-          "description": "",
+          "description": "Visual style: solid, outline or ghost.",
           "values": [
             {
               "name": "ghost"
@@ -397,47 +397,47 @@
       "attributes": [
         {
           "name": "checked",
-          "description": ""
+          "description": "Whether the checkbox is checked; updated on user interaction and reflected as an attribute."
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the checkbox, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the checkbox."
         },
         {
           "name": "indeterminate",
-          "description": ""
+          "description": "Shows the indeterminate state; cleared when the user toggles the checkbox."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the root label element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Label text rendered when no slot content is provided."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name of the native input for form submission."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Prevents changes to the checked state while still allowing focus and blur events."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the checkbox as required for form validation."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the checkbox.",
           "values": [
             {
               "name": "2xl"
@@ -464,11 +464,11 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Value of the native input sent on form submission."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native input; also included in event details."
         }
       ]
     },
@@ -481,15 +481,15 @@
       "attributes": [
         {
           "name": "accessibility-label",
-          "description": ""
+          "description": "Accessible label for screen readers."
         },
         {
           "name": "autocomplete",
-          "description": ""
+          "description": "Native autocomplete attribute of the input."
         },
         {
           "name": "color",
-          "description": "",
+          "description": "Color variant of the combobox.",
           "values": [
             {
               "name": "brand"
@@ -528,55 +528,55 @@
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the input, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the input."
         },
         {
           "name": "full-width",
-          "description": ""
+          "description": "Expands the combobox to the full width of its container."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the wrapper element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "list-id",
-          "description": ""
+          "description": "Custom id for the internal datalist; defaults to xId-list or a generated id."
         },
         {
           "name": "max-length",
-          "description": ""
+          "description": "Maximum number of characters allowed."
         },
         {
           "name": "min-length",
-          "description": ""
+          "description": "Minimum number of characters allowed."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name of the native input for form submission."
         },
         {
           "name": "placeholder",
-          "description": ""
+          "description": "Placeholder text shown when the input is empty."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Makes the input read-only."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the input as required for form validation."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the combobox.",
           "values": [
             {
               "name": "2xl"
@@ -603,15 +603,15 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Current value of the input."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native input; also included in event details and used to derive the datalist id."
         },
         {
           "name": "x-style",
-          "description": "",
+          "description": "Visual style of the input field.",
           "values": [
             {
               "name": "outline"
@@ -635,19 +635,19 @@
       "attributes": [
         {
           "name": "decorative",
-          "description": ""
+          "description": "When true the divider is purely visual; when false it gets role separator and aria-orientation."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the root element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Label text rendered between the lines when no slot content is provided."
         },
         {
           "name": "orientation",
-          "description": "",
+          "description": "Orientation of the divider: horizontal or vertical.",
           "values": [
             {
               "name": "horizontal"
@@ -659,7 +659,7 @@
         },
         {
           "name": "spacing",
-          "description": "",
+          "description": "Outer margin along the divider axis: none, sm, md or lg.",
           "values": [
             {
               "name": "lg"
@@ -677,7 +677,7 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the root element."
         }
       ]
     },
@@ -690,7 +690,7 @@
       "attributes": [
         {
           "name": "color",
-          "description": "",
+          "description": "Color token applied to the icon; current uses the current text color.",
           "values": [
             {
               "name": "brand"
@@ -738,19 +738,19 @@
         },
         {
           "name": "decorative",
-          "description": ""
+          "description": "Hides the icon from assistive technology with aria-hidden when true and no label is provided."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the root element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Accessible label; when provided the icon is exposed with role img instead of being hidden."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the icon; inherit follows the surrounding font size.",
           "values": [
             {
               "name": "2xl"
@@ -780,7 +780,7 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the root element."
         }
       ]
     },
@@ -793,15 +793,15 @@
       "attributes": [
         {
           "name": "accessibility-label",
-          "description": ""
+          "description": "Accessible label for screen readers."
         },
         {
           "name": "autocomplete",
-          "description": ""
+          "description": "Native autocomplete attribute of the input."
         },
         {
           "name": "color",
-          "description": "",
+          "description": "Color variant of the input.",
           "values": [
             {
               "name": "brand"
@@ -840,59 +840,59 @@
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the input, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the input."
         },
         {
           "name": "full-width",
-          "description": ""
+          "description": "Expands the input to the full width of its container."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the input element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid without changing native validity."
         },
         {
           "name": "max",
-          "description": ""
+          "description": "Maximum value for numeric and date inputs."
         },
         {
           "name": "max-length",
-          "description": ""
+          "description": "Maximum number of characters allowed."
         },
         {
           "name": "min",
-          "description": ""
+          "description": "Minimum value for numeric and date inputs."
         },
         {
           "name": "min-length",
-          "description": ""
+          "description": "Minimum number of characters allowed."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name of the native input for form submission."
         },
         {
           "name": "placeholder",
-          "description": ""
+          "description": "Placeholder text shown when the input is empty."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Makes the input read-only."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the input as required for form validation."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the input.",
           "values": [
             {
               "name": "2xl"
@@ -919,11 +919,11 @@
         },
         {
           "name": "step",
-          "description": ""
+          "description": "Step granularity for numeric and date inputs."
         },
         {
           "name": "type",
-          "description": "",
+          "description": "Native input type.",
           "values": [
             {
               "name": "date"
@@ -971,15 +971,15 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Current value of the input."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native input; also included in event details."
         },
         {
           "name": "x-style",
-          "description": "",
+          "description": "Visual style of the input.",
           "values": [
             {
               "name": "outline"
@@ -1003,27 +1003,27 @@
       "attributes": [
         {
           "name": "disabled",
-          "description": ""
+          "description": "Applies the disabled styling."
         },
         {
           "name": "html-for",
-          "description": ""
+          "description": "Id of the form control this label is associated with, set as the for attribute."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the label element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Label text rendered when no slot content is provided."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Appends a required marker (*) to the label."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the label.",
           "values": [
             {
               "name": "2xl"
@@ -1050,7 +1050,7 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the rendered label element."
         }
       ]
     },
@@ -1063,39 +1063,39 @@
       "attributes": [
         {
           "name": "accessibility-label",
-          "description": ""
+          "description": "Accessible label for screen readers; falls back to label."
         },
         {
           "name": "current",
-          "description": ""
+          "description": "Value for aria-current, for example page."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the link: removes href, blocks clicks and sets aria-disabled."
         },
         {
           "name": "download",
-          "description": ""
+          "description": "Native download attribute; prompts a download instead of navigating."
         },
         {
           "name": "href",
-          "description": ""
+          "description": "Destination URL; omitted from the anchor while disabled."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the anchor element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Link text rendered when no slot content is provided; also the aria-label fallback."
         },
         {
           "name": "rel",
-          "description": ""
+          "description": "Custom rel attribute; defaults to noopener noreferrer when target is _blank."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the link: sm, md or lg.",
           "values": [
             {
               "name": "lg"
@@ -1110,7 +1110,7 @@
         },
         {
           "name": "target",
-          "description": "",
+          "description": "Where to open the link: _self, _blank, _parent or _top.",
           "values": [
             {
               "name": "_blank"
@@ -1128,7 +1128,7 @@
         },
         {
           "name": "underline",
-          "description": "",
+          "description": "Underline behavior: none, hover or always.",
           "values": [
             {
               "name": "always"
@@ -1143,7 +1143,7 @@
         },
         {
           "name": "variant",
-          "description": "",
+          "description": "Color variant of the link.",
           "values": [
             {
               "name": "brand"
@@ -1182,7 +1182,7 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the anchor element; also included in the ssClick detail."
         }
       ]
     },
@@ -1275,11 +1275,11 @@
       "attributes": [
         {
           "name": "accessibility-label",
-          "description": ""
+          "description": "Accessible label for screen readers."
         },
         {
           "name": "color",
-          "description": "",
+          "description": "Color variant of the select.",
           "values": [
             {
               "name": "brand"
@@ -1318,43 +1318,43 @@
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the select, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the select."
         },
         {
           "name": "full-width",
-          "description": ""
+          "description": "Expands the select to the full width of its container."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the select element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "multiple",
-          "description": ""
+          "description": "Allows selecting multiple options."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name of the native select for form submission."
         },
         {
           "name": "placeholder",
-          "description": ""
+          "description": "Text of a disabled empty option rendered first; only in single-selection mode."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the select as required for form validation."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the select.",
           "values": [
             {
               "name": "2xl"
@@ -1381,15 +1381,15 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Selected value, or an array of values when multiple is enabled."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native select; also included in event details."
         },
         {
           "name": "x-style",
-          "description": "",
+          "description": "Visual style: solid, outline or underline.",
           "values": [
             {
               "name": "outline"
@@ -1413,11 +1413,11 @@
       "attributes": [
         {
           "name": "accessibility-label",
-          "description": ""
+          "description": "Accessible label for screen readers."
         },
         {
           "name": "color",
-          "description": "",
+          "description": "Color variant of the slider.",
           "values": [
             {
               "name": "brand"
@@ -1456,47 +1456,47 @@
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the slider, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the slider."
         },
         {
           "name": "full-width",
-          "description": ""
+          "description": "Expands the slider to the full width of its container."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the wrapper element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "max",
-          "description": ""
+          "description": "Maximum value."
         },
         {
           "name": "min",
-          "description": ""
+          "description": "Minimum value."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name of the native input for form submission."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Prevents changing the value while keeping the slider focusable."
         },
         {
           "name": "show-value",
-          "description": ""
+          "description": "Renders the current value next to the slider."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the slider.",
           "values": [
             {
               "name": "2xl"
@@ -1523,19 +1523,19 @@
         },
         {
           "name": "step",
-          "description": ""
+          "description": "Step granularity of the value."
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Current value of the slider; updated on user interaction."
         },
         {
           "name": "value-label",
-          "description": ""
+          "description": "Custom text rendered instead of the numeric value when showValue is enabled."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native range input; also included in event details."
         }
       ]
     },
@@ -1548,7 +1548,7 @@
       "attributes": [
         {
           "name": "color",
-          "description": "",
+          "description": "Color variant of the spinner; current uses the current text color.",
           "values": [
             {
               "name": "brand"
@@ -1596,15 +1596,15 @@
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the root element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Accessible label announced to screen readers."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the spinner.",
           "values": [
             {
               "name": "2xl"
@@ -1631,7 +1631,7 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the root element."
         }
       ]
     },
@@ -1644,31 +1644,31 @@
       "attributes": [
         {
           "name": "checked",
-          "description": ""
+          "description": "Whether the switch is on; updated on user interaction and reflected as an attribute."
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the switch, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the switch."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the root label element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Label text rendered when no slot content is provided."
         },
         {
           "name": "label-position",
-          "description": "",
+          "description": "Position of the label relative to the control: start or end.",
           "values": [
             {
               "name": "end"
@@ -1680,19 +1680,19 @@
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name of the native input for form submission."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Prevents toggling while still allowing focus and blur events."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the switch as required for form validation."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the switch.",
           "values": [
             {
               "name": "2xl"
@@ -1719,11 +1719,11 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Value of the native input sent on form submission."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native input; also included in event details."
         }
       ]
     },
@@ -1736,11 +1736,11 @@
       "attributes": [
         {
           "name": "accessibility-label",
-          "description": ""
+          "description": "Accessible label for screen readers."
         },
         {
           "name": "color",
-          "description": "",
+          "description": "Color variant of the textarea.",
           "values": [
             {
               "name": "brand"
@@ -1779,55 +1779,55 @@
         },
         {
           "name": "cols",
-          "description": ""
+          "description": "Native cols attribute: visible width in characters."
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the textarea, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the textarea."
         },
         {
           "name": "full-width",
-          "description": ""
+          "description": "Expands the textarea to the full width of its container."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the textarea element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "max-length",
-          "description": ""
+          "description": "Maximum number of characters allowed."
         },
         {
           "name": "min-length",
-          "description": ""
+          "description": "Minimum number of characters allowed."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name of the native textarea for form submission."
         },
         {
           "name": "placeholder",
-          "description": ""
+          "description": "Placeholder text shown when the textarea is empty."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Makes the textarea read-only."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the textarea as required for form validation."
         },
         {
           "name": "resize",
-          "description": "",
+          "description": "Allowed resize direction: none, vertical, horizontal or both.",
           "values": [
             {
               "name": "both"
@@ -1845,11 +1845,11 @@
         },
         {
           "name": "rows",
-          "description": ""
+          "description": "Number of visible text rows."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the textarea.",
           "values": [
             {
               "name": "2xl"
@@ -1876,15 +1876,15 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Current value of the textarea."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native textarea; also included in event details."
         },
         {
           "name": "x-style",
-          "description": "",
+          "description": "Visual style of the textarea.",
           "values": [
             {
               "name": "outline"
@@ -1908,23 +1908,23 @@
       "attributes": [
         {
           "name": "content",
-          "description": ""
+          "description": "Tooltip text rendered when no default slot content is provided."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the tooltip; it stays closed and ignores interactions."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the root element."
         },
         {
           "name": "open",
-          "description": ""
+          "description": "Whether the tooltip is open; updated by hover and click interactions and reflected as an attribute."
         },
         {
           "name": "placement",
-          "description": "",
+          "description": "Placement relative to the trigger: top, right, bottom or left.",
           "values": [
             {
               "name": "bottom"
@@ -1942,7 +1942,7 @@
         },
         {
           "name": "trigger",
-          "description": "",
+          "description": "Interaction that toggles the tooltip: hover (also focus), click, or manual (controlled through open).",
           "values": [
             {
               "name": "click"
@@ -1957,7 +1957,7 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the root element; also included in the ssOpenChange detail."
         }
       ]
     },
@@ -1970,7 +1970,7 @@
       "attributes": [
         {
           "name": "align",
-          "description": "",
+          "description": "Text alignment.",
           "values": [
             {
               "name": "center"
@@ -1988,7 +1988,7 @@
         },
         {
           "name": "as",
-          "description": "",
+          "description": "HTML tag to render; ignored when level is set.",
           "values": [
             {
               "name": "code"
@@ -2030,7 +2030,7 @@
         },
         {
           "name": "color",
-          "description": "'foreground' uses the semantic foreground token and adapts to dark mode",
+          "description": "Text color; foreground uses the semantic foreground token and adapts to dark mode.",
           "values": [
             {
               "name": "black"
@@ -2084,7 +2084,7 @@
         },
         {
           "name": "family",
-          "description": "Explicit font family. Defaults: 'display' when level is set, 'mono' when\nas=\"code\", 'sans' otherwise.",
+          "description": "Font family. Defaults to display when level is set, mono when as is code, sans otherwise.",
           "values": [
             {
               "name": "display"
@@ -2099,7 +2099,7 @@
         },
         {
           "name": "font-size",
-          "description": "Explicit font size. Defaults to level-based size when level is set, 'md' otherwise.",
+          "description": "Font size. Defaults to the level-based size when level is set, md otherwise.",
           "values": [
             {
               "name": "2xl"
@@ -2129,7 +2129,7 @@
         },
         {
           "name": "font-weight",
-          "description": "Explicit font weight. Defaults to 'bold' when level is set, 'regular' otherwise.",
+          "description": "Font weight. Defaults to bold when level is set, regular otherwise.",
           "values": [
             {
               "name": "bold"
@@ -2150,11 +2150,11 @@
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the rendered element."
         },
         {
           "name": "letter-spacing",
-          "description": "",
+          "description": "Letter spacing.",
           "values": [
             {
               "name": "normal"
@@ -2176,7 +2176,7 @@
         },
         {
           "name": "line-height",
-          "description": "Explicit line height. Defaults to 'tight' when level is set, 'normal' otherwise.",
+          "description": "Line height. Defaults to tight when level is set, normal otherwise.",
           "values": [
             {
               "name": "loose"
@@ -2197,7 +2197,7 @@
         },
         {
           "name": "transform",
-          "description": "",
+          "description": "Text transform, for example uppercase.",
           "values": [
             {
               "name": "capitalize"
@@ -2215,11 +2215,11 @@
         },
         {
           "name": "truncate",
-          "description": ""
+          "description": "Truncates overflowing text with an ellipsis on a single line."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the rendered element."
         }
       ]
     }

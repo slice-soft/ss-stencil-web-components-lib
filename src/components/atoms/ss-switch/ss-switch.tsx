@@ -16,23 +16,40 @@ export type SwitchLabelPosition = 'start' | 'end';
 export class SsSwitch {
   private input?: HTMLInputElement;
 
+  /** Id applied to the native input; also included in event details. */
   @Prop() xId?: string;
+  /** Name of the native input for form submission. */
   @Prop() name?: string;
+  /** Value of the native input sent on form submission. */
   @Prop() value?: string;
+  /** Whether the switch is on; updated on user interaction and reflected as an attribute. */
   @Prop({ mutable: true, reflect: true }) checked: boolean = false;
+  /** Disables the switch. */
   @Prop() disabled: boolean = false;
+  /** Prevents toggling while still allowing focus and blur events. */
   @Prop() readonly: boolean = false;
+  /** Marks the switch as required for form validation. */
   @Prop() required: boolean = false;
+  /** Applies error styling and sets aria-invalid. */
   @Prop() invalid: boolean = false;
+  /** Label text rendered when no slot content is provided. */
   @Prop() label?: string;
+  /** Position of the label relative to the control: start or end. */
   @Prop() labelPosition: SwitchLabelPosition = 'end';
+  /** Size of the switch. */
   @Prop() size: Size = 'md';
+  /** Id of the element that describes the switch, set as aria-describedby. */
   @Prop() describedBy?: string;
+  /** Inline CSS styles applied to the root label element. */
   @Prop() inlineStyles?: InlineStyles;
 
+  /** Emitted when the checked state changes; detail contains xId, name, value and checked. */
   @Event() ssChange: EventEmitter<SsCheckedChangeEvent>;
+  /** Emitted when the switch gains focus; detail is the native FocusEvent. */
   @Event() ssFocus: EventEmitter<FocusEvent>;
+  /** Emitted when the switch loses focus; detail is the native FocusEvent. */
   @Event() ssBlur: EventEmitter<FocusEvent>;
+  /** Emitted on native invalid events; detail contains xId, name, value and checked. */
   @Event() ssInvalid: EventEmitter<SsCheckedChangeEvent>;
 
   private getClasses() {
