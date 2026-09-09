@@ -1,0 +1,58 @@
+:host {
+  display: inline-block;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.ss-avatar-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Each avatar tucks under the one before it. `::slotted` is what reaches the
+   caller's children from inside a shadow root; a descendant selector would not. */
+::slotted(ss-avatar) {
+  margin-inline-start: var(--ss-sizing-negative-half);
+  border-radius: var(--ss-radius-full);
+  box-shadow: 0 0 0 var(--ss-borders-width-base) var(--ss-color-background);
+}
+
+::slotted(ss-avatar:first-child) {
+  margin-inline-start: var(--ss-sizing-none);
+}
+
+.ss-avatar-group--square ::slotted(ss-avatar),
+.ss-avatar-group--rounded ::slotted(ss-avatar) {
+  border-radius: var(--ss-radius-base);
+}
+
+/* `!important` is load-bearing, not a shortcut. `reset.css` sets
+   `:defined { display: revert }` at document level, and for a slotted element
+   the document — its own tree — outranks a `::slotted` rule from this shadow
+   tree. Only an important declaration inverts that order. */
+::slotted(ss-avatar.ss-avatar-group__hidden) {
+  display: none !important;
+}
+
+.ss-avatar-group__overflow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: var(--ss-sizing-negative-half);
+  border-radius: var(--ss-radius-full);
+  box-shadow: 0 0 0 var(--ss-borders-width-base) var(--ss-color-background);
+  background: var(--ss-color-muted);
+  color: var(--ss-color-muted-foreground);
+  font-family: var(--ss-text-fonts-sans);
+  font-size: var(--ss-text-sizes-xs);
+  line-height: 1;
+}
+
+@each $name, $step in (xs: 6, sm: 8, md: 10, lg: 12, xl: 16, 2xl: 20) {
+  .ss-avatar-group--#{$name} .ss-avatar-group__overflow {
+    width: var(--ss-dimensions-#{$step});
+    height: var(--ss-dimensions-#{$step});
+  }
+}

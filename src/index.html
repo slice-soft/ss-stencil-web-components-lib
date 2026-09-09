@@ -1396,5 +1396,82 @@
       </div>
     </section>
 
+
+    <section>
+      <h2>ss-button-group</h2>
+      <p class="section-desc">orientation · size · variant · disabled · fullWidth · accessibilityLabel</p>
+
+      <div class="card">
+        <p class="label">one place for the shared size and variant</p>
+        <div class="col">
+          <ss-button-group accessibility-label="Text actions" size="sm">
+            <ss-button label="Cut"></ss-button>
+            <ss-button label="Copy"></ss-button>
+            <ss-button label="Paste"></ss-button>
+          </ss-button-group>
+          <ss-button-group accessibility-label="Record actions" variant="secondary">
+            <ss-button label="Save"></ss-button>
+            <ss-button label="Duplicate"></ss-button>
+            <ss-button label="Delete" variant="destructive"></ss-button>
+          </ss-button-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation &middot; disabled</p>
+        <div class="row">
+          <ss-button-group orientation="vertical" accessibility-label="Vertical actions" size="sm">
+            <ss-button label="Top"></ss-button>
+            <ss-button label="Middle"></ss-button>
+            <ss-button label="Bottom"></ss-button>
+          </ss-button-group>
+          <ss-button-group accessibility-label="Disabled actions" disabled>
+            <ss-button label="One"></ss-button>
+            <ss-button label="Two"></ss-button>
+          </ss-button-group>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-avatar-group</h2>
+      <p class="section-desc">size · shape · max · accessibilityLabel &mdash; one name for the whole stack</p>
+
+      <div class="card">
+        <p class="label">overlap &middot; overflow count</p>
+        <div class="col">
+          <ss-avatar-group accessibility-label="4 collaborators">
+            <ss-avatar initials="AB"></ss-avatar>
+            <ss-avatar initials="CD"></ss-avatar>
+            <ss-avatar initials="EF"></ss-avatar>
+            <ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+          <ss-avatar-group accessibility-label="6 collaborators" max="3">
+            <ss-avatar initials="AB"></ss-avatar>
+            <ss-avatar initials="CD"></ss-avatar>
+            <ss-avatar initials="EF"></ss-avatar>
+            <ss-avatar initials="GH"></ss-avatar>
+            <ss-avatar initials="IJ"></ss-avatar>
+            <ss-avatar initials="KL"></ss-avatar>
+          </ss-avatar-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &middot; shape</p>
+        <div class="col">
+          <ss-avatar-group accessibility-label="Small stack" size="sm" max="3">
+            <ss-avatar initials="AB"></ss-avatar><ss-avatar initials="CD"></ss-avatar><ss-avatar initials="EF"></ss-avatar><ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+          <ss-avatar-group accessibility-label="Large stack" size="lg" max="3">
+            <ss-avatar initials="AB"></ss-avatar><ss-avatar initials="CD"></ss-avatar><ss-avatar initials="EF"></ss-avatar><ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+          <ss-avatar-group accessibility-label="Square stack" shape="square" max="3">
+            <ss-avatar initials="AB"></ss-avatar><ss-avatar initials="CD"></ss-avatar><ss-avatar initials="EF"></ss-avatar><ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+        </div>
+      </div>
+    </section>
+
   </body>
 </html>

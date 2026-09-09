@@ -160,6 +160,70 @@
       ]
     },
     {
+      "name": "ss-avatar-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Overlaps a set of avatars into one stack, with an optional count for the ones\nit does not show.\n\nThe stack is a single unit to assistive technology: the avatars themselves are\nhidden from it and the group carries one name, because hearing eight names in\na row conveys less than \"8 collaborators\" when the individual identities are\nnot actionable here.\n\nRendered into a shadow root so that `::slotted` can lay the avatars out. A\nscoped stylesheet cannot: Stencil marks only the elements a component renders\nitself with its scope class, never the children the caller slots in, so\n`.ss-avatar-group ss-avatar { … }` would match nothing."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the stack as a whole."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "max",
+          "description": "Shows at most this many avatars; the rest become a count."
+        },
+        {
+          "name": "shape",
+          "description": "Shape shared by every avatar.",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "rounded"
+            },
+            {
+              "name": "square"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every avatar, and by the overflow count.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
+        }
+      ]
+    },
+    {
       "name": "ss-badge",
       "description": {
         "kind": "markdown",
@@ -463,6 +527,113 @@
               "name": "solid"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "ss-button-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Presents a set of related actions as one group: shared sizing and styling in\none place, and an accessible name for the set.\n\nThe buttons are **not** visually joined into a single segmented control.\n`ss-button` renders into its own shadow root and exposes no `::part`, so\nnothing outside it can square off the corners where two buttons meet. Doing\nthat properly is an `ss-button` change — a new shape, or exported parts — not\nsomething this group can reach in from the outside."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the set of actions."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables every button in the group."
+        },
+        {
+          "name": "full-width",
+          "description": "Expands the group, and its buttons, to the full width of the container."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "orientation",
+          "description": "Lays the actions out in a row, or stacks them.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every button.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "Colour variant shared by every button.",
+          "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
         }
       ]
     },

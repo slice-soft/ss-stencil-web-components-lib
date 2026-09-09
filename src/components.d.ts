@@ -9,9 +9,11 @@ import { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-ale
 import { Size } from "./types/size";
 import { InlineStyles } from "./utils/style";
 import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+import { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+import { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
@@ -32,9 +34,11 @@ export { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-ale
 export { Size } from "./types/size";
 export { InlineStyles } from "./utils/style";
 export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+export { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+export { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
@@ -132,6 +136,46 @@ export namespace Components {
         "src"?: string;
         /**
           * Id applied to the root element; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Overlaps a set of avatars into one stack, with an optional count for the ones
+     * it does not show.
+     * The stack is a single unit to assistive technology: the avatars themselves are
+     * hidden from it and the group carries one name, because hearing eight names in
+     * a row conveys less than "8 collaborators" when the individual identities are
+     * not actionable here.
+     * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+     * scoped stylesheet cannot: Stencil marks only the elements a component renders
+     * itself with its scope class, never the children the caller slots in, so
+     * `.ss-avatar-group ss-avatar { … }` would match nothing.
+     */
+    interface SsAvatarGroup {
+        /**
+          * Accessible name for the stack as a whole.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Shows at most this many avatars; the rest become a count.
+         */
+        "max"?: number;
+        /**
+          * Shape shared by every avatar.
+          * @default 'circle'
+         */
+        "shape": AvatarShape1;
+        /**
+          * Size shared by every avatar, and by the overflow count.
+          * @default 'md'
+         */
+        "size": AvatarSize1;
+        /**
+          * Id applied to the rendered container.
          */
         "xId"?: string;
     }
@@ -245,6 +289,52 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
+    }
+    /**
+     * Presents a set of related actions as one group: shared sizing and styling in
+     * one place, and an accessible name for the set.
+     * The buttons are **not** visually joined into a single segmented control.
+     * `ss-button` renders into its own shadow root and exposes no `::part`, so
+     * nothing outside it can square off the corners where two buttons meet. Doing
+     * that properly is an `ss-button` change — a new shape, or exported parts — not
+     * something this group can reach in from the outside.
+     */
+    interface SsButtonGroup {
+        /**
+          * Accessible name for the set of actions.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Disables every button in the group.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Expands the group, and its buttons, to the full width of the container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lays the actions out in a row, or stacks them.
+          * @default 'horizontal'
+         */
+        "orientation": ButtonGroupOrientation;
+        /**
+          * Size shared by every button.
+         */
+        "size"?: Size;
+        /**
+          * Colour variant shared by every button.
+         */
+        "variant"?: Variant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
     }
     /**
      * A surface that groups related content, with optional media, header and footer
@@ -1442,6 +1532,24 @@ declare global {
         prototype: HTMLSsAvatarElement;
         new (): HTMLSsAvatarElement;
     };
+    /**
+     * Overlaps a set of avatars into one stack, with an optional count for the ones
+     * it does not show.
+     * The stack is a single unit to assistive technology: the avatars themselves are
+     * hidden from it and the group carries one name, because hearing eight names in
+     * a row conveys less than "8 collaborators" when the individual identities are
+     * not actionable here.
+     * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+     * scoped stylesheet cannot: Stencil marks only the elements a component renders
+     * itself with its scope class, never the children the caller slots in, so
+     * `.ss-avatar-group ss-avatar { … }` would match nothing.
+     */
+    interface HTMLSsAvatarGroupElement extends Components.SsAvatarGroup, HTMLStencilElement {
+    }
+    var HTMLSsAvatarGroupElement: {
+        prototype: HTMLSsAvatarGroupElement;
+        new (): HTMLSsAvatarGroupElement;
+    };
     interface HTMLSsBadgeElementEventMap {
         "ssDismiss": SsBadgeDismissEvent;
     }
@@ -1475,6 +1583,21 @@ declare global {
     var HTMLSsButtonElement: {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
+    };
+    /**
+     * Presents a set of related actions as one group: shared sizing and styling in
+     * one place, and an accessible name for the set.
+     * The buttons are **not** visually joined into a single segmented control.
+     * `ss-button` renders into its own shadow root and exposes no `::part`, so
+     * nothing outside it can square off the corners where two buttons meet. Doing
+     * that properly is an `ss-button` change — a new shape, or exported parts — not
+     * something this group can reach in from the outside.
+     */
+    interface HTMLSsButtonGroupElement extends Components.SsButtonGroup, HTMLStencilElement {
+    }
+    var HTMLSsButtonGroupElement: {
+        prototype: HTMLSsButtonGroupElement;
+        new (): HTMLSsButtonGroupElement;
     };
     /**
      * A surface that groups related content, with optional media, header and footer
@@ -1794,8 +1917,10 @@ declare global {
     interface HTMLElementTagNameMap {
         "ss-alert": HTMLSsAlertElement;
         "ss-avatar": HTMLSsAvatarElement;
+        "ss-avatar-group": HTMLSsAvatarGroupElement;
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
+        "ss-button-group": HTMLSsButtonGroupElement;
         "ss-card": HTMLSsCardElement;
         "ss-checkbox": HTMLSsCheckboxElement;
         "ss-checkbox-group": HTMLSsCheckboxGroupElement;
@@ -1910,6 +2035,46 @@ declare namespace LocalJSX {
         "src"?: string;
         /**
           * Id applied to the root element; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Overlaps a set of avatars into one stack, with an optional count for the ones
+     * it does not show.
+     * The stack is a single unit to assistive technology: the avatars themselves are
+     * hidden from it and the group carries one name, because hearing eight names in
+     * a row conveys less than "8 collaborators" when the individual identities are
+     * not actionable here.
+     * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+     * scoped stylesheet cannot: Stencil marks only the elements a component renders
+     * itself with its scope class, never the children the caller slots in, so
+     * `.ss-avatar-group ss-avatar { … }` would match nothing.
+     */
+    interface SsAvatarGroup {
+        /**
+          * Accessible name for the stack as a whole.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Shows at most this many avatars; the rest become a count.
+         */
+        "max"?: number;
+        /**
+          * Shape shared by every avatar.
+          * @default 'circle'
+         */
+        "shape"?: AvatarShape1;
+        /**
+          * Size shared by every avatar, and by the overflow count.
+          * @default 'md'
+         */
+        "size"?: AvatarSize1;
+        /**
+          * Id applied to the rendered container.
          */
         "xId"?: string;
     }
@@ -2028,6 +2193,52 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    /**
+     * Presents a set of related actions as one group: shared sizing and styling in
+     * one place, and an accessible name for the set.
+     * The buttons are **not** visually joined into a single segmented control.
+     * `ss-button` renders into its own shadow root and exposes no `::part`, so
+     * nothing outside it can square off the corners where two buttons meet. Doing
+     * that properly is an `ss-button` change — a new shape, or exported parts — not
+     * something this group can reach in from the outside.
+     */
+    interface SsButtonGroup {
+        /**
+          * Accessible name for the set of actions.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Disables every button in the group.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Expands the group, and its buttons, to the full width of the container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lays the actions out in a row, or stacks them.
+          * @default 'horizontal'
+         */
+        "orientation"?: ButtonGroupOrientation;
+        /**
+          * Size shared by every button.
+         */
+        "size"?: Size;
+        /**
+          * Colour variant shared by every button.
+         */
+        "variant"?: Variant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
     }
     /**
      * A surface that groups related content, with optional media, header and footer
@@ -3276,8 +3487,10 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "ss-alert": SsAlert;
         "ss-avatar": SsAvatar;
+        "ss-avatar-group": SsAvatarGroup;
         "ss-badge": SsBadge;
         "ss-button": SsButton;
+        "ss-button-group": SsButtonGroup;
         "ss-card": SsCard;
         "ss-checkbox": SsCheckbox;
         "ss-checkbox-group": SsCheckboxGroup;
@@ -3312,8 +3525,31 @@ declare module "@stencil/core" {
              */
             "ss-alert": LocalJSX.SsAlert & JSXBase.HTMLAttributes<HTMLSsAlertElement>;
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
+            /**
+             * Overlaps a set of avatars into one stack, with an optional count for the ones
+             * it does not show.
+             * The stack is a single unit to assistive technology: the avatars themselves are
+             * hidden from it and the group carries one name, because hearing eight names in
+             * a row conveys less than "8 collaborators" when the individual identities are
+             * not actionable here.
+             * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+             * scoped stylesheet cannot: Stencil marks only the elements a component renders
+             * itself with its scope class, never the children the caller slots in, so
+             * `.ss-avatar-group ss-avatar { … }` would match nothing.
+             */
+            "ss-avatar-group": LocalJSX.SsAvatarGroup & JSXBase.HTMLAttributes<HTMLSsAvatarGroupElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            /**
+             * Presents a set of related actions as one group: shared sizing and styling in
+             * one place, and an accessible name for the set.
+             * The buttons are **not** visually joined into a single segmented control.
+             * `ss-button` renders into its own shadow root and exposes no `::part`, so
+             * nothing outside it can square off the corners where two buttons meet. Doing
+             * that properly is an `ss-button` change — a new shape, or exported parts — not
+             * something this group can reach in from the outside.
+             */
+            "ss-button-group": LocalJSX.SsButtonGroup & JSXBase.HTMLAttributes<HTMLSsButtonGroupElement>;
             /**
              * A surface that groups related content, with optional media, header and footer
              * regions around it.
