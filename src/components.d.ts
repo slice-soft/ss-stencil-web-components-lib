@@ -181,33 +181,49 @@ export namespace Components {
     }
     interface SsBadge {
         /**
+          * Applies the disabled styling and disables the dismiss button.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Accessible label for the dismiss button.
           * @default 'Dismiss'
          */
         "dismissLabel": string;
         /**
+          * Renders a dismiss button.
           * @default false
          */
         "dismissible": boolean;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Badge text rendered when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Rounds the badge into a pill.
           * @default false
          */
         "pill": boolean;
         /**
+          * Size of the badge.
           * @default 'sm'
          */
         "size": Size;
         /**
+          * Semantic colour of the badge.
           * @default 'primary'
          */
         "variant": Variant;
+        /**
+          * Id applied to the rendered element.
+         */
         "xId"?: string;
         /**
+          * Visual style: a solid fill, a subtle tint, or an outline.
           * @default 'subtle'
          */
         "xStyle": BadgeStyle;
@@ -217,6 +233,10 @@ export namespace Components {
           * Accessible label for screen readers; falls back to label.
          */
         "accessibilityLabel"?: string;
+        /**
+          * Id of the element that describes the button, set as aria-describedby.
+         */
+        "describedBy"?: string;
         /**
           * Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click.
           * @default 1000
@@ -898,34 +918,58 @@ export namespace Components {
     }
     interface SsRadio {
         /**
+          * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
           * @default false
          */
         "checked": boolean;
+        /**
+          * Id of the element that describes the radio, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the radio.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the rendered label element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Name shared by the radios that form one group; what makes the browser treat them as a set.
+         */
         "name"?: string;
         /**
+          * Prevents selection while still allowing focus and blur events.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Marks the radio required; one required radio makes its whole native group required.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the radio.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Value submitted with the form when this radio is the selected one.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
     }
     /**
@@ -1330,6 +1374,13 @@ export namespace Components {
          */
         "xStyle": InputStyle;
     }
+    /**
+     * Rendered scoped rather than shadow because the description has to reach the
+     * trigger. A tooltip's whole job is to describe the thing it points at, and
+     * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+     * reference never resolved and the trigger was announced with no description
+     * at all — correct-looking markup, nothing reaching the user.
+     */
     interface SsTooltip {
         /**
           * Tooltip text rendered when no default slot content is provided.
@@ -1894,6 +1945,13 @@ declare global {
     interface HTMLSsTooltipElementEventMap {
         "ssOpenChange": SsTooltipOpenChangeEvent;
     }
+    /**
+     * Rendered scoped rather than shadow because the description has to reach the
+     * trigger. A tooltip's whole job is to describe the thing it points at, and
+     * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+     * reference never resolved and the trigger was announced with no description
+     * at all — correct-looking markup, nothing reaching the user.
+     */
     interface HTMLSsTooltipElement extends Components.SsTooltip, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -2080,34 +2138,53 @@ declare namespace LocalJSX {
     }
     interface SsBadge {
         /**
+          * Applies the disabled styling and disables the dismiss button.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Accessible label for the dismiss button.
           * @default 'Dismiss'
          */
         "dismissLabel"?: string;
         /**
+          * Renders a dismiss button.
           * @default false
          */
         "dismissible"?: boolean;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Badge text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Emitted when the dismiss button is pressed; detail contains xId.
+         */
         "onSsDismiss"?: (event: SsBadgeCustomEvent<SsBadgeDismissEvent>) => void;
         /**
+          * Rounds the badge into a pill.
           * @default false
          */
         "pill"?: boolean;
         /**
+          * Size of the badge.
           * @default 'sm'
          */
         "size"?: Size;
         /**
+          * Semantic colour of the badge.
           * @default 'primary'
          */
         "variant"?: Variant;
+        /**
+          * Id applied to the rendered element.
+         */
         "xId"?: string;
         /**
+          * Visual style: a solid fill, a subtle tint, or an outline.
           * @default 'subtle'
          */
         "xStyle"?: BadgeStyle;
@@ -2117,6 +2194,10 @@ declare namespace LocalJSX {
           * Accessible label for screen readers; falls back to label.
          */
         "accessibilityLabel"?: string;
+        /**
+          * Id of the element that describes the button, set as aria-describedby.
+         */
+        "describedBy"?: string;
         /**
           * Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click.
           * @default 1000
@@ -2870,38 +2951,74 @@ declare namespace LocalJSX {
     }
     interface SsRadio {
         /**
+          * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
           * @default false
          */
         "checked"?: boolean;
+        /**
+          * Id of the element that describes the radio, set as aria-describedby.
+         */
         "describedBy"?: string;
         /**
+          * Disables the radio.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the rendered label element.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Name shared by the radios that form one group; what makes the browser treat them as a set.
+         */
         "name"?: string;
+        /**
+          * Emitted when the radio loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsRadioCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the radio becomes selected; detail contains xId, name, value and checked.
+         */
         "onSsChange"?: (event: SsRadioCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * Emitted when the radio gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsRadioCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId, name, value and checked.
+         */
         "onSsInvalid"?: (event: SsRadioCustomEvent<SsCheckedChangeEvent>) => void;
         /**
+          * Prevents selection while still allowing focus and blur events.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Marks the radio required; one required radio makes its whole native group required.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the radio.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Value submitted with the form when this radio is the selected one.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
         "xId"?: string;
     }
     /**
@@ -3386,6 +3503,13 @@ declare namespace LocalJSX {
          */
         "xStyle"?: InputStyle;
     }
+    /**
+     * Rendered scoped rather than shadow because the description has to reach the
+     * trigger. A tooltip's whole job is to describe the thing it points at, and
+     * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+     * reference never resolved and the trigger was announced with no description
+     * at all — correct-looking markup, nothing reaching the user.
+     */
     interface SsTooltip {
         /**
           * Tooltip text rendered when no default slot content is provided.
@@ -3606,6 +3730,13 @@ declare module "@stencil/core" {
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;
+            /**
+             * Rendered scoped rather than shadow because the description has to reach the
+             * trigger. A tooltip's whole job is to describe the thing it points at, and
+             * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+             * reference never resolved and the trigger was announced with no description
+             * at all — correct-looking markup, nothing reaching the user.
+             */
             "ss-tooltip": LocalJSX.SsTooltip & JSXBase.HTMLAttributes<HTMLSsTooltipElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }

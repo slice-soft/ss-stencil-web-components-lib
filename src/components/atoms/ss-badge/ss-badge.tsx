@@ -18,17 +18,28 @@ export type SsBadgeDismissEvent = { xId?: string };
 export class SsBadge {
   @Element() el!: HTMLElement;
 
+  /** Id applied to the rendered element. */
   @Prop() xId?: string;
+  /** Badge text rendered when no slot content is provided. */
   @Prop() label?: string;
+  /** Semantic colour of the badge. */
   @Prop() variant: Variant = 'primary';
+  /** Visual style: a solid fill, a subtle tint, or an outline. */
   @Prop() xStyle: BadgeStyle = 'subtle';
+  /** Size of the badge. */
   @Prop() size: Size = 'sm';
+  /** Rounds the badge into a pill. */
   @Prop() pill: boolean = false;
+  /** Applies the disabled styling and disables the dismiss button. */
   @Prop() disabled: boolean = false;
+  /** Renders a dismiss button. */
   @Prop() dismissible: boolean = false;
+  /** Accessible label for the dismiss button. */
   @Prop() dismissLabel: string = 'Dismiss';
+  /** Inline CSS styles applied to the rendered element. */
   @Prop() inlineStyles?: InlineStyles;
 
+  /** Emitted when the dismiss button is pressed; detail contains xId. */
   @Event() ssDismiss: EventEmitter<SsBadgeDismissEvent>;
 
   private getClasses() {

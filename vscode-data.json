@@ -232,31 +232,31 @@
       "attributes": [
         {
           "name": "disabled",
-          "description": ""
+          "description": "Applies the disabled styling and disables the dismiss button."
         },
         {
           "name": "dismiss-label",
-          "description": ""
+          "description": "Accessible label for the dismiss button."
         },
         {
           "name": "dismissible",
-          "description": ""
+          "description": "Renders a dismiss button."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the rendered element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Badge text rendered when no slot content is provided."
         },
         {
           "name": "pill",
-          "description": ""
+          "description": "Rounds the badge into a pill."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the badge.",
           "values": [
             {
               "name": "2xl"
@@ -283,7 +283,7 @@
         },
         {
           "name": "variant",
-          "description": "",
+          "description": "Semantic colour of the badge.",
           "values": [
             {
               "name": "brand"
@@ -322,11 +322,11 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the rendered element."
         },
         {
           "name": "x-style",
-          "description": "",
+          "description": "Visual style: a solid fill, a subtle tint, or an outline.",
           "values": [
             {
               "name": "outline"
@@ -351,6 +351,10 @@
         {
           "name": "accessibility-label",
           "description": "Accessible label for screen readers; falls back to label."
+        },
+        {
+          "name": "described-by",
+          "description": "Id of the element that describes the button, set as aria-describedby."
         },
         {
           "name": "disable-duration",
@@ -1674,43 +1678,43 @@
       "attributes": [
         {
           "name": "checked",
-          "description": ""
+          "description": "Whether this radio is the selected one; updated on user interaction and reflected as an attribute."
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the radio, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the radio."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the rendered label element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Label text rendered when no slot content is provided."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name shared by the radios that form one group; what makes the browser treat them as a set."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Prevents selection while still allowing focus and blur events."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the radio required; one required radio makes its whole native group required."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the radio.",
           "values": [
             {
               "name": "2xl"
@@ -1737,11 +1741,11 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Value submitted with the form when this radio is the selected one."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native input; also included in event details."
         }
       ]
     },
@@ -2478,7 +2482,7 @@
       "name": "ss-tooltip",
       "description": {
         "kind": "markdown",
-        "value": ""
+        "value": "Rendered scoped rather than shadow because the description has to reach the\ntrigger. A tooltip's whole job is to describe the thing it points at, and\n`aria-describedby` is an IDREF: with the content inside a shadow root, the\nreference never resolved and the trigger was announced with no description\nat all — correct-looking markup, nothing reaching the user."
       },
       "attributes": [
         {

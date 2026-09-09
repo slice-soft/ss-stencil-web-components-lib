@@ -5,6 +5,14 @@
 <!-- Auto Generated Below -->
 
 
+## Overview
+
+Rendered scoped rather than shadow because the description has to reach the
+trigger. A tooltip's whole job is to describe the thing it points at, and
+`aria-describedby` is an IDREF: with the content inside a shadow root, the
+reference never resolved and the trigger was announced with no description
+at all — correct-looking markup, nothing reaching the user.
+
 ## Properties
 
 | Property       | Attribute       | Description                                                                                           | Type                                     | Default     |

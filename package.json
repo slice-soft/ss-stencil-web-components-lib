@@ -56,7 +56,8 @@
     "fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
     "prettier": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
-    "lint": "npm run eslint && npm run prettier"
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run eslint && npm run prettier && npm run typecheck"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
