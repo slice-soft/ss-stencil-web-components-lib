@@ -17,6 +17,7 @@ import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
@@ -36,6 +37,7 @@ export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
@@ -681,6 +683,71 @@ export namespace Components {
         "value"?: string;
         "xId"?: string;
     }
+    /**
+     * Presents N `ss-radio` children as one selected value, one change event and
+     * one set of group semantics, replacing the shared `name` a consumer would
+     * otherwise repeat on every radio without ever gaining a group role, a group
+     * label or an aggregate value.
+     * The radios keep their own native input, styling and focus behaviour: arrow-key
+     * navigation comes from the browser, because same-name radios in one tree
+     * already do it. The group adds the name, the selected value, the accessible
+     * grouping and the messages.
+     */
+    interface SsRadioGroup {
+        /**
+          * Disables every radio in the group.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every radio in the group — the thing that makes the browser treat them as one group. Left unset, the group generates one, so a group always works; a name is only needed to submit under a chosen key.  It stays optional because a mandatory prop would make every custom element require it wherever a dynamic tag resolves against the generated JSX types.
+         */
+        "name"?: string;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation": RadioGroupOrientation;
+        /**
+          * Requires a selection: marks the group required for native validation.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Size shared by every radio, and by the group label.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Value of the selected radio; updated on user interaction and reflected as an attribute.
+         */
+        "value"?: string;
+        /**
+          * Id of the container; also the seed for the generated message ids.
+         */
+        "xId"?: string;
+    }
     interface SsSelect {
         /**
           * Accessible label for screen readers.
@@ -1145,6 +1212,10 @@ export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsRadioElement;
 }
+export interface SsRadioGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsRadioGroupElement;
+}
 export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSelectElement;
@@ -1352,6 +1423,34 @@ declare global {
         prototype: HTMLSsRadioElement;
         new (): HTMLSsRadioElement;
     };
+    interface HTMLSsRadioGroupElementEventMap {
+        "ssChange": SsRadioGroupChangeEvent;
+        "ssInvalid": SsRadioGroupInvalidEvent;
+    }
+    /**
+     * Presents N `ss-radio` children as one selected value, one change event and
+     * one set of group semantics, replacing the shared `name` a consumer would
+     * otherwise repeat on every radio without ever gaining a group role, a group
+     * label or an aggregate value.
+     * The radios keep their own native input, styling and focus behaviour: arrow-key
+     * navigation comes from the browser, because same-name radios in one tree
+     * already do it. The group adds the name, the selected value, the accessible
+     * grouping and the messages.
+     */
+    interface HTMLSsRadioGroupElement extends Components.SsRadioGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsRadioGroupElementEventMap>(type: K, listener: (this: HTMLSsRadioGroupElement, ev: SsRadioGroupCustomEvent<HTMLSsRadioGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsRadioGroupElementEventMap>(type: K, listener: (this: HTMLSsRadioGroupElement, ev: SsRadioGroupCustomEvent<HTMLSsRadioGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsRadioGroupElement: {
+        prototype: HTMLSsRadioGroupElement;
+        new (): HTMLSsRadioGroupElement;
+    };
     interface HTMLSsSelectElementEventMap {
         "ssChange": SsSelectChangeEvent;
         "ssFocus": FocusEvent;
@@ -1476,6 +1575,7 @@ declare global {
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
         "ss-radio": HTMLSsRadioElement;
+        "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-select": HTMLSsSelectElement;
         "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
@@ -2200,6 +2300,79 @@ declare namespace LocalJSX {
         "value"?: string;
         "xId"?: string;
     }
+    /**
+     * Presents N `ss-radio` children as one selected value, one change event and
+     * one set of group semantics, replacing the shared `name` a consumer would
+     * otherwise repeat on every radio without ever gaining a group role, a group
+     * label or an aggregate value.
+     * The radios keep their own native input, styling and focus behaviour: arrow-key
+     * navigation comes from the browser, because same-name radios in one tree
+     * already do it. The group adds the name, the selected value, the accessible
+     * grouping and the messages.
+     */
+    interface SsRadioGroup {
+        /**
+          * Disables every radio in the group.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every radio in the group — the thing that makes the browser treat them as one group. Left unset, the group generates one, so a group always works; a name is only needed to submit under a chosen key.  It stays optional because a mandatory prop would make every custom element require it wherever a dynamic tag resolves against the generated JSX types.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the selected value changes; detail contains xId, name and value.
+         */
+        "onSsChange"?: (event: SsRadioGroupCustomEvent<SsRadioGroupChangeEvent>) => void;
+        /**
+          * Emitted when the group fails native validation; detail may carry no value.
+         */
+        "onSsInvalid"?: (event: SsRadioGroupCustomEvent<SsRadioGroupInvalidEvent>) => void;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation"?: RadioGroupOrientation;
+        /**
+          * Requires a selection: marks the group required for native validation.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Size shared by every radio, and by the group label.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Value of the selected radio; updated on user interaction and reflected as an attribute.
+         */
+        "value"?: string;
+        /**
+          * Id of the container; also the seed for the generated message ids.
+         */
+        "xId"?: string;
+    }
     interface SsSelect {
         /**
           * Accessible label for screen readers.
@@ -2720,6 +2893,7 @@ declare namespace LocalJSX {
         "ss-label": SsLabel;
         "ss-link": SsLink;
         "ss-radio": SsRadio;
+        "ss-radio-group": SsRadioGroup;
         "ss-select": SsSelect;
         "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
@@ -2756,6 +2930,17 @@ declare module "@stencil/core" {
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
+            /**
+             * Presents N `ss-radio` children as one selected value, one change event and
+             * one set of group semantics, replacing the shared `name` a consumer would
+             * otherwise repeat on every radio without ever gaining a group role, a group
+             * label or an aggregate value.
+             * The radios keep their own native input, styling and focus behaviour: arrow-key
+             * navigation comes from the browser, because same-name radios in one tree
+             * already do it. The group adds the name, the selected value, the accessible
+             * grouping and the messages.
+             */
+            "ss-radio-group": LocalJSX.SsRadioGroup & JSXBase.HTMLAttributes<HTMLSsRadioGroupElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
             "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;

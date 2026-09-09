@@ -1,0 +1,23 @@
+.ss-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-1);
+  min-width: var(--ss-sizing-none);
+}
+
+.ss-radio-group__choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-2);
+}
+
+.ss-radio-group--horizontal .ss-radio-group__choices {
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: var(--ss-dimensions-4);
+}
+
+.ss-radio-group--disabled .ss-radio-group__label,
+.ss-radio-group--disabled .ss-radio-group__helper {
+  opacity: var(--ss-opacity-disabled);
+}

@@ -36,11 +36,13 @@
 ### Used by
 
  - [ss-field](../../molecules/ss-field)
+ - [ss-radio-group](../../molecules/ss-radio-group)
 
 ### Graph
 ```mermaid
 graph TD;
   ss-field --> ss-typography
+  ss-radio-group --> ss-typography
   style ss-typography fill:#000,stroke:#fff,stroke-width:4px
 ```
 

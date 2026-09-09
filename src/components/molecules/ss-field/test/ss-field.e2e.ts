@@ -1,25 +1,5 @@
 import { newE2EPage, E2EPage } from '@stencil/core/testing';
-
-/**
- * Reads the accessible name and description the browser exposes for the control
- * itself. Asserting on the attributes instead would pass even when the
- * relationship never crosses the control's shadow boundary, which is the whole
- * failure this field exists to prevent.
- */
-async function axControl(page: E2EPage, role: string) {
-  // The field wires the control after its own render, and that assignment
-  // schedules the control's re-render, so the wired result settles a tick later.
-  await page.waitForChanges();
-  const snapshot: any = await (page as any).accessibility.snapshot({ interestingOnly: false });
-  const flat: any[] = [];
-  const walk = (node: any) => {
-    flat.push(node);
-    (node.children ?? []).forEach(walk);
-  };
-  walk(snapshot);
-  const node = flat.find(candidate => candidate.role === role);
-  return { name: node?.name ?? null, description: node?.description ?? null };
-}
+import { axNodeByRole } from '../../../../test/utils';
 
 async function focusedPath(page: E2EPage) {
   return page.evaluate(() => {
@@ -34,7 +14,7 @@ describe('ss-field naming a shadow-rendered control', () => {
     await page.setContent(`<ss-field label="Email" helper-text="We never share it."><ss-input type="email"></ss-input></ss-field>`);
     await page.waitForChanges();
 
-    expect(await axControl(page, 'textbox')).toEqual({ name: 'Email', description: 'We never share it.' });
+    expect(await axNodeByRole(page, 'textbox')).toEqual({ name: 'Email', description: 'We never share it.' });
   });
 
   it('focuses the control when the label is clicked', async () => {
@@ -54,7 +34,7 @@ describe('ss-field naming a shadow-rendered control', () => {
     await page.setContent(`<ss-field label="Level" helper-text="Drag to adjust."><ss-slider></ss-slider></ss-field>`);
     await page.waitForChanges();
 
-    expect(await axControl(page, 'slider')).toEqual({ name: 'Level', description: 'Drag to adjust.' });
+    expect(await axNodeByRole(page, 'slider')).toEqual({ name: 'Level', description: 'Drag to adjust.' });
   });
 
   it('names a textarea', async () => {
@@ -62,7 +42,7 @@ describe('ss-field naming a shadow-rendered control', () => {
     await page.setContent(`<ss-field label="Bio"><ss-textarea></ss-textarea></ss-field>`);
     await page.waitForChanges();
 
-    expect((await axControl(page, 'textbox')).name).toBe('Bio');
+    expect((await axNodeByRole(page, 'textbox')).name).toBe('Bio');
   });
 });
 
@@ -72,7 +52,7 @@ describe('ss-field naming a light-DOM control', () => {
     await page.setContent(`<ss-field label="Accept terms" helper-text="Required to continue."><ss-checkbox></ss-checkbox></ss-field>`);
     await page.waitForChanges();
 
-    expect(await axControl(page, 'checkbox')).toEqual({ name: 'Accept terms', description: 'Required to continue.' });
+    expect(await axNodeByRole(page, 'checkbox')).toEqual({ name: 'Accept terms', description: 'Required to continue.' });
   });
 
   it('focuses the control when the label is clicked', async () => {
@@ -93,7 +73,7 @@ describe('ss-field naming a light-DOM control', () => {
     await page.setContent(`<ss-field label="Country" helper-text="Where you live."><ss-select><option value="co">Colombia</option></ss-select></ss-field>`);
     await page.waitForChanges();
 
-    expect(await axControl(page, 'combobox')).toEqual({ name: 'Country', description: 'Where you live.' });
+    expect(await axNodeByRole(page, 'combobox')).toEqual({ name: 'Country', description: 'Where you live.' });
   });
 
   it('names and describes a native control', async () => {
@@ -101,7 +81,7 @@ describe('ss-field naming a light-DOM control', () => {
     await page.setContent(`<ss-field label="Nickname" helper-text="Optional."><input type="text" /></ss-field>`);
     await page.waitForChanges();
 
-    expect(await axControl(page, 'textbox')).toEqual({ name: 'Nickname', description: 'Optional.' });
+    expect(await axNodeByRole(page, 'textbox')).toEqual({ name: 'Nickname', description: 'Optional.' });
   });
 });
 
@@ -110,13 +90,13 @@ describe('ss-field error message', () => {
     const page = await newE2EPage();
     await page.setContent(`<ss-field label="Email" helper-text="We never share it." error-text="Enter a valid email"><ss-input type="email"></ss-input></ss-field>`);
     await page.waitForChanges();
-    expect((await axControl(page, 'textbox')).description).toBe('We never share it.');
+    expect((await axNodeByRole(page, 'textbox')).description).toBe('We never share it.');
 
     const field = await page.find('ss-field');
     field.setAttribute('invalid', '');
     await page.waitForChanges();
 
-    expect((await axControl(page, 'textbox')).description).toBe('We never share it. Enter a valid email');
+    expect((await axNodeByRole(page, 'textbox', node => node.description === 'We never share it. Enter a valid email')).description).toBe('We never share it. Enter a valid email');
   });
 
   it('announces the error as an alert', async () => {
@@ -133,7 +113,7 @@ describe('ss-field error message', () => {
     await page.setContent(`<ss-field label="Email" invalid><ss-input type="email"></ss-input><span slot="error">Slotted error</span></ss-field>`);
     await page.waitForChanges();
 
-    expect((await axControl(page, 'textbox')).description).toBe('Slotted error');
+    expect((await axNodeByRole(page, 'textbox')).description).toBe('Slotted error');
   });
 });
 

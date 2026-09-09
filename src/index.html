@@ -1171,5 +1171,72 @@
       </div>
     </section>
 
+    <section>
+      <h2>ss-radio-group</h2>
+      <p class="section-desc">name · value · label · helperText · errorText · required · invalid · disabled · orientation · size</p>
+
+      <div class="card">
+        <p class="label">one name, one value, one change event &mdash; arrow keys still navigate</p>
+        <div class="col">
+          <ss-radio-group name="demo-plan" value="pro" label="Choose a plan" helper-text="You can change it later">
+            <ss-radio value="free">Free</ss-radio>
+            <ss-radio value="pro">Pro</ss-radio>
+            <ss-radio value="team">Team</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation</p>
+        <div class="col">
+          <ss-radio-group name="demo-orientation" value="b" orientation="horizontal" label="Horizontal">
+            <ss-radio value="a">Option A</ss-radio>
+            <ss-radio value="b">Option B</ss-radio>
+            <ss-radio value="c">Option C</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">required + invalid &mdash; nothing selected</p>
+        <div class="col">
+          <ss-radio-group name="demo-required" label="Pick a shipping speed" error-text="Choose a shipping speed" required invalid>
+            <ss-radio value="standard">Standard</ss-radio>
+            <ss-radio value="express">Express</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &middot; disabled</p>
+        <div class="col">
+          <ss-radio-group name="demo-size-sm" size="sm" value="a" label="Small" orientation="horizontal">
+            <ss-radio value="a">A</ss-radio>
+            <ss-radio value="b">B</ss-radio>
+          </ss-radio-group>
+          <ss-radio-group name="demo-size-lg" size="lg" value="a" label="Large" orientation="horizontal">
+            <ss-radio value="a">A</ss-radio>
+            <ss-radio value="b">B</ss-radio>
+          </ss-radio-group>
+          <ss-radio-group name="demo-disabled" value="a" label="Disabled group" orientation="horizontal" disabled>
+            <ss-radio value="a">A</ss-radio>
+            <ss-radio value="b">B</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">slots &mdash; rich group label and helper</p>
+        <div class="col">
+          <ss-radio-group name="demo-slots" value="pro">
+            <span slot="label">Plan <ss-badge label="beta" size="xs"></ss-badge></span>
+            <ss-radio value="free">Free</ss-radio>
+            <ss-radio value="pro">Pro</ss-radio>
+            <span slot="helper">Billing starts next month</span>
+          </ss-radio-group>
+        </div>
+      </div>
+    </section>
+
   </body>
 </html>

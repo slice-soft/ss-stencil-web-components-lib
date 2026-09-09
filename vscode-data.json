@@ -1351,6 +1351,94 @@
       ]
     },
     {
+      "name": "ss-radio-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Presents N `ss-radio` children as one selected value, one change event and\none set of group semantics, replacing the shared `name` a consumer would\notherwise repeat on every radio without ever gaining a group role, a group\nlabel or an aggregate value.\n\nThe radios keep their own native input, styling and focus behaviour: arrow-key\nnavigation comes from the browser, because same-name radios in one tree\nalready do it. The group adds the name, the selected value, the accessible\ngrouping and the messages."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables every radio in the group."
+        },
+        {
+          "name": "error-text",
+          "description": "Error text, used when no error slot content is provided; shown only while invalid."
+        },
+        {
+          "name": "helper-text",
+          "description": "Helper text, used when no helper slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "invalid",
+          "description": "Marks the group invalid: reveals the error message and sets aria-invalid."
+        },
+        {
+          "name": "label",
+          "description": "Group label, used when no label slot content is provided."
+        },
+        {
+          "name": "name",
+          "description": "Native name shared by every radio in the group — the thing that makes the\nbrowser treat them as one group. Left unset, the group generates one, so a\ngroup always works; a name is only needed to submit under a chosen key.\n\nIt stays optional because a mandatory prop would make every custom element\nrequire it wherever a dynamic tag resolves against the generated JSX types."
+        },
+        {
+          "name": "orientation",
+          "description": "Stacks the choices, or lays them out in a row.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "required",
+          "description": "Requires a selection: marks the group required for native validation."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every radio, and by the group label.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value of the selected radio; updated on user interaction and reflected as an attribute."
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also the seed for the generated message ids."
+        }
+      ]
+    },
+    {
       "name": "ss-select",
       "description": {
         "kind": "markdown",
