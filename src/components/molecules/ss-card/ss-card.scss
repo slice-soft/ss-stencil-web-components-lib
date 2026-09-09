@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.ss-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--ss-radius-lg);
+  background: var(--ss-color-card);
+  color: var(--ss-color-card-foreground);
+  font-family: var(--ss-text-fonts-sans);
+}
+
+.ss-card--full-width {
+  width: var(--ss-sizing-full);
+}
+
+.ss-card--elevated {
+  border: var(--ss-borders-width-none);
+  box-shadow: var(--ss-shadows-card);
+}
+
+.ss-card--outlined {
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+}
+
+.ss-card--filled {
+  border: var(--ss-borders-width-none);
+  background: var(--ss-color-surface);
+}
+
+/* An empty region must not contribute padding or a divider, or an unused header
+   opens a gap the caller never asked for. CSS cannot see slotted content from
+   inside a shadow root, so the component reports which regions are filled. */
+.ss-card__media,
+.ss-card__header,
+.ss-card__footer {
+  display: none;
+}
+
+.ss-card--has-media .ss-card__media,
+.ss-card--has-header .ss-card__header,
+.ss-card--has-footer .ss-card__footer {
+  display: block;
+}
+
+.ss-card__content {
+  display: block;
+}
+
+.ss-card__header {
+  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+}
+
+.ss-card__footer {
+  border-top: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+}
+
+/* Media is full-bleed: it ignores the padding scale by design. */
+.ss-card__media ::slotted(img),
+.ss-card__media ::slotted(picture),
+.ss-card__media ::slotted(video) {
+  display: block;
+  width: var(--ss-sizing-full);
+  height: auto;
+}
+
+@each $name, $step in (sm: 2, md: 4, lg: 6) {
+  .ss-card--padding-#{$name} {
+    .ss-card__header,
+    .ss-card__content,
+    .ss-card__footer {
+      padding: var(--ss-dimensions-#{$step});
+    }
+  }
+}
+
+.ss-card--padding-none {
+  .ss-card__header,
+  .ss-card__content,
+  .ss-card__footer {
+    padding: var(--ss-sizing-none);
+  }
+}

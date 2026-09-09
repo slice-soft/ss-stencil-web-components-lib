@@ -5,12 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+import { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
+import { Size } from "./types/size";
 import { InlineStyles } from "./utils/style";
+import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
-import { Size } from "./types/size";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
@@ -26,12 +28,14 @@ import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
-export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+export { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
+export { Size } from "./types/size";
 export { InlineStyles } from "./utils/style";
+export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
-export { Size } from "./types/size";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
@@ -48,6 +52,52 @@ export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./co
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
+    /**
+     * A message block that states what happened and, when it matters, interrupts to
+     * say so.
+     * The alert supplies the severity, the layout and the announcement; the caller
+     * supplies the words, and any icon or actions, through slots. There is no
+     * built-in icon set, following `ss-icon`, which is also a slot.
+     */
+    interface SsAlert {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel": string;
+        /**
+          * Renders a dismiss button.
+          * @default false
+         */
+        "dismissible": boolean;
+        /**
+          * Expands the alert to the full width of its container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Title text, used when no title slot content is provided. Named `heading` because `title` is a global attribute and would render a browser tooltip.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Size of the alert.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Severity, which sets both the colour and how insistently it is announced.
+          * @default 'info'
+         */
+        "variant": AlertVariant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
     interface SsAvatar {
         /**
           * Alt text for the image; also used as the accessible label of the avatar.
@@ -195,6 +245,42 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
+    }
+    /**
+     * A surface that groups related content, with optional media, header and footer
+     * regions around it.
+     * It is layout only: no elevation logic, no click behaviour and no events. A
+     * card that should act as a link or a button holds one in its content, so the
+     * accessible role stays on the element that actually has it; a clickable
+     * container would have to invent the keyboard and role semantics that
+     * `ss-button` and `ss-link` already provide.
+     * Each region collapses when nothing is slotted into it, so an unused header
+     * leaves no gap and draws no divider.
+     */
+    interface SsCard {
+        /**
+          * Expands the card to the full width of its container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Inner spacing applied to the header, content and footer regions.
+          * @default 'md'
+         */
+        "padding": CardPadding;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+        /**
+          * Visual style: raised off the page, outlined, or filled with a surface tone.
+          * @default 'elevated'
+         */
+        "xStyle": CardStyle;
     }
     interface SsCheckbox {
         /**
@@ -1249,6 +1335,10 @@ export namespace Components {
         "xId"?: string;
     }
 }
+export interface SsAlertCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsAlertElement;
+}
 export interface SsAvatarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsAvatarElement;
@@ -1310,6 +1400,30 @@ export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSsTooltipElement;
 }
 declare global {
+    interface HTMLSsAlertElementEventMap {
+        "ssDismiss": SsAlertDismissEvent;
+    }
+    /**
+     * A message block that states what happened and, when it matters, interrupts to
+     * say so.
+     * The alert supplies the severity, the layout and the announcement; the caller
+     * supplies the words, and any icon or actions, through slots. There is no
+     * built-in icon set, following `ss-icon`, which is also a slot.
+     */
+    interface HTMLSsAlertElement extends Components.SsAlert, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsAlertElementEventMap>(type: K, listener: (this: HTMLSsAlertElement, ev: SsAlertCustomEvent<HTMLSsAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsAlertElementEventMap>(type: K, listener: (this: HTMLSsAlertElement, ev: SsAlertCustomEvent<HTMLSsAlertElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsAlertElement: {
+        prototype: HTMLSsAlertElement;
+        new (): HTMLSsAlertElement;
+    };
     interface HTMLSsAvatarElementEventMap {
         "ssLoad": SsAvatarImageEvent;
         "ssError": SsAvatarImageEvent;
@@ -1361,6 +1475,23 @@ declare global {
     var HTMLSsButtonElement: {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
+    };
+    /**
+     * A surface that groups related content, with optional media, header and footer
+     * regions around it.
+     * It is layout only: no elevation logic, no click behaviour and no events. A
+     * card that should act as a link or a button holds one in its content, so the
+     * accessible role stays on the element that actually has it; a clickable
+     * container would have to invent the keyboard and role semantics that
+     * `ss-button` and `ss-link` already provide.
+     * Each region collapses when nothing is slotted into it, so an unused header
+     * leaves no gap and draws no divider.
+     */
+    interface HTMLSsCardElement extends Components.SsCard, HTMLStencilElement {
+    }
+    var HTMLSsCardElement: {
+        prototype: HTMLSsCardElement;
+        new (): HTMLSsCardElement;
     };
     interface HTMLSsCheckboxElementEventMap {
         "ssChange": SsCheckedChangeEvent;
@@ -1661,9 +1792,11 @@ declare global {
         new (): HTMLSsTypographyElement;
     };
     interface HTMLElementTagNameMap {
+        "ss-alert": HTMLSsAlertElement;
         "ss-avatar": HTMLSsAvatarElement;
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
+        "ss-card": HTMLSsCardElement;
         "ss-checkbox": HTMLSsCheckboxElement;
         "ss-checkbox-group": HTMLSsCheckboxGroupElement;
         "ss-combobox": HTMLSsComboboxElement;
@@ -1685,6 +1818,56 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    /**
+     * A message block that states what happened and, when it matters, interrupts to
+     * say so.
+     * The alert supplies the severity, the layout and the announcement; the caller
+     * supplies the words, and any icon or actions, through slots. There is no
+     * built-in icon set, following `ss-icon`, which is also a slot.
+     */
+    interface SsAlert {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Renders a dismiss button.
+          * @default false
+         */
+        "dismissible"?: boolean;
+        /**
+          * Expands the alert to the full width of its container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Title text, used when no title slot content is provided. Named `heading` because `title` is a global attribute and would render a browser tooltip.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the dismiss button is pressed; detail contains xId.
+         */
+        "onSsDismiss"?: (event: SsAlertCustomEvent<SsAlertDismissEvent>) => void;
+        /**
+          * Size of the alert.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Severity, which sets both the colour and how insistently it is announced.
+          * @default 'info'
+         */
+        "variant"?: AlertVariant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
     interface SsAvatar {
         /**
           * Alt text for the image; also used as the accessible label of the avatar.
@@ -1845,6 +2028,42 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    /**
+     * A surface that groups related content, with optional media, header and footer
+     * regions around it.
+     * It is layout only: no elevation logic, no click behaviour and no events. A
+     * card that should act as a link or a button holds one in its content, so the
+     * accessible role stays on the element that actually has it; a clickable
+     * container would have to invent the keyboard and role semantics that
+     * `ss-button` and `ss-link` already provide.
+     * Each region collapses when nothing is slotted into it, so an unused header
+     * leaves no gap and draws no divider.
+     */
+    interface SsCard {
+        /**
+          * Expands the card to the full width of its container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Inner spacing applied to the header, content and footer regions.
+          * @default 'md'
+         */
+        "padding"?: CardPadding;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+        /**
+          * Visual style: raised off the page, outlined, or filled with a surface tone.
+          * @default 'elevated'
+         */
+        "xStyle"?: CardStyle;
     }
     interface SsCheckbox {
         /**
@@ -3055,9 +3274,11 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface IntrinsicElements {
+        "ss-alert": SsAlert;
         "ss-avatar": SsAvatar;
         "ss-badge": SsBadge;
         "ss-button": SsButton;
+        "ss-card": SsCard;
         "ss-checkbox": SsCheckbox;
         "ss-checkbox-group": SsCheckboxGroup;
         "ss-combobox": SsCombobox;
@@ -3082,9 +3303,29 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * A message block that states what happened and, when it matters, interrupts to
+             * say so.
+             * The alert supplies the severity, the layout and the announcement; the caller
+             * supplies the words, and any icon or actions, through slots. There is no
+             * built-in icon set, following `ss-icon`, which is also a slot.
+             */
+            "ss-alert": LocalJSX.SsAlert & JSXBase.HTMLAttributes<HTMLSsAlertElement>;
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            /**
+             * A surface that groups related content, with optional media, header and footer
+             * regions around it.
+             * It is layout only: no elevation logic, no click behaviour and no events. A
+             * card that should act as a link or a button holds one in its content, so the
+             * accessible role stays on the element that actually has it; a clickable
+             * container would have to invent the keyboard and role semantics that
+             * `ss-button` and `ss-link` already provide.
+             * Each region collapses when nothing is slotted into it, so an unused header
+             * leaves no gap and draws no divider.
+             */
+            "ss-card": LocalJSX.SsCard & JSXBase.HTMLAttributes<HTMLSsCardElement>;
             "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
             /**
              * Presents N `ss-checkbox` children as one `string[]` value and one change

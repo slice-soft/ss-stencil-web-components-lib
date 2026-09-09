@@ -35,6 +35,7 @@
 
 ### Used by
 
+ - [ss-alert](../../molecules/ss-alert)
  - [ss-checkbox-group](../../molecules/ss-checkbox-group)
  - [ss-field](../../molecules/ss-field)
  - [ss-radio-group](../../molecules/ss-radio-group)
@@ -42,6 +43,7 @@
 ### Graph
 ```mermaid
 graph TD;
+  ss-alert --> ss-typography
   ss-checkbox-group --> ss-typography
   ss-field --> ss-typography
   ss-radio-group --> ss-typography

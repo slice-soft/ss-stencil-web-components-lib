@@ -2,6 +2,84 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "ss-alert",
+      "description": {
+        "kind": "markdown",
+        "value": "A message block that states what happened and, when it matters, interrupts to\nsay so.\n\nThe alert supplies the severity, the layout and the announcement; the caller\nsupplies the words, and any icon or actions, through slots. There is no\nbuilt-in icon set, following `ss-icon`, which is also a slot."
+      },
+      "attributes": [
+        {
+          "name": "dismiss-label",
+          "description": "Accessible label for the dismiss button."
+        },
+        {
+          "name": "dismissible",
+          "description": "Renders a dismiss button."
+        },
+        {
+          "name": "full-width",
+          "description": "Expands the alert to the full width of its container."
+        },
+        {
+          "name": "heading",
+          "description": "Title text, used when no title slot content is provided. Named `heading`\nbecause `title` is a global attribute and would render a browser tooltip."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "size",
+          "description": "Size of the alert.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "Severity, which sets both the colour and how insistently it is announced.",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
+        }
+      ]
+    },
+    {
       "name": "ss-avatar",
       "description": {
         "kind": "markdown",
@@ -383,6 +461,60 @@
             },
             {
               "name": "solid"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ss-card",
+      "description": {
+        "kind": "markdown",
+        "value": "A surface that groups related content, with optional media, header and footer\nregions around it.\n\nIt is layout only: no elevation logic, no click behaviour and no events. A\ncard that should act as a link or a button holds one in its content, so the\naccessible role stays on the element that actually has it; a clickable\ncontainer would have to invent the keyboard and role semantics that\n`ss-button` and `ss-link` already provide.\n\nEach region collapses when nothing is slotted into it, so an unused header\nleaves no gap and draws no divider."
+      },
+      "attributes": [
+        {
+          "name": "full-width",
+          "description": "Expands the card to the full width of its container."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "padding",
+          "description": "Inner spacing applied to the header, content and footer regions.",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
+        },
+        {
+          "name": "x-style",
+          "description": "Visual style: raised off the page, outlined, or filled with a surface tone.",
+          "values": [
+            {
+              "name": "elevated"
+            },
+            {
+              "name": "filled"
+            },
+            {
+              "name": "outlined"
             }
           ]
         }

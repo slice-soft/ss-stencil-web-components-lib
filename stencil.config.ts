@@ -56,6 +56,17 @@ export const config: Config = {
     // are the standard flags for running headless Chrome in a constrained or
     // containerised environment, which also describes CI.
     browserArgs: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+    // Each e2e worker drives its own browser, and Stencil defaults to one worker
+    // per core. Measured on this suite, running every e2e file at once stretched
+    // individual suites from ~6s to ~35s and pushed some past the 30s app-load
+    // wait; the failure is always `setContent`, never a component's behaviour.
+    // A fixed cap also suits CI runners, which have far fewer cores.
+    //
+    // This reduces the problem rather than removing it: `npm run test.e2e` on
+    // its own is reliable, while `npm test` still trips roughly one run in five
+    // because the spec run precedes it on the same machine. Running test.spec
+    // and test.e2e as separate CI jobs would isolate them properly.
+    maxWorkers: 2,
   },
     devServer: {
     reloadStrategy: 'pageReload',

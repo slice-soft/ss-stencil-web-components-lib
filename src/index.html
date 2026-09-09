@@ -1310,5 +1310,91 @@
       document.querySelector('#demo-cb-group').value = ['design'];
     </script>
 
+
+    <section>
+      <h2>ss-alert</h2>
+      <p class="section-desc">variant · heading · dismissible · size · fullWidth · slots (title, icon, actions)</p>
+
+      <div class="card">
+        <p class="label">severity &mdash; a problem interrupts (role="alert"), a confirmation waits (role="status")</p>
+        <div class="col">
+          <ss-alert variant="info" heading="Heads up" full-width>A new version is available.</ss-alert>
+          <ss-alert variant="success" heading="Saved" full-width>Your changes were published.</ss-alert>
+          <ss-alert variant="warning" heading="Almost out of space" full-width>You have used 92% of your quota.</ss-alert>
+          <ss-alert variant="error" heading="Upload failed" full-width>The file exceeds the 10&nbsp;MB limit.</ss-alert>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">without a title</p>
+        <div class="col">
+          <ss-alert variant="info" full-width>Just the message, no heading.</ss-alert>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">dismissible &middot; icon &middot; actions</p>
+        <div class="col">
+          <ss-alert variant="warning" heading="Session expiring" dismissible full-width>
+            <ss-icon slot="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" /><path d="M12 8v5M12 16h.01" />
+              </svg>
+            </ss-icon>
+            You will be signed out in 2 minutes.
+            <ss-button slot="actions" size="sm" variant="warning" label="Stay signed in"></ss-button>
+            <ss-button slot="actions" size="sm" x-style="ghost" variant="warning" label="Sign out"></ss-button>
+          </ss-alert>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="col">
+          <ss-alert size="xs" variant="info" heading="XSmall" full-width>Message</ss-alert>
+          <ss-alert size="sm" variant="info" heading="Small" full-width>Message</ss-alert>
+          <ss-alert size="md" variant="info" heading="Medium (default)" full-width>Message</ss-alert>
+          <ss-alert size="lg" variant="info" heading="Large" full-width>Message</ss-alert>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-card</h2>
+      <p class="section-desc">xStyle · padding · fullWidth · slots (media, header, footer) &mdash; empty regions collapse</p>
+
+      <div class="card">
+        <p class="label">xStyle</p>
+        <div class="row">
+          <ss-card x-style="elevated" inline-styles="max-width: 16rem"><ss-typography>Elevated (default)</ss-typography></ss-card>
+          <ss-card x-style="outlined" inline-styles="max-width: 16rem"><ss-typography>Outlined</ss-typography></ss-card>
+          <ss-card x-style="filled" inline-styles="max-width: 16rem"><ss-typography>Filled</ss-typography></ss-card>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">regions &mdash; the same card with and without a header/footer</p>
+        <div class="row">
+          <ss-card x-style="outlined" inline-styles="max-width: 18rem">
+            <ss-typography slot="header" as="strong">Monthly report</ss-typography>
+            <ss-typography>Nothing above or below opens a gap when it is not there.</ss-typography>
+            <ss-button slot="footer" size="sm" label="Download"></ss-button>
+          </ss-card>
+          <ss-card x-style="outlined" inline-styles="max-width: 18rem">
+            <ss-typography>Content only &mdash; no divider, no empty padding.</ss-typography>
+          </ss-card>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">padding &mdash; media stays full-bleed</p>
+        <div class="row">
+          <ss-card padding="none" x-style="outlined" inline-styles="max-width: 14rem"><ss-typography>padding="none"</ss-typography></ss-card>
+          <ss-card padding="sm" x-style="outlined" inline-styles="max-width: 14rem"><ss-typography>padding="sm"</ss-typography></ss-card>
+          <ss-card padding="lg" x-style="outlined" inline-styles="max-width: 14rem"><ss-typography>padding="lg"</ss-typography></ss-card>
+        </div>
+      </div>
+    </section>
+
   </body>
 </html>
