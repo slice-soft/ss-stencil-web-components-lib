@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-alert announcement', () => {
   it('exposes a problem as an assertive alert', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<ss-alert variant="error">Upload failed</ss-alert>`);
     await page.waitForChanges();
 
@@ -24,7 +24,7 @@ describe('ss-alert announcement', () => {
   });
 
   it('exposes a confirmation as a polite status', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<ss-alert variant="success">Saved</ss-alert>`);
     await page.waitForChanges();
 
@@ -33,7 +33,7 @@ describe('ss-alert announcement', () => {
   });
 
   it('emits ssDismiss when the dismiss button is pressed', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<ss-alert dismissible>Message</ss-alert>`);
     await page.waitForChanges();
 
@@ -45,7 +45,7 @@ describe('ss-alert announcement', () => {
   });
 
   it('hides the icon region when nothing is slotted into it', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<ss-alert>Message</ss-alert>`);
     await page.waitForChanges();
 

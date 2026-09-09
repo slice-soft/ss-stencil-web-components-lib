@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-switch browser behavior', () => {
   it('toggles its checked and accessibility state', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-switch x-id="notifications" name="notifications" value="enabled" label="Notifications"></ss-switch>');
     const changeSpy = await page.spyOnEvent('ssChange');
     const input = await page.find('ss-switch input');
@@ -22,7 +22,7 @@ describe('ss-switch browser behavior', () => {
   });
 
   it('does not toggle or emit when disabled', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-switch disabled label="Notifications"></ss-switch>');
     const changeSpy = await page.spyOnEvent('ssChange');
     const input = await page.find('ss-switch input');
@@ -37,7 +37,7 @@ describe('ss-switch browser behavior', () => {
   });
 
   it('restores its checked state and emits no change when readonly', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-switch checked readonly label="Notifications"></ss-switch>');
     const changeSpy = await page.spyOnEvent('ssChange');
     const input = await page.find('ss-switch input');

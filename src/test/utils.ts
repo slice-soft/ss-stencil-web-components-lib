@@ -1,3 +1,4 @@
+import { newE2EPage } from '@stencil/core/testing';
 import type { E2EPage, SpecPage } from '@stencil/core/testing';
 
 export function getRoot(page: SpecPage): HTMLElement {
@@ -74,3 +75,26 @@ interface AxSnapshotNode {
 interface AccessibilityPage {
   accessibility: { snapshot(options?: { interestingOnly?: boolean }): Promise<AxSnapshotNode | null> };
 }
+
+/**
+ * An e2e page whose `setContent` waits longer for the app to load.
+ *
+ * Stencil hard-codes a 30 second app-load timeout. That is generous for one
+ * page and tight for a suite that starts a browser per worker: when several
+ * launch at once, a browser can still be getting to the first paint when the
+ * clock runs out, and the run fails with "App did not load" on `setContent`
+ * rather than on anything the component did. The work still completes — the
+ * same file passes on its own — so the timeout is the wrong length, not the
+ * verdict. Raising it lets a loaded machine finish instead of giving up, and a
+ * genuinely broken page still fails, just later.
+ */
+export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promise<E2EPage> {
+  const page = await newE2EPage(...args);
+  const setContent = page.setContent.bind(page);
+
+  page.setContent = (html: string, options?: Parameters<E2EPage['setContent']>[1]) => setContent(html, { timeout: APP_LOAD_TIMEOUT, ...options });
+
+  return page;
+}
+
+const APP_LOAD_TIMEOUT = 120_000;

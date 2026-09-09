@@ -1,5 +1,5 @@
-import { newE2EPage, E2EPage } from '@stencil/core/testing';
-import { axNodeByRole } from '../../../../test/utils';
+import { E2EPage } from '@stencil/core/testing';
+import { newTestPage, axNodeByRole } from '../../../../test/utils';
 
 const GROUP = `
   <ss-radio-group name="plan" label="Choose a plan" helper-text="You can change it later">
@@ -25,7 +25,7 @@ async function seen(page: E2EPage) {
 
 describe('ss-radio-group event boundary', () => {
   it('is observed once, with the group payload', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
     await recordChanges(page);
@@ -39,7 +39,7 @@ describe('ss-radio-group event boundary', () => {
   });
 
   it('still delivers its own event to a listener on the radio', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
 
@@ -60,7 +60,7 @@ describe('ss-radio-group event boundary', () => {
 
 describe('ss-radio-group native behaviour', () => {
   it('moves the selection with the arrow keys', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
     await recordChanges(page);
@@ -76,7 +76,7 @@ describe('ss-radio-group native behaviour', () => {
   });
 
   it('submits the selected value under the shared name', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form>${GROUP}</form>`);
     await page.waitForChanges();
 
@@ -89,7 +89,7 @@ describe('ss-radio-group native behaviour', () => {
   });
 
   it('requires a selection through native validation', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form>${GROUP.replace('name="plan"', 'name="plan" required')}</form>`);
     await page.waitForChanges();
 
@@ -107,7 +107,7 @@ describe('ss-radio-group native behaviour', () => {
 
 describe('ss-radio-group accessibility', () => {
   it('names and describes the group', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
 
@@ -115,7 +115,7 @@ describe('ss-radio-group accessibility', () => {
   });
 
   it('adds the error to the group description once invalid', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP.replace('helper-text=', 'error-text="Choose one" helper-text='));
     await page.waitForChanges();
 

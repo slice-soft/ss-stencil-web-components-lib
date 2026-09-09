@@ -1,10 +1,10 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 const TOKENS = `<style>:root { --ss-z-index-tooltip: 1500; }</style>`;
 
 describe('ss-tooltip browser behavior', () => {
   it('stacks its content on the tooltip layer token', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`${TOKENS}<ss-tooltip content="More info"><button slot="trigger">Info</button></ss-tooltip>`);
     const content = await page.find('ss-tooltip >>> .ss-tooltip__content');
 
@@ -12,7 +12,7 @@ describe('ss-tooltip browser behavior', () => {
   });
 
   it('keeps the host out of the stacking order so the content is not trapped', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`${TOKENS}<ss-tooltip content="More info"><button slot="trigger">Info</button></ss-tooltip>`);
     const host = await page.find('ss-tooltip >>> .ss-tooltip');
 
@@ -22,7 +22,7 @@ describe('ss-tooltip browser behavior', () => {
   });
 
   it('never intercepts pointers from the content underneath it', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`
       ${TOKENS}
       <ss-tooltip open placement="bottom" content="More info"><button slot="trigger">Info</button></ss-tooltip>

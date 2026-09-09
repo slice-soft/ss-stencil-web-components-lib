@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-slider browser behavior', () => {
   it('updates its value and output through keyboard interaction', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-slider x-id="volume" name="volume" value="20" step="5" show-value></ss-slider>');
     const inputSpy = await page.spyOnEvent('ssInput');
     const changeSpy = await page.spyOnEvent('ssChange');
@@ -18,7 +18,7 @@ describe('ss-slider browser behavior', () => {
   });
 
   it('keeps its value and emits no value event when readonly', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-slider value="40" readonly show-value></ss-slider>');
     const inputSpy = await page.spyOnEvent('ssInput');
     const changeSpy = await page.spyOnEvent('ssChange');
@@ -35,7 +35,7 @@ describe('ss-slider browser behavior', () => {
   });
 
   it('forwards focus and blur events', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-slider></ss-slider><button>Next</button>');
     const focusSpy = await page.spyOnEvent('ssFocus');
     const blurSpy = await page.spyOnEvent('ssBlur');
@@ -52,7 +52,7 @@ describe('ss-slider browser behavior', () => {
 
 describe('ss-slider form association', () => {
   it('submits its value with the surrounding form', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-slider name="level" value="40"></ss-slider></form>`);
     await page.waitForChanges();
 
@@ -61,7 +61,7 @@ describe('ss-slider form association', () => {
   });
 
   it('submits the value after keyboard interaction', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-slider name="level" value="40"></ss-slider></form>`);
     const input = await page.find('ss-slider >>> input');
     await input.focus();
@@ -73,7 +73,7 @@ describe('ss-slider form association', () => {
   });
 
   it('is focused by a label that targets the host', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<label for="level">Level</label><ss-slider id="level" name="level"></ss-slider>`);
     await page.waitForChanges();
 
@@ -89,7 +89,7 @@ describe('ss-slider form association', () => {
   });
 
   it('restores the value it loaded with on form reset', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-slider name="level" value="40"></ss-slider></form>`);
     const input = await page.find('ss-slider >>> input');
     await input.focus();
@@ -108,7 +108,7 @@ describe('ss-slider form association', () => {
   });
 
   it('is disabled by an ancestor fieldset', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><fieldset disabled><ss-slider name="level"></ss-slider></fieldset></form>`);
     await page.waitForChanges();
 
@@ -119,7 +119,7 @@ describe('ss-slider form association', () => {
 
 describe('ss-slider accessible description', () => {
   it('is described by an element outside its shadow root', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<p id="help">Drag to set the level.</p><ss-slider accessibility-label="Level" described-by="help"></ss-slider>`);
     await page.waitForChanges();
 

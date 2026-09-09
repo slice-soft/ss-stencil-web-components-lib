@@ -1,4 +1,4 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 const GROUP = `
   <ss-button-group accessibility-label="Text actions" size="lg">
@@ -9,7 +9,7 @@ const GROUP = `
 
 describe('ss-button-group', () => {
   it('coordinates the buttons it renders around', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
 
@@ -18,7 +18,7 @@ describe('ss-button-group', () => {
   });
 
   it('leaves each button its own click behaviour', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
 
@@ -30,7 +30,7 @@ describe('ss-button-group', () => {
   });
 
   it('is announced as one named group', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
 

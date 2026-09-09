@@ -1,5 +1,5 @@
-import { newE2EPage, E2EPage } from '@stencil/core/testing';
-import { axNodeByRole } from '../../../../test/utils';
+import { E2EPage } from '@stencil/core/testing';
+import { newTestPage, axNodeByRole } from '../../../../test/utils';
 
 const GROUP = `
   <ss-checkbox-group name="topics" label="Topics" helper-text="Pick what interests you">
@@ -28,7 +28,7 @@ async function groupValue(page: E2EPage) {
 
 describe('ss-checkbox-group event boundary', () => {
   it('is observed once, carrying the whole selection', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
     await recordChanges(page);
@@ -44,7 +44,7 @@ describe('ss-checkbox-group event boundary', () => {
   });
 
   it('still delivers its own event to a listener on the checkbox', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
 
@@ -64,7 +64,7 @@ describe('ss-checkbox-group event boundary', () => {
 
 describe('ss-checkbox-group native behaviour', () => {
   it('submits every selected value under the shared name', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form>${GROUP}</form>`);
     await page.waitForChanges();
 
@@ -77,7 +77,7 @@ describe('ss-checkbox-group native behaviour', () => {
   });
 
   it('requires a selection, and is satisfied by any of them', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form>${GROUP.replace('name="topics"', 'name="topics" required')}</form>`);
     await page.waitForChanges();
 
@@ -97,7 +97,7 @@ describe('ss-checkbox-group select-all master', () => {
   const WITH_MASTER = GROUP.replace('label="Topics"', 'label="Topics" select-all-label="Select all"');
 
   it('selects and clears every choice', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(WITH_MASTER);
     await page.waitForChanges();
 
@@ -112,7 +112,7 @@ describe('ss-checkbox-group select-all master', () => {
   });
 
   it('shows a mixed selection as indeterminate', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(WITH_MASTER);
     await page.waitForChanges();
 
@@ -127,7 +127,7 @@ describe('ss-checkbox-group select-all master', () => {
   });
 
   it('becomes checked once the last choice is selected by hand', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(WITH_MASTER);
     await page.waitForChanges();
 
@@ -146,7 +146,7 @@ describe('ss-checkbox-group select-all master', () => {
 
 describe('ss-checkbox-group accessibility', () => {
   it('names and describes the group', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP);
     await page.waitForChanges();
 
@@ -154,7 +154,7 @@ describe('ss-checkbox-group accessibility', () => {
   });
 
   it('adds the error to the group description once invalid', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(GROUP.replace('helper-text=', 'error-text="Pick at least one" helper-text='));
     await page.waitForChanges();
 

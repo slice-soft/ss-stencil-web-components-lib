@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-input', () => {
   it('renders', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-input></ss-input>');
 
     const element = await page.find('ss-input');
@@ -12,7 +12,7 @@ describe('ss-input', () => {
 
 describe('ss-input attributes and events', () => {
   it('should reflect attributes and disabled state', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<ss-input type=\"text\" placeholder=\"hello\" disabled full-width></ss-input>`);
     const input = await page.find('ss-input >>> input');
     expect(input.getAttribute('type')).toBe('text');
@@ -22,7 +22,7 @@ describe('ss-input attributes and events', () => {
   });
 
   it('should emit ssInput and ssChange events', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-input></ss-input>');
     const input = await page.find('ss-input >>> input');
     const ssInputSpy = await page.spyOnEvent('ssInput');
@@ -36,7 +36,7 @@ describe('ss-input attributes and events', () => {
 
 describe('ss-input events', () => {
   it('should emit focus and blur events on keyboard interaction', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-input></ss-input>');
     const input = await page.find('ss-input >>> input');
     const focusSpy = await page.spyOnEvent('ssFocus');
@@ -54,7 +54,7 @@ describe('ss-input events', () => {
 
 describe('ss-input advanced events', () => {
   it('should emit ssInvalid event', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-input required></ss-input>');
     const invalidSpy = await page.spyOnEvent('ssInvalid');
 
@@ -69,7 +69,7 @@ describe('ss-input advanced events', () => {
 
 describe('ss-input form association', () => {
   it('submits its value with the surrounding form', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-input name="email" value="a@b.com"></ss-input></form>`);
     await page.waitForChanges();
 
@@ -81,7 +81,7 @@ describe('ss-input form association', () => {
   });
 
   it('submits what the user typed, not the initial value', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-input name="email" value="a@b.com"></ss-input></form>`);
     const input = await page.find('ss-input >>> input');
     await input.press('End');
@@ -93,7 +93,7 @@ describe('ss-input form association', () => {
   });
 
   it('is focused by a label that targets the host', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<label for="email">Email</label><ss-input id="email" name="email"></ss-input>`);
     await page.waitForChanges();
 
@@ -109,7 +109,7 @@ describe('ss-input form association', () => {
   });
 
   it('restores the initial value on form reset', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-input name="email" value="a@b.com"></ss-input></form>`);
     const input = await page.find('ss-input >>> input');
     await input.press('End');
@@ -128,7 +128,7 @@ describe('ss-input form association', () => {
   });
 
   it('reports its native validity to the form', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-input name="email" type="email" required></ss-input></form>`);
     await page.waitForChanges();
 
@@ -140,7 +140,7 @@ describe('ss-input form association', () => {
   });
 
   it('blocks submission while a required value is missing', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-input name="email" type="email" required></ss-input><button type="submit">Go</button></form>`);
     await page.waitForChanges();
 
@@ -158,7 +158,7 @@ describe('ss-input form association', () => {
   });
 
   it('becomes valid once it holds a valid value', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-input name="email" type="email" required></ss-input></form>`);
     const input = await page.find('ss-input >>> input');
     await input.type('a@b.com');
@@ -169,7 +169,7 @@ describe('ss-input form association', () => {
   });
 
   it('is disabled by an ancestor fieldset', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><fieldset disabled><ss-input name="email"></ss-input></fieldset></form>`);
     await page.waitForChanges();
 
@@ -193,7 +193,7 @@ describe('ss-input accessible description', () => {
   }
 
   it('is described by an element outside its shadow root', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<p id="help">We'll never share it.</p><ss-input accessibility-label="Email" described-by="help"></ss-input>`);
     await page.waitForChanges();
 
@@ -201,7 +201,7 @@ describe('ss-input accessible description', () => {
   });
 
   it('leaves the rendered attribute alone when the id resolves to nothing', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<ss-input described-by="not-here"></ss-input>`);
     await page.waitForChanges();
 
@@ -212,7 +212,7 @@ describe('ss-input accessible description', () => {
   });
 
   it('replaces a stale description when described-by changes', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<p id="one">First</p><p id="two">Second</p><ss-input accessibility-label="Email" described-by="one"></ss-input>`);
     await page.waitForChanges();
     expect(await describedAs(page, 'Email')).toBe('First');
@@ -225,7 +225,7 @@ describe('ss-input accessible description', () => {
   });
 
   it('drops the description when described-by is removed', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<p id="help">Helper</p><ss-input accessibility-label="Email" described-by="help"></ss-input>`);
     await page.waitForChanges();
     expect(await describedAs(page, 'Email')).toBe('Helper');

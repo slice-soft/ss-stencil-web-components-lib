@@ -1,5 +1,4 @@
-import { newE2EPage } from '@stencil/core/testing';
-import { axNodeByRole } from '../../../../test/utils';
+import { newTestPage, axNodeByRole } from '../../../../test/utils';
 
 /** The overlap is expressed in tokens, which `setContent` does not load. */
 const TOKENS = `<style>:root{
@@ -19,7 +18,7 @@ const GROUP = `
 
 describe('ss-avatar-group', () => {
   it('renders only the avatars within the limit, plus a count', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(TOKENS + GROUP);
     await page.waitForChanges();
 
@@ -31,7 +30,7 @@ describe('ss-avatar-group', () => {
   });
 
   it('overlaps the avatars into a stack', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(TOKENS + GROUP);
     await page.waitForChanges();
 
@@ -46,7 +45,7 @@ describe('ss-avatar-group', () => {
   });
 
   it('speaks as a single named image', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(TOKENS + GROUP);
     await page.waitForChanges();
 

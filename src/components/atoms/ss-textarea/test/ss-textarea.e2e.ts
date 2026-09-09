@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-textarea', () => {
   it('renders', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-textarea></ss-textarea>');
 
     const element = await page.find('ss-textarea');
@@ -12,7 +12,7 @@ describe('ss-textarea', () => {
 
 describe('ss-textarea form association', () => {
   it('submits its value with the surrounding form', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-textarea name="bio" value="hello"></ss-textarea></form>`);
     await page.waitForChanges();
 
@@ -21,7 +21,7 @@ describe('ss-textarea form association', () => {
   });
 
   it('submits what the user typed, not the initial value', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-textarea name="bio" value="hello"></ss-textarea></form>`);
     const textarea = await page.find('ss-textarea >>> textarea');
     await textarea.press('End');
@@ -33,7 +33,7 @@ describe('ss-textarea form association', () => {
   });
 
   it('is focused by a label that targets the host', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<label for="bio">Bio</label><ss-textarea id="bio" name="bio"></ss-textarea>`);
     await page.waitForChanges();
 
@@ -49,7 +49,7 @@ describe('ss-textarea form association', () => {
   });
 
   it('restores the initial value on form reset', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-textarea name="bio" value="hello"></ss-textarea></form>`);
     const textarea = await page.find('ss-textarea >>> textarea');
     await textarea.press('End');
@@ -68,7 +68,7 @@ describe('ss-textarea form association', () => {
   });
 
   it('reports its native validity to the form', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><ss-textarea name="bio" required></ss-textarea></form>`);
     await page.waitForChanges();
 
@@ -77,7 +77,7 @@ describe('ss-textarea form association', () => {
   });
 
   it('is disabled by an ancestor fieldset', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<form><fieldset disabled><ss-textarea name="bio"></ss-textarea></fieldset></form>`);
     await page.waitForChanges();
 
@@ -89,7 +89,7 @@ describe('ss-textarea form association', () => {
 
 describe('ss-textarea accessible description', () => {
   it('is described by an element outside its shadow root', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`<p id="help">Max 200 characters.</p><ss-textarea accessibility-label="Bio" described-by="help"></ss-textarea>`);
     await page.waitForChanges();
 
