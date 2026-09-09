@@ -66,3 +66,115 @@ describe('ss-input advanced events', () => {
     expect(invalidSpy).toHaveReceivedEvent();
   });
 });
+
+describe('ss-input form association', () => {
+  it('submits its value with the surrounding form', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-input name="email" value="a@b.com"></ss-input></form>`);
+    await page.waitForChanges();
+
+    const submitted = await page.evaluate(() => {
+      const form = document.querySelector('form') as HTMLFormElement;
+      return new FormData(form).get('email');
+    });
+    expect(submitted).toBe('a@b.com');
+  });
+
+  it('submits what the user typed, not the initial value', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-input name="email" value="a@b.com"></ss-input></form>`);
+    const input = await page.find('ss-input >>> input');
+    await input.press('End');
+    await input.type('.co');
+    await page.waitForChanges();
+
+    const submitted = await page.evaluate(() => new FormData(document.querySelector('form') as HTMLFormElement).get('email'));
+    expect(submitted).toBe('a@b.com.co');
+  });
+
+  it('is focused by a label that targets the host', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<label for="email">Email</label><ss-input id="email" name="email"></ss-input>`);
+    await page.waitForChanges();
+
+    const label = await page.find('label');
+    await label.click();
+    await page.waitForChanges();
+
+    const focused = await page.evaluate(() => {
+      const host = document.activeElement as HTMLElement;
+      return { host: host?.tagName.toLowerCase(), inner: host?.shadowRoot?.activeElement?.tagName.toLowerCase() };
+    });
+    expect(focused).toEqual({ host: 'ss-input', inner: 'input' });
+  });
+
+  it('restores the initial value on form reset', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-input name="email" value="a@b.com"></ss-input></form>`);
+    const input = await page.find('ss-input >>> input');
+    await input.press('End');
+    await input.type('.co');
+    await page.waitForChanges();
+
+    const afterReset = await page.evaluate(() => {
+      const form = document.querySelector('form') as HTMLFormElement;
+      form.reset();
+      return {
+        submitted: new FormData(form).get('email'),
+        rendered: (document.querySelector('ss-input') as HTMLElement).shadowRoot?.querySelector('input')?.value,
+      };
+    });
+    expect(afterReset).toEqual({ submitted: 'a@b.com', rendered: 'a@b.com' });
+  });
+
+  it('reports its native validity to the form', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-input name="email" type="email" required></ss-input></form>`);
+    await page.waitForChanges();
+
+    // The form sees the failure through ElementInternals. `checkValidity()` and
+    // `validity` are not re-exposed on the host: that needs @Method, which no
+    // component in this library declares.
+    const formValid = await page.evaluate(() => (document.querySelector('form') as HTMLFormElement).checkValidity());
+    expect(formValid).toBe(false);
+  });
+
+  it('blocks submission while a required value is missing', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-input name="email" type="email" required></ss-input><button type="submit">Go</button></form>`);
+    await page.waitForChanges();
+
+    const submitted = await page.evaluate(() => {
+      let fired = false;
+      const form = document.querySelector('form') as HTMLFormElement;
+      form.addEventListener('submit', ev => {
+        fired = true;
+        ev.preventDefault();
+      });
+      (document.querySelector('button') as HTMLButtonElement).click();
+      return fired;
+    });
+    expect(submitted).toBe(false);
+  });
+
+  it('becomes valid once it holds a valid value', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-input name="email" type="email" required></ss-input></form>`);
+    const input = await page.find('ss-input >>> input');
+    await input.type('a@b.com');
+    await page.waitForChanges();
+
+    const formValid = await page.evaluate(() => (document.querySelector('form') as HTMLFormElement).checkValidity());
+    expect(formValid).toBe(true);
+  });
+
+  it('is disabled by an ancestor fieldset', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><fieldset disabled><ss-input name="email"></ss-input></fieldset></form>`);
+    await page.waitForChanges();
+
+    const input = await page.find('ss-input >>> input');
+    expect(input).toHaveAttribute('disabled');
+    expect(input).toHaveClass('ss-input--disabled');
+  });
+});

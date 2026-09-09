@@ -971,7 +971,7 @@
         },
         {
           "name": "value",
-          "description": "Current value of the input."
+          "description": "Current value of the input; also the value restored on form reset."
         },
         {
           "name": "x-id",
@@ -1876,7 +1876,7 @@
         },
         {
           "name": "value",
-          "description": "Current value of the textarea."
+          "description": "Current value of the textarea; also the value restored on form reset."
         },
         {
           "name": "x-id",

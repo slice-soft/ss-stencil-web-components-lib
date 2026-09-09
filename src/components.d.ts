@@ -481,7 +481,7 @@ export namespace Components {
          */
         "type": SsInputType;
         /**
-          * Current value of the input.
+          * Current value of the input; also the value restored on form reset.
          */
         "value"?: string;
         /**
@@ -933,7 +933,7 @@ export namespace Components {
          */
         "size": Size;
         /**
-          * Current value of the textarea.
+          * Current value of the textarea; also the value restored on form reset.
          */
         "value"?: string;
         /**
@@ -1904,7 +1904,7 @@ declare namespace LocalJSX {
          */
         "type"?: SsInputType;
         /**
-          * Current value of the input.
+          * Current value of the input; also the value restored on form reset.
          */
         "value"?: string;
         /**
@@ -2436,7 +2436,7 @@ declare namespace LocalJSX {
          */
         "size"?: Size;
         /**
-          * Current value of the textarea.
+          * Current value of the textarea; also the value restored on form reset.
          */
         "value"?: string;
         /**

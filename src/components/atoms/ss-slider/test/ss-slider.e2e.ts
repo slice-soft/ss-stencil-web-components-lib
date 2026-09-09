@@ -49,3 +49,70 @@ describe('ss-slider browser behavior', () => {
     expect(blurSpy).toHaveReceivedEvent();
   });
 });
+
+describe('ss-slider form association', () => {
+  it('submits its value with the surrounding form', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-slider name="level" value="40"></ss-slider></form>`);
+    await page.waitForChanges();
+
+    const submitted = await page.evaluate(() => new FormData(document.querySelector('form') as HTMLFormElement).get('level'));
+    expect(submitted).toBe('40');
+  });
+
+  it('submits the value after keyboard interaction', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-slider name="level" value="40"></ss-slider></form>`);
+    const input = await page.find('ss-slider >>> input');
+    await input.focus();
+    await input.press('ArrowRight');
+    await page.waitForChanges();
+
+    const submitted = await page.evaluate(() => new FormData(document.querySelector('form') as HTMLFormElement).get('level'));
+    expect(submitted).toBe('41');
+  });
+
+  it('is focused by a label that targets the host', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<label for="level">Level</label><ss-slider id="level" name="level"></ss-slider>`);
+    await page.waitForChanges();
+
+    const label = await page.find('label');
+    await label.click();
+    await page.waitForChanges();
+
+    const focused = await page.evaluate(() => {
+      const host = document.activeElement as HTMLElement;
+      return { host: host?.tagName.toLowerCase(), inner: host?.shadowRoot?.activeElement?.tagName.toLowerCase() };
+    });
+    expect(focused).toEqual({ host: 'ss-slider', inner: 'input' });
+  });
+
+  it('restores the value it loaded with on form reset', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><ss-slider name="level" value="40"></ss-slider></form>`);
+    const input = await page.find('ss-slider >>> input');
+    await input.focus();
+    await input.press('ArrowRight');
+    await page.waitForChanges();
+
+    const afterReset = await page.evaluate(() => {
+      const form = document.querySelector('form') as HTMLFormElement;
+      form.reset();
+      return {
+        submitted: new FormData(form).get('level'),
+        rendered: (document.querySelector('ss-slider') as HTMLElement).shadowRoot?.querySelector('input')?.value,
+      };
+    });
+    expect(afterReset).toEqual({ submitted: '40', rendered: '40' });
+  });
+
+  it('is disabled by an ancestor fieldset', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<form><fieldset disabled><ss-slider name="level"></ss-slider></fieldset></form>`);
+    await page.waitForChanges();
+
+    const input = await page.find('ss-slider >>> input');
+    expect(input).toHaveAttribute('disabled');
+  });
+});
