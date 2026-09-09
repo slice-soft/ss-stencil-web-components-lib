@@ -1249,15 +1249,20 @@ The control owns `aria-invalid`; required state reaches the native control, whil
 The dossier's `showError = invalid && !!errorText` does not cover an error supplied only through its supported slot; implementation must include active slot content when resolving
 error visibility and description ids. No slot-detection algorithm is supplied.
 
-⚠️ **Boundary limitation — partially resolved in Phase 0.** `ss-input`, `ss-textarea`, and `ss-slider` keep their own shadow roots, and a scoped field still does not make their
-inner controls light-DOM nodes. Phase 0 made those three `formAssociated` with `shadow: { delegatesFocus: true }`, which closes the two halves that depend on the host being a real
-form control: a `<label for>` pointing at the **host id** now focuses the inner control, and a surrounding form now submits their value and sees their native validity. Both are
-covered by e2e tests in each component's `test/*.e2e.ts`.
+✅ **Boundary limitation — resolved.** `ss-input`, `ss-textarea`, and `ss-slider` keep their own shadow roots, and a scoped field still does not make their inner controls
+light-DOM nodes. Three mechanisms close the gap, each verified against a real browser rather than against the markup:
 
-Two limits remain and must not be described as solved. **Cross-root description association is still open:** `aria-describedby` is an IDREF, and forwarding an id string to a
-control in another shadow root does not associate anything; the field must therefore keep using each atom's `describedBy` prop, which renders the attribute *inside* that root
-next to a description that lives outside it. **Host-level validation is not re-exposed:** the form sees validity through `ElementInternals`, but `checkValidity()` and `validity`
-are not available on the host, because exposing them needs `@Method`, which no component in this library declares.
+1. **Focus.** Phase 0 made the three atoms `formAssociated` with `shadow: { delegatesFocus: true }`, so a `<label for>` pointing at the **host id** focuses the inner control.
+2. **Description.** `aria-describedby` is an IDREF and does not resolve into a shadow root — measured, the control's accessible description came back empty while the attribute
+   looked correct. `utils/a11y.ts` now assigns `ariaDescribedByElements`, which does cross the boundary.
+3. **Name.** The same is true in the other direction, and the dossier never raised it: `for` moves focus but does not *name* a control across the boundary. The field therefore
+   also assigns `ariaLabelledByElements`, through a `labelledBy` prop added to the three shadow atoms.
+
+A light-DOM control needs none of this: `ss-field` points the label's `for` at the id it puts on the atom's rendered control, and native labelling applies. The e2e suite asserts
+the accessible name and description the browser exposes for the control node itself, because asserting on attributes passes even when the relationship never crosses the boundary.
+
+**Host-level validation is still not re-exposed:** the form sees validity through `ElementInternals`, but `checkValidity()` and `validity` are not available on the host, because
+exposing them needs `@Method`, which no component in this library declares.
 
 **Conceptual use with props**
 
@@ -1991,7 +1996,7 @@ The following preserves the dossier's final notes in English. Corrections to its
 | Input/button/select prop comparisons of 21/15/17                  | Corrected to 22/16/15; textarea remains 20                                                                                                         |
 | Fifteen atoms use `Size`                                          | Eleven declare `size: Size` directly; avatar/link/icon use their local size types, typography uses `TypographySize`; three atoms have no size prop |
 | Every non-button event uses `{ xId, ... }`                        | Raw `FocusEvent` details are additional exceptions to the normalized-object convention                                                             |
-| Scoped field guarantees label click focus for all listed controls | Was not supported. Phase 0 made input/textarea/slider `formAssociated` with `delegatesFocus`, so a host-targeted label now focuses them; cross-root description wiring is still open |
+| Scoped field guarantees label click focus for all listed controls | Was not supported, and the gap was wider than stated: `for` crosses no shadow boundary for focus, name or description. Resolved by form association plus ARIA element reflection; see §8.1 |
 | Write host `id` and `aria-describedby` to wire every atom         | Use atom `xId` and `describedBy` props to reach their rendered controls; native elements use native attributes                                     |
 | Field size coordinates control size                               | Its actual proposed mapping forwards size to label, not to the slotted control; auxiliary typography mapping is unspecified                        |
 | Only two direct atom dependencies                                 | Optional checkbox master adds a third distinct directly rendered atom type                                                                         |

@@ -1,7 +1,7 @@
 import { AttachInternals, Component, Element, Event, EventEmitter, h, Prop, State } from '@stencil/core';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
-import { applyDescribedBy } from '../../../utils/a11y';
+import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { InputStyle, SsInputValueEvent } from '../../../types/control-events';
 
@@ -64,6 +64,8 @@ export class SsTextarea {
   @Prop() maxLength?: number;
   /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that labels the textarea, set as aria-labelledby. */
+  @Prop() labelledBy?: string;
   /** Id of the element that describes the textarea, set as aria-describedby. */
   @Prop() describedBy?: string;
   /** Inline CSS styles applied to the textarea element. */
@@ -86,11 +88,13 @@ export class SsTextarea {
 
   componentDidLoad() {
     this.syncFormState();
+    applyLabelledBy(this.el, this.textarea, this.labelledBy);
     applyDescribedBy(this.el, this.textarea, this.describedBy);
   }
 
   componentDidUpdate() {
     this.syncFormState();
+    applyLabelledBy(this.el, this.textarea, this.labelledBy);
     applyDescribedBy(this.el, this.textarea, this.describedBy);
   }
 
@@ -167,6 +171,7 @@ export class SsTextarea {
         maxLength={this.maxLength}
         aria-invalid={this.invalid ? 'true' : undefined}
         aria-label={this.accessibilityLabel}
+        aria-labelledby={this.labelledBy}
         aria-describedby={this.describedBy}
         onInput={this.handleInput}
         onChange={this.handleChange}

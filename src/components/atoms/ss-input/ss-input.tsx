@@ -1,5 +1,5 @@
 import { AttachInternals, Component, Element, h, Prop, State, Event, EventEmitter } from '@stencil/core';
-import { applyDescribedBy } from '../../../utils/a11y';
+import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
@@ -62,6 +62,8 @@ export class SsInput {
   @Prop() maxLength?: number;
   /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that labels the input, set as aria-labelledby. */
+  @Prop() labelledBy?: string;
   /** Id of the element that describes the input, set as aria-describedby. */
   @Prop() describedBy?: string;
   /** Inline CSS styles applied to the input element. */
@@ -90,11 +92,13 @@ export class SsInput {
 
   componentDidLoad() {
     this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
     applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
   componentDidUpdate() {
     this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
     applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
@@ -166,6 +170,7 @@ export class SsInput {
         required={this.required}
         aria-invalid={this.invalid ? 'true' : undefined}
         aria-label={this.accessibilityLabel}
+        aria-labelledby={this.labelledBy}
         aria-describedby={this.describedBy}
         autoComplete={this.autocomplete}
         min={this.min}

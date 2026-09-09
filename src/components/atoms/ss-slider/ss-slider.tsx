@@ -1,7 +1,7 @@
 import { AttachInternals, Component, Element, Event, EventEmitter, h, Prop, State } from '@stencil/core';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
-import { applyDescribedBy } from '../../../utils/a11y';
+import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 
 export type SsSliderValueEvent = { xId?: string; name?: string; value: number };
@@ -59,6 +59,8 @@ export class SsSlider {
   @Prop() valueLabel?: string;
   /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that labels the slider, set as aria-labelledby. */
+  @Prop() labelledBy?: string;
   /** Id of the element that describes the slider, set as aria-describedby. */
   @Prop() describedBy?: string;
   /** Inline CSS styles applied to the wrapper element. */
@@ -85,11 +87,13 @@ export class SsSlider {
 
   componentDidLoad() {
     this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
     applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
   componentDidUpdate() {
     this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
     applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
@@ -186,6 +190,7 @@ export class SsSlider {
           aria-readonly={this.readonly ? 'true' : undefined}
           aria-invalid={this.invalid ? 'true' : undefined}
           aria-label={this.accessibilityLabel}
+          aria-labelledby={this.labelledBy}
           aria-describedby={this.describedBy}
           onInput={this.handleInput}
           onChange={this.handleChange}

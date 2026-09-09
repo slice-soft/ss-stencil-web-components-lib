@@ -682,6 +682,86 @@
       ]
     },
     {
+      "name": "ss-field",
+      "description": {
+        "kind": "markdown",
+        "value": "Associates one form control with its label, helper text and error message,\ngenerating the ids and coordinating the state that a consumer would otherwise\nrepeat on both the label and the control.\n\nThe control is supplied through the default slot and stays owned by the\ncaller: the field never touches its value, type, placeholder or appearance.\nIt sets only what association requires — the id the label points at, the\ndescription reference, and the `required`/`disabled`/`invalid` state it was\ngiven. State the field was not given is left as the caller set it on the\ncontrol; the field only clears what it applied itself."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the field: attenuates the label and disables the control."
+        },
+        {
+          "name": "error-text",
+          "description": "Error text, used when no error slot content is provided; shown only while invalid."
+        },
+        {
+          "name": "helper-text",
+          "description": "Helper text, used when no helper slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "invalid",
+          "description": "Marks the field invalid: reveals the error message and sets the control's invalid state."
+        },
+        {
+          "name": "label",
+          "description": "Label text, used when no label slot content is provided."
+        },
+        {
+          "name": "orientation",
+          "description": "Places the label above the control, or beside it.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "required",
+          "description": "Marks the field required: adds the label marker and sets the control's required state."
+        },
+        {
+          "name": "size",
+          "description": "Size of the label; helper and error text follow one step below it.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also the seed for the generated control and message ids."
+        }
+      ]
+    },
+    {
       "name": "ss-icon",
       "description": {
         "kind": "markdown",
@@ -857,6 +937,10 @@
         {
           "name": "invalid",
           "description": "Applies error styling and sets aria-invalid without changing native validity."
+        },
+        {
+          "name": "labelled-by",
+          "description": "Id of the element that labels the input, set as aria-labelledby."
         },
         {
           "name": "max",
@@ -1475,6 +1559,10 @@
           "description": "Applies error styling and sets aria-invalid."
         },
         {
+          "name": "labelled-by",
+          "description": "Id of the element that labels the slider, set as aria-labelledby."
+        },
+        {
           "name": "max",
           "description": "Maximum value."
         },
@@ -1800,6 +1888,10 @@
         {
           "name": "invalid",
           "description": "Applies error styling and sets aria-invalid."
+        },
+        {
+          "name": "labelled-by",
+          "description": "Id of the element that labels the textarea, set as aria-labelledby."
         },
         {
           "name": "max-length",

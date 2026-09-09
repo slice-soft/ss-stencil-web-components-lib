@@ -13,6 +13,7 @@ import { Size } from "./types/size";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -31,6 +32,7 @@ export { Size } from "./types/size";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
@@ -366,6 +368,64 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * Associates one form control with its label, helper text and error message,
+     * generating the ids and coordinating the state that a consumer would otherwise
+     * repeat on both the label and the control.
+     * The control is supplied through the default slot and stays owned by the
+     * caller: the field never touches its value, type, placeholder or appearance.
+     * It sets only what association requires — the id the label points at, the
+     * description reference, and the `required`/`disabled`/`invalid` state it was
+     * given. State the field was not given is left as the caller set it on the
+     * control; the field only clears what it applied itself.
+     */
+    interface SsField {
+        /**
+          * Disables the field: attenuates the label and disables the control.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the field invalid: reveals the error message and sets the control's invalid state.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Label text, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Places the label above the control, or beside it.
+          * @default 'vertical'
+         */
+        "orientation": FieldOrientation;
+        /**
+          * Marks the field required: adds the label marker and sets the control's required state.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Size of the label; helper and error text follow one step below it.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id of the container; also the seed for the generated control and message ids.
+         */
+        "xId"?: string;
+    }
     interface SsIcon {
         /**
           * Color token applied to the icon; current uses the current text color.
@@ -432,6 +492,10 @@ export namespace Components {
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Id of the element that labels the input, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
         /**
           * Maximum value for numeric and date inputs.
          */
@@ -721,6 +785,10 @@ export namespace Components {
          */
         "invalid": boolean;
         /**
+          * Id of the element that labels the slider, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
+        /**
           * Maximum value.
           * @default 100
          */
@@ -891,6 +959,10 @@ export namespace Components {
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Id of the element that labels the textarea, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
         /**
           * Maximum number of characters allowed.
          */
@@ -1193,6 +1265,23 @@ declare global {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
     };
+    /**
+     * Associates one form control with its label, helper text and error message,
+     * generating the ids and coordinating the state that a consumer would otherwise
+     * repeat on both the label and the control.
+     * The control is supplied through the default slot and stays owned by the
+     * caller: the field never touches its value, type, placeholder or appearance.
+     * It sets only what association requires — the id the label points at, the
+     * description reference, and the `required`/`disabled`/`invalid` state it was
+     * given. State the field was not given is left as the caller set it on the
+     * control; the field only clears what it applied itself.
+     */
+    interface HTMLSsFieldElement extends Components.SsField, HTMLStencilElement {
+    }
+    var HTMLSsFieldElement: {
+        prototype: HTMLSsFieldElement;
+        new (): HTMLSsFieldElement;
+    };
     interface HTMLSsIconElement extends Components.SsIcon, HTMLStencilElement {
     }
     var HTMLSsIconElement: {
@@ -1381,6 +1470,7 @@ declare global {
         "ss-checkbox": HTMLSsCheckboxElement;
         "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-field": HTMLSsFieldElement;
         "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
         "ss-label": HTMLSsLabelElement;
@@ -1769,6 +1859,64 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * Associates one form control with its label, helper text and error message,
+     * generating the ids and coordinating the state that a consumer would otherwise
+     * repeat on both the label and the control.
+     * The control is supplied through the default slot and stays owned by the
+     * caller: the field never touches its value, type, placeholder or appearance.
+     * It sets only what association requires — the id the label points at, the
+     * description reference, and the `required`/`disabled`/`invalid` state it was
+     * given. State the field was not given is left as the caller set it on the
+     * control; the field only clears what it applied itself.
+     */
+    interface SsField {
+        /**
+          * Disables the field: attenuates the label and disables the control.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the field invalid: reveals the error message and sets the control's invalid state.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Label text, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Places the label above the control, or beside it.
+          * @default 'vertical'
+         */
+        "orientation"?: FieldOrientation;
+        /**
+          * Marks the field required: adds the label marker and sets the control's required state.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Size of the label; helper and error text follow one step below it.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id of the container; also the seed for the generated control and message ids.
+         */
+        "xId"?: string;
+    }
     interface SsIcon {
         /**
           * Color token applied to the icon; current uses the current text color.
@@ -1835,6 +1983,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Id of the element that labels the input, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
         /**
           * Maximum value for numeric and date inputs.
          */
@@ -2168,6 +2320,10 @@ declare namespace LocalJSX {
          */
         "invalid"?: boolean;
         /**
+          * Id of the element that labels the slider, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
+        /**
           * Maximum value.
           * @default 100
          */
@@ -2375,6 +2531,10 @@ declare namespace LocalJSX {
          */
         "invalid"?: boolean;
         /**
+          * Id of the element that labels the textarea, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
+        /**
           * Maximum number of characters allowed.
          */
         "maxLength"?: number;
@@ -2554,6 +2714,7 @@ declare namespace LocalJSX {
         "ss-checkbox": SsCheckbox;
         "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
+        "ss-field": SsField;
         "ss-icon": SsIcon;
         "ss-input": SsInput;
         "ss-label": SsLabel;
@@ -2578,6 +2739,18 @@ declare module "@stencil/core" {
             "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
             "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            /**
+             * Associates one form control with its label, helper text and error message,
+             * generating the ids and coordinating the state that a consumer would otherwise
+             * repeat on both the label and the control.
+             * The control is supplied through the default slot and stays owned by the
+             * caller: the field never touches its value, type, placeholder or appearance.
+             * It sets only what association requires — the id the label points at, the
+             * description reference, and the `required`/`disabled`/`invalid` state it was
+             * given. State the field was not given is left as the caller set it on the
+             * control; the field only clears what it applied itself.
+             */
+            "ss-field": LocalJSX.SsField & JSXBase.HTMLAttributes<HTMLSsFieldElement>;
             "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;

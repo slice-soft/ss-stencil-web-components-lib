@@ -1,0 +1,40 @@
+.ss-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-1);
+  min-width: var(--ss-sizing-none);
+}
+
+.ss-field--horizontal {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--ss-dimensions-3);
+  row-gap: var(--ss-dimensions-1);
+
+  .ss-field__label {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .ss-field__control {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  /* Messages line up under the control, not under the label. */
+  .ss-field__helper,
+  .ss-field__error {
+    grid-column: 2;
+  }
+}
+
+.ss-field__control {
+  display: flex;
+  flex-direction: column;
+  min-width: var(--ss-sizing-none);
+}
+
+.ss-field--disabled .ss-field__helper {
+  opacity: var(--ss-opacity-disabled);
+}

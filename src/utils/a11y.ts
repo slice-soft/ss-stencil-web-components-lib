@@ -26,19 +26,23 @@ export function composeDescribedBy(...ids: (string | undefined | null | false)[]
   return unique.size ? [...unique].join(' ') : undefined;
 }
 
+/** The ARIA relationships that can be expressed as element references. */
+type AriaElementRefs = 'ariaLabelledByElements' | 'ariaDescribedByElements';
+
 /**
- * A control rendered inside a shadow root cannot be described by an element
- * outside it: `aria-describedby` is an IDREF, and an IDREF only resolves within
- * its own tree. Setting the attribute still leaves the accessible description
- * empty, which is worse than a visible failure because nothing looks wrong.
+ * A control rendered inside a shadow root can be neither named nor described by
+ * an element outside it: `aria-labelledby` and `aria-describedby` are IDREFs,
+ * and an IDREF only resolves within its own tree. Setting the attribute leaves
+ * the accessible name or description empty — worse than a visible failure,
+ * because the markup looks correct.
  *
  * ARIA element reflection carries the reference across the boundary, so this
  * resolves the ids against the host's own root — where a wrapper such as
- * `ss-field` renders its helper and error text — and hands the control real
- * element references.
+ * `ss-field` renders its label, helper and error text — and hands the control
+ * real element references.
  *
- * Assigning element references blanks the rendered `aria-describedby`, because
- * the platform then holds the reference internally rather than by id. That only
+ * Assigning element references blanks the rendered attribute, because the
+ * platform then holds the reference internally rather than by id. That only
  * happens where reflection exists, so nothing is lost: a browser without it
  * never reaches the assignment and keeps reading the attribute. For the same
  * reason, ids that resolve to nothing leave the attribute untouched instead of
@@ -46,25 +50,35 @@ export function composeDescribedBy(...ids: (string | undefined | null | false)[]
  *
  * Returns whether element references were applied.
  */
-export function applyDescribedBy(host: Element, control: Element | null | undefined, describedBy?: string): boolean {
-  if (!control || !('ariaDescribedByElements' in control)) return false;
+function applyAriaElementRefs(host: Element, control: Element | null | undefined, relationship: AriaElementRefs, ids?: string): boolean {
+  if (!control || !(relationship in control)) return false;
 
   const root = host.getRootNode() as Document | ShadowRoot;
-  const targets = (describedBy ?? '')
+  const targets = (ids ?? '')
     .split(/\s+/)
     .filter(Boolean)
     .map(id => root.getElementById?.(id))
     .filter((el): el is HTMLElement => !!el);
 
-  const reflected = control as { ariaDescribedByElements: Element[] | null };
+  const reflected = control as unknown as Record<AriaElementRefs, Element[] | null>;
 
   if (!targets.length) {
-    // Clear only a reference this function set earlier, so a stale description
+    // Clear only a reference this function set earlier, so a stale relationship
     // does not survive; never blank an attribute we never replaced.
-    if (reflected.ariaDescribedByElements?.length) reflected.ariaDescribedByElements = null;
+    if (reflected[relationship]?.length) reflected[relationship] = null;
     return false;
   }
 
-  reflected.ariaDescribedByElements = targets;
+  reflected[relationship] = targets;
   return true;
+}
+
+/** Names the control with the elements the ids point at. See {@link applyAriaElementRefs}. */
+export function applyLabelledBy(host: Element, control: Element | null | undefined, labelledBy?: string): boolean {
+  return applyAriaElementRefs(host, control, 'ariaLabelledByElements', labelledBy);
+}
+
+/** Describes the control with the elements the ids point at. See {@link applyAriaElementRefs}. */
+export function applyDescribedBy(host: Element, control: Element | null | undefined, describedBy?: string): boolean {
+  return applyAriaElementRefs(host, control, 'ariaDescribedByElements', describedBy);
 }

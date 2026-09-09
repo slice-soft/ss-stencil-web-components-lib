@@ -1089,5 +1089,87 @@
       </div>
     </section>
 
+    <!-- ===================== MOLECULES ===================== -->
+    <section>
+      <h2>ss-field</h2>
+      <p class="section-desc">label · helperText · errorText · required · invalid · disabled · size · orientation · slots</p>
+
+      <div class="card">
+        <p class="label">the composition it replaces &mdash; click any label to focus its control</p>
+        <div class="col">
+          <ss-field label="Email address" helper-text="We'll never share it." required>
+            <ss-input type="email" x-style="outline" placeholder="email@example.com" full-width></ss-input>
+          </ss-field>
+          <ss-field label="Bio" helper-text="A short introduction.">
+            <ss-textarea x-style="outline" rows="2" full-width></ss-textarea>
+          </ss-field>
+          <ss-field label="Accept the terms" helper-text="Required to continue.">
+            <ss-checkbox></ss-checkbox>
+          </ss-field>
+          <ss-field label="Volume" helper-text="A slider has no required state to coordinate.">
+            <ss-slider show-value full-width></ss-slider>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">invalid &mdash; the error joins the description and is announced</p>
+        <div class="col">
+          <ss-field label="Email address" helper-text="We'll never share it." error-text="Enter a valid email address" required invalid>
+            <ss-input type="email" x-style="outline" value="not-an-email" full-width></ss-input>
+          </ss-field>
+          <ss-field label="Country" error-text="Choose a country" required invalid>
+            <ss-select x-style="outline" placeholder="Select one" full-width>
+              <option value="co">Colombia</option>
+              <option value="mx">M&eacute;xico</option>
+            </ss-select>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation</p>
+        <div class="col">
+          <ss-field label="Vertical" helper-text="Label above the control.">
+            <ss-input x-style="outline" full-width></ss-input>
+          </ss-field>
+          <ss-field label="Horizontal" orientation="horizontal" helper-text="Label beside the control.">
+            <ss-input x-style="outline" full-width></ss-input>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &mdash; helper and error text follow one step below the label</p>
+        <div class="col">
+          <ss-field size="xs" label="XSmall" helper-text="Helper text"><ss-input size="xs" x-style="outline" full-width></ss-input></ss-field>
+          <ss-field size="sm" label="Small" helper-text="Helper text"><ss-input size="sm" x-style="outline" full-width></ss-input></ss-field>
+          <ss-field size="md" label="Medium (default)" helper-text="Helper text"><ss-input x-style="outline" full-width></ss-input></ss-field>
+          <ss-field size="lg" label="Large" helper-text="Helper text"><ss-input size="lg" x-style="outline" full-width></ss-input></ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">slots &mdash; rich label, helper and error content</p>
+        <div class="col">
+          <ss-field required invalid>
+            <span slot="label">Email <ss-badge label="new" size="xs"></ss-badge></span>
+            <ss-input type="email" x-style="outline" full-width></ss-input>
+            <span slot="helper">Use your corporate email</span>
+            <span slot="error">This address is already registered</span>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">disabled &mdash; one source for the whole field</p>
+        <div class="col">
+          <ss-field label="Disabled field" helper-text="The control is disabled by the field." disabled>
+            <ss-input x-style="outline" value="Not editable" full-width></ss-input>
+          </ss-field>
+        </div>
+      </div>
+    </section>
+
   </body>
 </html>
