@@ -93,12 +93,11 @@ interface AccessibilityPage {
  * for e2e, times 1.5, is 45s. Waiting longer only trades a clear "App did not
  * load" for jest's generic timeout, so this stays under it.
  *
- * This buys headroom; it does not settle the matter. Roughly one full run in
- * four still loses a browser to a slow start, in a different file each time.
- * Capping workers, passing Chrome's constrained-environment flags and retrying
- * the load were all measured and none of them moved the rate outside the noise,
- * so none of them are here. Each e2e file is reliable on its own, which is the
- * workaround while it is being chased on CI, where the environment differs.
+ * This is the smaller half of the fix. The larger half is `--max-workers` in
+ * the test script: one browser per core leaves each too little to start in
+ * time. Neither alone is enough — capping workers still flaked about one run in
+ * three on the default wait, and this headroom alone left three failures a run
+ * — and together they are clean.
  */
 export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promise<E2EPage> {
   const page = await newE2EPage(...args);

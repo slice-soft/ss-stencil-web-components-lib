@@ -1599,5 +1599,51 @@
       </div>
     </section>
 
+
+    <!-- ===================== ORGANISMS ===================== -->
+    <section>
+      <h2>ss-modal</h2>
+      <p class="section-desc">open · heading · size · dismissible · closeOnEscape · closeOnBackdrop &mdash; primer consumidor de la capa overlay</p>
+
+      <div class="card">
+        <p class="label">el foco entra, queda atrapado, y vuelve a donde estaba</p>
+        <div class="row">
+          <ss-button id="open-modal-basic" label="Abrir diálogo"></ss-button>
+          <ss-button id="open-modal-locked" label="Abrir sin escape" x-style="outline"></ss-button>
+        </div>
+      </div>
+
+      <ss-modal id="demo-modal-basic" heading="Eliminar archivo">
+        <ss-typography>Esta acción no se puede deshacer. El archivo y su historial se pierden.</ss-typography>
+        <ss-button slot="footer" label="Cancelar" x-style="ghost" id="demo-modal-cancel"></ss-button>
+        <ss-button slot="footer" label="Eliminar" variant="destructive"></ss-button>
+      </ss-modal>
+
+      <ss-modal id="demo-modal-locked" heading="Hay que responder" close-on-escape="false" close-on-backdrop="false">
+        <ss-typography>Ni Escape ni el fondo cierran este diálogo: hay que usar un botón.</ss-typography>
+        <ss-field label="Motivo">
+          <ss-input x-style="outline" full-width></ss-input>
+        </ss-field>
+        <ss-button slot="footer" label="Entendido" id="demo-modal-ack"></ss-button>
+      </ss-modal>
+    </section>
+
+
+    <script>
+      (function () {
+        var open = function (id) {
+          return function () { document.getElementById(id).open = true; };
+        };
+        document.getElementById('open-modal-basic').addEventListener('click', open('demo-modal-basic'));
+        document.getElementById('open-modal-locked').addEventListener('click', open('demo-modal-locked'));
+        document.getElementById('demo-modal-cancel').addEventListener('click', function () {
+          document.getElementById('demo-modal-basic').open = false;
+        });
+        document.getElementById('demo-modal-ack').addEventListener('click', function () {
+          document.getElementById('demo-modal-locked').open = false;
+        });
+      })();
+    </script>
+
   </body>
 </html>

@@ -1,10 +1,15 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Listen, Prop, State } from '@stencil/core';
 import { nextId } from '../../../utils/id';
+import { place, Placement } from '../../../utils/position';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 
-export type TooltipPlacement = 'top' | 'right' | 'bottom' | 'left';
+export type TooltipPlacement = Placement;
 export type TooltipTrigger = 'hover' | 'click' | 'manual';
 export type SsTooltipOpenChangeEvent = { xId?: string; open: boolean };
+
+/** Gap from the trigger, and the least space to leave against a viewport edge. */
+const OFFSET = 8;
+const EDGE_PADDING = 4;
 
 /** Elements that expose a `describedBy` prop reaching the control they render. */
 const DESCRIBABLE = 'ss-button,ss-input,ss-textarea,ss-slider,ss-checkbox,ss-radio,ss-switch,ss-select,ss-combobox';
@@ -28,6 +33,18 @@ export class SsTooltip {
   @Element() el!: HTMLElement;
 
   private contentId = nextId('ss-tooltip-content');
+  private triggerEl?: HTMLElement;
+  private contentEl?: HTMLElement;
+
+  /**
+   * The side the tooltip ended up on, which is not always the side it asked
+   * for. A plain field read during render, paired with a counter that requests
+   * one: the coordinates are written straight to the element instead, because
+   * scrolling recomputes them continuously and re-rendering for each frame
+   * would cost far more than the class it would produce.
+   */
+  private resolvedPlacement?: Placement;
+  @State() placementVersion = 0;
 
   /** Id applied to the root element; also included in the ssOpenChange detail. */
   @Prop() xId?: string;
@@ -49,10 +66,58 @@ export class SsTooltip {
 
   componentDidLoad() {
     this.describeTrigger();
+    this.reposition();
   }
 
   componentDidUpdate() {
     this.describeTrigger();
+    this.reposition();
+  }
+
+  /**
+   * The anchor moves with the page, so a tooltip left where it was drawn ends
+   * up pointing at nothing. Both listeners capture, because the scroll that
+   * moved the trigger may have happened in a container rather than the window.
+   */
+  @Listen('scroll', { target: 'window', capture: true })
+  @Listen('resize', { target: 'window' })
+  handleViewportChange() {
+    if (this.visible) this.reposition();
+  }
+
+  /**
+   * Measures the trigger and the content and asks for a place that fits. The
+   * measurement lives here and the geometry lives in `utils/position`, so what
+   * happens at an edge is decided by something testable.
+   *
+   * A flip on first load costs one extra render, which Stencil warns about:
+   * the side cannot be known before measuring, and measuring needs a render.
+   * Scrolling costs none, which is the case that repeats.
+   */
+  private reposition() {
+    if (!this.visible || !this.triggerEl || !this.contentEl) {
+      this.resolvedPlacement = undefined;
+      return;
+    }
+
+    const anchor = this.triggerEl.getBoundingClientRect();
+    const content = this.contentEl.getBoundingClientRect();
+
+    const next = place({
+      anchor: { top: anchor.top, left: anchor.left, width: anchor.width, height: anchor.height },
+      floating: { width: content.width, height: content.height },
+      viewport: { width: window.innerWidth, height: window.innerHeight },
+      placement: this.placement,
+      offset: OFFSET,
+      padding: EDGE_PADDING,
+    });
+
+    this.contentEl.style.top = `${next.top}px`;
+    this.contentEl.style.left = `${next.left}px`;
+
+    if (this.resolvedPlacement === next.placement) return;
+    this.resolvedPlacement = next.placement;
+    this.placementVersion += 1;
   }
 
   /**
@@ -97,7 +162,7 @@ export class SsTooltip {
     const b = 'ss-tooltip';
     return {
       [b]: true,
-      [`${b}--${this.placement}`]: true,
+      [`${b}--${this.resolvedPlacement ?? this.placement}`]: true,
       [`${b}--open`]: this.visible,
       [`${b}--disabled`]: this.disabled,
     };
@@ -126,10 +191,10 @@ export class SsTooltip {
         onFocusin={() => this.trigger === 'hover' && this.setOpen(true)}
         onFocusout={() => this.trigger === 'hover' && this.setOpen(false)}
       >
-        <span class="ss-tooltip__trigger" onClick={this.toggleOpen}>
+        <span class="ss-tooltip__trigger" ref={el => (this.triggerEl = el)} onClick={this.toggleOpen}>
           <slot name="trigger" />
         </span>
-        <span id={this.contentId} class="ss-tooltip__content" role="tooltip" aria-hidden={this.visible ? 'false' : 'true'}>
+        <span id={this.contentId} class="ss-tooltip__content" ref={el => (this.contentEl = el)} role="tooltip" aria-hidden={this.visible ? 'false' : 'true'}>
           <slot>{this.content}</slot>
         </span>
       </span>

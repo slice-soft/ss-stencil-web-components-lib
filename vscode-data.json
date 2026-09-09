@@ -1844,6 +1844,78 @@
       ]
     },
     {
+      "name": "ss-modal",
+      "description": {
+        "kind": "markdown",
+        "value": "A dialog that takes over the page until it is answered.\n\nIt is the first consumer of the overlay utilities, and it is what proves\nthem: the focus trap and the dismissal behaviour are only really testable\nthrough something that mounts them in a browser.\n\nRendered scoped rather than shadow so the trap can see the caller's content.\nFocus order is a property of the composed tree, and a light-DOM query inside\na shadow root would find only what the dialog itself renders — a dialog full\nof the caller's controls would look empty and trap focus on nothing."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name, for a dialog with no visible heading."
+        },
+        {
+          "name": "close-on-backdrop",
+          "description": "Pressing the backdrop closes the dialog."
+        },
+        {
+          "name": "close-on-escape",
+          "description": "Escape closes the dialog."
+        },
+        {
+          "name": "dismiss-label",
+          "description": "Accessible label for the close button."
+        },
+        {
+          "name": "dismissible",
+          "description": "Renders a close button in the header."
+        },
+        {
+          "name": "heading",
+          "description": "Heading text, used when no header slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the dialog element."
+        },
+        {
+          "name": "open",
+          "description": "Whether the dialog is showing. Updated when it is dismissed, and reflected."
+        },
+        {
+          "name": "size",
+          "description": "Width of the dialog.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the dialog element."
+        }
+      ]
+    },
+    {
       "name": "ss-pagination",
       "description": {
         "kind": "markdown",

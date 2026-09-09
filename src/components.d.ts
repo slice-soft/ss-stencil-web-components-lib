@@ -24,6 +24,7 @@ import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
@@ -52,6 +53,7 @@ export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
@@ -1044,6 +1046,64 @@ export namespace Components {
         "xId"?: string;
     }
     /**
+     * A dialog that takes over the page until it is answered.
+     * It is the first consumer of the overlay utilities, and it is what proves
+     * them: the focus trap and the dismissal behaviour are only really testable
+     * through something that mounts them in a browser.
+     * Rendered scoped rather than shadow so the trap can see the caller's content.
+     * Focus order is a property of the composed tree, and a light-DOM query inside
+     * a shadow root would find only what the dialog itself renders — a dialog full
+     * of the caller's controls would look empty and trap focus on nothing.
+     */
+    interface SsModal {
+        /**
+          * Accessible name, for a dialog with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes the dialog.
+          * @default true
+         */
+        "closeOnBackdrop": boolean;
+        /**
+          * Escape closes the dialog.
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Accessible label for the close button.
+          * @default 'Close'
+         */
+        "dismissLabel": string;
+        /**
+          * Renders a close button in the header.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Heading text, used when no header slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the dialog element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the dialog is showing. Updated when it is dismissed, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Width of the dialog.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id applied to the dialog element.
+         */
+        "xId"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -1699,6 +1759,10 @@ export interface SsLinkCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsLinkElement;
 }
+export interface SsModalCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsModalElement;
+}
 export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsPaginationElement;
@@ -2040,6 +2104,33 @@ declare global {
         prototype: HTMLSsLinkElement;
         new (): HTMLSsLinkElement;
     };
+    interface HTMLSsModalElementEventMap {
+        "ssOpenChange": SsModalOpenChangeEvent;
+    }
+    /**
+     * A dialog that takes over the page until it is answered.
+     * It is the first consumer of the overlay utilities, and it is what proves
+     * them: the focus trap and the dismissal behaviour are only really testable
+     * through something that mounts them in a browser.
+     * Rendered scoped rather than shadow so the trap can see the caller's content.
+     * Focus order is a property of the composed tree, and a light-DOM query inside
+     * a shadow root would find only what the dialog itself renders — a dialog full
+     * of the caller's controls would look empty and trap focus on nothing.
+     */
+    interface HTMLSsModalElement extends Components.SsModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsModalElementEventMap>(type: K, listener: (this: HTMLSsModalElement, ev: SsModalCustomEvent<HTMLSsModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsModalElementEventMap>(type: K, listener: (this: HTMLSsModalElement, ev: SsModalCustomEvent<HTMLSsModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsModalElement: {
+        prototype: HTMLSsModalElement;
+        new (): HTMLSsModalElement;
+    };
     interface HTMLSsPaginationElementEventMap {
         "ssChange": SsPaginationChangeEvent;
     }
@@ -2253,6 +2344,7 @@ declare global {
         "ss-input-group": HTMLSsInputGroupElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
+        "ss-modal": HTMLSsModalElement;
         "ss-pagination": HTMLSsPaginationElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
@@ -3336,6 +3428,68 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     /**
+     * A dialog that takes over the page until it is answered.
+     * It is the first consumer of the overlay utilities, and it is what proves
+     * them: the focus trap and the dismissal behaviour are only really testable
+     * through something that mounts them in a browser.
+     * Rendered scoped rather than shadow so the trap can see the caller's content.
+     * Focus order is a property of the composed tree, and a light-DOM query inside
+     * a shadow root would find only what the dialog itself renders — a dialog full
+     * of the caller's controls would look empty and trap focus on nothing.
+     */
+    interface SsModal {
+        /**
+          * Accessible name, for a dialog with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes the dialog.
+          * @default true
+         */
+        "closeOnBackdrop"?: boolean;
+        /**
+          * Escape closes the dialog.
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Accessible label for the close button.
+          * @default 'Close'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Renders a close button in the header.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Heading text, used when no header slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the dialog element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the dialog opens or closes through an interaction; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsModalCustomEvent<SsModalOpenChangeEvent>) => void;
+        /**
+          * Whether the dialog is showing. Updated when it is dismissed, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Width of the dialog.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id applied to the dialog element.
+         */
+        "xId"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -4078,6 +4232,7 @@ declare namespace LocalJSX {
         "ss-input-group": SsInputGroup;
         "ss-label": SsLabel;
         "ss-link": SsLink;
+        "ss-modal": SsModal;
         "ss-pagination": SsPagination;
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
@@ -4195,6 +4350,17 @@ declare module "@stencil/core" {
             "ss-input-group": LocalJSX.SsInputGroup & JSXBase.HTMLAttributes<HTMLSsInputGroupElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
+            /**
+             * A dialog that takes over the page until it is answered.
+             * It is the first consumer of the overlay utilities, and it is what proves
+             * them: the focus trap and the dismissal behaviour are only really testable
+             * through something that mounts them in a browser.
+             * Rendered scoped rather than shadow so the trap can see the caller's content.
+             * Focus order is a property of the composed tree, and a light-DOM query inside
+             * a shadow root would find only what the dialog itself renders — a dialog full
+             * of the caller's controls would look empty and trap focus on nothing.
+             */
+            "ss-modal": LocalJSX.SsModal & JSXBase.HTMLAttributes<HTMLSsModalElement>;
             /**
              * Page navigation for a list that does not fit on one screen.
              * Unlike the other molecules this one is driven by props rather than slots: a

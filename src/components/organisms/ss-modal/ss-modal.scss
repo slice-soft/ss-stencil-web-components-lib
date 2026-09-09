@@ -1,0 +1,74 @@
+.ss-modal[hidden] {
+  display: none;
+}
+
+.ss-modal__backdrop {
+  position: fixed;
+  inset: var(--ss-sizing-none);
+  z-index: var(--ss-z-index-overlay);
+  background: var(--ss-color-foreground);
+  opacity: var(--ss-opacity-hover-subtle);
+}
+
+.ss-modal__dialog {
+  position: fixed;
+  top: var(--ss-sizing-half);
+  left: var(--ss-sizing-half);
+  transform: translate(var(--ss-sizing-negative-half), var(--ss-sizing-negative-half));
+  z-index: var(--ss-z-index-modal);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-3);
+  width: calc(var(--ss-sizing-full) - var(--ss-dimensions-8));
+  max-height: calc(var(--ss-sizing-full) - var(--ss-dimensions-16));
+  padding: var(--ss-dimensions-5);
+  border-radius: var(--ss-radius-lg);
+  background: var(--ss-color-card);
+  color: var(--ss-color-card-foreground);
+  box-shadow: var(--ss-shadows-xl);
+  font-family: var(--ss-text-fonts-sans);
+
+  &:focus-visible {
+    outline: var(--ss-borders-width-none);
+  }
+}
+
+@each $name, $step in (xs: 20, sm: 24, md: 32, lg: 32, xl: 32, 2xl: 32, 3xl: 32) {
+  .ss-modal--#{$name} .ss-modal__dialog {
+    max-width: var(--ss-dimensions-#{$step});
+  }
+}
+
+.ss-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ss-dimensions-3);
+}
+
+.ss-modal__body {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ss-modal__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--ss-dimensions-2);
+}
+
+.ss-modal__footer:empty {
+  display: none;
+}
+
+.ss-modal__dismiss {
+  flex: none;
+  padding: var(--ss-sizing-none);
+  border: var(--ss-borders-width-none);
+  background: var(--ss-colors-transparent);
+  color: inherit;
+  cursor: pointer;
+  line-height: 1;
+  font-size: var(--ss-text-sizes-lg);
+}

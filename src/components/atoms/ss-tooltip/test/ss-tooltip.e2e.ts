@@ -125,3 +125,79 @@ describe('ss-tooltip dismissal', () => {
     expect(await page.find('ss-tooltip')).toHaveAttribute('open');
   });
 });
+
+describe('ss-tooltip placement', () => {
+  /** Where the tooltip ended up relative to its trigger, measured on screen. */
+  async function geometry(page: Awaited<ReturnType<typeof newTestPage>>) {
+    return page.evaluate(() => {
+      const trigger = document.querySelector('.ss-tooltip__trigger')!.getBoundingClientRect();
+      const content = document.querySelector('.ss-tooltip__content')!.getBoundingClientRect();
+      return {
+        below: content.top >= trigger.bottom,
+        above: content.bottom <= trigger.top,
+        withinViewport: content.top >= 0 && content.left >= 0 && content.right <= window.innerWidth && content.bottom <= window.innerHeight,
+        side: document.querySelector('.ss-tooltip')!.className.match(/ss-tooltip--(top|right|bottom|left)/)?.[1],
+      };
+    });
+  }
+
+  it('sits where it was asked to when there is room', async () => {
+    const page = await newTestPage();
+    await page.setContent(`<div style="margin: 200px;"><ss-tooltip open content="More info"><button slot="trigger">Info</button></ss-tooltip></div>`);
+    await page.waitForChanges();
+
+    const result = await geometry(page);
+    expect(result.above).toBe(true);
+    expect(result.side).toBe('top');
+  });
+
+  it('flips below when the trigger is against the top of the window', async () => {
+    const page = await newTestPage();
+    await page.setContent(`<div style="margin: 0;"><ss-tooltip open placement="top" content="More info"><button slot="trigger">Info</button></ss-tooltip></div>`);
+    await page.waitForChanges();
+
+    const result = await geometry(page);
+    // Asked for above, given below: there was nowhere to put it above.
+    expect(result.below).toBe(true);
+    expect(result.side).toBe('bottom');
+    expect(result.withinViewport).toBe(true);
+  });
+
+  it('stays inside the window when the trigger is against the right edge', async () => {
+    const page = await newTestPage();
+    await page.setContent(
+      `<div style="display:flex; justify-content:flex-end;"><ss-tooltip open content="A rather long tooltip message"><button slot="trigger">Info</button></ss-tooltip></div>`,
+    );
+    await page.waitForChanges();
+
+    expect((await geometry(page)).withinViewport).toBe(true);
+  });
+
+  it('follows its trigger when the page scrolls', async () => {
+    const page = await newTestPage();
+    await page.setContent(`
+      <div style="height: 2000px; padding-top: 900px;">
+        <ss-tooltip open trigger="manual" content="More info"><button slot="trigger">Info</button></ss-tooltip>
+      </div>
+    `);
+    await page.waitForChanges();
+
+    const gapBefore = await page.evaluate(() => {
+      const trigger = document.querySelector('.ss-tooltip__trigger')!.getBoundingClientRect();
+      const content = document.querySelector('.ss-tooltip__content')!.getBoundingClientRect();
+      return Math.round(trigger.top - content.bottom);
+    });
+
+    await page.evaluate(() => window.scrollTo(0, 400));
+    await page.waitForChanges();
+
+    const gapAfter = await page.evaluate(() => {
+      const trigger = document.querySelector('.ss-tooltip__trigger')!.getBoundingClientRect();
+      const content = document.querySelector('.ss-tooltip__content')!.getBoundingClientRect();
+      return Math.round(trigger.top - content.bottom);
+    });
+
+    // The gap is what matters: a tooltip left behind would show a growing one.
+    expect(gapAfter).toBe(gapBefore);
+  });
+});

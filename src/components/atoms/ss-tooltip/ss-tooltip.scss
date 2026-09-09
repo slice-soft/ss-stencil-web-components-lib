@@ -8,8 +8,12 @@
   display: inline-flex;
 }
 
+/* Fixed, not absolute: the position comes from the component in viewport
+   coordinates, and a fixed element is not clipped by an ancestor's overflow. */
 .ss-tooltip__content {
-  position: absolute;
+  position: fixed;
+  top: var(--ss-sizing-none);
+  left: var(--ss-sizing-none);
   z-index: var(--ss-z-index-tooltip);
   display: block;
   max-width: var(--ss-dimensions-32);
@@ -36,26 +40,6 @@
   visibility: visible;
 }
 
-.ss-tooltip--top .ss-tooltip__content {
-  bottom: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
-  left: var(--ss-sizing-half);
-  transform: translateX(var(--ss-sizing-negative-half));
-}
-
-.ss-tooltip--right .ss-tooltip__content {
-  top: var(--ss-sizing-half);
-  left: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
-  transform: translateY(var(--ss-sizing-negative-half));
-}
-
-.ss-tooltip--bottom .ss-tooltip__content {
-  top: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
-  left: var(--ss-sizing-half);
-  transform: translateX(var(--ss-sizing-negative-half));
-}
-
-.ss-tooltip--left .ss-tooltip__content {
-  top: var(--ss-sizing-half);
-  right: calc(var(--ss-sizing-full) + var(--ss-dimensions-2));
-  transform: translateY(var(--ss-sizing-negative-half));
-}
+/* Which side the tooltip ended up on is a class the component sets from the
+   resolved placement, kept for callers styling an arrow against it. The offset
+   itself is no longer CSS: it is computed, so it can give way at an edge. */

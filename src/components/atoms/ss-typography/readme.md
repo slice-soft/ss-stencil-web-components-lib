@@ -38,6 +38,7 @@
  - [ss-alert](../../molecules/ss-alert)
  - [ss-checkbox-group](../../molecules/ss-checkbox-group)
  - [ss-field](../../molecules/ss-field)
+ - [ss-modal](../../organisms/ss-modal)
  - [ss-radio-group](../../molecules/ss-radio-group)
 
 ### Graph
@@ -46,6 +47,7 @@ graph TD;
   ss-alert --> ss-typography
   ss-checkbox-group --> ss-typography
   ss-field --> ss-typography
+  ss-modal --> ss-typography
   ss-radio-group --> ss-typography
   style ss-typography fill:#000,stroke:#fff,stroke-width:4px
 ```
