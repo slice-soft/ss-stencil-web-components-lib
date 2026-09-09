@@ -116,9 +116,10 @@ export class SsTextarea {
    */
   private syncFormState() {
     // `ElementInternals` needs a polyfill in older browsers, and Stencil's
-    // spec-test DOM does not implement it at all. Form association is therefore
-    // verified in the e2e suite, against a real browser.
-    if (!this.textarea || typeof this.internals?.setFormValue !== 'function') return;
+    // spec-test DOM does not implement it at all, so form association is
+    // verified in the e2e suite. The check uses `in` rather than reading the
+    // property: the spec DOM's stand-in logs every property it is asked for.
+    if (!this.textarea || !('setFormValue' in this.internals)) return;
     this.internals.setFormValue(this.textarea.value);
     this.internals.setValidity(this.textarea.validity, this.textarea.validationMessage, this.textarea);
   }

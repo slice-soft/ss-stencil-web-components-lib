@@ -342,6 +342,94 @@
       ]
     },
     {
+      "name": "ss-breadcrumb",
+      "description": {
+        "kind": "markdown",
+        "value": "The trail of pages leading to the one being read.\n\nThe trail owns the separator, the sizing and which step is the current page;\neach step draws its own separator because CSS cannot put one between slotted\nchildren. The last step is marked as current, so a reader is told where they\nare rather than being offered a link to where they already are."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the trail, so a page with two of them stays navigable."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the rendered navigation element."
+        },
+        {
+          "name": "separator",
+          "description": "Character drawn between steps."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every step.",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered navigation element."
+        }
+      ]
+    },
+    {
+      "name": "ss-breadcrumb-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One step in a breadcrumb trail.\n\nIt exists because a separator cannot be drawn between slotted children: CSS\ninside a shadow root cannot reach them, a scoped stylesheet does not apply to\nthem, and `::slotted` takes no pseudo-element. So each step draws its own,\nand the trail tells it whether it is the last one — the same coordination the\nrest of this library uses.\n\nThe last step is the page the reader is already on, so it is text rather than\na link, and carries `aria-current=\"page\"`."
+      },
+      "attributes": [
+        {
+          "name": "href",
+          "description": "Where this step leads. Omitted, or on the last step, it renders as plain text."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the rendered element."
+        },
+        {
+          "name": "label",
+          "description": "Step text, used when no slot content is provided."
+        },
+        {
+          "name": "last",
+          "description": "Whether this is the last step. Set by `ss-breadcrumb`; it decides the separator and aria-current."
+        },
+        {
+          "name": "separator",
+          "description": "Separator drawn after this step. Set by `ss-breadcrumb`."
+        },
+        {
+          "name": "size",
+          "description": "Size of the step. Set by `ss-breadcrumb`.",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered element."
+        }
+      ]
+    },
+    {
       "name": "ss-button",
       "description": {
         "kind": "markdown",
@@ -1752,6 +1840,78 @@
         {
           "name": "x-id",
           "description": "Id applied to the anchor element; also included in the ssClick detail."
+        }
+      ]
+    },
+    {
+      "name": "ss-pagination",
+      "description": {
+        "kind": "markdown",
+        "value": "Page navigation for a list that does not fit on one screen.\n\nUnlike the other molecules this one is driven by props rather than slots: a\npage range is data, not content, and the pages between the ends are computed\nfrom `page` and `total`. Every rendered page is a real button, so keyboard\nand screen-reader users move through the list the same way they move through\nany other row of controls.\n\nThe component reports the page the reader asked for and updates its own\n`page`; fetching the rows for it stays with the consumer."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the navigation region, so a page with two of them stays distinguishable."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the whole control."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "next-label",
+          "description": "Label for the next-page control."
+        },
+        {
+          "name": "page",
+          "description": "The page currently shown, counting from one. Updated on interaction and reflected."
+        },
+        {
+          "name": "previous-label",
+          "description": "Label for the previous-page control."
+        },
+        {
+          "name": "sibling-count",
+          "description": "How many pages to show either side of the current one before collapsing into a gap."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every control.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "total",
+          "description": "How many pages there are in total."
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also included in event details."
         }
       ]
     },

@@ -12,6 +12,7 @@ import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/
 import { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+import { LinkSize } from "./components/atoms/ss-link/ss-link";
 import { JoinSide } from "./types/join";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
@@ -22,7 +23,8 @@ import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divide
 import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
-import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
@@ -38,6 +40,7 @@ export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/
 export { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+export { LinkSize } from "./components/atoms/ss-link/ss-link";
 export { JoinSide } from "./types/join";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
@@ -48,7 +51,8 @@ export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divide
 export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
-export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
@@ -229,6 +233,81 @@ export namespace Components {
           * @default 'subtle'
          */
         "xStyle": BadgeStyle;
+    }
+    /**
+     * The trail of pages leading to the one being read.
+     * The trail owns the separator, the sizing and which step is the current page;
+     * each step draws its own separator because CSS cannot put one between slotted
+     * children. The last step is marked as current, so a reader is told where they
+     * are rather than being offered a link to where they already are.
+     */
+    interface SsBreadcrumb {
+        /**
+          * Accessible name for the trail, so a page with two of them stays navigable.
+          * @default 'Breadcrumb'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Inline CSS styles applied to the rendered navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Character drawn between steps.
+          * @default '/'
+         */
+        "separator": string;
+        /**
+          * Size shared by every step.
+          * @default 'md'
+         */
+        "size": LinkSize;
+        /**
+          * Id applied to the rendered navigation element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One step in a breadcrumb trail.
+     * It exists because a separator cannot be drawn between slotted children: CSS
+     * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+     * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+     * and the trail tells it whether it is the last one — the same coordination the
+     * rest of this library uses.
+     * The last step is the page the reader is already on, so it is text rather than
+     * a link, and carries `aria-current="page"`.
+     */
+    interface SsBreadcrumbItem {
+        /**
+          * Where this step leads. Omitted, or on the last step, it renders as plain text.
+         */
+        "href"?: string;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Step text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Whether this is the last step. Set by `ss-breadcrumb`; it decides the separator and aria-current.
+          * @default false
+         */
+        "last": boolean;
+        /**
+          * Separator drawn after this step. Set by `ss-breadcrumb`.
+          * @default '/'
+         */
+        "separator": string;
+        /**
+          * Size of the step. Set by `ss-breadcrumb`.
+          * @default 'md'
+         */
+        "size": LinkSize;
+        /**
+          * Id applied to the rendered element.
+         */
+        "xId"?: string;
     }
     interface SsButton {
         /**
@@ -944,7 +1023,7 @@ export namespace Components {
           * Size of the link: sm, md or lg.
           * @default 'md'
          */
-        "size": LinkSize;
+        "size": LinkSize1;
         /**
           * Where to open the link: _self, _blank, _parent or _top.
          */
@@ -961,6 +1040,66 @@ export namespace Components {
         "variant": Variant;
         /**
           * Id applied to the anchor element; also included in the ssClick detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Page navigation for a list that does not fit on one screen.
+     * Unlike the other molecules this one is driven by props rather than slots: a
+     * page range is data, not content, and the pages between the ends are computed
+     * from `page` and `total`. Every rendered page is a real button, so keyboard
+     * and screen-reader users move through the list the same way they move through
+     * any other row of controls.
+     * The component reports the page the reader asked for and updates its own
+     * `page`; fetching the rows for it stays with the consumer.
+     */
+    interface SsPagination {
+        /**
+          * Accessible name for the navigation region, so a page with two of them stays distinguishable.
+          * @default 'Pagination'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Disables the whole control.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Label for the next-page control.
+          * @default 'Next page'
+         */
+        "nextLabel": string;
+        /**
+          * The page currently shown, counting from one. Updated on interaction and reflected.
+          * @default 1
+         */
+        "page": number;
+        /**
+          * Label for the previous-page control.
+          * @default 'Previous page'
+         */
+        "previousLabel": string;
+        /**
+          * How many pages to show either side of the current one before collapsing into a gap.
+          * @default 1
+         */
+        "siblingCount": number;
+        /**
+          * Size shared by every control.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * How many pages there are in total.
+          * @default 1
+         */
+        "total": number;
+        /**
+          * Id of the container; also included in event details.
          */
         "xId"?: string;
     }
@@ -1560,6 +1699,10 @@ export interface SsLinkCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsLinkElement;
 }
+export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsPaginationElement;
+}
 export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsRadioElement;
@@ -1665,6 +1808,35 @@ declare global {
     var HTMLSsBadgeElement: {
         prototype: HTMLSsBadgeElement;
         new (): HTMLSsBadgeElement;
+    };
+    /**
+     * The trail of pages leading to the one being read.
+     * The trail owns the separator, the sizing and which step is the current page;
+     * each step draws its own separator because CSS cannot put one between slotted
+     * children. The last step is marked as current, so a reader is told where they
+     * are rather than being offered a link to where they already are.
+     */
+    interface HTMLSsBreadcrumbElement extends Components.SsBreadcrumb, HTMLStencilElement {
+    }
+    var HTMLSsBreadcrumbElement: {
+        prototype: HTMLSsBreadcrumbElement;
+        new (): HTMLSsBreadcrumbElement;
+    };
+    /**
+     * One step in a breadcrumb trail.
+     * It exists because a separator cannot be drawn between slotted children: CSS
+     * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+     * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+     * and the trail tells it whether it is the last one — the same coordination the
+     * rest of this library uses.
+     * The last step is the page the reader is already on, so it is text rather than
+     * a link, and carries `aria-current="page"`.
+     */
+    interface HTMLSsBreadcrumbItemElement extends Components.SsBreadcrumbItem, HTMLStencilElement {
+    }
+    var HTMLSsBreadcrumbItemElement: {
+        prototype: HTMLSsBreadcrumbItemElement;
+        new (): HTMLSsBreadcrumbItemElement;
     };
     interface HTMLSsButtonElementEventMap {
         "ssClick": string | undefined;
@@ -1868,6 +2040,33 @@ declare global {
         prototype: HTMLSsLinkElement;
         new (): HTMLSsLinkElement;
     };
+    interface HTMLSsPaginationElementEventMap {
+        "ssChange": SsPaginationChangeEvent;
+    }
+    /**
+     * Page navigation for a list that does not fit on one screen.
+     * Unlike the other molecules this one is driven by props rather than slots: a
+     * page range is data, not content, and the pages between the ends are computed
+     * from `page` and `total`. Every rendered page is a real button, so keyboard
+     * and screen-reader users move through the list the same way they move through
+     * any other row of controls.
+     * The component reports the page the reader asked for and updates its own
+     * `page`; fetching the rows for it stays with the consumer.
+     */
+    interface HTMLSsPaginationElement extends Components.SsPagination, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsPaginationElementEventMap>(type: K, listener: (this: HTMLSsPaginationElement, ev: SsPaginationCustomEvent<HTMLSsPaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsPaginationElementEventMap>(type: K, listener: (this: HTMLSsPaginationElement, ev: SsPaginationCustomEvent<HTMLSsPaginationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsPaginationElement: {
+        prototype: HTMLSsPaginationElement;
+        new (): HTMLSsPaginationElement;
+    };
     interface HTMLSsRadioElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -2039,6 +2238,8 @@ declare global {
         "ss-avatar": HTMLSsAvatarElement;
         "ss-avatar-group": HTMLSsAvatarGroupElement;
         "ss-badge": HTMLSsBadgeElement;
+        "ss-breadcrumb": HTMLSsBreadcrumbElement;
+        "ss-breadcrumb-item": HTMLSsBreadcrumbItemElement;
         "ss-button": HTMLSsButtonElement;
         "ss-button-group": HTMLSsButtonGroupElement;
         "ss-card": HTMLSsCardElement;
@@ -2052,6 +2253,7 @@ declare global {
         "ss-input-group": HTMLSsInputGroupElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
+        "ss-pagination": HTMLSsPaginationElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-select": HTMLSsSelectElement;
@@ -2251,6 +2453,81 @@ declare namespace LocalJSX {
           * @default 'subtle'
          */
         "xStyle"?: BadgeStyle;
+    }
+    /**
+     * The trail of pages leading to the one being read.
+     * The trail owns the separator, the sizing and which step is the current page;
+     * each step draws its own separator because CSS cannot put one between slotted
+     * children. The last step is marked as current, so a reader is told where they
+     * are rather than being offered a link to where they already are.
+     */
+    interface SsBreadcrumb {
+        /**
+          * Accessible name for the trail, so a page with two of them stays navigable.
+          * @default 'Breadcrumb'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the rendered navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Character drawn between steps.
+          * @default '/'
+         */
+        "separator"?: string;
+        /**
+          * Size shared by every step.
+          * @default 'md'
+         */
+        "size"?: LinkSize;
+        /**
+          * Id applied to the rendered navigation element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One step in a breadcrumb trail.
+     * It exists because a separator cannot be drawn between slotted children: CSS
+     * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+     * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+     * and the trail tells it whether it is the last one — the same coordination the
+     * rest of this library uses.
+     * The last step is the page the reader is already on, so it is text rather than
+     * a link, and carries `aria-current="page"`.
+     */
+    interface SsBreadcrumbItem {
+        /**
+          * Where this step leads. Omitted, or on the last step, it renders as plain text.
+         */
+        "href"?: string;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Step text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Whether this is the last step. Set by `ss-breadcrumb`; it decides the separator and aria-current.
+          * @default false
+         */
+        "last"?: boolean;
+        /**
+          * Separator drawn after this step. Set by `ss-breadcrumb`.
+          * @default '/'
+         */
+        "separator"?: string;
+        /**
+          * Size of the step. Set by `ss-breadcrumb`.
+          * @default 'md'
+         */
+        "size"?: LinkSize;
+        /**
+          * Id applied to the rendered element.
+         */
+        "xId"?: string;
     }
     interface SsButton {
         /**
@@ -3038,7 +3315,7 @@ declare namespace LocalJSX {
           * Size of the link: sm, md or lg.
           * @default 'md'
          */
-        "size"?: LinkSize;
+        "size"?: LinkSize1;
         /**
           * Where to open the link: _self, _blank, _parent or _top.
          */
@@ -3055,6 +3332,70 @@ declare namespace LocalJSX {
         "variant"?: Variant;
         /**
           * Id applied to the anchor element; also included in the ssClick detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Page navigation for a list that does not fit on one screen.
+     * Unlike the other molecules this one is driven by props rather than slots: a
+     * page range is data, not content, and the pages between the ends are computed
+     * from `page` and `total`. Every rendered page is a real button, so keyboard
+     * and screen-reader users move through the list the same way they move through
+     * any other row of controls.
+     * The component reports the page the reader asked for and updates its own
+     * `page`; fetching the rows for it stays with the consumer.
+     */
+    interface SsPagination {
+        /**
+          * Accessible name for the navigation region, so a page with two of them stays distinguishable.
+          * @default 'Pagination'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Disables the whole control.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Label for the next-page control.
+          * @default 'Next page'
+         */
+        "nextLabel"?: string;
+        /**
+          * Emitted when a different page is requested; detail contains xId and the page.
+         */
+        "onSsChange"?: (event: SsPaginationCustomEvent<SsPaginationChangeEvent>) => void;
+        /**
+          * The page currently shown, counting from one. Updated on interaction and reflected.
+          * @default 1
+         */
+        "page"?: number;
+        /**
+          * Label for the previous-page control.
+          * @default 'Previous page'
+         */
+        "previousLabel"?: string;
+        /**
+          * How many pages to show either side of the current one before collapsing into a gap.
+          * @default 1
+         */
+        "siblingCount"?: number;
+        /**
+          * Size shared by every control.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * How many pages there are in total.
+          * @default 1
+         */
+        "total"?: number;
+        /**
+          * Id of the container; also included in event details.
          */
         "xId"?: string;
     }
@@ -3722,6 +4063,8 @@ declare namespace LocalJSX {
         "ss-avatar": SsAvatar;
         "ss-avatar-group": SsAvatarGroup;
         "ss-badge": SsBadge;
+        "ss-breadcrumb": SsBreadcrumb;
+        "ss-breadcrumb-item": SsBreadcrumbItem;
         "ss-button": SsButton;
         "ss-button-group": SsButtonGroup;
         "ss-card": SsCard;
@@ -3735,6 +4078,7 @@ declare namespace LocalJSX {
         "ss-input-group": SsInputGroup;
         "ss-label": SsLabel;
         "ss-link": SsLink;
+        "ss-pagination": SsPagination;
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
         "ss-select": SsSelect;
@@ -3773,6 +4117,25 @@ declare module "@stencil/core" {
              */
             "ss-avatar-group": LocalJSX.SsAvatarGroup & JSXBase.HTMLAttributes<HTMLSsAvatarGroupElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
+            /**
+             * The trail of pages leading to the one being read.
+             * The trail owns the separator, the sizing and which step is the current page;
+             * each step draws its own separator because CSS cannot put one between slotted
+             * children. The last step is marked as current, so a reader is told where they
+             * are rather than being offered a link to where they already are.
+             */
+            "ss-breadcrumb": LocalJSX.SsBreadcrumb & JSXBase.HTMLAttributes<HTMLSsBreadcrumbElement>;
+            /**
+             * One step in a breadcrumb trail.
+             * It exists because a separator cannot be drawn between slotted children: CSS
+             * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+             * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+             * and the trail tells it whether it is the last one — the same coordination the
+             * rest of this library uses.
+             * The last step is the page the reader is already on, so it is text rather than
+             * a link, and carries `aria-current="page"`.
+             */
+            "ss-breadcrumb-item": LocalJSX.SsBreadcrumbItem & JSXBase.HTMLAttributes<HTMLSsBreadcrumbItemElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             /**
              * Presents a set of related actions as one group: shared sizing and styling in
@@ -3832,6 +4195,17 @@ declare module "@stencil/core" {
             "ss-input-group": LocalJSX.SsInputGroup & JSXBase.HTMLAttributes<HTMLSsInputGroupElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
+            /**
+             * Page navigation for a list that does not fit on one screen.
+             * Unlike the other molecules this one is driven by props rather than slots: a
+             * page range is data, not content, and the pages between the ends are computed
+             * from `page` and `total`. Every rendered page is a real button, so keyboard
+             * and screen-reader users move through the list the same way they move through
+             * any other row of controls.
+             * The component reports the page the reader asked for and updates its own
+             * `page`; fetching the rows for it stays with the consumer.
+             */
+            "ss-pagination": LocalJSX.SsPagination & JSXBase.HTMLAttributes<HTMLSsPaginationElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             /**
              * Presents N `ss-radio` children as one selected value, one change event and

@@ -1532,5 +1532,72 @@
       </div>
     </section>
 
+
+    <section>
+      <h2>ss-breadcrumb</h2>
+      <p class="section-desc">separator · size · accessibilityLabel &mdash; el último paso es la página actual, no un enlace a sí misma</p>
+
+      <div class="card">
+        <p class="label">un rastro corriente</p>
+        <div class="col">
+          <ss-breadcrumb accessibility-label="You are here">
+            <ss-breadcrumb-item href="#demo">Home</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Docs</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Components</ss-breadcrumb-item>
+            <ss-breadcrumb-item>Breadcrumb</ss-breadcrumb-item>
+          </ss-breadcrumb>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">separator &middot; size</p>
+        <div class="col">
+          <ss-breadcrumb separator="&rsaquo;" size="sm">
+            <ss-breadcrumb-item href="#demo">Home</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Library</ss-breadcrumb-item>
+            <ss-breadcrumb-item>Small</ss-breadcrumb-item>
+          </ss-breadcrumb>
+          <ss-breadcrumb separator="&bull;" size="lg">
+            <ss-breadcrumb-item href="#demo">Home</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Library</ss-breadcrumb-item>
+            <ss-breadcrumb-item>Large</ss-breadcrumb-item>
+          </ss-breadcrumb>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">un solo paso &mdash; es la página actual, aunque tenga href</p>
+        <div class="col">
+          <ss-breadcrumb>
+            <ss-breadcrumb-item href="#demo">Sólo aquí</ss-breadcrumb-item>
+          </ss-breadcrumb>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-pagination</h2>
+      <p class="section-desc">page · total · siblingCount · size · disabled &mdash; el rango se calcula, no se slottea</p>
+
+      <div class="card">
+        <p class="label">rango corto: se muestran todas &middot; rango largo: se colapsa</p>
+        <div class="col">
+          <ss-pagination page="3" total="5" accessibility-label="Rango corto"></ss-pagination>
+          <ss-pagination page="1" total="20" accessibility-label="Al principio"></ss-pagination>
+          <ss-pagination page="10" total="20" accessibility-label="En el medio"></ss-pagination>
+          <ss-pagination page="20" total="20" accessibility-label="Al final"></ss-pagination>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">siblingCount &middot; size &middot; disabled</p>
+        <div class="col">
+          <ss-pagination page="10" total="30" sibling-count="2" accessibility-label="Más vecinos"></ss-pagination>
+          <ss-pagination page="5" total="12" size="sm" accessibility-label="Small"></ss-pagination>
+          <ss-pagination page="5" total="12" disabled accessibility-label="Disabled"></ss-pagination>
+        </div>
+      </div>
+    </section>
+
   </body>
 </html>

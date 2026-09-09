@@ -1,0 +1,25 @@
+.ss-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-2);
+  font-family: var(--ss-text-fonts-sans);
+}
+
+.ss-breadcrumb-item__label {
+  color: var(--ss-color-foreground);
+}
+
+.ss-breadcrumb-item--current .ss-breadcrumb-item__label {
+  color: var(--ss-color-muted-foreground);
+}
+
+.ss-breadcrumb-item__separator {
+  color: var(--ss-color-muted-foreground);
+  user-select: none;
+}
+
+@each $name, $token in (sm: sm, md: base, lg: lg) {
+  .ss-breadcrumb-item--#{$name} {
+    font-size: var(--ss-text-sizes-#{$token});
+  }
+}

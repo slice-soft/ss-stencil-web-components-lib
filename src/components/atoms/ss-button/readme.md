@@ -43,6 +43,19 @@
 | `"icon"` | Icon slot (left, right, or icon-only mode). |
 
 
+## Dependencies
+
+### Used by
+
+ - [ss-pagination](../../molecules/ss-pagination)
+
+### Graph
+```mermaid
+graph TD;
+  ss-pagination --> ss-button
+  style ss-button fill:#000,stroke:#fff,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with love ❤️ by [Slice Soft](https://slicesoft.dev/) Team*
