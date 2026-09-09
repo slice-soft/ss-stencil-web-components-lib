@@ -178,3 +178,62 @@ describe('ss-input form association', () => {
     expect(input).toHaveClass('ss-input--disabled');
   });
 });
+
+describe('ss-input accessible description', () => {
+  /** Reads the description the browser actually exposes, not the attribute. */
+  async function describedAs(page: any, accessibleName: string) {
+    const snapshot = await page.accessibility.snapshot({ interestingOnly: false });
+    const flat: any[] = [];
+    const walk = (node: any) => {
+      flat.push(node);
+      (node.children ?? []).forEach(walk);
+    };
+    walk(snapshot);
+    return flat.find(node => node.name === accessibleName)?.description ?? null;
+  }
+
+  it('is described by an element outside its shadow root', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<p id="help">We'll never share it.</p><ss-input accessibility-label="Email" described-by="help"></ss-input>`);
+    await page.waitForChanges();
+
+    expect(await describedAs(page, 'Email')).toBe("We'll never share it.");
+  });
+
+  it('leaves the rendered attribute alone when the id resolves to nothing', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<ss-input described-by="not-here"></ss-input>`);
+    await page.waitForChanges();
+
+    // Nothing to reference, so the attribute stays as the only association a
+    // browser without element reflection can use.
+    const input = await page.find('ss-input >>> input');
+    expect(input.getAttribute('aria-describedby')).toBe('not-here');
+  });
+
+  it('replaces a stale description when described-by changes', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<p id="one">First</p><p id="two">Second</p><ss-input accessibility-label="Email" described-by="one"></ss-input>`);
+    await page.waitForChanges();
+    expect(await describedAs(page, 'Email')).toBe('First');
+
+    const host = await page.find('ss-input');
+    host.setAttribute('described-by', 'two');
+    await page.waitForChanges();
+
+    expect(await describedAs(page, 'Email')).toBe('Second');
+  });
+
+  it('drops the description when described-by is removed', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<p id="help">Helper</p><ss-input accessibility-label="Email" described-by="help"></ss-input>`);
+    await page.waitForChanges();
+    expect(await describedAs(page, 'Email')).toBe('Helper');
+
+    const host = await page.find('ss-input');
+    host.removeAttribute('described-by');
+    await page.waitForChanges();
+
+    expect(await describedAs(page, 'Email')).toBeFalsy();
+  });
+});

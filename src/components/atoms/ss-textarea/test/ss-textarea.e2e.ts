@@ -86,3 +86,21 @@ describe('ss-textarea form association', () => {
     expect(textarea).toHaveClass('ss-textarea--disabled');
   });
 });
+
+describe('ss-textarea accessible description', () => {
+  it('is described by an element outside its shadow root', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<p id="help">Max 200 characters.</p><ss-textarea accessibility-label="Bio" described-by="help"></ss-textarea>`);
+    await page.waitForChanges();
+
+    const snapshot: any = await (page as any).accessibility.snapshot({ interestingOnly: false });
+    const flat: any[] = [];
+    const walk = (node: any) => {
+      flat.push(node);
+      (node.children ?? []).forEach(walk);
+    };
+    walk(snapshot);
+
+    expect(flat.find(node => node.name === 'Bio')?.description).toBe('Max 200 characters.');
+  });
+});

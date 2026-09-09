@@ -116,3 +116,21 @@ describe('ss-slider form association', () => {
     expect(input).toHaveAttribute('disabled');
   });
 });
+
+describe('ss-slider accessible description', () => {
+  it('is described by an element outside its shadow root', async () => {
+    const page = await newE2EPage();
+    await page.setContent(`<p id="help">Drag to set the level.</p><ss-slider accessibility-label="Level" described-by="help"></ss-slider>`);
+    await page.waitForChanges();
+
+    const snapshot: any = await (page as any).accessibility.snapshot({ interestingOnly: false });
+    const flat: any[] = [];
+    const walk = (node: any) => {
+      flat.push(node);
+      (node.children ?? []).forEach(walk);
+    };
+    walk(snapshot);
+
+    expect(flat.find(node => node.name === 'Level')?.description).toBe('Drag to set the level.');
+  });
+});

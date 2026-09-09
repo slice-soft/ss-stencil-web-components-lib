@@ -25,3 +25,46 @@ export function composeDescribedBy(...ids: (string | undefined | null | false)[]
 
   return unique.size ? [...unique].join(' ') : undefined;
 }
+
+/**
+ * A control rendered inside a shadow root cannot be described by an element
+ * outside it: `aria-describedby` is an IDREF, and an IDREF only resolves within
+ * its own tree. Setting the attribute still leaves the accessible description
+ * empty, which is worse than a visible failure because nothing looks wrong.
+ *
+ * ARIA element reflection carries the reference across the boundary, so this
+ * resolves the ids against the host's own root — where a wrapper such as
+ * `ss-field` renders its helper and error text — and hands the control real
+ * element references.
+ *
+ * Assigning element references blanks the rendered `aria-describedby`, because
+ * the platform then holds the reference internally rather than by id. That only
+ * happens where reflection exists, so nothing is lost: a browser without it
+ * never reaches the assignment and keeps reading the attribute. For the same
+ * reason, ids that resolve to nothing leave the attribute untouched instead of
+ * replacing a working same-tree reference with a blank one.
+ *
+ * Returns whether element references were applied.
+ */
+export function applyDescribedBy(host: Element, control: Element | null | undefined, describedBy?: string): boolean {
+  if (!control || !('ariaDescribedByElements' in control)) return false;
+
+  const root = host.getRootNode() as Document | ShadowRoot;
+  const targets = (describedBy ?? '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(id => root.getElementById?.(id))
+    .filter((el): el is HTMLElement => !!el);
+
+  const reflected = control as { ariaDescribedByElements: Element[] | null };
+
+  if (!targets.length) {
+    // Clear only a reference this function set earlier, so a stale description
+    // does not survive; never blank an attribute we never replaced.
+    if (reflected.ariaDescribedByElements?.length) reflected.ariaDescribedByElements = null;
+    return false;
+  }
+
+  reflected.ariaDescribedByElements = targets;
+  return true;
+}

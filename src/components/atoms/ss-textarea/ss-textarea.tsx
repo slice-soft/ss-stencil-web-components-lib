@@ -1,6 +1,7 @@
-import { AttachInternals, Component, Event, EventEmitter, h, Prop, State } from '@stencil/core';
+import { AttachInternals, Component, Element, Event, EventEmitter, h, Prop, State } from '@stencil/core';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
+import { applyDescribedBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { InputStyle, SsInputValueEvent } from '../../../types/control-events';
 
@@ -20,6 +21,8 @@ export class SsTextarea {
    * component's shadow root, where a surrounding form cannot see it, so the
    * host mirrors its value and validity instead.
    */
+  @Element() el!: HTMLElement;
+
   @AttachInternals() internals: ElementInternals;
 
   /** Set by an ancestor fieldset through formDisabledCallback. */
@@ -83,10 +86,12 @@ export class SsTextarea {
 
   componentDidLoad() {
     this.syncFormState();
+    applyDescribedBy(this.el, this.textarea, this.describedBy);
   }
 
   componentDidUpdate() {
     this.syncFormState();
+    applyDescribedBy(this.el, this.textarea, this.describedBy);
   }
 
   /** Restores the value the textarea was rendered with, as a native one does. */

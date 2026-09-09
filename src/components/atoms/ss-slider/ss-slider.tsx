@@ -1,6 +1,7 @@
-import { AttachInternals, Component, Event, EventEmitter, h, Prop, State } from '@stencil/core';
+import { AttachInternals, Component, Element, Event, EventEmitter, h, Prop, State } from '@stencil/core';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
+import { applyDescribedBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 
 export type SsSliderValueEvent = { xId?: string; name?: string; value: number };
@@ -21,6 +22,8 @@ export class SsSlider {
    * this component's shadow root, where a surrounding form cannot see it, so
    * the host mirrors its value and validity instead.
    */
+  @Element() el!: HTMLElement;
+
   @AttachInternals() internals: ElementInternals;
 
   /** Set by an ancestor fieldset through formDisabledCallback. */
@@ -82,10 +85,12 @@ export class SsSlider {
 
   componentDidLoad() {
     this.syncFormState();
+    applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
   componentDidUpdate() {
     this.syncFormState();
+    applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
   /** Restores the value the slider loaded with, as a native range input does. */

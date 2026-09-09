@@ -1,4 +1,5 @@
-import { AttachInternals, Component, h, Prop, State, Event, EventEmitter } from '@stencil/core';
+import { AttachInternals, Component, Element, h, Prop, State, Event, EventEmitter } from '@stencil/core';
+import { applyDescribedBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
@@ -20,6 +21,8 @@ export class SsInput {
    * component's shadow root, where a surrounding form cannot see it, so the
    * host mirrors its value and validity instead.
    */
+  @Element() el!: HTMLElement;
+
   @AttachInternals() internals: ElementInternals;
 
   /** Set by an ancestor fieldset through formDisabledCallback. */
@@ -87,10 +90,12 @@ export class SsInput {
 
   componentDidLoad() {
     this.syncFormState();
+    applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
   componentDidUpdate() {
     this.syncFormState();
+    applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
   /** Restores the value the input was rendered with, as a native input does. */
