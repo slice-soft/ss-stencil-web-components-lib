@@ -388,6 +388,21 @@
           "description": "Inline CSS styles applied to the button element."
         },
         {
+          "name": "join",
+          "description": "Flattens the corners on the side that meets a neighbour, so a group can\npresent several controls as one segmented unit. A wrapper sets this rather\nthan reaching into the shadow root, which nothing outside it can style.",
+          "values": [
+            {
+              "name": "both"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
           "name": "label",
           "description": "Text rendered inside the button when no slot content is provided; also the aria-label fallback."
         },
@@ -538,12 +553,16 @@
       "name": "ss-button-group",
       "description": {
         "kind": "markdown",
-        "value": "Presents a set of related actions as one group: shared sizing and styling in\none place, and an accessible name for the set.\n\nThe buttons are **not** visually joined into a single segmented control.\n`ss-button` renders into its own shadow root and exposes no `::part`, so\nnothing outside it can square off the corners where two buttons meet. Doing\nthat properly is an `ss-button` change — a new shape, or exported parts — not\nsomething this group can reach in from the outside."
+        "value": "Presents a set of related actions as one group: shared sizing and styling in\none place, and an accessible name for the set.\n\nWith `attached`, the buttons become one segmented control. The seam is made\nby telling each button which of its corners meet a neighbour, through `join`,\nbecause `ss-button` renders into its own shadow root and no wrapper can reach\na border radius in there. Attaching applies to a horizontal row: a vertical\ngroup would need to flatten block corners, which `join` does not describe."
       },
       "attributes": [
         {
           "name": "accessibility-label",
           "description": "Accessible name for the set of actions."
+        },
+        {
+          "name": "attached",
+          "description": "Joins the buttons into one segmented control. Horizontal groups only."
         },
         {
           "name": "disabled",
@@ -1338,6 +1357,21 @@
           "description": "Applies error styling and sets aria-invalid without changing native validity."
         },
         {
+          "name": "join",
+          "description": "Flattens the corners on the side that meets a neighbour, so a group can\npresent several controls as one segmented unit. A wrapper sets this rather\nthan reaching into the shadow root, which nothing outside it can style.",
+          "values": [
+            {
+              "name": "both"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
           "name": "labelled-by",
           "description": "Id of the element that labels the input, set as aria-labelledby."
         },
@@ -1474,6 +1508,58 @@
               "name": "underline"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "ss-input-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Joins a control to the addons beside it — a currency symbol, a unit, a button\n— so the set reads as one field.\n\nThe seam is made by telling the control which of its corners meet a\nneighbour, through `join`, rather than by styling it: `ss-input` renders into\nits own shadow root, and no wrapper can reach a border radius in there. That\nis also why the addon, not the control, is what this component draws."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the control."
+        },
+        {
+          "name": "full-width",
+          "description": "Expands the group, and its control, to the full width of the container."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by the control and the addons.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
         }
       ]
     },

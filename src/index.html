@@ -1418,6 +1418,22 @@
       </div>
 
       <div class="card">
+        <p class="label">attached &mdash; un control segmentado; el borde compartido se dibuja una vez</p>
+        <div class="col">
+          <ss-button-group attached accessibility-label="Range" variant="secondary">
+            <ss-button label="Day"></ss-button>
+            <ss-button label="Week"></ss-button>
+            <ss-button label="Month"></ss-button>
+          </ss-button-group>
+          <ss-button-group attached accessibility-label="Alignment" size="sm" x-style="outline">
+            <ss-button label="Left"></ss-button>
+            <ss-button label="Center"></ss-button>
+            <ss-button label="Right"></ss-button>
+          </ss-button-group>
+        </div>
+      </div>
+
+      <div class="card">
         <p class="label">orientation &middot; disabled</p>
         <div class="row">
           <ss-button-group orientation="vertical" accessibility-label="Vertical actions" size="sm">
@@ -1469,6 +1485,49 @@
           <ss-avatar-group accessibility-label="Square stack" shape="square" max="3">
             <ss-avatar initials="AB"></ss-avatar><ss-avatar initials="CD"></ss-avatar><ss-avatar initials="EF"></ss-avatar><ss-avatar initials="GH"></ss-avatar>
           </ss-avatar-group>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <h2>ss-input-group</h2>
+      <p class="section-desc">size · disabled · fullWidth · slots (start, end) &mdash; el addon se une al control sin tocarle el shadow</p>
+
+      <div class="card">
+        <p class="label">addon antes, después, y ambos</p>
+        <div class="col">
+          <ss-input-group full-width>
+            <span slot="start">$</span>
+            <ss-input type="number" placeholder="0.00" x-style="outline" full-width></ss-input>
+          </ss-input-group>
+          <ss-input-group full-width>
+            <ss-input type="number" placeholder="Weight" x-style="outline" full-width></ss-input>
+            <span slot="end">kg</span>
+          </ss-input-group>
+          <ss-input-group full-width>
+            <span slot="start">https://</span>
+            <ss-input placeholder="example" x-style="outline" full-width></ss-input>
+            <span slot="end">.com</span>
+          </ss-input-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">sin addons &mdash; el control queda redondeado y no se dibuja ninguna caja</p>
+        <div class="col">
+          <ss-input-group full-width>
+            <ss-input placeholder="Sin addons" x-style="outline" full-width></ss-input>
+          </ss-input-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &middot; disabled</p>
+        <div class="col">
+          <ss-input-group size="sm" full-width><span slot="start">@</span><ss-input placeholder="Small" x-style="outline" full-width></ss-input></ss-input-group>
+          <ss-input-group size="lg" full-width><span slot="start">@</span><ss-input placeholder="Large" x-style="outline" full-width></ss-input></ss-input-group>
+          <ss-input-group disabled full-width><span slot="start">@</span><ss-input placeholder="Disabled" x-style="outline" full-width></ss-input></ss-input-group>
         </div>
       </div>
     </section>

@@ -10,17 +10,18 @@
 Presents a set of related actions as one group: shared sizing and styling in
 one place, and an accessible name for the set.
 
-The buttons are **not** visually joined into a single segmented control.
-`ss-button` renders into its own shadow root and exposes no `::part`, so
-nothing outside it can square off the corners where two buttons meet. Doing
-that properly is an `ss-button` change — a new shape, or exported parts — not
-something this group can reach in from the outside.
+With `attached`, the buttons become one segmented control. The seam is made
+by telling each button which of its corners meet a neighbour, through `join`,
+because `ss-button` renders into its own shadow root and no wrapper can reach
+a border radius in there. Attaching applies to a horizontal row: a vertical
+group would need to flatten block corners, which `join` does not describe.
 
 ## Properties
 
 | Property             | Attribute             | Description                                                             | Type                                                                                                                                             | Default        |
 | -------------------- | --------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
 | `accessibilityLabel` | `accessibility-label` | Accessible name for the set of actions.                                 | `string`                                                                                                                                         | `undefined`    |
+| `attached`           | `attached`            | Joins the buttons into one segmented control. Horizontal groups only.   | `boolean`                                                                                                                                        | `false`        |
 | `disabled`           | `disabled`            | Disables every button in the group.                                     | `boolean`                                                                                                                                        | `false`        |
 | `fullWidth`          | `full-width`          | Expands the group, and its buttons, to the full width of the container. | `boolean`                                                                                                                                        | `false`        |
 | `inlineStyles`       | `inline-styles`       | Inline CSS styles applied to the container.                             | `string \| { [x: string]: string; }`                                                                                                             | `undefined`    |

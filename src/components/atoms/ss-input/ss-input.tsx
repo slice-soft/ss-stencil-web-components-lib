@@ -1,6 +1,7 @@
 import { AttachInternals, Component, Element, h, Prop, State, Event, EventEmitter } from '@stencil/core';
 import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
+import { JoinSide } from '../../../types/join';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
 import { InputStyle, SsInputValueEvent } from '../../../types/control-events';
@@ -72,6 +73,12 @@ export class SsInput {
   @Prop() size: Size = 'md';
   /** Expands the input to the full width of its container. */
   @Prop() fullWidth: boolean = false;
+  /**
+   * Flattens the corners on the side that meets a neighbour, so a group can
+   * present several controls as one segmented unit. A wrapper sets this rather
+   * than reaching into the shadow root, which nothing outside it can style.
+   */
+  @Prop() join?: JoinSide;
   /** Visual style of the input. */
   @Prop() xStyle: InputStyle = 'solid';
 
@@ -134,6 +141,7 @@ export class SsInput {
       [b]: true,
       [`${b}--${this.color}`]: true,
       [`${b}--${this.xStyle}`]: true,
+      [`${b}--join-${this.join}`]: !!this.join,
       [`${b}--${this.size}`]: true,
       [`${b}--full-width`]: this.fullWidth,
       [`${b}--disabled`]: this.isDisabled,

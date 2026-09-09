@@ -1,7 +1,7 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsButtonGroup } from '../ss-button-group';
 import { SsButton } from '../../../atoms/ss-button/ss-button';
-import { getRoot } from '../../../../test/utils';
+import { getRoot, getShadowRoot } from '../../../../test/utils';
 
 const components = [SsButtonGroup, SsButton];
 
@@ -17,6 +17,10 @@ const THREE = `
   <ss-button label="Paste"></ss-button>
 `;
 
+function rendered(page: Awaited<ReturnType<typeof group>>) {
+  return getShadowRoot(getRoot(page));
+}
+
 function hosts(page: Awaited<ReturnType<typeof group>>) {
   return Array.from(getRoot(page).querySelectorAll('ss-button')) as unknown as Record<string, unknown>[];
 }
@@ -24,17 +28,17 @@ function hosts(page: Awaited<ReturnType<typeof group>>) {
 describe('ss-button-group semantics', () => {
   it('exposes the actions as one group', async () => {
     const page = await group(`<ss-button-group>${THREE}</ss-button-group>`);
-    expect(getRoot(page).querySelector('[role="group"]')).not.toBeNull();
+    expect(rendered(page).querySelector('[role="group"]')).not.toBeNull();
   });
 
   it('names the group for screen readers', async () => {
     const page = await group(`<ss-button-group accessibility-label="Text actions">${THREE}</ss-button-group>`);
-    expect(getRoot(page).querySelector('[role="group"]')?.getAttribute('aria-label')).toBe('Text actions');
+    expect(rendered(page).querySelector('[role="group"]')?.getAttribute('aria-label')).toBe('Text actions');
   });
 
   it('applies the orientation modifier', async () => {
     const page = await group(`<ss-button-group orientation="vertical">${THREE}</ss-button-group>`);
-    expect(getRoot(page).querySelector('.ss-button-group')?.className).toContain('ss-button-group--vertical');
+    expect(rendered(page).querySelector('.ss-button-group')?.className).toContain('ss-button-group--vertical');
   });
 });
 
@@ -75,5 +79,37 @@ describe('ss-button-group coordination', () => {
 
     expect(all[0].size).toBe('lg');
     expect(all[1].size).toBe('xs');
+  });
+});
+
+describe('ss-button-group attached', () => {
+  it('leaves the buttons separate by default', async () => {
+    const page = await group(`<ss-button-group>${THREE}</ss-button-group>`);
+    expect(hosts(page).map(button => button.join)).toEqual([undefined, undefined, undefined]);
+  });
+
+  it('flattens only the edges where two buttons meet', async () => {
+    const page = await group(`<ss-button-group attached>${THREE}</ss-button-group>`);
+    expect(hosts(page).map(button => button.join)).toEqual(['end', 'both', 'start']);
+  });
+
+  it('leaves a lone button fully rounded', async () => {
+    const page = await group(`<ss-button-group attached><ss-button label="Only"></ss-button></ss-button-group>`);
+    expect(hosts(page)[0].join).toBeUndefined();
+  });
+
+  it('does not attach a vertical group, which join cannot describe', async () => {
+    const page = await group(`<ss-button-group attached orientation="vertical">${THREE}</ss-button-group>`);
+    expect(hosts(page).map(button => button.join)).toEqual([undefined, undefined, undefined]);
+  });
+
+  it('releases the seam when attached is turned off', async () => {
+    const page = await group(`<ss-button-group attached>${THREE}</ss-button-group>`);
+    expect(hosts(page)[0].join).toBe('end');
+
+    getRoot(page).removeAttribute('attached');
+    await page.waitForChanges();
+
+    expect(hosts(page).map(button => button.join)).toEqual([undefined, undefined, undefined]);
   });
 });

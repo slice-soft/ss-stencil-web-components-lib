@@ -1,0 +1,61 @@
+:host {
+  display: inline-block;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.ss-input-group {
+  display: inline-flex;
+  align-items: stretch;
+  min-width: var(--ss-sizing-none);
+}
+
+.ss-input-group--full-width {
+  display: flex;
+  width: var(--ss-sizing-full);
+}
+
+.ss-input-group__control {
+  display: flex;
+  min-width: var(--ss-sizing-none);
+  flex: 1;
+}
+
+/* An addon with nothing in it must not draw a box. CSS cannot see slotted
+   content from inside a shadow root, so the component reports which are filled. */
+.ss-input-group__addon {
+  display: none;
+  align-items: center;
+  padding: var(--ss-input-padding-y) var(--ss-input-padding-x);
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-input);
+  background: var(--ss-color-muted);
+  color: var(--ss-color-muted-foreground);
+  font-family: var(--ss-input-font-family);
+  font-size: var(--ss-input-font-size);
+  white-space: nowrap;
+}
+
+.ss-input-group--has-start .ss-input-group__addon--start,
+.ss-input-group--has-end .ss-input-group__addon--end {
+  display: inline-flex;
+}
+
+/* The addon rounds only on its outer edge; the seam with the control is flat,
+   and the shared border is drawn once. */
+.ss-input-group__addon--start {
+  border-start-start-radius: var(--ss-input-border-radius);
+  border-end-start-radius: var(--ss-input-border-radius);
+  border-inline-end: var(--ss-borders-width-none);
+}
+
+.ss-input-group__addon--end {
+  border-start-end-radius: var(--ss-input-border-radius);
+  border-end-end-radius: var(--ss-input-border-radius);
+  border-inline-start: var(--ss-borders-width-none);
+}
+
+.ss-input-group--disabled {
+  opacity: var(--ss-opacity-disabled);
+}

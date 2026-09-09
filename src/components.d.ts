@@ -12,6 +12,7 @@ import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/
 import { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+import { JoinSide } from "./types/join";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
@@ -37,6 +38,7 @@ export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/
 export { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
+export { JoinSide } from "./types/join";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
@@ -262,6 +264,10 @@ export namespace Components {
          */
         "inlineStyles"?: InlineStyles;
         /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
+        /**
           * Text rendered inside the button when no slot content is provided; also the aria-label fallback.
          */
         "label"?: string;
@@ -313,17 +319,22 @@ export namespace Components {
     /**
      * Presents a set of related actions as one group: shared sizing and styling in
      * one place, and an accessible name for the set.
-     * The buttons are **not** visually joined into a single segmented control.
-     * `ss-button` renders into its own shadow root and exposes no `::part`, so
-     * nothing outside it can square off the corners where two buttons meet. Doing
-     * that properly is an `ss-button` change — a new shape, or exported parts — not
-     * something this group can reach in from the outside.
+     * With `attached`, the buttons become one segmented control. The seam is made
+     * by telling each button which of its corners meet a neighbour, through `join`,
+     * because `ss-button` renders into its own shadow root and no wrapper can reach
+     * a border radius in there. Attaching applies to a horizontal row: a vertical
+     * group would need to flatten block corners, which `join` does not describe.
      */
     interface SsButtonGroup {
         /**
           * Accessible name for the set of actions.
          */
         "accessibilityLabel"?: string;
+        /**
+          * Joins the buttons into one segmented control. Horizontal groups only.
+          * @default false
+         */
+        "attached": boolean;
         /**
           * Disables every button in the group.
           * @default false
@@ -760,6 +771,10 @@ export namespace Components {
          */
         "invalid": boolean;
         /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
+        /**
           * Id of the element that labels the input, set as aria-labelledby.
          */
         "labelledBy"?: string;
@@ -824,6 +839,39 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": InputStyle;
+    }
+    /**
+     * Joins a control to the addons beside it — a currency symbol, a unit, a button
+     * — so the set reads as one field.
+     * The seam is made by telling the control which of its corners meet a
+     * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+     * its own shadow root, and no wrapper can reach a border radius in there. That
+     * is also why the addon, not the control, is what this component draws.
+     */
+    interface SsInputGroup {
+        /**
+          * Disables the control.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Expands the group, and its control, to the full width of the container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Size shared by the control and the addons.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
     }
     interface SsLabel {
         /**
@@ -1638,11 +1686,11 @@ declare global {
     /**
      * Presents a set of related actions as one group: shared sizing and styling in
      * one place, and an accessible name for the set.
-     * The buttons are **not** visually joined into a single segmented control.
-     * `ss-button` renders into its own shadow root and exposes no `::part`, so
-     * nothing outside it can square off the corners where two buttons meet. Doing
-     * that properly is an `ss-button` change — a new shape, or exported parts — not
-     * something this group can reach in from the outside.
+     * With `attached`, the buttons become one segmented control. The seam is made
+     * by telling each button which of its corners meet a neighbour, through `join`,
+     * because `ss-button` renders into its own shadow root and no wrapper can reach
+     * a border radius in there. Attaching applies to a horizontal row: a vertical
+     * group would need to flatten block corners, which `join` does not describe.
      */
     interface HTMLSsButtonGroupElement extends Components.SsButtonGroup, HTMLStencilElement {
     }
@@ -1782,6 +1830,20 @@ declare global {
     var HTMLSsInputElement: {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
+    };
+    /**
+     * Joins a control to the addons beside it — a currency symbol, a unit, a button
+     * — so the set reads as one field.
+     * The seam is made by telling the control which of its corners meet a
+     * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+     * its own shadow root, and no wrapper can reach a border radius in there. That
+     * is also why the addon, not the control, is what this component draws.
+     */
+    interface HTMLSsInputGroupElement extends Components.SsInputGroup, HTMLStencilElement {
+    }
+    var HTMLSsInputGroupElement: {
+        prototype: HTMLSsInputGroupElement;
+        new (): HTMLSsInputGroupElement;
     };
     interface HTMLSsLabelElement extends Components.SsLabel, HTMLStencilElement {
     }
@@ -1987,6 +2049,7 @@ declare global {
         "ss-field": HTMLSsFieldElement;
         "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
+        "ss-input-group": HTMLSsInputGroupElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
         "ss-radio": HTMLSsRadioElement;
@@ -2223,6 +2286,10 @@ declare namespace LocalJSX {
          */
         "inlineStyles"?: InlineStyles;
         /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
+        /**
           * Text rendered inside the button when no slot content is provided; also the aria-label fallback.
          */
         "label"?: string;
@@ -2278,17 +2345,22 @@ declare namespace LocalJSX {
     /**
      * Presents a set of related actions as one group: shared sizing and styling in
      * one place, and an accessible name for the set.
-     * The buttons are **not** visually joined into a single segmented control.
-     * `ss-button` renders into its own shadow root and exposes no `::part`, so
-     * nothing outside it can square off the corners where two buttons meet. Doing
-     * that properly is an `ss-button` change — a new shape, or exported parts — not
-     * something this group can reach in from the outside.
+     * With `attached`, the buttons become one segmented control. The seam is made
+     * by telling each button which of its corners meet a neighbour, through `join`,
+     * because `ss-button` renders into its own shadow root and no wrapper can reach
+     * a border radius in there. Attaching applies to a horizontal row: a vertical
+     * group would need to flatten block corners, which `join` does not describe.
      */
     interface SsButtonGroup {
         /**
           * Accessible name for the set of actions.
          */
         "accessibilityLabel"?: string;
+        /**
+          * Joins the buttons into one segmented control. Horizontal groups only.
+          * @default false
+         */
+        "attached"?: boolean;
         /**
           * Disables every button in the group.
           * @default false
@@ -2769,6 +2841,10 @@ declare namespace LocalJSX {
          */
         "invalid"?: boolean;
         /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
+        /**
           * Id of the element that labels the input, set as aria-labelledby.
          */
         "labelledBy"?: string;
@@ -2853,6 +2929,39 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
+    }
+    /**
+     * Joins a control to the addons beside it — a currency symbol, a unit, a button
+     * — so the set reads as one field.
+     * The seam is made by telling the control which of its corners meet a
+     * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+     * its own shadow root, and no wrapper can reach a border radius in there. That
+     * is also why the addon, not the control, is what this component draws.
+     */
+    interface SsInputGroup {
+        /**
+          * Disables the control.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Expands the group, and its control, to the full width of the container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Size shared by the control and the addons.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
     }
     interface SsLabel {
         /**
@@ -3623,6 +3732,7 @@ declare namespace LocalJSX {
         "ss-field": SsField;
         "ss-icon": SsIcon;
         "ss-input": SsInput;
+        "ss-input-group": SsInputGroup;
         "ss-label": SsLabel;
         "ss-link": SsLink;
         "ss-radio": SsRadio;
@@ -3667,11 +3777,11 @@ declare module "@stencil/core" {
             /**
              * Presents a set of related actions as one group: shared sizing and styling in
              * one place, and an accessible name for the set.
-             * The buttons are **not** visually joined into a single segmented control.
-             * `ss-button` renders into its own shadow root and exposes no `::part`, so
-             * nothing outside it can square off the corners where two buttons meet. Doing
-             * that properly is an `ss-button` change — a new shape, or exported parts — not
-             * something this group can reach in from the outside.
+             * With `attached`, the buttons become one segmented control. The seam is made
+             * by telling each button which of its corners meet a neighbour, through `join`,
+             * because `ss-button` renders into its own shadow root and no wrapper can reach
+             * a border radius in there. Attaching applies to a horizontal row: a vertical
+             * group would need to flatten block corners, which `join` does not describe.
              */
             "ss-button-group": LocalJSX.SsButtonGroup & JSXBase.HTMLAttributes<HTMLSsButtonGroupElement>;
             /**
@@ -3711,6 +3821,15 @@ declare module "@stencil/core" {
             "ss-field": LocalJSX.SsField & JSXBase.HTMLAttributes<HTMLSsFieldElement>;
             "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
+            /**
+             * Joins a control to the addons beside it — a currency symbol, a unit, a button
+             * — so the set reads as one field.
+             * The seam is made by telling the control which of its corners meet a
+             * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+             * its own shadow root, and no wrapper can reach a border radius in there. That
+             * is also why the addon, not the control, is what this component draws.
+             */
+            "ss-input-group": LocalJSX.SsInputGroup & JSXBase.HTMLAttributes<HTMLSsInputGroupElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;

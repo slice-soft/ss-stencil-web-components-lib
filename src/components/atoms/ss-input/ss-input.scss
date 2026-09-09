@@ -178,3 +178,19 @@ $sizes: (
       color-mix(in srgb, var(--ss-color-error) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
   }
 }
+
+/* Joined into a segmented group: the corners meeting a neighbour go flat.
+   Logical properties, so the flattening follows the writing direction. */
+.ss-input--join-start {
+  border-start-start-radius: var(--ss-radius-none);
+  border-end-start-radius: var(--ss-radius-none);
+}
+
+.ss-input--join-end {
+  border-start-end-radius: var(--ss-radius-none);
+  border-end-end-radius: var(--ss-radius-none);
+}
+
+.ss-input--join-both {
+  border-radius: var(--ss-radius-none);
+}
