@@ -12,6 +12,7 @@ import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-
 import { Size } from "./types/size";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
+import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
@@ -32,6 +33,7 @@ export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-
 export { Size } from "./types/size";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
+export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
 export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
@@ -252,6 +254,73 @@ export namespace Components {
         "value"?: string;
         /**
           * Id applied to the native input; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Presents N `ss-checkbox` children as one `string[]` value and one change
+     * event, with group semantics and an optional select-all master.
+     * Membership is by value: a checkbox with no `value` cannot be a member and is
+     * left uncoordinated, and two checkboxes sharing a value toggle together,
+     * because the aggregate holds values rather than element identities.
+     */
+    interface SsCheckboxGroup {
+        /**
+          * Disables every checkbox in the group, including the master.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every checkbox, for form submission.
+         */
+        "name"?: string;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation": CheckboxGroupOrientation;
+        /**
+          * Requires at least one selection. HTML has no native "one of this set", so the group expresses it with the only construct that does: while nothing is selected the first checkbox is `required`, which makes the form invalid, and the moment anything is selected that requirement is lifted. Only one checkbox is ever announced as required, and checking any of them satisfies the group rather than that particular choice.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Label for an optional select-all checkbox. Supplying it renders the master; its checked and indeterminate state is derived from the selection and is not separately controllable.
+         */
+        "selectAllLabel"?: string;
+        /**
+          * Size shared by every checkbox, and by the group label.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * The selected values. An array is not an attribute, so assign it as a property, following `ss-select.value`; no comma-separated form is accepted.
+          * @default []
+         */
+        "value": string[];
+        /**
+          * Id of the container; also the seed for the generated message ids.
          */
         "xId"?: string;
     }
@@ -1196,6 +1265,10 @@ export interface SsCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsCheckboxElement;
 }
+export interface SsCheckboxGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsCheckboxGroupElement;
+}
 export interface SsComboboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsComboboxElement;
@@ -1308,6 +1381,31 @@ declare global {
     var HTMLSsCheckboxElement: {
         prototype: HTMLSsCheckboxElement;
         new (): HTMLSsCheckboxElement;
+    };
+    interface HTMLSsCheckboxGroupElementEventMap {
+        "ssChange": SsCheckboxGroupChangeEvent;
+        "ssInvalid": SsCheckboxGroupChangeEvent;
+    }
+    /**
+     * Presents N `ss-checkbox` children as one `string[]` value and one change
+     * event, with group semantics and an optional select-all master.
+     * Membership is by value: a checkbox with no `value` cannot be a member and is
+     * left uncoordinated, and two checkboxes sharing a value toggle together,
+     * because the aggregate holds values rather than element identities.
+     */
+    interface HTMLSsCheckboxGroupElement extends Components.SsCheckboxGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLSsCheckboxGroupElement, ev: SsCheckboxGroupCustomEvent<HTMLSsCheckboxGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLSsCheckboxGroupElement, ev: SsCheckboxGroupCustomEvent<HTMLSsCheckboxGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsCheckboxGroupElement: {
+        prototype: HTMLSsCheckboxGroupElement;
+        new (): HTMLSsCheckboxGroupElement;
     };
     interface HTMLSsComboboxElementEventMap {
         "ssInput": SsInputValueEvent;
@@ -1567,6 +1665,7 @@ declare global {
         "ss-badge": HTMLSsBadgeElement;
         "ss-button": HTMLSsButtonElement;
         "ss-checkbox": HTMLSsCheckboxElement;
+        "ss-checkbox-group": HTMLSsCheckboxGroupElement;
         "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
         "ss-field": HTMLSsFieldElement;
@@ -1821,6 +1920,81 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Id applied to the native input; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Presents N `ss-checkbox` children as one `string[]` value and one change
+     * event, with group semantics and an optional select-all master.
+     * Membership is by value: a checkbox with no `value` cannot be a member and is
+     * left uncoordinated, and two checkboxes sharing a value toggle together,
+     * because the aggregate holds values rather than element identities.
+     */
+    interface SsCheckboxGroup {
+        /**
+          * Disables every checkbox in the group, including the master.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every checkbox, for form submission.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the aggregate selection changes; detail carries the whole array.
+         */
+        "onSsChange"?: (event: SsCheckboxGroupCustomEvent<SsCheckboxGroupChangeEvent>) => void;
+        /**
+          * Emitted when the group fails native validation.
+         */
+        "onSsInvalid"?: (event: SsCheckboxGroupCustomEvent<SsCheckboxGroupChangeEvent>) => void;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation"?: CheckboxGroupOrientation;
+        /**
+          * Requires at least one selection. HTML has no native "one of this set", so the group expresses it with the only construct that does: while nothing is selected the first checkbox is `required`, which makes the form invalid, and the moment anything is selected that requirement is lifted. Only one checkbox is ever announced as required, and checking any of them satisfies the group rather than that particular choice.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Label for an optional select-all checkbox. Supplying it renders the master; its checked and indeterminate state is derived from the selection and is not separately controllable.
+         */
+        "selectAllLabel"?: string;
+        /**
+          * Size shared by every checkbox, and by the group label.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * The selected values. An array is not an attribute, so assign it as a property, following `ss-select.value`; no comma-separated form is accepted.
+          * @default []
+         */
+        "value"?: string[];
+        /**
+          * Id of the container; also the seed for the generated message ids.
          */
         "xId"?: string;
     }
@@ -2885,6 +3059,7 @@ declare namespace LocalJSX {
         "ss-badge": SsBadge;
         "ss-button": SsButton;
         "ss-checkbox": SsCheckbox;
+        "ss-checkbox-group": SsCheckboxGroup;
         "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
         "ss-field": SsField;
@@ -2911,6 +3086,14 @@ declare module "@stencil/core" {
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
             "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
+            /**
+             * Presents N `ss-checkbox` children as one `string[]` value and one change
+             * event, with group semantics and an optional select-all master.
+             * Membership is by value: a checkbox with no `value` cannot be a member and is
+             * left uncoordinated, and two checkboxes sharing a value toggle together,
+             * because the aggregate holds values rather than element identities.
+             */
+            "ss-checkbox-group": LocalJSX.SsCheckboxGroup & JSXBase.HTMLAttributes<HTMLSsCheckboxGroupElement>;
             "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             /**

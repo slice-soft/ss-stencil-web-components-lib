@@ -1,11 +1,39 @@
 import { newE2EPage, E2EPage } from '@stencil/core/testing';
 import { axNodeByRole } from '../../../../test/utils';
 
-async function focusedPath(page: E2EPage) {
-  return page.evaluate(() => {
-    const host = document.activeElement as HTMLElement;
-    return [host?.tagName.toLowerCase(), host?.shadowRoot?.activeElement?.tagName.toLowerCase()].filter(Boolean).join(' > ');
-  });
+/**
+ * Waits until the field has actually wired the control, meaning the label's
+ * `for` names an element that exists. Clicking before that resolves nothing:
+ * the field assigns the id after its own render, and the control then needs a
+ * further tick to render it.
+ */
+async function labelWired(page: E2EPage) {
+  for (let attempt = 0; attempt < 10; attempt++) {
+    await page.waitForChanges();
+    const wired = await page.evaluate(() => {
+      const target = (document.querySelector('ss-field label') as HTMLLabelElement | null)?.getAttribute('for');
+      return !!target && !!document.getElementById(target);
+    });
+    if (wired) return;
+    await new Promise(resolve => setTimeout(resolve, 25));
+  }
+}
+
+async function focusedPath(page: E2EPage, expected?: string) {
+  let path = '';
+
+  // Focus moves through the browser's own event loop, so it can trail the click
+  // by a turn when the machine is busy.
+  for (let attempt = 0; attempt < 10; attempt++) {
+    path = await page.evaluate(() => {
+      const host = document.activeElement as HTMLElement;
+      return [host?.tagName.toLowerCase(), host?.shadowRoot?.activeElement?.tagName.toLowerCase()].filter(Boolean).join(' > ');
+    });
+    if (!expected || path === expected) return path;
+    await new Promise(resolve => setTimeout(resolve, 25));
+  }
+
+  return path;
 }
 
 describe('ss-field naming a shadow-rendered control', () => {
@@ -20,13 +48,13 @@ describe('ss-field naming a shadow-rendered control', () => {
   it('focuses the control when the label is clicked', async () => {
     const page = await newE2EPage();
     await page.setContent(`<ss-field label="Email"><ss-input type="email"></ss-input></ss-field>`);
-    await page.waitForChanges();
+    await labelWired(page);
 
     const label = await page.find('ss-field label');
     await label.click();
     await page.waitForChanges();
 
-    expect(await focusedPath(page)).toBe('ss-input > input');
+    expect(await focusedPath(page, 'ss-input > input')).toBe('ss-input > input');
   });
 
   it('names a slider, which has no required state to coordinate', async () => {
@@ -58,14 +86,14 @@ describe('ss-field naming a light-DOM control', () => {
   it('focuses the control when the label is clicked', async () => {
     const page = await newE2EPage();
     await page.setContent(`<ss-field label="Accept terms"><ss-checkbox></ss-checkbox></ss-field>`);
-    await page.waitForChanges();
+    await labelWired(page);
 
     const label = await page.find('ss-field label');
     await label.click();
     await page.waitForChanges();
 
-    const focused = await page.evaluate(() => document.querySelector('ss-checkbox input')?.matches(':focus'));
-    expect(focused).toBe(true);
+    // The checkbox renders its input in the light DOM, so focus lands there.
+    expect(await focusedPath(page, 'input')).toBe('input');
   });
 
   it('names a select without mistaking its rendered element for the control', async () => {

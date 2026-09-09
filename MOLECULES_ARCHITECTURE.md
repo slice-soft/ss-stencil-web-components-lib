@@ -1540,8 +1540,8 @@ Use `src/utils/<topic>.ts` and `src/utils/<topic>.spec.ts`, following `style.ts`
 
 | Candidate                                          | Status                       | Consumers and rationale                                                                                                  | Spec                                                                       |
 | -------------------------------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| U1 — `src/utils/id.ts`                             | **Implemented in Phase 0**   | Three molecules need generated ids; combobox and tooltip already duplicate generation with different increment semantics | `src/utils/id.spec.ts`                                                     |
-| U2 — `src/utils/a11y.ts`                           | **Implemented in Phase 0**   | Three proposed helper/error compositions require the same ordered description-id joining                                 | `src/utils/a11y.spec.ts`                                                   |
+| U1 — `src/utils/id.ts`                             | **Implemented**              | Three molecules need generated ids; combobox and tooltip already duplicate generation with different increment semantics | `src/utils/id.spec.ts`                                                     |
+| U2 — `src/utils/a11y.ts`                           | **Implemented**              | Three proposed helper/error compositions require the same ordered description-id joining                                 | `src/utils/a11y.spec.ts`                                                   |
 | U3 — `src/utils/style.ts`                          | Existing; reuse              | All 18 atoms already normalize string/object inline styles; all three molecules should do the same                       | Existing `src/utils/style.spec.ts`                                         |
 | U4 — `bem()`                                       | Optional P2; not blocking    | Eighteen class maps repeat a form, but mixed and compound modifiers vary                                                 | None proposed yet; any extraction must follow the adjacent-spec convention |
 | U5 — Shared keyboard handlers                      | None                         | Only slider's readonly key blocker exists (`ss-slider.tsx:103`); radio-group arrows remain native                        | None — no utility is justified                                             |
@@ -1936,7 +1936,7 @@ need no own color/style variants.
 
 ### Phase 0 — Prerequisites
 
-**Done.** `src/utils/id.ts` (`nextId`, `resolveId`) and `src/utils/a11y.ts` (`composeDescribedBy`) exist with adjacent specs. `ss-input`, `ss-textarea` and `ss-slider` are
+**Done.** `src/utils/id.ts` (`nextId`, `resolveId`) and `src/utils/a11y.ts` (`composeDescribedBy`, plus `applyLabelledBy` / `applyDescribedBy`) exist with adjacent specs. `ss-input`, `ss-textarea` and `ss-slider` are
 `formAssociated` with `delegatesFocus`, so a host-targeted `<label for>` focuses them and a surrounding form submits and validates them; each has e2e coverage for submission,
 typed value, label focus, reset, form validity and ancestor-fieldset disabling. The two dev token sets now define every `--ss-*` variable the atoms reference, including the full
 `--ss-z-index-*` layering scale that the overlay layer will need.
@@ -1948,13 +1948,29 @@ radio-group invalid payload when nothing is selected, and the slot-only error co
 
 ### Phase 1 — Core molecules
 
-Implement field first to establish association conventions, then radio group. Each needs the same-name TSX/SCSS, component spec, e2e coverage and a visual section in
-`src/index.html`. Verify real native association and exactly one aggregate event at an ancestor; do not merely test a mirrored implementation detail.
-The ordering shares a coordination design, not a `ss-radio-group` import of `ss-field`.
+**Done.** `ss-field` and `ss-radio-group` exist under `src/components/molecules/`, each with same-name TSX/SCSS, a component spec, e2e coverage and a section in `src/index.html`.
+Association is asserted against the accessibility tree the browser exposes for the control node, and the aggregate event is asserted to be observed exactly once — at the group
+itself, not only at an ancestor, since the group is where a consumer is most likely to listen. That required `stopImmediatePropagation`, because plain `stopPropagation` still runs
+the remaining listeners on the same element; mock-doc implements the two identically, so that assertion lives in the e2e suite.
+
+Two contracts the design left open are now settled. `showError` accounts for an error supplied only through its slot, with slot detection reading the subtree because scoped
+rendering relocates slotted content out of the direct children. And the field clears only the state it applied itself, so it never silently un-disables a control the caller
+disabled, while still being able to un-apply its own.
 
 ### Phase 2 — Secondary molecules
 
-Implement checkbox group after radio-group coordination is established and its open array/required/master rules are resolved. Reuse the same utilities and typography.
+**`ss-checkbox-group` done.** The rules the dossier left unspecified are resolved as follows, and each is covered by a test rather than left to the reader:
+
+| Open question | Resolution |
+| --------------- | ------------ |
+| Container role | `role="group"`. Not `radiogroup`, which the dossier rightly warned against assigning by analogy |
+| Group `required` | HTML has no native "at least one of this set". While nothing is selected the **first** checkbox carries `required`, which makes the form invalid; any selection lifts it. One checkbox is announced as required rather than all of them, and checking any of them satisfies the group |
+| Array value | Property-only, following `ss-select.value`. No comma-separated attribute form |
+| Master state | Derived from the selection, never separately controllable; indeterminate when some but not all selectable choices are chosen |
+| Disabled children | Excluded from what select-all toggles, and their existing membership is preserved rather than dropped |
+| Missing / duplicate values | A checkbox with no `value` cannot be a member and is left uncoordinated; two sharing a value toggle together, because membership is by value, not element identity |
+| Empty list | The master stays unchecked and determinate |
+
 Tooltip accessibility work can proceed independently as a separate atom change.
 
 ### Phase 3 — Specialized work and debt

@@ -49,7 +49,13 @@ export const config: Config = {
     // }),
   ],
   testing: {
-    browserHeadless: "shell",
+    browserHeadless: 'shell',
+    // Chrome's default shared-memory budget is small, and a suite that starts
+    // this many browsers intermittently failed the 30s app-load wait because of
+    // it — always on `setContent`, never on a component's own behaviour. These
+    // are the standard flags for running headless Chrome in a constrained or
+    // containerised environment, which also describes CI.
+    browserArgs: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
   },
     devServer: {
     reloadStrategy: 'pageReload',

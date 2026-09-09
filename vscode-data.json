@@ -473,6 +473,98 @@
       ]
     },
     {
+      "name": "ss-checkbox-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Presents N `ss-checkbox` children as one `string[]` value and one change\nevent, with group semantics and an optional select-all master.\n\nMembership is by value: a checkbox with no `value` cannot be a member and is\nleft uncoordinated, and two checkboxes sharing a value toggle together,\nbecause the aggregate holds values rather than element identities."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables every checkbox in the group, including the master."
+        },
+        {
+          "name": "error-text",
+          "description": "Error text, used when no error slot content is provided; shown only while invalid."
+        },
+        {
+          "name": "helper-text",
+          "description": "Helper text, used when no helper slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "invalid",
+          "description": "Marks the group invalid: reveals the error message and sets aria-invalid."
+        },
+        {
+          "name": "label",
+          "description": "Group label, used when no label slot content is provided."
+        },
+        {
+          "name": "name",
+          "description": "Native name shared by every checkbox, for form submission."
+        },
+        {
+          "name": "orientation",
+          "description": "Stacks the choices, or lays them out in a row.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "required",
+          "description": "Requires at least one selection. HTML has no native \"one of this set\", so\nthe group expresses it with the only construct that does: while nothing is\nselected the first checkbox is `required`, which makes the form invalid,\nand the moment anything is selected that requirement is lifted. Only one\ncheckbox is ever announced as required, and checking any of them satisfies\nthe group rather than that particular choice."
+        },
+        {
+          "name": "select-all-label",
+          "description": "Label for an optional select-all checkbox. Supplying it renders the master;\nits checked and indeterminate state is derived from the selection and is\nnot separately controllable."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every checkbox, and by the group label.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "The selected values. An array is not an attribute, so assign it as a\nproperty, following `ss-select.value`; no comma-separated form is accepted."
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also the seed for the generated message ids."
+        }
+      ]
+    },
+    {
       "name": "ss-combobox",
       "description": {
         "kind": "markdown",

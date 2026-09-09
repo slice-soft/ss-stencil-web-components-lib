@@ -1,0 +1,30 @@
+.ss-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-1);
+  min-width: var(--ss-sizing-none);
+}
+
+.ss-checkbox-group__choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-2);
+}
+
+.ss-checkbox-group--horizontal .ss-checkbox-group__choices {
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: var(--ss-dimensions-4);
+}
+
+/* The master reads as a heading for the set, not as one more choice. */
+.ss-checkbox-group__master {
+  padding-bottom: var(--ss-dimensions-1);
+  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  margin-bottom: var(--ss-dimensions-1);
+}
+
+.ss-checkbox-group--disabled .ss-checkbox-group__label,
+.ss-checkbox-group--disabled .ss-checkbox-group__helper {
+  opacity: var(--ss-opacity-disabled);
+}

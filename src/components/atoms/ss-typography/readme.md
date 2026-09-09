@@ -35,12 +35,14 @@
 
 ### Used by
 
+ - [ss-checkbox-group](../../molecules/ss-checkbox-group)
  - [ss-field](../../molecules/ss-field)
  - [ss-radio-group](../../molecules/ss-radio-group)
 
 ### Graph
 ```mermaid
 graph TD;
+  ss-checkbox-group --> ss-typography
   ss-field --> ss-typography
   ss-radio-group --> ss-typography
   style ss-typography fill:#000,stroke:#fff,stroke-width:4px

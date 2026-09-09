@@ -1238,5 +1238,77 @@
       </div>
     </section>
 
+    <section>
+      <h2>ss-checkbox-group</h2>
+      <p class="section-desc">name · value (array) · selectAllLabel · label · helperText · errorText · required · invalid · disabled · orientation · size</p>
+
+      <div class="card">
+        <p class="label">one array value, one change event</p>
+        <div class="col">
+          <ss-checkbox-group id="demo-cb-group" name="demo-topics" label="Topics" helper-text="Pick what interests you">
+            <ss-checkbox value="design">Design</ss-checkbox>
+            <ss-checkbox value="engineering">Engineering</ss-checkbox>
+            <ss-checkbox value="product">Product</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">select-all master &mdash; indeterminate is derived, never set by hand</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-perms" label="Permissions" select-all-label="Select all">
+            <ss-checkbox value="read">Read</ss-checkbox>
+            <ss-checkbox value="write">Write</ss-checkbox>
+            <ss-checkbox value="admin">Admin</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">a disabled choice keeps its value and is left out of select-all</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-locked" label="Features" select-all-label="Select all">
+            <ss-checkbox value="basic">Basic</ss-checkbox>
+            <ss-checkbox value="legacy" disabled>Legacy (locked)</ss-checkbox>
+            <ss-checkbox value="beta">Beta</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">required + invalid &mdash; any selection satisfies the group</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-cb-required" label="Accept at least one" error-text="Pick at least one option" required invalid>
+            <ss-checkbox value="email">Email updates</ss-checkbox>
+            <ss-checkbox value="sms">SMS updates</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation &middot; size &middot; disabled</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-cb-h" label="Horizontal" orientation="horizontal">
+            <ss-checkbox value="a">A</ss-checkbox>
+            <ss-checkbox value="b">B</ss-checkbox>
+            <ss-checkbox value="c">C</ss-checkbox>
+          </ss-checkbox-group>
+          <ss-checkbox-group name="demo-cb-lg" size="lg" label="Large" orientation="horizontal">
+            <ss-checkbox value="a">A</ss-checkbox>
+            <ss-checkbox value="b">B</ss-checkbox>
+          </ss-checkbox-group>
+          <ss-checkbox-group name="demo-cb-disabled" label="Disabled group" orientation="horizontal" disabled>
+            <ss-checkbox value="a">A</ss-checkbox>
+            <ss-checkbox value="b">B</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // An array value is a property, not an attribute.
+      document.querySelector('#demo-cb-group').value = ['design'];
+    </script>
+
   </body>
 </html>
