@@ -1207,6 +1207,101 @@
       ]
     },
     {
+      "name": "ss-dropdown",
+      "description": {
+        "kind": "markdown",
+        "value": "A button that opens a list of actions.\n\nIt follows the WAI-ARIA menu button pattern, because that is what a screen\nreader announces a `menu` as and what its users will press: the menu takes\nfocus when it opens; arrows move through the items and wrap; Home and End\njump to the ends; a typed letter moves to the next item starting with it;\nEnter or Space picks one. Picking an item, or Escape, closes the menu and\nhands focus back to the button. Tab closes it and lets focus move on — the\nitems are not tab stops, so a menu costs one stop in the page's tab order\nhowever long it is.\n\nA menu is for actions. For a value a form submits, use `ss-select`."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the menu. Defaults to the trigger's label, which is what the reader just pressed."
+        },
+        {
+          "name": "align",
+          "description": "Alignment along the trigger's edge: start, center or end. A menu reads best hanging from the start.",
+          "values": [
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the dropdown; the menu stays closed and the trigger does nothing."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the menu."
+        },
+        {
+          "name": "open",
+          "description": "Whether the menu is showing. Updated on interaction, and reflected."
+        },
+        {
+          "name": "placement",
+          "description": "Side of the trigger to open on. Moves to the opposite side when there is no room.",
+          "values": [
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "top"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the menu."
+        }
+      ]
+    },
+    {
+      "name": "ss-dropdown-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One action in an `ss-dropdown` menu.\n\nThe item is the host itself: `role=\"menuitem\"` and the roving focus both sit\non the element the caller wrote, so each item is a direct child of the menu\nin the accessibility tree and the menu can move focus by calling `focus()`\non it. It is never a tab stop — the menu moves focus between items.\n\nIt does nothing on its own. The menu listens for the press and reports the\nitem's value, so a set of items needs one listener, not one per item."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the item; it is skipped by the arrow keys and cannot be picked."
+        },
+        {
+          "name": "label",
+          "description": "Item text, used when no slot content is provided. Also what typing a letter matches against."
+        },
+        {
+          "name": "value",
+          "description": "Value reported by the menu when this item is picked. Defaults to the label, then the text."
+        },
+        {
+          "name": "variant",
+          "description": "Visual treatment. `destructive` marks an action that removes something.",
+          "values": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "ss-field",
       "description": {
         "kind": "markdown",

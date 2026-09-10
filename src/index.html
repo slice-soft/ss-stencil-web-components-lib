@@ -1628,6 +1628,12 @@
         <ss-field label="Motivo">
           <ss-input x-style="outline" full-width></ss-input>
         </ss-field>
+        <ss-dropdown>
+          <ss-button slot="trigger" label="Motivos frecuentes" x-style="ghost" size="sm"></ss-button>
+          <ss-dropdown-item>Duplicado</ss-dropdown-item>
+          <ss-dropdown-item>Ya no se usa</ss-dropdown-item>
+          <ss-dropdown-item>Otro</ss-dropdown-item>
+        </ss-dropdown>
         <ss-button slot="footer" label="Entendido" id="demo-modal-ack"></ss-button>
       </ss-modal>
     </section>
@@ -1664,6 +1670,40 @@
         </div>
       </div>
     </section>
+
+    <section>
+      <h2>ss-dropdown</h2>
+      <p class="section-desc">open · placement · align · disabled · ssSelect &mdash; menú de acciones: flechas, Home/End, una letra, Enter; Escape y elegir devuelven el foco al botón, Tab sigue de largo</p>
+
+      <div class="card">
+        <p class="label">abrí con clic, o con ↓ / ↑ desde el botón; «Archivar» está deshabilitado y las flechas lo saltan</p>
+        <div class="row">
+          <ss-dropdown id="demo-dropdown">
+            <ss-button slot="trigger" label="Acciones" x-style="outline"></ss-button>
+            <ss-dropdown-item value="edit">Editar</ss-dropdown-item>
+            <ss-dropdown-item value="duplicate">Duplicar</ss-dropdown-item>
+            <ss-dropdown-item value="archive" disabled>Archivar</ss-dropdown-item>
+            <ss-divider></ss-divider>
+            <ss-dropdown-item value="delete" variant="destructive">Eliminar</ss-dropdown-item>
+          </ss-dropdown>
+
+          <ss-dropdown align="end">
+            <ss-button slot="trigger" label="align=end" x-style="ghost"></ss-button>
+            <ss-dropdown-item>Perfil</ss-dropdown-item>
+            <ss-dropdown-item>Preferencias</ss-dropdown-item>
+            <ss-dropdown-item>Cerrar sesión</ss-dropdown-item>
+          </ss-dropdown>
+        </div>
+        <ss-typography id="demo-dropdown-result" font-size="sm">Ninguna acción elegida todavía.</ss-typography>
+        <p class="label">dentro de «Abrir sin escape» hay otro menú: Escape cierra el menú y el diálogo sigue abierto</p>
+      </div>
+    </section>
+
+    <script>
+      document.getElementById('demo-dropdown').addEventListener('ssSelect', function (event) {
+        document.getElementById('demo-dropdown-result').textContent = 'Elegida: ' + event.detail.value;
+      });
+    </script>
 
 
     <script>

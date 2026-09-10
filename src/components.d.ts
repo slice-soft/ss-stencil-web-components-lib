@@ -21,13 +21,15 @@ import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { Align, Placement } from "./utils/position";
+import { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
+import { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
 import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
-import { Align, Placement } from "./utils/position";
 import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
@@ -53,13 +55,15 @@ export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { Align, Placement } from "./utils/position";
+export { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
+export { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
 export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
-export { Align, Placement } from "./utils/position";
 export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
@@ -740,6 +744,81 @@ export namespace Components {
           * Id applied to the root element.
          */
         "xId"?: string;
+    }
+    /**
+     * A button that opens a list of actions.
+     * It follows the WAI-ARIA menu button pattern, because that is what a screen
+     * reader announces a `menu` as and what its users will press: the menu takes
+     * focus when it opens; arrows move through the items and wrap; Home and End
+     * jump to the ends; a typed letter moves to the next item starting with it;
+     * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+     * hands focus back to the button. Tab closes it and lets focus move on — the
+     * items are not tab stops, so a menu costs one stop in the page's tab order
+     * however long it is.
+     * A menu is for actions. For a value a form submits, use `ss-select`.
+     */
+    interface SsDropdown {
+        /**
+          * Accessible name for the menu. Defaults to the trigger's label, which is what the reader just pressed.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end. A menu reads best hanging from the start.
+          * @default 'start'
+         */
+        "align": Align;
+        /**
+          * Disables the dropdown; the menu stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the menu.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the menu is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Side of the trigger to open on. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement": Placement;
+        /**
+          * Id applied to the menu.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One action in an `ss-dropdown` menu.
+     * The item is the host itself: `role="menuitem"` and the roving focus both sit
+     * on the element the caller wrote, so each item is a direct child of the menu
+     * in the accessibility tree and the menu can move focus by calling `focus()`
+     * on it. It is never a tab stop — the menu moves focus between items.
+     * It does nothing on its own. The menu listens for the press and reports the
+     * item's value, so a set of items needs one listener, not one per item.
+     */
+    interface SsDropdownItem {
+        /**
+          * Disables the item; it is skipped by the arrow keys and cannot be picked.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Item text, used when no slot content is provided. Also what typing a letter matches against.
+         */
+        "label"?: string;
+        /**
+          * Value reported by the menu when this item is picked. Defaults to the label, then the text.
+         */
+        "value"?: string;
+        /**
+          * Visual treatment. `destructive` marks an action that removes something.
+          * @default 'default'
+         */
+        "variant": DropdownItemVariant;
     }
     /**
      * Associates one form control with its label, helper text and error message,
@@ -1825,6 +1904,10 @@ export interface SsComboboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsComboboxElement;
 }
+export interface SsDropdownCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsDropdownElement;
+}
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
@@ -2100,6 +2183,51 @@ declare global {
     var HTMLSsDividerElement: {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
+    };
+    interface HTMLSsDropdownElementEventMap {
+        "ssOpenChange": SsDropdownOpenChangeEvent;
+        "ssSelect": SsDropdownSelectEvent;
+    }
+    /**
+     * A button that opens a list of actions.
+     * It follows the WAI-ARIA menu button pattern, because that is what a screen
+     * reader announces a `menu` as and what its users will press: the menu takes
+     * focus when it opens; arrows move through the items and wrap; Home and End
+     * jump to the ends; a typed letter moves to the next item starting with it;
+     * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+     * hands focus back to the button. Tab closes it and lets focus move on — the
+     * items are not tab stops, so a menu costs one stop in the page's tab order
+     * however long it is.
+     * A menu is for actions. For a value a form submits, use `ss-select`.
+     */
+    interface HTMLSsDropdownElement extends Components.SsDropdown, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsDropdownElementEventMap>(type: K, listener: (this: HTMLSsDropdownElement, ev: SsDropdownCustomEvent<HTMLSsDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsDropdownElementEventMap>(type: K, listener: (this: HTMLSsDropdownElement, ev: SsDropdownCustomEvent<HTMLSsDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsDropdownElement: {
+        prototype: HTMLSsDropdownElement;
+        new (): HTMLSsDropdownElement;
+    };
+    /**
+     * One action in an `ss-dropdown` menu.
+     * The item is the host itself: `role="menuitem"` and the roving focus both sit
+     * on the element the caller wrote, so each item is a direct child of the menu
+     * in the accessibility tree and the menu can move focus by calling `focus()`
+     * on it. It is never a tab stop — the menu moves focus between items.
+     * It does nothing on its own. The menu listens for the press and reports the
+     * item's value, so a set of items needs one listener, not one per item.
+     */
+    interface HTMLSsDropdownItemElement extends Components.SsDropdownItem, HTMLStencilElement {
+    }
+    var HTMLSsDropdownItemElement: {
+        prototype: HTMLSsDropdownItemElement;
+        new (): HTMLSsDropdownItemElement;
     };
     /**
      * Associates one form control with its label, helper text and error message,
@@ -2445,6 +2573,8 @@ declare global {
         "ss-checkbox-group": HTMLSsCheckboxGroupElement;
         "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-dropdown": HTMLSsDropdownElement;
+        "ss-dropdown-item": HTMLSsDropdownItemElement;
         "ss-field": HTMLSsFieldElement;
         "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
@@ -3200,6 +3330,89 @@ declare namespace LocalJSX {
           * Id applied to the root element.
          */
         "xId"?: string;
+    }
+    /**
+     * A button that opens a list of actions.
+     * It follows the WAI-ARIA menu button pattern, because that is what a screen
+     * reader announces a `menu` as and what its users will press: the menu takes
+     * focus when it opens; arrows move through the items and wrap; Home and End
+     * jump to the ends; a typed letter moves to the next item starting with it;
+     * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+     * hands focus back to the button. Tab closes it and lets focus move on — the
+     * items are not tab stops, so a menu costs one stop in the page's tab order
+     * however long it is.
+     * A menu is for actions. For a value a form submits, use `ss-select`.
+     */
+    interface SsDropdown {
+        /**
+          * Accessible name for the menu. Defaults to the trigger's label, which is what the reader just pressed.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end. A menu reads best hanging from the start.
+          * @default 'start'
+         */
+        "align"?: Align;
+        /**
+          * Disables the dropdown; the menu stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the menu.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an interaction opens or closes the menu, not when `open` is set from outside; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsDropdownCustomEvent<SsDropdownOpenChangeEvent>) => void;
+        /**
+          * Emitted when an item is picked; detail contains xId and the item's value.
+         */
+        "onSsSelect"?: (event: SsDropdownCustomEvent<SsDropdownSelectEvent>) => void;
+        /**
+          * Whether the menu is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Side of the trigger to open on. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement"?: Placement;
+        /**
+          * Id applied to the menu.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One action in an `ss-dropdown` menu.
+     * The item is the host itself: `role="menuitem"` and the roving focus both sit
+     * on the element the caller wrote, so each item is a direct child of the menu
+     * in the accessibility tree and the menu can move focus by calling `focus()`
+     * on it. It is never a tab stop — the menu moves focus between items.
+     * It does nothing on its own. The menu listens for the press and reports the
+     * item's value, so a set of items needs one listener, not one per item.
+     */
+    interface SsDropdownItem {
+        /**
+          * Disables the item; it is skipped by the arrow keys and cannot be picked.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Item text, used when no slot content is provided. Also what typing a letter matches against.
+         */
+        "label"?: string;
+        /**
+          * Value reported by the menu when this item is picked. Defaults to the label, then the text.
+         */
+        "value"?: string;
+        /**
+          * Visual treatment. `destructive` marks an action that removes something.
+          * @default 'default'
+         */
+        "variant"?: DropdownItemVariant;
     }
     /**
      * Associates one form control with its label, helper text and error message,
@@ -4406,6 +4619,8 @@ declare namespace LocalJSX {
         "ss-checkbox-group": SsCheckboxGroup;
         "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
+        "ss-dropdown": SsDropdown;
+        "ss-dropdown-item": SsDropdownItem;
         "ss-field": SsField;
         "ss-icon": SsIcon;
         "ss-input": SsInput;
@@ -4506,6 +4721,29 @@ declare module "@stencil/core" {
             "ss-checkbox-group": LocalJSX.SsCheckboxGroup & JSXBase.HTMLAttributes<HTMLSsCheckboxGroupElement>;
             "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            /**
+             * A button that opens a list of actions.
+             * It follows the WAI-ARIA menu button pattern, because that is what a screen
+             * reader announces a `menu` as and what its users will press: the menu takes
+             * focus when it opens; arrows move through the items and wrap; Home and End
+             * jump to the ends; a typed letter moves to the next item starting with it;
+             * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+             * hands focus back to the button. Tab closes it and lets focus move on — the
+             * items are not tab stops, so a menu costs one stop in the page's tab order
+             * however long it is.
+             * A menu is for actions. For a value a form submits, use `ss-select`.
+             */
+            "ss-dropdown": LocalJSX.SsDropdown & JSXBase.HTMLAttributes<HTMLSsDropdownElement>;
+            /**
+             * One action in an `ss-dropdown` menu.
+             * The item is the host itself: `role="menuitem"` and the roving focus both sit
+             * on the element the caller wrote, so each item is a direct child of the menu
+             * in the accessibility tree and the menu can move focus by calling `focus()`
+             * on it. It is never a tab stop — the menu moves focus between items.
+             * It does nothing on its own. The menu listens for the press and reports the
+             * item's value, so a set of items needs one listener, not one per item.
+             */
+            "ss-dropdown-item": LocalJSX.SsDropdownItem & JSXBase.HTMLAttributes<HTMLSsDropdownItemElement>;
             /**
              * Associates one form control with its label, helper text and error message,
              * generating the ids and coordinating the state that a consumer would otherwise

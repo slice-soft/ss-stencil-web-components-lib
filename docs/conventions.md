@@ -81,6 +81,10 @@ focus on top of it.
   disables itself briefly after a press, to stop a double submit. Focus handed
   back to it on close would land on a disabled control and be lost, so it skips
   that when `popup` or `expanded` is set. `markTrigger` sets both.
+- **Let the browser move focus on Tab.** A menu closes on Tab without
+  preventing it: closing sends focus to the trigger, and the browser's own Tab
+  then continues from there, past the menu. Computing the destination by hand
+  gets Shift+Tab, iframes and shadow roots wrong in ways the default does not.
 
 ## The spec DOM is not a browser
 
