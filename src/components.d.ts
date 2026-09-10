@@ -14,6 +14,7 @@ import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 import { LinkSize } from "./components/atoms/ss-link/ss-link";
 import { JoinSide } from "./types/join";
+import { PopupKind } from "./types/popup";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
@@ -26,6 +27,8 @@ import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
+import { Align, Placement } from "./utils/position";
+import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
@@ -43,6 +46,7 @@ export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 export { LinkSize } from "./components/atoms/ss-link/ss-link";
 export { JoinSide } from "./types/join";
+export { PopupKind } from "./types/popup";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
@@ -55,6 +59,8 @@ export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
+export { Align, Placement } from "./utils/position";
+export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
@@ -331,6 +337,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Whether what the button controls is open, announced as aria-expanded. Set by whatever it opens.
+         */
+        "expanded"?: boolean;
+        /**
           * Expands the button to the full width of its container.
           * @default false
          */
@@ -362,6 +372,10 @@ export namespace Components {
           * @default true
          */
         "oneClick": boolean;
+        /**
+          * What the button opens, announced as aria-haspopup. Set by `ss-popover` and `ss-dropdown` on their trigger. A button that opens something is not an action that can be sent twice, so it skips the post-click disable: focus handed back to it on close would otherwise land on a disabled control and be lost.
+         */
+        "popup"?: PopupKind;
         /**
           * Shape of the button: rounded, pill, circle or square.
           * @default 'rounded'
@@ -1163,6 +1177,66 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * Content anchored to a trigger, which the reader opens, uses and puts away
+     * without losing the page.
+     * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+     * and no focus trap. Focus goes into the panel when it opens, because that is
+     * where the reader asked to go. Closing it with Escape sends focus back to the
+     * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+     * the reader put it.
+     * Rendered scoped for the same reason as the modal: finding the first control
+     * to focus, and telling whether focus has left, both need to see the caller's
+     * content, which a shadow root would hide.
+     */
+    interface SsPopover {
+        /**
+          * Accessible name, for a panel with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end.
+          * @default 'center'
+         */
+        "align": Align;
+        /**
+          * Escape closes the panel.
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Pressing outside the popover closes the panel.
+          * @default true
+         */
+        "closeOnOutside": boolean;
+        /**
+          * Disables the popover; it stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Heading shown at the top of the panel, which also names it.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the panel is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Side of the trigger to open on: top, right, bottom or left. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement": Placement;
+        /**
+          * Id applied to the panel.
+         */
+        "xId"?: string;
+    }
     interface SsRadio {
         /**
           * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
@@ -1767,6 +1841,10 @@ export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsPaginationElement;
 }
+export interface SsPopoverCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsPopoverElement;
+}
 export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsRadioElement;
@@ -2158,6 +2236,35 @@ declare global {
         prototype: HTMLSsPaginationElement;
         new (): HTMLSsPaginationElement;
     };
+    interface HTMLSsPopoverElementEventMap {
+        "ssOpenChange": SsPopoverOpenChangeEvent;
+    }
+    /**
+     * Content anchored to a trigger, which the reader opens, uses and puts away
+     * without losing the page.
+     * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+     * and no focus trap. Focus goes into the panel when it opens, because that is
+     * where the reader asked to go. Closing it with Escape sends focus back to the
+     * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+     * the reader put it.
+     * Rendered scoped for the same reason as the modal: finding the first control
+     * to focus, and telling whether focus has left, both need to see the caller's
+     * content, which a shadow root would hide.
+     */
+    interface HTMLSsPopoverElement extends Components.SsPopover, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsPopoverElementEventMap>(type: K, listener: (this: HTMLSsPopoverElement, ev: SsPopoverCustomEvent<HTMLSsPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsPopoverElementEventMap>(type: K, listener: (this: HTMLSsPopoverElement, ev: SsPopoverCustomEvent<HTMLSsPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsPopoverElement: {
+        prototype: HTMLSsPopoverElement;
+        new (): HTMLSsPopoverElement;
+    };
     interface HTMLSsRadioElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -2346,6 +2453,7 @@ declare global {
         "ss-link": HTMLSsLinkElement;
         "ss-modal": HTMLSsModalElement;
         "ss-pagination": HTMLSsPaginationElement;
+        "ss-popover": HTMLSsPopoverElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-select": HTMLSsSelectElement;
@@ -2641,6 +2749,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Whether what the button controls is open, announced as aria-expanded. Set by whatever it opens.
+         */
+        "expanded"?: boolean;
+        /**
           * Expands the button to the full width of its container.
           * @default false
          */
@@ -2676,6 +2788,10 @@ declare namespace LocalJSX {
           * @default true
          */
         "oneClick"?: boolean;
+        /**
+          * What the button opens, announced as aria-haspopup. Set by `ss-popover` and `ss-dropdown` on their trigger. A button that opens something is not an action that can be sent twice, so it skips the post-click disable: focus handed back to it on close would otherwise land on a disabled control and be lost.
+         */
+        "popup"?: PopupKind;
         /**
           * Shape of the button: rounded, pill, circle or square.
           * @default 'rounded'
@@ -3553,6 +3669,70 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * Content anchored to a trigger, which the reader opens, uses and puts away
+     * without losing the page.
+     * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+     * and no focus trap. Focus goes into the panel when it opens, because that is
+     * where the reader asked to go. Closing it with Escape sends focus back to the
+     * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+     * the reader put it.
+     * Rendered scoped for the same reason as the modal: finding the first control
+     * to focus, and telling whether focus has left, both need to see the caller's
+     * content, which a shadow root would hide.
+     */
+    interface SsPopover {
+        /**
+          * Accessible name, for a panel with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end.
+          * @default 'center'
+         */
+        "align"?: Align;
+        /**
+          * Escape closes the panel.
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Pressing outside the popover closes the panel.
+          * @default true
+         */
+        "closeOnOutside"?: boolean;
+        /**
+          * Disables the popover; it stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Heading shown at the top of the panel, which also names it.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an interaction opens or closes the panel, not when `open` is set from outside; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsPopoverCustomEvent<SsPopoverOpenChangeEvent>) => void;
+        /**
+          * Whether the panel is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Side of the trigger to open on: top, right, bottom or left. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement"?: Placement;
+        /**
+          * Id applied to the panel.
+         */
+        "xId"?: string;
+    }
     interface SsRadio {
         /**
           * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
@@ -4234,6 +4414,7 @@ declare namespace LocalJSX {
         "ss-link": SsLink;
         "ss-modal": SsModal;
         "ss-pagination": SsPagination;
+        "ss-popover": SsPopover;
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
         "ss-select": SsSelect;
@@ -4372,6 +4553,19 @@ declare module "@stencil/core" {
              * `page`; fetching the rows for it stays with the consumer.
              */
             "ss-pagination": LocalJSX.SsPagination & JSXBase.HTMLAttributes<HTMLSsPaginationElement>;
+            /**
+             * Content anchored to a trigger, which the reader opens, uses and puts away
+             * without losing the page.
+             * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+             * and no focus trap. Focus goes into the panel when it opens, because that is
+             * where the reader asked to go. Closing it with Escape sends focus back to the
+             * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+             * the reader put it.
+             * Rendered scoped for the same reason as the modal: finding the first control
+             * to focus, and telling whether focus has left, both need to see the caller's
+             * content, which a shadow root would hide.
+             */
+            "ss-popover": LocalJSX.SsPopover & JSXBase.HTMLAttributes<HTMLSsPopoverElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             /**
              * Presents N `ss-radio` children as one selected value, one change event and

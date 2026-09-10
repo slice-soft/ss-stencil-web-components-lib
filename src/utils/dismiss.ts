@@ -7,6 +7,40 @@ export interface DismissOptions {
   outside?: boolean;
 }
 
+interface Layer {
+  container: HTMLElement;
+  escape: boolean;
+  outside: boolean;
+  dismiss: DismissOptions['onDismiss'];
+}
+
+/**
+ * Every open layer, oldest first. Only the last — the one on top — hears a
+ * dismissal.
+ *
+ * Without the stack each layer listens on the document on its own, so one key
+ * reaches all of them: Escape in a menu inside a dialog closes the menu and the
+ * dialog together, and a press on the dialog to close a popover takes the
+ * dialog with it. A top layer that refuses a dismissal — a dialog that has to
+ * be answered — blocks the layers beneath it rather than passing it down, since
+ * the reader cannot see them.
+ */
+const layers: Layer[] = [];
+
+const top = () => layers[layers.length - 1];
+
+function handleKeyDown(event: KeyboardEvent) {
+  if (event.key !== 'Escape') return;
+
+  const layer = top();
+  if (layer?.escape) layer.dismiss('escape');
+}
+
+function handlePointerDown(event: PointerEvent) {
+  const layer = top();
+  if (layer?.outside && !event.composedPath().includes(layer.container)) layer.dismiss('outside');
+}
+
 /**
  * Watches for the two ways a reader asks a layer to go away: pressing Escape,
  * or pressing somewhere else.
@@ -18,25 +52,26 @@ export interface DismissOptions {
  * retargeted to the host at a shadow boundary, so a press on a control inside a
  * dialog would look like a press on the page.
  *
- * Returns a function that stops watching.
+ * The layer goes on top of any already open. Returns a function that takes it
+ * off again.
  */
 export function onDismiss(container: HTMLElement, options: DismissOptions): () => void {
-  const { onDismiss: dismiss, escape = true, outside = true } = options;
+  const layer: Layer = { container, escape: options.escape ?? true, outside: options.outside ?? true, dismiss: options.onDismiss };
 
-  const handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') dismiss('escape');
-  };
-
-  const handlePointerDown = (event: PointerEvent) => {
-    const path = event.composedPath();
-    if (!path.includes(container)) dismiss('outside');
-  };
-
-  if (escape) document.addEventListener('keydown', handleKeyDown, true);
-  if (outside) document.addEventListener('pointerdown', handlePointerDown, true);
+  if (!layers.length) {
+    document.addEventListener('keydown', handleKeyDown, true);
+    document.addEventListener('pointerdown', handlePointerDown, true);
+  }
+  layers.push(layer);
 
   return () => {
-    document.removeEventListener('keydown', handleKeyDown, true);
-    document.removeEventListener('pointerdown', handlePointerDown, true);
+    const index = layers.indexOf(layer);
+    if (index === -1) return;
+
+    layers.splice(index, 1);
+    if (!layers.length) {
+      document.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('pointerdown', handlePointerDown, true);
+    }
   };
 }

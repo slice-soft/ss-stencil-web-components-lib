@@ -46,7 +46,10 @@ function isTabbable(element: HTMLElement): boolean {
  * focus back to whatever held it before.
  */
 export function trapFocus(container: HTMLElement, options: { restore?: boolean } = {}): () => void {
-  const previous = document.activeElement as HTMLElement | null;
+  // The element that really had focus, not the shadow host `activeElement`
+  // stops at. Focusing an `ss-button` host moves focus nowhere, so a dialog
+  // opened from one used to hand focus back to the page instead of the button.
+  const previous = deepestActive();
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key !== 'Tab') return;
@@ -94,4 +97,25 @@ export function deepestActive(): HTMLElement | null {
   let active = document.activeElement as HTMLElement | null;
   while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement as HTMLElement;
   return active;
+}
+
+/**
+ * Moves focus to an element or, when it cannot take focus itself, to the first
+ * thing inside it that can.
+ *
+ * A custom element such as `ss-button` is a host with the real control inside
+ * its shadow root, and `focus()` on the host does nothing — which is how focus
+ * silently ends up on the page when a menu closes and hands it back to its
+ * trigger. The search looks in the element's own shadow root first.
+ *
+ * Returns whether focus actually landed.
+ */
+export function focusInto(element: HTMLElement | null | undefined): boolean {
+  if (!element) return false;
+
+  const inside = [...(element.shadowRoot ? getTabbable(element.shadowRoot) : []), ...getTabbable(element)];
+  const target = element.matches(FOCUSABLE) ? element : inside[0];
+
+  target?.focus();
+  return !!target && deepestActive() === target;
 }

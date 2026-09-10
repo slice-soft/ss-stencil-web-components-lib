@@ -11,10 +11,14 @@
 }
 
 .ss-modal__dialog {
+  /* Centred with auto margins, not a transform. A transform makes the dialog the
+     containing block for every fixed descendant, so a dropdown or popover opened
+     inside it would measure against the viewport and be placed against the
+     dialog — landing wherever the dialog's offset put it. */
   position: fixed;
-  top: var(--ss-sizing-half);
-  left: var(--ss-sizing-half);
-  transform: translate(var(--ss-sizing-negative-half), var(--ss-sizing-negative-half));
+  inset: var(--ss-sizing-none);
+  margin: auto;
+  height: fit-content;
   z-index: var(--ss-z-index-modal);
   display: flex;
   flex-direction: column;
@@ -33,9 +37,13 @@
   }
 }
 
-@each $name, $step in (xs: 20, sm: 24, md: 32, lg: 32, xl: 32, 2xl: 32, 3xl: 32) {
+/* The dimension scale stops at 128px — a tooltip's width, not a dialog's — so
+   every size from md up used to render at 128px. Until the design system has
+   overlay widths (docs/pending-token-proposals.md), a dialog is a multiple of
+   the largest step: 320px at xs to 1024px at 3xl. */
+@each $name, $factor in (xs: 2.5, sm: 3, md: 4, lg: 5, xl: 6, 2xl: 7, 3xl: 8) {
   .ss-modal--#{$name} .ss-modal__dialog {
-    max-width: var(--ss-dimensions-#{$step});
+    max-width: calc(var(--ss-dimensions-32) * #{$factor});
   }
 }
 

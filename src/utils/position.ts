@@ -1,5 +1,12 @@
 export type Placement = 'top' | 'right' | 'bottom' | 'left';
 
+/**
+ * Where the floating element lines up along the anchor's edge. `start` and
+ * `end` are the anchor's left and right edges for a top or bottom placement,
+ * and its top and bottom edges for a side one. Right-to-left is not considered.
+ */
+export type Align = 'start' | 'center' | 'end';
+
 /** The part of a DOMRect this calculation needs. */
 export interface AnchorRect {
   top: number;
@@ -26,6 +33,8 @@ export interface PlacementRequest {
   viewport: Viewport;
   /** The side asked for; the result may differ if that side has no room. */
   placement: Placement;
+  /** Alignment along the anchor's edge. Defaults to centred. */
+  align?: Align;
   /** Gap between the anchor and the floating element. */
   offset?: number;
   /** Smallest gap to leave between the floating element and the viewport edge. */
@@ -66,6 +75,13 @@ function needsOn(side: Placement, floating: FloatingSize, offset: number): numbe
   return (side === 'top' || side === 'bottom' ? floating.height : floating.width) + offset;
 }
 
+/** Where the floating element starts along one axis of the anchor. */
+function alignOn(align: Align, anchorStart: number, anchorLength: number, floatingLength: number): number {
+  if (align === 'start') return anchorStart;
+  if (align === 'end') return anchorStart + anchorLength - floatingLength;
+  return anchorStart + anchorLength / 2 - floatingLength / 2;
+}
+
 function clamp(value: number, min: number, max: number): number {
   // A floating element wider than the space it has left is pinned to the near
   // edge rather than centred outside the viewport, so max can fall below min.
@@ -100,19 +116,80 @@ export function place(request: PlacementRequest): PlacementResult {
     resolved = fits(opposite) || spaceOn(opposite, anchor, viewport) > spaceOn(placement, anchor, viewport) ? opposite : placement;
   }
 
-  const centreX = anchor.left + anchor.width / 2 - floating.width / 2;
-  const centreY = anchor.top + anchor.height / 2 - floating.height / 2;
+  const align = request.align ?? 'center';
+  const alongX = alignOn(align, anchor.left, anchor.width, floating.width);
+  const alongY = alignOn(align, anchor.top, anchor.height, floating.height);
   const maxLeft = viewport.width - floating.width - padding;
   const maxTop = viewport.height - floating.height - padding;
 
   switch (resolved) {
     case 'top':
-      return { placement: resolved, flipped: resolved !== placement, top: anchor.top - floating.height - offset, left: clamp(centreX, padding, maxLeft) };
+      return { placement: resolved, flipped: resolved !== placement, top: anchor.top - floating.height - offset, left: clamp(alongX, padding, maxLeft) };
     case 'bottom':
-      return { placement: resolved, flipped: resolved !== placement, top: anchor.top + anchor.height + offset, left: clamp(centreX, padding, maxLeft) };
+      return { placement: resolved, flipped: resolved !== placement, top: anchor.top + anchor.height + offset, left: clamp(alongX, padding, maxLeft) };
     case 'left':
-      return { placement: resolved, flipped: resolved !== placement, top: clamp(centreY, padding, maxTop), left: anchor.left - floating.width - offset };
+      return { placement: resolved, flipped: resolved !== placement, top: clamp(alongY, padding, maxTop), left: anchor.left - floating.width - offset };
     case 'right':
-      return { placement: resolved, flipped: resolved !== placement, top: clamp(centreY, padding, maxTop), left: anchor.left + anchor.width + offset };
+      return { placement: resolved, flipped: resolved !== placement, top: clamp(alongY, padding, maxTop), left: anchor.left + anchor.width + offset };
   }
+}
+
+export interface AnchorOptions {
+  placement: Placement;
+  align?: Align;
+  offset?: number;
+  padding?: number;
+}
+
+/**
+ * Measures an anchor and a floating element, places the floating one, writes
+ * the coordinates straight onto it, and returns the side it ended up on.
+ *
+ * This is the one part of the module that touches the DOM, shared by every
+ * component that floats something against a trigger. The coordinates bypass
+ * the render cycle: scrolling recomputes them continuously, and a re-render per
+ * frame would cost far more than the side it produces.
+ *
+ * The floating element must be `position: fixed`, since the coordinates are
+ * viewport coordinates — which is also what keeps it from being clipped by an
+ * ancestor's overflow. An ancestor with a `transform` breaks that: it becomes
+ * the containing block for fixed descendants, and the element lands offset by
+ * wherever that ancestor sits. `ss-modal` centres without a transform for this
+ * reason.
+ */
+export function anchorTo(anchor: Element, floating: HTMLElement, options: AnchorOptions): Placement {
+  const a = anchor.getBoundingClientRect();
+  const f = floating.getBoundingClientRect();
+
+  const next = place({
+    anchor: { top: a.top, left: a.left, width: a.width, height: a.height },
+    floating: { width: f.width, height: f.height },
+    viewport: { width: window.innerWidth, height: window.innerHeight },
+    ...options,
+  });
+
+  floating.style.top = `${next.top}px`;
+  floating.style.left = `${next.left}px`;
+  return next.placement;
+}
+
+/**
+ * Calls back whenever any of the elements changes size, until stopped.
+ *
+ * A floating element is placed when it opens and again on scroll, but its
+ * anchor can change size underneath it — a label that changes, a web font that
+ * finishes loading, a token set swapped at runtime, a transition on padding —
+ * and the panel is left pointing at where the trigger used to end. The floating
+ * element is watched as well: content that grows can push it past the edge it
+ * was clamped against.
+ *
+ * Returns a function that stops watching. Where ResizeObserver does not exist,
+ * as in the spec DOM, it watches nothing.
+ */
+export function onResize(elements: (Element | null | undefined)[], callback: () => void): () => void {
+  if (typeof ResizeObserver === 'undefined') return () => undefined;
+
+  const observer = new ResizeObserver(() => callback());
+  elements.forEach(element => element && observer.observe(element));
+  return () => observer.disconnect();
 }

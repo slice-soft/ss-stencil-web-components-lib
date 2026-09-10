@@ -453,6 +453,10 @@
           "description": "Disables the button."
         },
         {
+          "name": "expanded",
+          "description": "Whether what the button controls is open, announced as aria-expanded. Set by whatever it opens."
+        },
+        {
           "name": "full-width",
           "description": "Expands the button to the full width of its container."
         },
@@ -501,6 +505,21 @@
         {
           "name": "one-click",
           "description": "After ssClick fires, button is disabled for disableDuration ms"
+        },
+        {
+          "name": "popup",
+          "description": "What the button opens, announced as aria-haspopup. Set by `ss-popover` and\n`ss-dropdown` on their trigger. A button that opens something is not an\naction that can be sent twice, so it skips the post-click disable: focus\nhanded back to it on close would otherwise land on a disabled control and\nbe lost.",
+          "values": [
+            {
+              "name": "dialog"
+            },
+            {
+              "name": "listbox"
+            },
+            {
+              "name": "menu"
+            }
+          ]
         },
         {
           "name": "shape",
@@ -1984,6 +2003,80 @@
         {
           "name": "x-id",
           "description": "Id of the container; also included in event details."
+        }
+      ]
+    },
+    {
+      "name": "ss-popover",
+      "description": {
+        "kind": "markdown",
+        "value": "Content anchored to a trigger, which the reader opens, uses and puts away\nwithout losing the page.\n\nWhere `ss-modal` takes the page over, a popover sits beside it: no backdrop\nand no focus trap. Focus goes into the panel when it opens, because that is\nwhere the reader asked to go. Closing it with Escape sends focus back to the\ntrigger; closing it by pressing or tabbing somewhere else leaves focus where\nthe reader put it.\n\nRendered scoped for the same reason as the modal: finding the first control\nto focus, and telling whether focus has left, both need to see the caller's\ncontent, which a shadow root would hide."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name, for a panel with no visible heading."
+        },
+        {
+          "name": "align",
+          "description": "Alignment along the trigger's edge: start, center or end.",
+          "values": [
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
+          "name": "close-on-escape",
+          "description": "Escape closes the panel."
+        },
+        {
+          "name": "close-on-outside",
+          "description": "Pressing outside the popover closes the panel."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the popover; it stays closed and the trigger does nothing."
+        },
+        {
+          "name": "heading",
+          "description": "Heading shown at the top of the panel, which also names it."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the panel."
+        },
+        {
+          "name": "open",
+          "description": "Whether the panel is showing. Updated on interaction, and reflected."
+        },
+        {
+          "name": "placement",
+          "description": "Side of the trigger to open on: top, right, bottom or left. Moves to the opposite side when there is no room.",
+          "values": [
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "top"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the panel."
         }
       ]
     },

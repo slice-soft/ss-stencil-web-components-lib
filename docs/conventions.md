@@ -53,6 +53,35 @@ caller disabled.
 - **Put the relationship on the element that takes focus**, not on a wrapper
   around it. A wrapper is never reached by assistive technology.
 
+## Overlays
+
+The shared pieces live in `utils/`: `position` (the geometry, plus `anchorTo`
+for the DOM side), `focus`, `dismiss`, `popup` (the trigger) and `roving` (arrow
+keys). `ss-popover` is the smallest complete example; `ss-dropdown` adds roving
+focus on top of it.
+
+- **Open after the render, close before it.** A panel hidden with `hidden` can
+  neither take focus nor be measured, and `@Watch` runs before the render that
+  shows it — activating there traps focus on nothing. That was `ss-modal`'s bug
+  for any dialog opened after load. Closing is the reverse: once the render has
+  hidden the panel, focus inside it is already lost to the page, so the watcher
+  is the place to rescue it.
+- **Give focus back to what really had it.** `document.activeElement` stops at a
+  shadow host, and `focus()` on an `ss-button` host moves focus nowhere. Save
+  `deepestActive()`, and hand focus back with `focusInto()`.
+- **No `transform` on anything that may hold a floating element.** A transformed
+  ancestor becomes the containing block for `position: fixed` descendants, so a
+  panel measured in viewport coordinates lands offset by wherever that ancestor
+  sits. `ss-modal` centres with `inset` and auto margins for this reason.
+- **One layer hears a dismissal.** `onDismiss` keeps a stack, and only the top
+  layer receives Escape or an outside press. A top layer that refuses one — a
+  dialog that must be answered — blocks the layers beneath rather than passing
+  it down.
+- **A trigger must not disable itself after a click.** `ss-button` normally
+  disables itself briefly after a press, to stop a double submit. Focus handed
+  back to it on close would land on a disabled control and be lost, so it skips
+  that when `popup` or `expanded` is set. `markTrigger` sets both.
+
 ## The spec DOM is not a browser
 
 `newSpecPage` runs on mock-doc. These are missing, and each one silently makes a
@@ -96,3 +125,12 @@ instead — the `has` trap is not instrumented.
   neither alone was enough.
 - **`setContent` declares no charset.** Non-ASCII in test markup arrives
   mis-decoded; write it as an HTML entity.
+- **An e2e page has no design tokens.** Every length in the stylesheets is a
+  `--ss-*` variable, and the page loads the components but not the tokens, so
+  `inset`, `max-width` and `padding` all resolve to nothing. A layout assertion
+  made that way passes or fails on a page nobody will see — the modal's
+  centring transform was itself invalid without tokens, so the damage it did to
+  fixed descendants never showed. Call `useTokens(page)` before measuring.
+- **`axNodeByRole` takes the first node with the role.** On a page with several
+  buttons that is whichever comes first, not the one under test. Use
+  `axNodeNamed` to pick by accessible name.

@@ -1608,13 +1608,17 @@
       <div class="card">
         <p class="label">el foco entra, queda atrapado, y vuelve a donde estaba</p>
         <div class="row">
-          <ss-button id="open-modal-basic" label="Abrir diálogo"></ss-button>
-          <ss-button id="open-modal-locked" label="Abrir sin escape" x-style="outline"></ss-button>
+          <ss-button id="open-modal-basic" label="Abrir diálogo" popup="dialog"></ss-button>
+          <ss-button id="open-modal-locked" label="Abrir sin escape" x-style="outline" popup="dialog"></ss-button>
         </div>
       </div>
 
       <ss-modal id="demo-modal-basic" heading="Eliminar archivo">
         <ss-typography>Esta acción no se puede deshacer. El archivo y su historial se pierden.</ss-typography>
+        <ss-popover heading="¿Qué se pierde?" align="start">
+          <ss-button slot="trigger" label="¿Qué se pierde?" x-style="ghost" size="sm"></ss-button>
+          <ss-typography>El archivo, sus versiones y los comentarios. Escape cierra esto primero; un segundo Escape cierra el diálogo.</ss-typography>
+        </ss-popover>
         <ss-button slot="footer" label="Cancelar" x-style="ghost" id="demo-modal-cancel"></ss-button>
         <ss-button slot="footer" label="Eliminar" variant="destructive"></ss-button>
       </ss-modal>
@@ -1626,6 +1630,39 @@
         </ss-field>
         <ss-button slot="footer" label="Entendido" id="demo-modal-ack"></ss-button>
       </ss-modal>
+    </section>
+
+    <section>
+      <h2>ss-popover</h2>
+      <p class="section-desc">open · heading · placement · align · closeOnEscape · closeOnOutside · disabled &mdash; capa no modal: sin fondo ni trampa de foco</p>
+
+      <div class="card">
+        <p class="label">el foco entra al abrir; Escape lo devuelve al disparador, Tab o un clic afuera lo dejan donde fue</p>
+        <div class="row">
+          <ss-popover heading="Filtros">
+            <ss-button slot="trigger" label="Filtros" x-style="outline"></ss-button>
+            <ss-field label="Buscar">
+              <ss-input x-style="outline" placeholder="Nombre o etiqueta" full-width></ss-input>
+            </ss-field>
+            <ss-button label="Aplicar" size="sm"></ss-button>
+          </ss-popover>
+
+          <ss-popover heading="Alineado al inicio" align="start">
+            <ss-button slot="trigger" label="align=start" x-style="ghost"></ss-button>
+            <ss-typography>El panel cuelga del borde izquierdo del disparador en vez de centrarse.</ss-typography>
+          </ss-popover>
+
+          <ss-popover heading="Arriba" placement="top">
+            <ss-button slot="trigger" label="placement=top" x-style="ghost"></ss-button>
+            <ss-typography>Si no hay lugar arriba, se abre abajo.</ss-typography>
+          </ss-popover>
+
+          <ss-popover heading="Deshabilitado" disabled>
+            <ss-button slot="trigger" label="disabled" x-style="ghost"></ss-button>
+            <ss-typography>No se abre.</ss-typography>
+          </ss-popover>
+        </div>
+      </div>
     </section>
 
 

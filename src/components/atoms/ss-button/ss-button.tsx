@@ -3,6 +3,7 @@ import { Variant } from '../../../types/variant';
 import { applyDescribedBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { JoinSide } from '../../../types/join';
+import type { PopupKind } from '../../../types/popup';
 import { Size } from '../../../types/size';
 
 export type ButtonStyle = 'solid' | 'outline' | 'ghost';
@@ -38,6 +39,16 @@ export class SsButton {
   @Prop() join?: JoinSide;
   /** Id of the element that describes the button, set as aria-describedby. */
   @Prop() describedBy?: string;
+  /**
+   * What the button opens, announced as aria-haspopup. Set by `ss-popover` and
+   * `ss-dropdown` on their trigger. A button that opens something is not an
+   * action that can be sent twice, so it skips the post-click disable: focus
+   * handed back to it on close would otherwise land on a disabled control and
+   * be lost.
+   */
+  @Prop() popup?: PopupKind;
+  /** Whether what the button controls is open, announced as aria-expanded. Set by whatever it opens. */
+  @Prop() expanded?: boolean;
   /** Native button type: button, submit or reset. */
   @Prop() type: ButtonType = 'button';
   /** Disables the button. */
@@ -92,6 +103,11 @@ export class SsButton {
     return this.feedbackStatus ?? this.status;
   }
 
+  /** Opens or expands something rather than performing an action. */
+  private get isToggle() {
+    return !!this.popup || this.expanded !== undefined;
+  }
+
   private get isDisabled() {
     const status = this.currentStatus;
     return this.disabled || this.isTemporarilyDisabled || status === 'disabled' || status === 'loading';
@@ -136,6 +152,7 @@ export class SsButton {
       return;
     }
     this.ssClick.emit(this.xId);
+    if (this.isToggle) return;
     if (this.oneClick) {
       this.scheduleTemporaryDisable();
     } else {
@@ -176,6 +193,8 @@ export class SsButton {
         aria-busy={this.currentStatus === 'loading'}
         aria-label={this.accessibilityLabel || this.label}
         aria-describedby={this.describedBy}
+        aria-haspopup={this.popup}
+        aria-expanded={this.expanded === undefined ? undefined : String(this.expanded)}
         tabindex={disabled ? -1 : 0}
         onClick={this.ssClickHandler}
       >

@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { newE2EPage } from '@stencil/core/testing';
 import type { E2EPage, SpecPage } from '@stencil/core/testing';
 
@@ -34,7 +36,22 @@ export function getShadowRoot(element: Element): ShadowRoot {
  * to the node simply having an accessible name.
  */
 export async function axNodeByRole(page: E2EPage, role: string, settled: (node: AxNode) => boolean = node => !!node.name): Promise<AxNode> {
-  let node: AxNode = { name: null, description: null };
+  return (await findAxNode(page, candidate => candidate.role === role, settled)) ?? { name: null, description: null };
+}
+
+/**
+ * The node with a given role and accessible name, for a page holding several
+ * of the same role — a trigger among other buttons, one tab of many.
+ * {@link axNodeByRole} takes the first node of the role, which on such a page
+ * is whichever happens to come first. Returns `null` when no node matches.
+ */
+export async function axNodeNamed(page: E2EPage, role: string, name: string, settled: (node: AxNode) => boolean = () => true): Promise<AxNode | null> {
+  return findAxNode(page, candidate => candidate.role === role && candidate.name === name, settled);
+}
+
+/** Re-reads the accessibility tree until a matching node settles. See {@link axNodeByRole}. */
+async function findAxNode(page: E2EPage, match: (candidate: AxSnapshotNode) => boolean, settled: (node: AxNode) => boolean): Promise<AxNode | null> {
+  let node: AxNode | null = null;
 
   for (let attempt = 0; attempt < 10; attempt++) {
     await page.waitForChanges();
@@ -48,9 +65,9 @@ export async function axNodeByRole(page: E2EPage, role: string, settled: (node: 
     };
     if (snapshot) walk(snapshot);
 
-    const found = flat.find(candidate => candidate.role === role);
+    const found = flat.find(match);
     if (found) {
-      node = { name: found.name ?? null, description: found.description ?? null };
+      node = { name: found.name ?? null, description: found.description ?? null, expanded: found.expanded, haspopup: found.haspopup, selected: found.selected };
       if (settled(node)) return node;
     }
   }
@@ -61,6 +78,12 @@ export async function axNodeByRole(page: E2EPage, role: string, settled: (node: 
 export interface AxNode {
   name: string | null;
   description: string | null;
+  /** Present only on nodes that expand something: a disclosure, a menu button. */
+  expanded?: boolean;
+  /** What a trigger announces it opens. */
+  haspopup?: string;
+  /** Present on selectable nodes, such as tabs. */
+  selected?: boolean;
 }
 
 /** The slice of a Puppeteer accessibility snapshot this helper reads. */
@@ -68,6 +91,9 @@ interface AxSnapshotNode {
   role?: string;
   name?: string;
   description?: string;
+  expanded?: boolean;
+  haspopup?: string;
+  selected?: boolean;
   children?: AxSnapshotNode[];
 }
 
@@ -109,3 +135,32 @@ export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promi
 }
 
 const APP_LOAD_TIMEOUT = 40_000;
+
+/**
+ * Loads the dev design tokens into an e2e page.
+ *
+ * Every length in the component stylesheets is a `--ss-*` variable, and an e2e
+ * page loads the components but not the tokens, so without this each one
+ * resolves to nothing and `inset`, `max-width` and `padding` fall back to their
+ * initial values. A layout assertion made that way tests a page nobody will
+ * ever see, and misses bugs that only exist with real values — the modal's
+ * centring transform was itself invalid without tokens, so the harm it did to
+ * fixed descendants could not show up.
+ */
+export async function useTokens(page: E2EPage): Promise<void> {
+  const tokens = readFileSync(join(process.cwd(), 'test/token-set-01/tokens.css'), 'utf8');
+  await page.addStyleTag({ content: `${tokens}\n${NO_TRANSITIONS}` });
+  await page.waitForChanges();
+}
+
+/**
+ * Loading tokens into a page that has already rendered changes every length at
+ * once, and a component with a transition on padding animates to its new value
+ * — so the first measurement catches a control mid-animation: `ss-button` was
+ * measured at 35px on its way to 42. Zeroing the durations makes every change
+ * immediate. It is done through the tokens because custom properties inherit
+ * into shadow roots, where a `transition: none` rule in the document would
+ * never reach.
+ */
+const NO_TRANSITIONS =
+  ':root { --ss-transitions-durations-instant: 0s; --ss-transitions-durations-short: 0s; --ss-transitions-durations-medium: 0s; --ss-transitions-durations-long: 0s; }';
