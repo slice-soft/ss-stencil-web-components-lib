@@ -50,6 +50,9 @@ export const config: Config = {
   ],
   testing: {
     browserHeadless: "shell",
+    // Runs after Stencil's own setup file, so the timeout it sets wins. See
+    // src/test/jest-setup.ts.
+    setupFilesAfterEnv: ['<rootDir>/src/test/jest-setup.ts'],
   },
     devServer: {
     reloadStrategy: 'pageReload',

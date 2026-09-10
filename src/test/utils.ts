@@ -114,16 +114,18 @@ interface AccessibilityPage {
  * verdict. Raising it lets a loaded machine finish instead of giving up, and a
  * genuinely broken page still fails, just later.
  *
- * The ceiling is jest's own per-test timeout, which Stencil derives from an
- * environment variable it overwrites itself, so it cannot be configured: 30s
- * for e2e, times 1.5, is 45s. Waiting longer only trades a clear "App did not
- * load" for jest's generic timeout, so this stays under it.
+ * The ceiling is jest's own per-test timeout. Stencil sets it to 45s — its
+ * default e2e wait times 1.5 — and this comment used to say that could not be
+ * changed. It can: `src/test/jest-setup.ts` runs after Stencil's setup file and
+ * raises it to 90s. The wait stays under that, so a page that never loads
+ * still fails with "App did not load" rather than jest's generic timeout.
  *
  * This is the smaller half of the fix. The larger half is `--max-workers` in
  * the test script: one browser per core leaves each too little to start in
  * time. Neither alone is enough — capping workers still flaked about one run in
  * three on the default wait, and this headroom alone left three failures a run
- * — and together they are clean.
+ * — and together they were clean at 56 files. At 74 they were not: most full
+ * runs lost the first page of some file to a 40s wait, so the wait is now 80s.
  */
 export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promise<E2EPage> {
   const page = await newE2EPage(...args);
@@ -134,7 +136,7 @@ export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promi
   return page;
 }
 
-const APP_LOAD_TIMEOUT = 40_000;
+const APP_LOAD_TIMEOUT = 80_000;
 
 /**
  * Loads the dev design tokens into an e2e page.
@@ -162,5 +164,21 @@ export async function useTokens(page: E2EPage): Promise<void> {
  * into shadow roots, where a `transition: none` rule in the document would
  * never reach.
  */
+/**
+ * Makes the page behave as though its window had focus.
+ *
+ * Under the full suite a test's page is often not the active tab, and a page
+ * without window focus still moves `document.activeElement` on `focus()` but
+ * fires no `focusin` or `focusout` — so a component listening for them never
+ * hears focus arrive or leave. The page was measured with `document.hasFocus()`
+ * false, and `ss-toast`'s focus test failed with its pause never engaging,
+ * while passing alone. Focus emulation is Chrome's own switch for this, set
+ * through the DevTools protocol. Call it after `setContent`.
+ */
+export async function emulateFocus(page: E2EPage): Promise<void> {
+  const session = await (page as unknown as { createCDPSession(): Promise<{ send(method: string, params?: object): Promise<unknown> }> }).createCDPSession();
+  await session.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+}
+
 const NO_TRANSITIONS =
   ':root { --ss-transitions-durations-instant: 0s; --ss-transitions-durations-short: 0s; --ss-transitions-durations-medium: 0s; --ss-transitions-durations-long: 0s; }';

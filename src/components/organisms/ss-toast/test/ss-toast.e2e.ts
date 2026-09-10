@@ -1,9 +1,12 @@
 import type { E2EPage } from '@stencil/core/testing';
-import { newTestPage, useTokens } from '../../../../test/utils';
+import { emulateFocus, newTestPage, useTokens } from '../../../../test/utils';
 
 async function setup(html: string) {
   const page = await newTestPage();
   await page.setContent(html);
+  // The toast listens for focusin and focusout, which a page without window
+  // focus never fires. See `emulateFocus`.
+  await emulateFocus(page);
   await useTokens(page);
   return page;
 }
@@ -26,6 +29,51 @@ function open(page: E2EPage, selector = 'ss-toast') {
   return page.evaluate(sel => ((document.querySelector(sel) as HTMLElement & { open: boolean }).open = true), selector);
 }
 
+/**
+ * Pins the page as visible, so the test decides visibility and the harness
+ * does not.
+ *
+ * Under the full suite a test's page is not always the visible tab: it was
+ * measured starting hidden and flipping between hidden and visible about every
+ * half second for the whole test. The toast rightly holds its clock while the
+ * page is hidden, so a hover or focus test would otherwise be measuring the
+ * harness — and did, failing most full runs while passing alone.
+ *
+ * A capture listener on the window stops the browser's own events before they
+ * reach the document. A `visible` event is then sent, to clear a hidden pause
+ * the toast may have picked up before the pin.
+ */
+async function pinVisible(page: E2EPage) {
+  await page.evaluate(() => {
+    let state: DocumentVisibilityState = 'visible';
+    Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => state });
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => state === 'hidden' });
+
+    const fromTest = new WeakSet<Event>();
+    window.addEventListener(
+      'visibilitychange',
+      event => {
+        if (!fromTest.has(event)) event.stopImmediatePropagation();
+      },
+      true,
+    );
+
+    const send = (next: DocumentVisibilityState) => {
+      state = next;
+      const event = new Event('visibilitychange');
+      fromTest.add(event);
+      document.dispatchEvent(event);
+    };
+
+    (window as unknown as { setVisibility: typeof send }).setVisibility = send;
+    send('visible');
+  });
+}
+
+function setVisibility(page: E2EPage, state: DocumentVisibilityState) {
+  return page.evaluate(next => (window as unknown as { setVisibility: (state: DocumentVisibilityState) => void }).setVisibility(next), state);
+}
+
 describe('ss-toast holding its clock', () => {
   const TOAST = `
     <button id="elsewhere">Elsewhere</button>
@@ -39,6 +87,7 @@ describe('ss-toast holding its clock', () => {
 
   it('stays while the pointer is over it, and closes once it leaves', async () => {
     const page = await setup(TOAST);
+    await pinVisible(page);
     await open(page);
     await page.hover('ss-toast');
 
@@ -53,6 +102,7 @@ describe('ss-toast holding its clock', () => {
     // A keyboard user tabbing to Undo is reading the toast as surely as one
     // hovering over it.
     const page = await setup(TOAST);
+    await pinVisible(page);
     await open(page);
     await (await page.find('ss-toast ss-button >>> button')).focus();
 
@@ -60,6 +110,21 @@ describe('ss-toast holding its clock', () => {
     expect(await isOpen(page)).toBe(true);
 
     await page.focus('#elsewhere');
+    expect(await closedWithin(page, 3000)).toBe(true);
+  });
+
+  it('stays while the page is hidden, and closes once it is shown again', async () => {
+    // A message that times out in a tab the reader is not looking at was never
+    // delivered.
+    const page = await setup(TOAST);
+    await pinVisible(page);
+    await open(page);
+    await setVisibility(page, 'hidden');
+
+    await wait(2000);
+    expect(await isOpen(page)).toBe(true);
+
+    await setVisibility(page, 'visible');
     expect(await closedWithin(page, 3000)).toBe(true);
   });
 });

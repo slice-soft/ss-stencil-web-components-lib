@@ -130,12 +130,34 @@ instead — the `has` trap is not instrumented.
   CLI flag. Confirm with `grep 'jest args'` in the output — it prints the workers
   actually used. The `test` script passes `--max-workers` for this reason.
 - **The app-load wait is 30s, hard-coded, per call.** The suite outgrew it, so
-  `newTestPage` raises it. The ceiling is jest's own per-test timeout, which
-  Stencil derives from an environment variable it overwrites — 45s — so the wait
-  cannot usefully go above that. Worker count and load headroom are both needed;
-  neither alone was enough.
+  `newTestPage` raises it — to 80s since the suite reached 74 files. Its
+  ceiling is jest's per-test timeout, which Stencil sets to 45s from its own
+  setup file. That was recorded here as unchangeable, and it is not: Stencil
+  puts its setup file first in `setupFilesAfterEnv`, so
+  `src/test/jest-setup.ts`, listed in `stencil.config.ts`, runs after it and
+  raises the timeout to 90s. Checked both ways with a test that waits 50s: it
+  fails at 45s without the file and passes with it. Worker count and load
+  headroom are both needed; neither alone was enough.
 - **`setContent` declares no charset.** Non-ASCII in test markup arrives
   mis-decoded; write it as an HTML entity.
+- **An e2e page is not always the visible tab.** Under the full suite a test's
+  page was measured starting hidden and flipping between hidden and visible
+  about every half second for the whole test; run alone, it stays visible.
+  Anything that honours `document.visibilityState` sees that. `ss-toast` holds
+  its clock while the page is hidden, which made its hover and focus tests fail
+  most full runs while passing alone. Its e2e pins visibility (`pinVisible`)
+  and tests the hidden pause with events it sends itself. The same page also
+  lacks window focus (`document.hasFocus()` measured false): `focus()` still
+  moves `activeElement`, so tests asserting on that pass, but no `focusin` or
+  `focusout` fires, so a component listening for them hears nothing. Call
+  `emulateFocus(page)` from `src/test/utils.ts` in any test that depends on
+  those events.
+- **Jest does not type-check e2e files; the build does.** `E2EPage` has no
+  `viewport()` and `E2EElement` no `hasAttribute()` in Stencil's types, though
+  both exist at runtime — so a test that uses them passes `npm test` and then
+  fails `npm run build`. Read the viewport with `page.evaluate`, test an
+  attribute with `getAttribute(...) !== null`, and run `npm run lint` before
+  committing.
 - **An e2e page has no design tokens.** Every length in the stylesheets is a
   `--ss-*` variable, and the page loads the components but not the tokens, so
   `inset`, `max-width` and `padding` all resolve to nothing. A layout assertion
