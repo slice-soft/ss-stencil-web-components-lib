@@ -1803,6 +1803,41 @@
       </div>
     </section>
 
+    <section>
+      <h2>ss-nav · ss-nav-item</h2>
+      <p class="section-desc">value · orientation · accessibilityLabel · ssChange (cancelable) &mdash; links reales: se abren en otra pestaña y se recorren con Tab; aria-current marca la página actual</p>
+
+      <div class="card">
+        <p class="label">horizontal, con enlaces a esta misma página; «Facturación» está deshabilitada y Tab la saltea</p>
+        <ss-nav value="#nav-inicio" accessibility-label="Principal">
+          <ss-nav-item href="#nav-inicio">Inicio</ss-nav-item>
+          <ss-nav-item href="#nav-proyectos">Proyectos</ss-nav-item>
+          <ss-nav-item href="#nav-facturacion" disabled>Facturación</ss-nav-item>
+          <ss-nav-item href="#nav-equipo">Equipo</ss-nav-item>
+        </ss-nav>
+      </div>
+
+      <div class="card">
+        <p class="label">vertical, enrutado por la app: ssChange se cancela y la app decide; Ctrl/Cmd+clic sigue abriendo otra pestaña</p>
+        <div class="row">
+          <ss-nav id="demo-nav-spa" orientation="vertical" value="/perfil" accessibility-label="Cuenta" inline-styles="width: 220px">
+            <ss-nav-item href="/perfil">Perfil</ss-nav-item>
+            <ss-nav-item href="/seguridad">Seguridad</ss-nav-item>
+            <ss-nav-item href="/notificaciones">Notificaciones</ss-nav-item>
+          </ss-nav>
+          <ss-typography id="demo-nav-route" font-size="sm">Ruta: /perfil</ss-typography>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document.getElementById('demo-nav-spa').addEventListener('ssChange', function (event) {
+        // The app routes; the browser does not follow the link.
+        event.preventDefault();
+        document.getElementById('demo-nav-route').textContent = 'Ruta: ' + event.detail.href;
+      });
+    </script>
+
 
     <script>
       (function () {

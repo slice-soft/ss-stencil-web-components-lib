@@ -30,13 +30,14 @@ import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
+import { Orientation } from "./utils/roving";
+import { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
-import { Orientation } from "./utils/roving";
 import { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 import { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
@@ -70,13 +71,14 @@ export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
+export { Orientation } from "./utils/roving";
+export { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
-export { Orientation } from "./utils/roving";
 export { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 export { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
@@ -1278,6 +1280,81 @@ export namespace Components {
         "xId"?: string;
     }
     /**
+     * A site's navigation: a named landmark holding a list of links, one of them
+     * marked as the page the reader is on.
+     * Every item is a real link, so it opens in a new tab, can be copied, and is
+     * reached by Tab like any other — site navigation is not an application menu,
+     * and giving it menu roles would take those away and change what the keys do.
+     * An app that routes on the client listens for `ssChange` and calls
+     * `preventDefault()` on it: the browser then does not follow the link, and the
+     * app routes instead. The current item moves either way. A modified click —
+     * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+     * is left to the browser and changes nothing here.
+     */
+    interface SsNav {
+        /**
+          * Accessible name for the landmark, so a page with two navigations tells them apart.
+          * @default 'Main'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Inline CSS styles applied to the navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Direction the items run in.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Value of the current item, marked as the page the reader is on. Updated when an item is followed, and reflected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the navigation element; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One link in an `ss-nav`.
+     * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+     * the page the reader is on — on the link itself, the element that takes focus
+     * and that a screen reader announces. `ss-nav` decides which item is current
+     * and tells it, through `current`.
+     * A disabled item keeps its place but is no longer a link anyone can follow:
+     * it loses its `href`, so it drops out of the tab order, and is announced as a
+     * disabled link.
+     */
+    interface SsNavItem {
+        /**
+          * Whether this is the page the reader is on. Set by `ss-nav`.
+          * @default false
+         */
+        "current": boolean;
+        /**
+          * Disables the item; it can no longer be followed or reached by Tab.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Where the item leads.
+         */
+        "href"?: string;
+        /**
+          * Item text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Direction of the navigation it sits in. Set by `ss-nav`.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Value that identifies the item to `ss-nav`. Defaults to the href.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -2167,6 +2244,10 @@ export interface SsModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsModalElement;
 }
+export interface SsNavCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsNavElement;
+}
 export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsPaginationElement;
@@ -2636,6 +2717,51 @@ declare global {
         prototype: HTMLSsModalElement;
         new (): HTMLSsModalElement;
     };
+    interface HTMLSsNavElementEventMap {
+        "ssChange": SsNavChangeEvent;
+    }
+    /**
+     * A site's navigation: a named landmark holding a list of links, one of them
+     * marked as the page the reader is on.
+     * Every item is a real link, so it opens in a new tab, can be copied, and is
+     * reached by Tab like any other — site navigation is not an application menu,
+     * and giving it menu roles would take those away and change what the keys do.
+     * An app that routes on the client listens for `ssChange` and calls
+     * `preventDefault()` on it: the browser then does not follow the link, and the
+     * app routes instead. The current item moves either way. A modified click —
+     * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+     * is left to the browser and changes nothing here.
+     */
+    interface HTMLSsNavElement extends Components.SsNav, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsNavElementEventMap>(type: K, listener: (this: HTMLSsNavElement, ev: SsNavCustomEvent<HTMLSsNavElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsNavElementEventMap>(type: K, listener: (this: HTMLSsNavElement, ev: SsNavCustomEvent<HTMLSsNavElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsNavElement: {
+        prototype: HTMLSsNavElement;
+        new (): HTMLSsNavElement;
+    };
+    /**
+     * One link in an `ss-nav`.
+     * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+     * the page the reader is on — on the link itself, the element that takes focus
+     * and that a screen reader announces. `ss-nav` decides which item is current
+     * and tells it, through `current`.
+     * A disabled item keeps its place but is no longer a link anyone can follow:
+     * it loses its `href`, so it drops out of the tab order, and is announced as a
+     * disabled link.
+     */
+    interface HTMLSsNavItemElement extends Components.SsNavItem, HTMLStencilElement {
+    }
+    var HTMLSsNavItemElement: {
+        prototype: HTMLSsNavItemElement;
+        new (): HTMLSsNavItemElement;
+    };
     interface HTMLSsPaginationElementEventMap {
         "ssChange": SsPaginationChangeEvent;
     }
@@ -2976,6 +3102,8 @@ declare global {
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
         "ss-modal": HTMLSsModalElement;
+        "ss-nav": HTMLSsNavElement;
+        "ss-nav-item": HTMLSsNavItemElement;
         "ss-pagination": HTMLSsPaginationElement;
         "ss-popover": HTMLSsPopoverElement;
         "ss-radio": HTMLSsRadioElement;
@@ -4290,6 +4418,85 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     /**
+     * A site's navigation: a named landmark holding a list of links, one of them
+     * marked as the page the reader is on.
+     * Every item is a real link, so it opens in a new tab, can be copied, and is
+     * reached by Tab like any other — site navigation is not an application menu,
+     * and giving it menu roles would take those away and change what the keys do.
+     * An app that routes on the client listens for `ssChange` and calls
+     * `preventDefault()` on it: the browser then does not follow the link, and the
+     * app routes instead. The current item moves either way. A modified click —
+     * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+     * is left to the browser and changes nothing here.
+     */
+    interface SsNav {
+        /**
+          * Accessible name for the landmark, so a page with two navigations tells them apart.
+          * @default 'Main'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an item is followed; detail contains xId, the item's value and its href. Cancel it to route on the client.
+         */
+        "onSsChange"?: (event: SsNavCustomEvent<SsNavChangeEvent>) => void;
+        /**
+          * Direction the items run in.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Value of the current item, marked as the page the reader is on. Updated when an item is followed, and reflected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the navigation element; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One link in an `ss-nav`.
+     * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+     * the page the reader is on — on the link itself, the element that takes focus
+     * and that a screen reader announces. `ss-nav` decides which item is current
+     * and tells it, through `current`.
+     * A disabled item keeps its place but is no longer a link anyone can follow:
+     * it loses its `href`, so it drops out of the tab order, and is announced as a
+     * disabled link.
+     */
+    interface SsNavItem {
+        /**
+          * Whether this is the page the reader is on. Set by `ss-nav`.
+          * @default false
+         */
+        "current"?: boolean;
+        /**
+          * Disables the item; it can no longer be followed or reached by Tab.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Where the item leads.
+         */
+        "href"?: string;
+        /**
+          * Item text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Direction of the navigation it sits in. Set by `ss-nav`.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Value that identifies the item to `ss-nav`. Defaults to the href.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -5271,6 +5478,8 @@ declare namespace LocalJSX {
         "ss-label": SsLabel;
         "ss-link": SsLink;
         "ss-modal": SsModal;
+        "ss-nav": SsNav;
+        "ss-nav-item": SsNavItem;
         "ss-pagination": SsPagination;
         "ss-popover": SsPopover;
         "ss-radio": SsRadio;
@@ -5450,6 +5659,30 @@ declare module "@stencil/core" {
              * of the caller's controls would look empty and trap focus on nothing.
              */
             "ss-modal": LocalJSX.SsModal & JSXBase.HTMLAttributes<HTMLSsModalElement>;
+            /**
+             * A site's navigation: a named landmark holding a list of links, one of them
+             * marked as the page the reader is on.
+             * Every item is a real link, so it opens in a new tab, can be copied, and is
+             * reached by Tab like any other — site navigation is not an application menu,
+             * and giving it menu roles would take those away and change what the keys do.
+             * An app that routes on the client listens for `ssChange` and calls
+             * `preventDefault()` on it: the browser then does not follow the link, and the
+             * app routes instead. The current item moves either way. A modified click —
+             * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+             * is left to the browser and changes nothing here.
+             */
+            "ss-nav": LocalJSX.SsNav & JSXBase.HTMLAttributes<HTMLSsNavElement>;
+            /**
+             * One link in an `ss-nav`.
+             * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+             * the page the reader is on — on the link itself, the element that takes focus
+             * and that a screen reader announces. `ss-nav` decides which item is current
+             * and tells it, through `current`.
+             * A disabled item keeps its place but is no longer a link anyone can follow:
+             * it loses its `href`, so it drops out of the tab order, and is announced as a
+             * disabled link.
+             */
+            "ss-nav-item": LocalJSX.SsNavItem & JSXBase.HTMLAttributes<HTMLSsNavItemElement>;
             /**
              * Page navigation for a list that does not fit on one screen.
              * Unlike the other molecules this one is driven by props rather than slots: a

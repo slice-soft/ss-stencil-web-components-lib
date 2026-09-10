@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-09-10 · 70 test suites, 573 tests.
+Last updated: 2026-09-10 · 72 test suites, 590 tests.
 
 ## What exists
 
@@ -14,8 +14,8 @@ typography.
 **Molecules (11)** — alert, avatar-group, breadcrumb, breadcrumb-item,
 button-group, card, checkbox-group, field, input-group, pagination, radio-group.
 
-**Organisms (10)** — accordion, accordion-item, dropdown, dropdown-item, modal,
-popover, tab, tabs, toast, toaster.
+**Organisms (12)** — accordion, accordion-item, dropdown, dropdown-item, modal,
+nav, nav-item, popover, tab, tabs, toast, toaster.
 
 **Shared helpers** — `utils/`: a11y, dismiss, focus, id, popup, position,
 roving, slot, style. `types/`: control-events, join, popup, size, typography,
@@ -42,10 +42,11 @@ variant.
 | 4 | toast, toaster | A toast is an `ss-alert` with a clock: it closes after `duration`, and the clock holds while it is hovered, has focus inside, or the tab is hidden (WCAG 2.2.1). The toaster is the fixed, named region that stacks them, with no `aria-live` of its own — each toast is already a live region |
 | 4 | tabs, tab | WAI-ARIA tabs: one tab stop, arrows that wrap and skip disabled tabs, Home/End, automatic or manual activation, either orientation. `ss-tabs` draws the tab buttons from each `ss-tab`'s `label`, so tabs and panels share a tree and their IDREFs resolve; the panel stays in `ss-tab`, which asks the set to redraw when its label changes |
 | 4 | accordion, accordion-item | Each item is a disclosure: a real heading (`heading-level`, 1–6) holding a button with `aria-expanded`, over a region named by it. The accordion keeps one open by default (`multiple` for several) and moves between headers with the arrows. It filters `ssOpenChange` by tag and owner, since overlays inside a section emit the same event |
+| 4 | nav, nav-item | A named `nav` landmark over a list of real links, the current one marked `aria-current="page"` on the link itself. No menu roles: site navigation keeps open-in-new-tab and plain Tab. `ssChange` is cancelable, so a client-side router calls `preventDefault()` and routes; a modified click is left to the browser |
 
 ## Next
 
-**Phase 4, continued** — nav, then table. `ss-popover` is the pattern for anything anchored to a trigger, `ss-modal`
+**Phase 4, continued** — table, the last of it. `ss-popover` is the pattern for anything anchored to a trigger, `ss-modal`
 for anything that takes the page over. New organisms go in
 `src/components/organisms/`.
 

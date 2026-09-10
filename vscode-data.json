@@ -2088,6 +2088,84 @@
       ]
     },
     {
+      "name": "ss-nav",
+      "description": {
+        "kind": "markdown",
+        "value": "A site's navigation: a named landmark holding a list of links, one of them\nmarked as the page the reader is on.\n\nEvery item is a real link, so it opens in a new tab, can be copied, and is\nreached by Tab like any other — site navigation is not an application menu,\nand giving it menu roles would take those away and change what the keys do.\n\nAn app that routes on the client listens for `ssChange` and calls\n`preventDefault()` on it: the browser then does not follow the link, and the\napp routes instead. The current item moves either way. A modified click —\nCtrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —\nis left to the browser and changes nothing here."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the landmark, so a page with two navigations tells them apart."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the navigation element."
+        },
+        {
+          "name": "orientation",
+          "description": "Direction the items run in.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value of the current item, marked as the page the reader is on. Updated when an item is followed, and reflected."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the navigation element; also included in the ssChange detail."
+        }
+      ]
+    },
+    {
+      "name": "ss-nav-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One link in an `ss-nav`.\n\nIt renders a real `<a>`, and marks it with `aria-current=\"page\"` when it is\nthe page the reader is on — on the link itself, the element that takes focus\nand that a screen reader announces. `ss-nav` decides which item is current\nand tells it, through `current`.\n\nA disabled item keeps its place but is no longer a link anyone can follow:\nit loses its `href`, so it drops out of the tab order, and is announced as a\ndisabled link."
+      },
+      "attributes": [
+        {
+          "name": "current",
+          "description": "Whether this is the page the reader is on. Set by `ss-nav`."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the item; it can no longer be followed or reached by Tab."
+        },
+        {
+          "name": "href",
+          "description": "Where the item leads."
+        },
+        {
+          "name": "label",
+          "description": "Item text, used when no slot content is provided."
+        },
+        {
+          "name": "orientation",
+          "description": "Direction of the navigation it sits in. Set by `ss-nav`.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value that identifies the item to `ss-nav`. Defaults to the href."
+        }
+      ]
+    },
+    {
       "name": "ss-pagination",
       "description": {
         "kind": "markdown",
