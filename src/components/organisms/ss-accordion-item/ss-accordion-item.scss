@@ -1,0 +1,72 @@
+@use '../../../global/styles/mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.ss-accordion-item {
+  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  font-family: var(--ss-text-fonts-sans);
+}
+
+/* A real heading for the page outline, drawn as part of the row. */
+.ss-accordion-item__heading {
+  margin: var(--ss-sizing-none);
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.ss-accordion-item__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ss-dimensions-3);
+  width: var(--ss-sizing-full);
+  padding: var(--ss-dimensions-3) var(--ss-sizing-none);
+  border: var(--ss-borders-width-none);
+  background: var(--ss-colors-transparent);
+  color: var(--ss-color-foreground);
+  font: inherit;
+  font-size: var(--ss-text-sizes-base);
+  font-weight: var(--ss-text-weights-medium);
+  text-align: start;
+  cursor: pointer;
+
+  &:hover:not(:disabled) .ss-accordion-item__title {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    @include mx.focus-ring;
+  }
+
+  &:disabled {
+    @include mx.atom-disabled;
+    opacity: var(--ss-opacity-disabled);
+  }
+}
+
+/* A chevron drawn from two borders: pointing down when closed, up when open. */
+.ss-accordion-item__icon {
+  flex: none;
+  width: calc(var(--ss-sizing-icon) / 2);
+  height: calc(var(--ss-sizing-icon) / 2);
+  border-right: var(--ss-borders-width-base) var(--ss-borders-styles-solid) currentColor;
+  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) currentColor;
+  transform: rotate(calc(var(--ss-angles-full) / 8));
+  transition: transform var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+}
+
+.ss-accordion-item--open .ss-accordion-item__icon {
+  transform: rotate(calc(var(--ss-angles-full) * -3 / 8));
+}
+
+.ss-accordion-item__panel {
+  padding-bottom: var(--ss-dimensions-4);
+  color: var(--ss-color-foreground);
+  font-size: var(--ss-text-sizes-sm);
+
+  &[hidden] {
+    display: none;
+  }
+}

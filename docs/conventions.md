@@ -99,6 +99,7 @@ test pass without testing anything:
 | `classList.toggle(name, force)` | The force argument is ignored, so the class flips on every call | use `add`/`remove` |
 | focus tracking | `focus()` does not move `document.activeElement` | e2e |
 | `disabled` on form controls | `button.disabled` is `undefined` whatever the attribute says, so a check on the property fails on a control that is plainly disabled | assert `hasAttribute('disabled')` |
+| the query's own element as an ancestor | `el.querySelectorAll('a b')` does not let `el` itself be the `a`. A browser matches the selector against the whole document; mock-doc only inside `el`. Checked: `section.querySelectorAll('section p')` is 1 in a browser, 0 here. A nested-component test written the obvious way comes back empty | query from the inner element itself |
 
 Checking a capability by reading a property off mock-doc's `ElementInternals`
 stand-in logs a console error for every access. Use `'setFormValue' in internals`

@@ -2,6 +2,64 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "ss-accordion",
+      "description": {
+        "kind": "markdown",
+        "value": "A stack of `ss-accordion-item` sections.\n\nBy default one section is open at a time: opening a section closes the one\nthat was open, so the reader is never left with a column of expanded text\nto find their place in. `multiple` lets several stay open.\n\nThe arrow keys move between headers — Up and Down, wrapping, with Home and\nEnd — which the WAI-ARIA accordion pattern suggests for a long stack. Tab\nstill goes through the headers and into each open section in page order;\nthe arrows are a shortcut, not a replacement."
+      },
+      "attributes": [
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "multiple",
+          "description": "Lets several sections stay open at once."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the container."
+        }
+      ]
+    },
+    {
+      "name": "ss-accordion-item",
+      "description": {
+        "kind": "markdown",
+        "value": "A heading that shows and hides the section under it.\n\nIt follows the WAI-ARIA disclosure pattern the accordion is built from: the\nheading holds a button that says whether the section is expanded and which\nregion it controls, and the region is named by that button. The heading is a\nreal heading, so a screen reader user moving through a page by headings\nstill finds every section — collapsed ones included. Pick `heading-level` to\nfit the page's outline.\n\nIt works alone as a single disclosure. Inside an `ss-accordion` it also takes\npart in single-open behaviour and arrow-key movement between headers."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the header; the section keeps its current state."
+        },
+        {
+          "name": "heading",
+          "description": "Heading text, used when no heading slot content is provided."
+        },
+        {
+          "name": "heading-level",
+          "description": "Level of the heading element, 1 to 6, so the section fits the page's outline."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the item's container."
+        },
+        {
+          "name": "open",
+          "description": "Whether the section is expanded. Updated on interaction, and reflected."
+        },
+        {
+          "name": "value",
+          "description": "Value that identifies the item in events."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the item's container; also included in the ssOpenChange detail."
+        }
+      ]
+    },
+    {
       "name": "ss-alert",
       "description": {
         "kind": "markdown",

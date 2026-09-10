@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-09-10 · 67 test suites, 554 tests.
+Last updated: 2026-09-10 · 70 test suites, 573 tests.
 
 ## What exists
 
@@ -14,8 +14,8 @@ typography.
 **Molecules (11)** — alert, avatar-group, breadcrumb, breadcrumb-item,
 button-group, card, checkbox-group, field, input-group, pagination, radio-group.
 
-**Organisms (8)** — dropdown, dropdown-item, modal, popover, tab, tabs, toast,
-toaster.
+**Organisms (10)** — accordion, accordion-item, dropdown, dropdown-item, modal,
+popover, tab, tabs, toast, toaster.
 
 **Shared helpers** — `utils/`: a11y, dismiss, focus, id, popup, position,
 roving, slot, style. `types/`: control-events, join, popup, size, typography,
@@ -41,10 +41,11 @@ variant.
 | 4 | dropdown, dropdown-item | WAI-ARIA menu button. Focus goes into the menu on open; arrows wrap and skip disabled items, Home/End jump, a letter jumps to the next match; Enter, Space or a click picks and emits `ssSelect`. Picking or Escape hands focus back to the button; Tab closes and moves on. `role="menuitem"` sits on each item's host |
 | 4 | toast, toaster | A toast is an `ss-alert` with a clock: it closes after `duration`, and the clock holds while it is hovered, has focus inside, or the tab is hidden (WCAG 2.2.1). The toaster is the fixed, named region that stacks them, with no `aria-live` of its own — each toast is already a live region |
 | 4 | tabs, tab | WAI-ARIA tabs: one tab stop, arrows that wrap and skip disabled tabs, Home/End, automatic or manual activation, either orientation. `ss-tabs` draws the tab buttons from each `ss-tab`'s `label`, so tabs and panels share a tree and their IDREFs resolve; the panel stays in `ss-tab`, which asks the set to redraw when its label changes |
+| 4 | accordion, accordion-item | Each item is a disclosure: a real heading (`heading-level`, 1–6) holding a button with `aria-expanded`, over a region named by it. The accordion keeps one open by default (`multiple` for several) and moves between headers with the arrows. It filters `ssOpenChange` by tag and owner, since overlays inside a section emit the same event |
 
 ## Next
 
-**Phase 4, continued** — accordion, nav, table, in that order. `ss-popover` is the pattern for anything anchored to a trigger, `ss-modal`
+**Phase 4, continued** — nav, then table. `ss-popover` is the pattern for anything anchored to a trigger, `ss-modal`
 for anything that takes the page over. New organisms go in
 `src/components/organisms/`.
 

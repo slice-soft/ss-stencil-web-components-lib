@@ -1781,6 +1781,28 @@
       </div>
     </section>
 
+    <section>
+      <h2>ss-accordion · ss-accordion-item</h2>
+      <p class="section-desc">multiple · heading · headingLevel · open · disabled &mdash; cada encabezado es un encabezado real; ↑ ↓ Home End se mueven entre ellos</p>
+
+      <div class="card">
+        <p class="label">una sección abierta a la vez; «Devoluciones» está deshabilitada y las flechas la saltan</p>
+        <ss-accordion>
+          <ss-accordion-item heading="Envío" open><ss-typography>Sale en dos días hábiles.</ss-typography></ss-accordion-item>
+          <ss-accordion-item heading="Devoluciones" disabled><ss-typography>Treinta días desde la entrega.</ss-typography></ss-accordion-item>
+          <ss-accordion-item heading="Garantía"><ss-typography>Un año contra defectos de fábrica.</ss-typography></ss-accordion-item>
+        </ss-accordion>
+      </div>
+
+      <div class="card">
+        <p class="label">multiple: abrir una no cierra las demás</p>
+        <ss-accordion multiple>
+          <ss-accordion-item heading="Primera" open><ss-typography>Sigue abierta cuando abrís la otra.</ss-typography></ss-accordion-item>
+          <ss-accordion-item heading="Segunda"><ss-typography>Esta también.</ss-typography></ss-accordion-item>
+        </ss-accordion>
+      </div>
+    </section>
+
 
     <script>
       (function () {

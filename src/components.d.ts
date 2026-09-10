@@ -5,9 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { InlineStyles } from "./utils/style";
+import { SsAccordionItemOpenChangeEvent } from "./components/organisms/ss-accordion-item/ss-accordion-item";
 import { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
 import { Size } from "./types/size";
-import { InlineStyles } from "./utils/style";
 import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 import { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 import { Variant } from "./types/variant";
@@ -44,9 +45,10 @@ import { ToasterPlacement } from "./components/organisms/ss-toaster/ss-toaster";
 import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
+export { InlineStyles } from "./utils/style";
+export { SsAccordionItemOpenChangeEvent } from "./components/organisms/ss-accordion-item/ss-accordion-item";
 export { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
 export { Size } from "./types/size";
-export { InlineStyles } from "./utils/style";
 export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 export { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 export { Variant } from "./types/variant";
@@ -84,6 +86,75 @@ export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./co
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
+    /**
+     * A stack of `ss-accordion-item` sections.
+     * By default one section is open at a time: opening a section closes the one
+     * that was open, so the reader is never left with a column of expanded text
+     * to find their place in. `multiple` lets several stay open.
+     * The arrow keys move between headers — Up and Down, wrapping, with Home and
+     * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+     * still goes through the headers and into each open section in page order;
+     * the arrows are a shortcut, not a replacement.
+     */
+    interface SsAccordion {
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lets several sections stay open at once.
+          * @default false
+         */
+        "multiple": boolean;
+        /**
+          * Id applied to the container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A heading that shows and hides the section under it.
+     * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+     * heading holds a button that says whether the section is expanded and which
+     * region it controls, and the region is named by that button. The heading is a
+     * real heading, so a screen reader user moving through a page by headings
+     * still finds every section — collapsed ones included. Pick `heading-level` to
+     * fit the page's outline.
+     * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+     * part in single-open behaviour and arrow-key movement between headers.
+     */
+    interface SsAccordionItem {
+        /**
+          * Disables the header; the section keeps its current state.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Heading text, used when no heading slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Level of the heading element, 1 to 6, so the section fits the page's outline.
+          * @default 3
+         */
+        "headingLevel": number;
+        /**
+          * Inline CSS styles applied to the item's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the section is expanded. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Value that identifies the item in events.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the item's container; also included in the ssOpenChange detail.
+         */
+        "xId"?: string;
+    }
     /**
      * A message block that states what happened and, when it matters, interrupts to
      * say so.
@@ -2048,6 +2119,10 @@ export namespace Components {
         "xId"?: string;
     }
 }
+export interface SsAccordionItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsAccordionItemElement;
+}
 export interface SsAlertCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsAlertElement;
@@ -2137,6 +2212,50 @@ export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSsTooltipElement;
 }
 declare global {
+    /**
+     * A stack of `ss-accordion-item` sections.
+     * By default one section is open at a time: opening a section closes the one
+     * that was open, so the reader is never left with a column of expanded text
+     * to find their place in. `multiple` lets several stay open.
+     * The arrow keys move between headers — Up and Down, wrapping, with Home and
+     * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+     * still goes through the headers and into each open section in page order;
+     * the arrows are a shortcut, not a replacement.
+     */
+    interface HTMLSsAccordionElement extends Components.SsAccordion, HTMLStencilElement {
+    }
+    var HTMLSsAccordionElement: {
+        prototype: HTMLSsAccordionElement;
+        new (): HTMLSsAccordionElement;
+    };
+    interface HTMLSsAccordionItemElementEventMap {
+        "ssOpenChange": SsAccordionItemOpenChangeEvent;
+    }
+    /**
+     * A heading that shows and hides the section under it.
+     * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+     * heading holds a button that says whether the section is expanded and which
+     * region it controls, and the region is named by that button. The heading is a
+     * real heading, so a screen reader user moving through a page by headings
+     * still finds every section — collapsed ones included. Pick `heading-level` to
+     * fit the page's outline.
+     * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+     * part in single-open behaviour and arrow-key movement between headers.
+     */
+    interface HTMLSsAccordionItemElement extends Components.SsAccordionItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsAccordionItemElementEventMap>(type: K, listener: (this: HTMLSsAccordionItemElement, ev: SsAccordionItemCustomEvent<HTMLSsAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsAccordionItemElementEventMap>(type: K, listener: (this: HTMLSsAccordionItemElement, ev: SsAccordionItemCustomEvent<HTMLSsAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsAccordionItemElement: {
+        prototype: HTMLSsAccordionItemElement;
+        new (): HTMLSsAccordionItemElement;
+    };
     interface HTMLSsAlertElementEventMap {
         "ssDismiss": SsAlertDismissEvent;
     }
@@ -2833,6 +2952,8 @@ declare global {
         new (): HTMLSsTypographyElement;
     };
     interface HTMLElementTagNameMap {
+        "ss-accordion": HTMLSsAccordionElement;
+        "ss-accordion-item": HTMLSsAccordionItemElement;
         "ss-alert": HTMLSsAlertElement;
         "ss-avatar": HTMLSsAvatarElement;
         "ss-avatar-group": HTMLSsAvatarGroupElement;
@@ -2873,6 +2994,79 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    /**
+     * A stack of `ss-accordion-item` sections.
+     * By default one section is open at a time: opening a section closes the one
+     * that was open, so the reader is never left with a column of expanded text
+     * to find their place in. `multiple` lets several stay open.
+     * The arrow keys move between headers — Up and Down, wrapping, with Home and
+     * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+     * still goes through the headers and into each open section in page order;
+     * the arrows are a shortcut, not a replacement.
+     */
+    interface SsAccordion {
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lets several sections stay open at once.
+          * @default false
+         */
+        "multiple"?: boolean;
+        /**
+          * Id applied to the container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A heading that shows and hides the section under it.
+     * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+     * heading holds a button that says whether the section is expanded and which
+     * region it controls, and the region is named by that button. The heading is a
+     * real heading, so a screen reader user moving through a page by headings
+     * still finds every section — collapsed ones included. Pick `heading-level` to
+     * fit the page's outline.
+     * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+     * part in single-open behaviour and arrow-key movement between headers.
+     */
+    interface SsAccordionItem {
+        /**
+          * Disables the header; the section keeps its current state.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Heading text, used when no heading slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Level of the heading element, 1 to 6, so the section fits the page's outline.
+          * @default 3
+         */
+        "headingLevel"?: number;
+        /**
+          * Inline CSS styles applied to the item's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the header is pressed; detail contains xId, value and the new open state.
+         */
+        "onSsOpenChange"?: (event: SsAccordionItemCustomEvent<SsAccordionItemOpenChangeEvent>) => void;
+        /**
+          * Whether the section is expanded. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Value that identifies the item in events.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the item's container; also included in the ssOpenChange detail.
+         */
+        "xId"?: string;
+    }
     /**
      * A message block that states what happened and, when it matters, interrupts to
      * say so.
@@ -5053,6 +5247,8 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface IntrinsicElements {
+        "ss-accordion": SsAccordion;
+        "ss-accordion-item": SsAccordionItem;
         "ss-alert": SsAlert;
         "ss-avatar": SsAvatar;
         "ss-avatar-group": SsAvatarGroup;
@@ -5096,6 +5292,29 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * A stack of `ss-accordion-item` sections.
+             * By default one section is open at a time: opening a section closes the one
+             * that was open, so the reader is never left with a column of expanded text
+             * to find their place in. `multiple` lets several stay open.
+             * The arrow keys move between headers — Up and Down, wrapping, with Home and
+             * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+             * still goes through the headers and into each open section in page order;
+             * the arrows are a shortcut, not a replacement.
+             */
+            "ss-accordion": LocalJSX.SsAccordion & JSXBase.HTMLAttributes<HTMLSsAccordionElement>;
+            /**
+             * A heading that shows and hides the section under it.
+             * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+             * heading holds a button that says whether the section is expanded and which
+             * region it controls, and the region is named by that button. The heading is a
+             * real heading, so a screen reader user moving through a page by headings
+             * still finds every section — collapsed ones included. Pick `heading-level` to
+             * fit the page's outline.
+             * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+             * part in single-open behaviour and arrow-key movement between headers.
+             */
+            "ss-accordion-item": LocalJSX.SsAccordionItem & JSXBase.HTMLAttributes<HTMLSsAccordionItemElement>;
             /**
              * A message block that states what happened and, when it matters, interrupts to
              * say so.
