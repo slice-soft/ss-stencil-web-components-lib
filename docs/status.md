@@ -49,8 +49,11 @@ variant.
 ## Next
 
 **Phase 4 is built, and the suite is green at its full size.** What is left is
-under "Open" — decisions worth making before they are needed — plus pushing:
-`feat/organisms` sits on `feat/molecules`, and neither is on the remote yet.
+under "Open" — decisions worth making before they are needed — plus merging
+the two pull requests in order: #46 (phases 0–3, into `main`), then #47
+(phase 4, stacked on #46). Once #46 is in, `feat/organisms` has to be rebased
+onto `main`, because the repo merges by squash or rebase and phase 0–3 land
+with new hashes.
 For anything new,
 `ss-popover` is the pattern for what is anchored to a trigger and `ss-modal`
 for what takes the page over. New organisms go in
