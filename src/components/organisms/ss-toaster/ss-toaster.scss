@@ -1,0 +1,42 @@
+/* Width is a multiple of the largest dimension step until the design system
+   has overlay widths (docs/pending-token-proposals.md), and never wider than
+   the viewport minus a margin each side. */
+.ss-toaster {
+  position: fixed;
+  z-index: var(--ss-z-index-toast);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-2);
+  width: min(calc(var(--ss-dimensions-32) * 2.75), calc(var(--ss-sizing-full) - var(--ss-dimensions-8)));
+  pointer-events: none;
+}
+
+.ss-toaster--top-start,
+.ss-toaster--top-center,
+.ss-toaster--top-end {
+  top: var(--ss-dimensions-4);
+}
+
+.ss-toaster--bottom-start,
+.ss-toaster--bottom-center,
+.ss-toaster--bottom-end {
+  bottom: var(--ss-dimensions-4);
+}
+
+.ss-toaster--top-start,
+.ss-toaster--bottom-start {
+  left: var(--ss-dimensions-4);
+}
+
+.ss-toaster--top-end,
+.ss-toaster--bottom-end {
+  right: var(--ss-dimensions-4);
+}
+
+.ss-toaster--top-center,
+.ss-toaster--bottom-center {
+  left: var(--ss-sizing-none);
+  right: var(--ss-sizing-none);
+  margin-inline: auto;
+}

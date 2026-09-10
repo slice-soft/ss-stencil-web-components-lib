@@ -109,6 +109,11 @@ instead — the `has` trap is not instrumented.
   `this.el.children` after the first render holds what the component drew, not
   what the caller passed. Search the subtree, and use
   `el.closest('<tag>') === this.el` so a nested instance does not claim it.
+- **A scoped wrapper can fill a shadow child's slots.** Relocation moves the
+  caller's nodes into the child element with their `slot` attributes intact,
+  so the child slots them itself. `ss-toast` hands its content to `ss-alert`
+  this way, `title` included — which the alert detects by querying its own
+  light DOM, and finds.
 - **Measure-then-position stays out of the render cycle.** Writing coordinates to
   the element directly avoids a re-render per scroll frame; ask for a render only
   when something that appears in the markup changes, such as the resolved side.

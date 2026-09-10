@@ -1705,6 +1705,58 @@
       });
     </script>
 
+    <section>
+      <h2>ss-toast · ss-toaster</h2>
+      <p class="section-desc">open · variant · heading · duration · dismissible &mdash; el reloj se detiene con el puntero encima, con el foco adentro o con la pestaña oculta</p>
+
+      <div class="card">
+        <p class="label">cada botón agrega un aviso abajo a la derecha; el de error no se cierra solo (duration=0); cada aviso se quita del DOM al cerrarse</p>
+        <div class="row">
+          <ss-button id="toast-success" label="Guardado" variant="success"></ss-button>
+          <ss-button id="toast-info" label="Info con acción" x-style="outline"></ss-button>
+          <ss-button id="toast-error" label="Error" variant="error"></ss-button>
+        </div>
+      </div>
+
+      <ss-toaster id="demo-toaster"></ss-toaster>
+    </section>
+
+    <script>
+      (function () {
+        var toaster = document.getElementById('demo-toaster');
+
+        function toast(options) {
+          var el = document.createElement('ss-toast');
+          el.variant = options.variant;
+          el.heading = options.heading;
+          el.duration = options.duration;
+          el.textContent = options.message;
+          if (options.action) {
+            var action = document.createElement('ss-button');
+            action.slot = 'actions';
+            action.label = options.action;
+            action.size = 'sm';
+            action.xStyle = 'outline';
+            el.appendChild(action);
+          }
+          // A closed toast stays in the DOM; a list of them is the caller's to prune.
+          el.addEventListener('ssOpenChange', function () { el.remove(); });
+          el.open = true;
+          toaster.appendChild(el);
+        }
+
+        document.getElementById('toast-success').addEventListener('click', function () {
+          toast({ variant: 'success', heading: 'Guardado', message: 'Los cambios quedaron guardados.', duration: 4000 });
+        });
+        document.getElementById('toast-info').addEventListener('click', function () {
+          toast({ variant: 'info', heading: 'Archivo movido', message: 'Se movió a Archivados.', duration: 6000, action: 'Deshacer' });
+        });
+        document.getElementById('toast-error').addEventListener('click', function () {
+          toast({ variant: 'error', heading: 'No se pudo subir', message: 'Revisá la conexión e intentá de nuevo.', duration: 0 });
+        });
+      })();
+    </script>
+
 
     <script>
       (function () {

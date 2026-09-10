@@ -2985,6 +2985,106 @@
       ]
     },
     {
+      "name": "ss-toast",
+      "description": {
+        "kind": "markdown",
+        "value": "A short message that appears, says what happened, and goes away on its own.\n\nThe message is an `ss-alert`, so it brings the alert's severity, layout and\nlive-region role: a screen reader announces info and success politely and\ninterrupts for warning and error. What the toast adds is time. It closes\nitself after `duration`, and the clock stops while the reader is hovering\nover it, has focus inside it, or cannot see the page at all — a message that\ndisappears while someone is reading it, or while they are in another tab, was\nnever delivered (WCAG 2.2.1, Timing Adjustable).\n\nPut toasts inside an `ss-toaster`, which pins them to a corner and stacks\nthem. A closed toast stays in the DOM and takes no room; remove it on\n`ssOpenChange` when toasts are rendered from a list.\n\nScoped so the caller's content reaches the alert's own slots: it is moved\ninto the `ss-alert` element, where the alert slots it natively."
+      },
+      "attributes": [
+        {
+          "name": "dismiss-label",
+          "description": "Accessible label for the dismiss button."
+        },
+        {
+          "name": "dismissible",
+          "description": "Renders a dismiss button."
+        },
+        {
+          "name": "duration",
+          "description": "Milliseconds before the toast closes itself. 0 keeps it until dismissed — use that for anything the reader must act on."
+        },
+        {
+          "name": "heading",
+          "description": "Title text, used when no title slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the toast's container."
+        },
+        {
+          "name": "open",
+          "description": "Whether the toast is showing. Set to show it; updated when it closes, and reflected."
+        },
+        {
+          "name": "variant",
+          "description": "Severity, which sets the colour and how insistently the message is announced.",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the toast's container."
+        }
+      ]
+    },
+    {
+      "name": "ss-toaster",
+      "description": {
+        "kind": "markdown",
+        "value": "The corner of the screen toasts appear in.\n\nIt pins its toasts to one corner, above everything else, and stacks them in\nthe order they were added. It is a named region, so a screen reader user can\njump to the notifications and back again. The announcement itself comes from\neach toast's own live region, which is why the toaster sets no `aria-live`:\na live region inside another announces the same message twice.\n\nThe region ignores the pointer, so its empty area never blocks the page under\nit; the toasts take the pointer back."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the region, which is what a screen reader lists it as."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the region."
+        },
+        {
+          "name": "placement",
+          "description": "Corner of the viewport the toasts are pinned to.",
+          "values": [
+            {
+              "name": "bottom-center"
+            },
+            {
+              "name": "bottom-end"
+            },
+            {
+              "name": "bottom-start"
+            },
+            {
+              "name": "top-center"
+            },
+            {
+              "name": "top-end"
+            },
+            {
+              "name": "top-start"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the region."
+        }
+      ]
+    },
+    {
       "name": "ss-tooltip",
       "description": {
         "kind": "markdown",

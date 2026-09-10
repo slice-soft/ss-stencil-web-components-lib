@@ -47,6 +47,10 @@ built-in icon set, following `ss-icon`, which is also a slot.
 
 ## Dependencies
 
+### Used by
+
+ - [ss-toast](../../organisms/ss-toast)
+
 ### Depends on
 
 - [ss-typography](../../atoms/ss-typography)
@@ -55,6 +59,7 @@ built-in icon set, following `ss-icon`, which is also a slot.
 ```mermaid
 graph TD;
   ss-alert --> ss-typography
+  ss-toast --> ss-alert
   style ss-alert fill:#000,stroke:#fff,stroke-width:4px
 ```
 

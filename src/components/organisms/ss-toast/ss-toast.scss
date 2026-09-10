@@ -1,0 +1,21 @@
+/* A toaster ignores the pointer so its empty area never blocks the page under
+   it; the toasts themselves take it back. */
+:host {
+  display: block;
+  pointer-events: auto;
+}
+
+/* Closed toasts take no room, so the stack closes up around them instead of
+   leaving a gap per closed toast. */
+:host(:not([open])) {
+  display: none;
+}
+
+.ss-toast {
+  border-radius: var(--ss-radius-base);
+  box-shadow: var(--ss-shadows-lg);
+}
+
+.ss-toast__alert {
+  display: block;
+}

@@ -36,6 +36,9 @@ import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/s
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
+import { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
+import { SsToastOpenChangeEvent } from "./components/organisms/ss-toast/ss-toast";
+import { ToasterPlacement } from "./components/organisms/ss-toaster/ss-toaster";
 import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
@@ -70,6 +73,9 @@ export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/s
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
+export { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
+export { SsToastOpenChangeEvent } from "./components/organisms/ss-toast/ss-toast";
+export { ToasterPlacement } from "./components/organisms/ss-toaster/ss-toaster";
 export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
@@ -1775,6 +1781,90 @@ export namespace Components {
         "xStyle": InputStyle;
     }
     /**
+     * A short message that appears, says what happened, and goes away on its own.
+     * The message is an `ss-alert`, so it brings the alert's severity, layout and
+     * live-region role: a screen reader announces info and success politely and
+     * interrupts for warning and error. What the toast adds is time. It closes
+     * itself after `duration`, and the clock stops while the reader is hovering
+     * over it, has focus inside it, or cannot see the page at all — a message that
+     * disappears while someone is reading it, or while they are in another tab, was
+     * never delivered (WCAG 2.2.1, Timing Adjustable).
+     * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+     * them. A closed toast stays in the DOM and takes no room; remove it on
+     * `ssOpenChange` when toasts are rendered from a list.
+     * Scoped so the caller's content reaches the alert's own slots: it is moved
+     * into the `ss-alert` element, where the alert slots it natively.
+     */
+    interface SsToast {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel": string;
+        /**
+          * Renders a dismiss button.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Milliseconds before the toast closes itself. 0 keeps it until dismissed — use that for anything the reader must act on.
+          * @default 5000
+         */
+        "duration": number;
+        /**
+          * Title text, used when no title slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the toast's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the toast is showing. Set to show it; updated when it closes, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Severity, which sets the colour and how insistently the message is announced.
+          * @default 'info'
+         */
+        "variant": AlertVariant1;
+        /**
+          * Id applied to the toast's container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * The corner of the screen toasts appear in.
+     * It pins its toasts to one corner, above everything else, and stacks them in
+     * the order they were added. It is a named region, so a screen reader user can
+     * jump to the notifications and back again. The announcement itself comes from
+     * each toast's own live region, which is why the toaster sets no `aria-live`:
+     * a live region inside another announces the same message twice.
+     * The region ignores the pointer, so its empty area never blocks the page under
+     * it; the toasts take the pointer back.
+     */
+    interface SsToaster {
+        /**
+          * Accessible name for the region, which is what a screen reader lists it as.
+          * @default 'Notifications'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Inline CSS styles applied to the region.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Corner of the viewport the toasts are pinned to.
+          * @default 'bottom-end'
+         */
+        "placement": ToasterPlacement;
+        /**
+          * Id applied to the region.
+         */
+        "xId"?: string;
+    }
+    /**
      * Rendered scoped rather than shadow because the description has to reach the
      * trigger. A tooltip's whole job is to describe the thing it points at, and
      * `aria-describedby` is an IDREF: with the content inside a shadow root, the
@@ -1951,6 +2041,10 @@ export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
 export interface SsTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsTextareaElement;
+}
+export interface SsToastCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsToastElement;
 }
 export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2529,6 +2623,54 @@ declare global {
         prototype: HTMLSsTextareaElement;
         new (): HTMLSsTextareaElement;
     };
+    interface HTMLSsToastElementEventMap {
+        "ssOpenChange": SsToastOpenChangeEvent;
+    }
+    /**
+     * A short message that appears, says what happened, and goes away on its own.
+     * The message is an `ss-alert`, so it brings the alert's severity, layout and
+     * live-region role: a screen reader announces info and success politely and
+     * interrupts for warning and error. What the toast adds is time. It closes
+     * itself after `duration`, and the clock stops while the reader is hovering
+     * over it, has focus inside it, or cannot see the page at all — a message that
+     * disappears while someone is reading it, or while they are in another tab, was
+     * never delivered (WCAG 2.2.1, Timing Adjustable).
+     * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+     * them. A closed toast stays in the DOM and takes no room; remove it on
+     * `ssOpenChange` when toasts are rendered from a list.
+     * Scoped so the caller's content reaches the alert's own slots: it is moved
+     * into the `ss-alert` element, where the alert slots it natively.
+     */
+    interface HTMLSsToastElement extends Components.SsToast, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsToastElementEventMap>(type: K, listener: (this: HTMLSsToastElement, ev: SsToastCustomEvent<HTMLSsToastElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsToastElementEventMap>(type: K, listener: (this: HTMLSsToastElement, ev: SsToastCustomEvent<HTMLSsToastElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsToastElement: {
+        prototype: HTMLSsToastElement;
+        new (): HTMLSsToastElement;
+    };
+    /**
+     * The corner of the screen toasts appear in.
+     * It pins its toasts to one corner, above everything else, and stacks them in
+     * the order they were added. It is a named region, so a screen reader user can
+     * jump to the notifications and back again. The announcement itself comes from
+     * each toast's own live region, which is why the toaster sets no `aria-live`:
+     * a live region inside another announces the same message twice.
+     * The region ignores the pointer, so its empty area never blocks the page under
+     * it; the toasts take the pointer back.
+     */
+    interface HTMLSsToasterElement extends Components.SsToaster, HTMLStencilElement {
+    }
+    var HTMLSsToasterElement: {
+        prototype: HTMLSsToasterElement;
+        new (): HTMLSsToasterElement;
+    };
     interface HTMLSsTooltipElementEventMap {
         "ssOpenChange": SsTooltipOpenChangeEvent;
     }
@@ -2591,6 +2733,8 @@ declare global {
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
         "ss-textarea": HTMLSsTextareaElement;
+        "ss-toast": HTMLSsToastElement;
+        "ss-toaster": HTMLSsToasterElement;
         "ss-tooltip": HTMLSsTooltipElement;
         "ss-typography": HTMLSsTypographyElement;
     }
@@ -4501,6 +4645,94 @@ declare namespace LocalJSX {
         "xStyle"?: InputStyle;
     }
     /**
+     * A short message that appears, says what happened, and goes away on its own.
+     * The message is an `ss-alert`, so it brings the alert's severity, layout and
+     * live-region role: a screen reader announces info and success politely and
+     * interrupts for warning and error. What the toast adds is time. It closes
+     * itself after `duration`, and the clock stops while the reader is hovering
+     * over it, has focus inside it, or cannot see the page at all — a message that
+     * disappears while someone is reading it, or while they are in another tab, was
+     * never delivered (WCAG 2.2.1, Timing Adjustable).
+     * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+     * them. A closed toast stays in the DOM and takes no room; remove it on
+     * `ssOpenChange` when toasts are rendered from a list.
+     * Scoped so the caller's content reaches the alert's own slots: it is moved
+     * into the `ss-alert` element, where the alert slots it natively.
+     */
+    interface SsToast {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Renders a dismiss button.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Milliseconds before the toast closes itself. 0 keeps it until dismissed — use that for anything the reader must act on.
+          * @default 5000
+         */
+        "duration"?: number;
+        /**
+          * Title text, used when no title slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the toast's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the toast closes itself or is dismissed; detail contains xId, open and the reason.
+         */
+        "onSsOpenChange"?: (event: SsToastCustomEvent<SsToastOpenChangeEvent>) => void;
+        /**
+          * Whether the toast is showing. Set to show it; updated when it closes, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Severity, which sets the colour and how insistently the message is announced.
+          * @default 'info'
+         */
+        "variant"?: AlertVariant1;
+        /**
+          * Id applied to the toast's container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * The corner of the screen toasts appear in.
+     * It pins its toasts to one corner, above everything else, and stacks them in
+     * the order they were added. It is a named region, so a screen reader user can
+     * jump to the notifications and back again. The announcement itself comes from
+     * each toast's own live region, which is why the toaster sets no `aria-live`:
+     * a live region inside another announces the same message twice.
+     * The region ignores the pointer, so its empty area never blocks the page under
+     * it; the toasts take the pointer back.
+     */
+    interface SsToaster {
+        /**
+          * Accessible name for the region, which is what a screen reader lists it as.
+          * @default 'Notifications'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the region.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Corner of the viewport the toasts are pinned to.
+          * @default 'bottom-end'
+         */
+        "placement"?: ToasterPlacement;
+        /**
+          * Id applied to the region.
+         */
+        "xId"?: string;
+    }
+    /**
      * Rendered scoped rather than shadow because the description has to reach the
      * trigger. A tooltip's whole job is to describe the thing it points at, and
      * `aria-describedby` is an IDREF: with the content inside a shadow root, the
@@ -4637,6 +4869,8 @@ declare namespace LocalJSX {
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
         "ss-textarea": SsTextarea;
+        "ss-toast": SsToast;
+        "ss-toaster": SsToaster;
         "ss-tooltip": SsTooltip;
         "ss-typography": SsTypography;
     }
@@ -4821,6 +5055,33 @@ declare module "@stencil/core" {
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;
+            /**
+             * A short message that appears, says what happened, and goes away on its own.
+             * The message is an `ss-alert`, so it brings the alert's severity, layout and
+             * live-region role: a screen reader announces info and success politely and
+             * interrupts for warning and error. What the toast adds is time. It closes
+             * itself after `duration`, and the clock stops while the reader is hovering
+             * over it, has focus inside it, or cannot see the page at all — a message that
+             * disappears while someone is reading it, or while they are in another tab, was
+             * never delivered (WCAG 2.2.1, Timing Adjustable).
+             * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+             * them. A closed toast stays in the DOM and takes no room; remove it on
+             * `ssOpenChange` when toasts are rendered from a list.
+             * Scoped so the caller's content reaches the alert's own slots: it is moved
+             * into the `ss-alert` element, where the alert slots it natively.
+             */
+            "ss-toast": LocalJSX.SsToast & JSXBase.HTMLAttributes<HTMLSsToastElement>;
+            /**
+             * The corner of the screen toasts appear in.
+             * It pins its toasts to one corner, above everything else, and stacks them in
+             * the order they were added. It is a named region, so a screen reader user can
+             * jump to the notifications and back again. The announcement itself comes from
+             * each toast's own live region, which is why the toaster sets no `aria-live`:
+             * a live region inside another announces the same message twice.
+             * The region ignores the pointer, so its empty area never blocks the page under
+             * it; the toasts take the pointer back.
+             */
+            "ss-toaster": LocalJSX.SsToaster & JSXBase.HTMLAttributes<HTMLSsToasterElement>;
             /**
              * Rendered scoped rather than shadow because the description has to reach the
              * trigger. A tooltip's whole job is to describe the thing it points at, and

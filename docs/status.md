@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-09-10 · 62 test suites, 515 tests.
+Last updated: 2026-09-10 · 65 test suites, 532 tests.
 
 ## What exists
 
@@ -14,7 +14,7 @@ typography.
 **Molecules (11)** — alert, avatar-group, breadcrumb, breadcrumb-item,
 button-group, card, checkbox-group, field, input-group, pagination, radio-group.
 
-**Organisms (4)** — dropdown, dropdown-item, modal, popover.
+**Organisms (6)** — dropdown, dropdown-item, modal, popover, toast, toaster.
 
 **Shared helpers** — `utils/`: a11y, dismiss, focus, id, popup, position,
 roving, slot, style. `types/`: control-events, join, popup, size, typography,
@@ -38,10 +38,11 @@ variant.
 | 4 | popover | Non-modal dialog anchored to a trigger. Focus goes in on open; Escape hands it back to the trigger; Tab or a press elsewhere closes it and leaves focus where it went. Follows the trigger if it resizes while open |
 | 4 | e2e against real tokens | `useTokens(page)`. No e2e loaded the design tokens before, so every layout assertion measured lengths that had resolved to nothing |
 | 4 | dropdown, dropdown-item | WAI-ARIA menu button. Focus goes into the menu on open; arrows wrap and skip disabled items, Home/End jump, a letter jumps to the next match; Enter, Space or a click picks and emits `ssSelect`. Picking or Escape hands focus back to the button; Tab closes and moves on. `role="menuitem"` sits on each item's host |
+| 4 | toast, toaster | A toast is an `ss-alert` with a clock: it closes after `duration`, and the clock holds while it is hovered, has focus inside, or the tab is hidden (WCAG 2.2.1). The toaster is the fixed, named region that stacks them, with no `aria-live` of its own — each toast is already a live region |
 
 ## Next
 
-**Phase 4, continued** — toast, tabs, accordion, nav, table, in that order. `ss-popover` is the pattern for anything anchored to a trigger, `ss-modal`
+**Phase 4, continued** — tabs, accordion, nav, table, in that order. `ss-popover` is the pattern for anything anchored to a trigger, `ss-modal`
 for anything that takes the page over. New organisms go in
 `src/components/organisms/`.
 
@@ -57,6 +58,11 @@ anything), and a section in `src/index.html`.
   machine. Every new e2e file adds to it, so it is worth measuring once
   phase 4's files all exist rather than now. See "Tests and tooling" in
   `docs/conventions.md` for what fixed it last time.
+- **No imperative toast API.** A toast is markup: showing one from code means
+  creating an `ss-toast`, and a closed one stays in the DOM until removed. The
+  harness demo does both in a dozen lines. A `toast()` helper or a toaster
+  method would save every app writing them, but its shape — options, return
+  value, queue limit — is better decided by a first real consumer.
 - **`ss-tooltip` sits outside the dismissal stack.** It listens for Escape on its
   own, so Escape over a tooltip inside a dialog closes both. It also does not
   follow a trigger that resizes while it is open; popover and dropdown do,
