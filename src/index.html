@@ -1757,6 +1757,30 @@
       })();
     </script>
 
+    <section>
+      <h2>ss-tabs · ss-tab</h2>
+      <p class="section-desc">value · orientation · activation · ssChange &mdash; una sola parada en el orden de Tab; las flechas mueven entre pestañas y Tab entra al panel</p>
+
+      <div class="card">
+        <p class="label">horizontal, activación automática; «Facturación» está deshabilitada y las flechas la saltan</p>
+        <ss-tabs accessibility-label="Configuración">
+          <ss-tab value="cuenta" label="Cuenta"><ss-typography>Nombre, correo y foto de perfil.</ss-typography></ss-tab>
+          <ss-tab value="seguridad" label="Seguridad"><ss-typography>Contraseña y verificación en dos pasos.</ss-typography></ss-tab>
+          <ss-tab value="facturacion" label="Facturación" disabled><ss-typography>Método de pago.</ss-typography></ss-tab>
+          <ss-tab value="equipo" label="Equipo"><ss-typography>Quién tiene acceso a este espacio.</ss-typography></ss-tab>
+        </ss-tabs>
+      </div>
+
+      <div class="card">
+        <p class="label">vertical, activación manual: las flechas mueven el foco, Enter o Espacio muestran el panel</p>
+        <ss-tabs orientation="vertical" activation="manual" value="notificaciones" accessibility-label="Preferencias">
+          <ss-tab value="general" label="General"><ss-typography>Idioma y zona horaria.</ss-typography></ss-tab>
+          <ss-tab value="notificaciones" label="Notificaciones"><ss-typography>Qué avisos recibís y por dónde.</ss-typography></ss-tab>
+          <ss-tab value="avanzado" label="Avanzado"><ss-typography>Opciones para quien sabe lo que hace.</ss-typography></ss-tab>
+        </ss-tabs>
+      </div>
+    </section>
+
 
     <script>
       (function () {

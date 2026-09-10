@@ -2809,6 +2809,88 @@
       ]
     },
     {
+      "name": "ss-tab",
+      "description": {
+        "kind": "markdown",
+        "value": "One tab of an `ss-tabs`: its label, and the panel shown while it is selected.\n\nThe button the reader presses is drawn by `ss-tabs`, in its tab list. What\nstays here is the panel, so the content sits where the caller wrote it and\nonly the label travels. `ss-tabs` tells each panel whether it is showing and\nwhich tab names it — the same coordination by props the rest of the library\nuses."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the tab; it cannot be selected and the arrow keys skip it."
+        },
+        {
+          "name": "label",
+          "description": "Text of the tab. Defaults to the value."
+        },
+        {
+          "name": "panel-id",
+          "description": "Id of the panel, which the tab points at. Set by `ss-tabs`."
+        },
+        {
+          "name": "selected",
+          "description": "Whether this panel is showing. Set by `ss-tabs`."
+        },
+        {
+          "name": "tab-id",
+          "description": "Id of the tab that names this panel. Set by `ss-tabs`."
+        },
+        {
+          "name": "value",
+          "description": "Value that identifies the tab; `ss-tabs` selects by it and reports it. Defaults to the tab's position."
+        }
+      ]
+    },
+    {
+      "name": "ss-tabs",
+      "description": {
+        "kind": "markdown",
+        "value": "A set of panels, one shown at a time, chosen from a row of tabs.\n\nIt follows the WAI-ARIA tabs pattern. The tab list is a single stop in the\ntab order — the selected tab — and the arrow keys move between tabs,\nwrapping, with Home and End for the ends. With automatic activation, the\ndefault, moving to a tab shows its panel. With manual activation the reader\nmoves first and presses Enter or Space to show it, which is the better choice\nwhen a panel is slow to render.\n\nThe tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a\nreal tab list. Drawing them from data rather than slotting the caller's\nmarkup is what keeps the roles intact: every tab is a direct child of the tab\nlist, in the same tree as the panels it controls, so the ids tying the two\ntogether resolve. The trade is that a tab label is text."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the tab list."
+        },
+        {
+          "name": "activation",
+          "description": "Whether moving to a tab shows its panel (automatic) or waits for Enter or Space (manual).",
+          "values": [
+            {
+              "name": "automatic"
+            },
+            {
+              "name": "manual"
+            }
+          ]
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "orientation",
+          "description": "Direction the tabs run in, which also decides the arrow keys: Left and Right, or Up and Down.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value of the selected tab. Updated on interaction, and reflected. Falls back to the first tab that can be selected."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the container; also included in the ssChange detail."
+        }
+      ]
+    },
+    {
       "name": "ss-textarea",
       "description": {
         "kind": "markdown",

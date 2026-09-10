@@ -35,6 +35,8 @@ import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEven
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+import { Orientation } from "./utils/roving";
+import { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 import { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
 import { SsToastOpenChangeEvent } from "./components/organisms/ss-toast/ss-toast";
@@ -72,6 +74,8 @@ export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEven
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+export { Orientation } from "./utils/roving";
+export { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 export { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
 export { SsToastOpenChangeEvent } from "./components/organisms/ss-toast/ss-toast";
@@ -1684,6 +1688,84 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+     * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+     * stays here is the panel, so the content sits where the caller wrote it and
+     * only the label travels. `ss-tabs` tells each panel whether it is showing and
+     * which tab names it — the same coordination by props the rest of the library
+     * uses.
+     */
+    interface SsTab {
+        /**
+          * Disables the tab; it cannot be selected and the arrow keys skip it.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Text of the tab. Defaults to the value.
+         */
+        "label"?: string;
+        /**
+          * Id of the panel, which the tab points at. Set by `ss-tabs`.
+         */
+        "panelId"?: string;
+        /**
+          * Whether this panel is showing. Set by `ss-tabs`.
+          * @default false
+         */
+        "selected": boolean;
+        /**
+          * Id of the tab that names this panel. Set by `ss-tabs`.
+         */
+        "tabId"?: string;
+        /**
+          * Value that identifies the tab; `ss-tabs` selects by it and reports it. Defaults to the tab's position.
+         */
+        "value"?: string;
+    }
+    /**
+     * A set of panels, one shown at a time, chosen from a row of tabs.
+     * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+     * tab order — the selected tab — and the arrow keys move between tabs,
+     * wrapping, with Home and End for the ends. With automatic activation, the
+     * default, moving to a tab shows its panel. With manual activation the reader
+     * moves first and presses Enter or Space to show it, which is the better choice
+     * when a panel is slow to render.
+     * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+     * real tab list. Drawing them from data rather than slotting the caller's
+     * markup is what keeps the roles intact: every tab is a direct child of the tab
+     * list, in the same tree as the panels it controls, so the ids tying the two
+     * together resolve. The trade is that a tab label is text.
+     */
+    interface SsTabs {
+        /**
+          * Accessible name for the tab list.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Whether moving to a tab shows its panel (automatic) or waits for Enter or Space (manual).
+          * @default 'automatic'
+         */
+        "activation": TabsActivation;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Direction the tabs run in, which also decides the arrow keys: Left and Right, or Up and Down.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Value of the selected tab. Updated on interaction, and reflected. Falls back to the first tab that can be selected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the container; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
     interface SsTextarea {
         /**
           * Accessible label for screen readers.
@@ -2037,6 +2119,10 @@ export interface SsSliderCustomEvent<T> extends CustomEvent<T> {
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSwitchElement;
+}
+export interface SsTabsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTabsElement;
 }
 export interface SsTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2602,6 +2688,51 @@ declare global {
         prototype: HTMLSsSwitchElement;
         new (): HTMLSsSwitchElement;
     };
+    /**
+     * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+     * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+     * stays here is the panel, so the content sits where the caller wrote it and
+     * only the label travels. `ss-tabs` tells each panel whether it is showing and
+     * which tab names it — the same coordination by props the rest of the library
+     * uses.
+     */
+    interface HTMLSsTabElement extends Components.SsTab, HTMLStencilElement {
+    }
+    var HTMLSsTabElement: {
+        prototype: HTMLSsTabElement;
+        new (): HTMLSsTabElement;
+    };
+    interface HTMLSsTabsElementEventMap {
+        "ssChange": SsTabsChangeEvent;
+    }
+    /**
+     * A set of panels, one shown at a time, chosen from a row of tabs.
+     * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+     * tab order — the selected tab — and the arrow keys move between tabs,
+     * wrapping, with Home and End for the ends. With automatic activation, the
+     * default, moving to a tab shows its panel. With manual activation the reader
+     * moves first and presses Enter or Space to show it, which is the better choice
+     * when a panel is slow to render.
+     * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+     * real tab list. Drawing them from data rather than slotting the caller's
+     * markup is what keeps the roles intact: every tab is a direct child of the tab
+     * list, in the same tree as the panels it controls, so the ids tying the two
+     * together resolve. The trade is that a tab label is text.
+     */
+    interface HTMLSsTabsElement extends Components.SsTabs, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTabsElementEventMap>(type: K, listener: (this: HTMLSsTabsElement, ev: SsTabsCustomEvent<HTMLSsTabsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTabsElementEventMap>(type: K, listener: (this: HTMLSsTabsElement, ev: SsTabsCustomEvent<HTMLSsTabsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTabsElement: {
+        prototype: HTMLSsTabsElement;
+        new (): HTMLSsTabsElement;
+    };
     interface HTMLSsTextareaElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
@@ -2732,6 +2863,8 @@ declare global {
         "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
+        "ss-tab": HTMLSsTabElement;
+        "ss-tabs": HTMLSsTabsElement;
         "ss-textarea": HTMLSsTextareaElement;
         "ss-toast": HTMLSsToastElement;
         "ss-toaster": HTMLSsToasterElement;
@@ -4528,6 +4661,88 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+     * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+     * stays here is the panel, so the content sits where the caller wrote it and
+     * only the label travels. `ss-tabs` tells each panel whether it is showing and
+     * which tab names it — the same coordination by props the rest of the library
+     * uses.
+     */
+    interface SsTab {
+        /**
+          * Disables the tab; it cannot be selected and the arrow keys skip it.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Text of the tab. Defaults to the value.
+         */
+        "label"?: string;
+        /**
+          * Id of the panel, which the tab points at. Set by `ss-tabs`.
+         */
+        "panelId"?: string;
+        /**
+          * Whether this panel is showing. Set by `ss-tabs`.
+          * @default false
+         */
+        "selected"?: boolean;
+        /**
+          * Id of the tab that names this panel. Set by `ss-tabs`.
+         */
+        "tabId"?: string;
+        /**
+          * Value that identifies the tab; `ss-tabs` selects by it and reports it. Defaults to the tab's position.
+         */
+        "value"?: string;
+    }
+    /**
+     * A set of panels, one shown at a time, chosen from a row of tabs.
+     * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+     * tab order — the selected tab — and the arrow keys move between tabs,
+     * wrapping, with Home and End for the ends. With automatic activation, the
+     * default, moving to a tab shows its panel. With manual activation the reader
+     * moves first and presses Enter or Space to show it, which is the better choice
+     * when a panel is slow to render.
+     * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+     * real tab list. Drawing them from data rather than slotting the caller's
+     * markup is what keeps the roles intact: every tab is a direct child of the tab
+     * list, in the same tree as the panels it controls, so the ids tying the two
+     * together resolve. The trade is that a tab label is text.
+     */
+    interface SsTabs {
+        /**
+          * Accessible name for the tab list.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Whether moving to a tab shows its panel (automatic) or waits for Enter or Space (manual).
+          * @default 'automatic'
+         */
+        "activation"?: TabsActivation;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an interaction selects a different tab; detail contains xId and the tab's value.
+         */
+        "onSsChange"?: (event: SsTabsCustomEvent<SsTabsChangeEvent>) => void;
+        /**
+          * Direction the tabs run in, which also decides the arrow keys: Left and Right, or Up and Down.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Value of the selected tab. Updated on interaction, and reflected. Falls back to the first tab that can be selected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the container; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
     interface SsTextarea {
         /**
           * Accessible label for screen readers.
@@ -4868,6 +5083,8 @@ declare namespace LocalJSX {
         "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
+        "ss-tab": SsTab;
+        "ss-tabs": SsTabs;
         "ss-textarea": SsTextarea;
         "ss-toast": SsToast;
         "ss-toaster": SsToaster;
@@ -5054,6 +5271,30 @@ declare module "@stencil/core" {
             "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
+            /**
+             * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+             * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+             * stays here is the panel, so the content sits where the caller wrote it and
+             * only the label travels. `ss-tabs` tells each panel whether it is showing and
+             * which tab names it — the same coordination by props the rest of the library
+             * uses.
+             */
+            "ss-tab": LocalJSX.SsTab & JSXBase.HTMLAttributes<HTMLSsTabElement>;
+            /**
+             * A set of panels, one shown at a time, chosen from a row of tabs.
+             * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+             * tab order — the selected tab — and the arrow keys move between tabs,
+             * wrapping, with Home and End for the ends. With automatic activation, the
+             * default, moving to a tab shows its panel. With manual activation the reader
+             * moves first and presses Enter or Space to show it, which is the better choice
+             * when a panel is slow to render.
+             * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+             * real tab list. Drawing them from data rather than slotting the caller's
+             * markup is what keeps the roles intact: every tab is a direct child of the tab
+             * list, in the same tree as the panels it controls, so the ids tying the two
+             * together resolve. The trade is that a tab label is text.
+             */
+            "ss-tabs": LocalJSX.SsTabs & JSXBase.HTMLAttributes<HTMLSsTabsElement>;
             "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;
             /**
              * A short message that appears, says what happened, and goes away on its own.
