@@ -4,6 +4,9 @@ This document specifies design only; it does not implement components or refacto
 `@slice-soft/ss-stencil-web-components-lib` version `0.2.2`. Findings come from the supplied `molecules-findings.md` dossier, with targeted source checks and corrections recorded below.
 This file lives at the repository root by explicit instruction, although architectural documentation normally uses lowercase `docs/*.md`.
 
+> **This is a design record, not a status board.** It is written against `main @ 41e0eff` and is not updated as components are built.
+> For what exists today and what is next, read `docs/status.md`. For the conventions that came out of building it, `docs/conventions.md`.
+
 ## 1. Current structure
 
 The source tree contains 18 atoms, 18 component specs, and **9 component e2e files**. The dossier says 7 e2e files; the source contains 9.
@@ -1934,52 +1937,26 @@ need no own color/style variants.
 | 10  | Radio/badge JSDoc                                  | P2                | Missing prop/event documentation after `41e0eff`                                                                                        |
 | 11  | Button group and card/modal/dropdown/toast layer   | P2, evaluate only | No real product pattern; only token reservations for the future overlay layer                                                           |
 
-### Phase 0 — Prerequisites
+### Where the phases went
 
-**Done.** `src/utils/id.ts` (`nextId`, `resolveId`) and `src/utils/a11y.ts` (`composeDescribedBy`, plus `applyLabelledBy` / `applyDescribedBy`) exist with adjacent specs. `ss-input`, `ss-textarea` and `ss-slider` are
-`formAssociated` with `delegatesFocus`, so a host-targeted `<label for>` focuses them and a surrounding form submits and validates them; each has e2e coverage for submission,
-typed value, label focus, reset, form validity and ancestor-fieldset disabling. The two dev token sets now define every `--ss-*` variable the atoms reference, including the full
-`--ss-z-index-*` layering scale that the overlay layer will need.
+The four phases this section originally laid out are all built, and the record of
+what each one settled has moved to `docs/status.md`.
 
-**Still open before Phase 1.** Establish `src/components/molecules/`, and expose new payload types through the existing type-only entry point when their defining modules exist —
-no component exports belong in `src/index.ts`. **No new atoms are required.** Migrating combobox/tooltip counters to `utils/id.ts` remains optional, non-blocking work. Three design
-gaps stay unresolved and must be settled as part of the field/group design rather than during implementation: cross-root `aria-describedby` association into a shadow control, the
-radio-group invalid payload when nothing is selected, and the slot-only error condition behind `showError`.
+That is deliberate, and it is worth stating why: this document is a design record
+written against `main @ 41e0eff`. It argues for a set of components and records
+what was decided and what was left open at that moment. It is not a status board,
+and every attempt to keep it acting as one made it wrong — it went on listing
+tooltip accessibility work, radio and badge JSDoc, and a "do not design these"
+overlay layer, while all three had already shipped and sat in the same repository.
 
-### Phase 1 — Core molecules
+So the split is: **this document holds the reasoning, `docs/status.md` holds the
+state.** Read this one when you want to know why the layer is shaped the way it
+is; read that one to find out where things stand. `docs/conventions.md` holds the
+rules that came out of building it, several of which contradict what was assumed
+here — the note in §8.1 on shadow boundaries is the clearest example.
 
-**Done.** `ss-field` and `ss-radio-group` exist under `src/components/molecules/`, each with same-name TSX/SCSS, a component spec, e2e coverage and a section in `src/index.html`.
-Association is asserted against the accessibility tree the browser exposes for the control node, and the aggregate event is asserted to be observed exactly once — at the group
-itself, not only at an ancestor, since the group is where a consumer is most likely to listen. That required `stopImmediatePropagation`, because plain `stopPropagation` still runs
-the remaining listeners on the same element; mock-doc implements the two identically, so that assertion lives in the e2e suite.
-
-Two contracts the design left open are now settled. `showError` accounts for an error supplied only through its slot, with slot detection reading the subtree because scoped
-rendering relocates slotted content out of the direct children. And the field clears only the state it applied itself, so it never silently un-disables a control the caller
-disabled, while still being able to un-apply its own.
-
-### Phase 2 — Secondary molecules
-
-**`ss-checkbox-group` done.** The rules the dossier left unspecified are resolved as follows, and each is covered by a test rather than left to the reader:
-
-| Open question | Resolution |
-| --------------- | ------------ |
-| Container role | `role="group"`. Not `radiogroup`, which the dossier rightly warned against assigning by analogy |
-| Group `required` | HTML has no native "at least one of this set". While nothing is selected the **first** checkbox carries `required`, which makes the form invalid; any selection lifts it. One checkbox is announced as required rather than all of them, and checking any of them satisfies the group |
-| Array value | Property-only, following `ss-select.value`. No comma-separated attribute form |
-| Master state | Derived from the selection, never separately controllable; indeterminate when some but not all selectable choices are chosen |
-| Disabled children | Excluded from what select-all toggles, and their existing membership is preserved rather than dropped |
-| Missing / duplicate values | A checkbox with no `value` cannot be a member and is left uncoordinated; two sharing a value toggle together, because membership is by value, not element identity |
-| Empty list | The master stays unchecked and determinate |
-
-Tooltip accessibility work can proceed independently as a separate atom change.
-
-### Phase 3 — Specialized work and debt
-
-Evaluate choice-control/BEM refactors and complete JSDoc. Normalize breaking APIs only with appropriate release planning.
-Evaluate button-group or reserved overlay roles only if a real product pattern appears; do not turn reserved tokens into speculative components.
-
-**Dossier dependency order:** `1, 2 → 3 → 4 → 5` (utilities → field → radio group → checkbox group). These are implementation/design prerequisites, not molecule-to-molecule import edges.
-No other listed item blocks this chain. Optional refactors and existing counter migration remain independent.
+The priority table above keeps its value as reasoning: it says what counted as P0
+and why, which is the part that does not go stale.
 
 ## 18. Honesty notes
 
