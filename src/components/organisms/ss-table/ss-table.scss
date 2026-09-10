@@ -1,0 +1,124 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-table {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--ss-text-fonts-sans);
+  font-size: var(--ss-text-sizes-sm);
+  color: var(--ss-color-foreground);
+}
+
+/* Takes the container's max-height, so a max-height on the table makes the rows
+   scroll here rather than pushing the page. */
+.ss-table__scroll {
+  max-height: inherit;
+  overflow: auto;
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border-radius: var(--ss-radius-base);
+
+  &:focus-visible {
+    @include mx.focus-ring;
+  }
+}
+
+.ss-table__table {
+  width: var(--ss-sizing-full);
+  border-collapse: collapse;
+}
+
+.ss-table__caption {
+  padding: var(--ss-dimensions-2) var(--ss-dimensions-3);
+  caption-side: top;
+  text-align: start;
+  font-weight: var(--ss-text-weights-semibold);
+}
+
+/* Out of view, still read. */
+.ss-table__caption--hidden {
+  position: absolute;
+  width: var(--ss-borders-width-base);
+  height: var(--ss-borders-width-base);
+  overflow: hidden;
+  clip-path: inset(var(--ss-sizing-half));
+  white-space: nowrap;
+}
+
+.ss-table__header,
+.ss-table__cell,
+.ss-table__empty {
+  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+}
+
+.ss-table__header {
+  background: var(--ss-color-surface);
+  color: var(--ss-color-muted-foreground);
+  font-weight: var(--ss-text-weights-semibold);
+  white-space: nowrap;
+}
+
+@each $size, $y, $x in (sm, 1, 2), (md, 2, 3), (lg, 3, 4) {
+  .ss-table--#{$size} :is(.ss-table__header, .ss-table__cell, .ss-table__empty) {
+    padding: var(--ss-dimensions-#{$y}) var(--ss-dimensions-#{$x});
+  }
+}
+
+.ss-table__cell--start {
+  text-align: start;
+}
+
+.ss-table__cell--center {
+  text-align: center;
+}
+
+.ss-table__cell--end {
+  text-align: end;
+}
+
+.ss-table__row:last-child .ss-table__cell {
+  border-bottom: var(--ss-borders-width-none);
+}
+
+.ss-table--striped .ss-table__row:nth-child(even) {
+  background: var(--ss-color-surface);
+}
+
+.ss-table--sticky-header .ss-table__header {
+  position: sticky;
+  top: var(--ss-sizing-none);
+  z-index: var(--ss-z-index-sticky);
+}
+
+.ss-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-1);
+  padding: var(--ss-sizing-none);
+  border: var(--ss-borders-width-none);
+  background: var(--ss-colors-transparent);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--ss-color-foreground);
+  }
+
+  &:focus-visible {
+    @include mx.focus-ring;
+  }
+}
+
+.ss-table__sort--active {
+  color: var(--ss-color-foreground);
+}
+
+.ss-table__sort-icon {
+  font-size: var(--ss-text-sizes-xs);
+  opacity: var(--ss-opacity-muted);
+}
+
+.ss-table__empty {
+  padding-block: var(--ss-dimensions-6);
+  color: var(--ss-color-muted-foreground);
+  text-align: center;
+}

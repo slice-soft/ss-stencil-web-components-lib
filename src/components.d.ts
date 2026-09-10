@@ -38,6 +38,7 @@ import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEven
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+import { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
 import { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 import { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
@@ -79,6 +80,7 @@ export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEven
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+export { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
 export { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 export { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
@@ -1873,6 +1875,90 @@ export namespace Components {
         "value"?: string;
     }
     /**
+     * Rows of data under a row of headers.
+     * It is driven by data rather than markup — `columns` and `rows` are set as
+     * properties, like `ss-checkbox-group`'s value — because a table's cells are
+     * the caller's content, and a scoped component cannot style content slotted
+     * into it. Drawing the cells itself is what lets the table look like the rest
+     * of the library. The trade is that a cell is text, shaped by a column's
+     * `format`.
+     * It is a real `<table>`: the caption names it, every header is a column
+     * header, and a sortable header is a button inside the header cell, with the
+     * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+     * `manual-sort` is set, in which case the table only reports the request and
+     * leaves the order to whoever fetched the rows.
+     * A table wider than its container scrolls sideways, and only then does its
+     * scroll area become a focusable region named after the caption, so a keyboard
+     * user can scroll it. A table that fits adds no stop to the tab order.
+     */
+    interface SsTable {
+        /**
+          * Caption, which is also the table's accessible name.
+         */
+        "caption"?: string;
+        /**
+          * The columns, in order. Set as a property.
+          * @default []
+         */
+        "columns": SsTableColumn[];
+        /**
+          * Text shown when there are no rows.
+          * @default 'No data'
+         */
+        "emptyText": string;
+        /**
+          * Keeps the caption for assistive technology but hides it from view.
+          * @default false
+         */
+        "hideCaption": boolean;
+        /**
+          * Inline CSS styles applied to the container. A max-height here makes the rows scroll.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Reports sort requests without reordering the rows, for data sorted elsewhere.
+          * @default false
+         */
+        "manualSort": boolean;
+        /**
+          * Property holding each row's identity, so the rows keep their elements when the order changes. Defaults to position.
+         */
+        "rowKey"?: string;
+        /**
+          * The rows, one object each. Set as a property; never modified.
+          * @default []
+         */
+        "rows": TableRow[];
+        /**
+          * Cell padding.
+          * @default 'md'
+         */
+        "size": TableSize;
+        /**
+          * Direction of the sort. Updated when a header is pressed, and reflected.
+          * @default 'ascending'
+         */
+        "sortDirection": TableSortDirection;
+        /**
+          * Column the rows are sorted by. Updated when a header is pressed, and reflected.
+         */
+        "sortKey"?: string;
+        /**
+          * Keeps the header in view while the rows scroll. Give the table a max-height for it to scroll.
+          * @default false
+         */
+        "stickyHeader": boolean;
+        /**
+          * Shades every other row.
+          * @default false
+         */
+        "striped": boolean;
+        /**
+          * Id applied to the container; also included in the ssSort detail.
+         */
+        "xId"?: string;
+    }
+    /**
      * A set of panels, one shown at a time, chosen from a row of tabs.
      * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
      * tab order — the selected tab — and the arrow keys move between tabs,
@@ -2275,6 +2361,10 @@ export interface SsSliderCustomEvent<T> extends CustomEvent<T> {
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSwitchElement;
+}
+export interface SsTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTableElement;
 }
 export interface SsTabsCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2947,6 +3037,40 @@ declare global {
         prototype: HTMLSsTabElement;
         new (): HTMLSsTabElement;
     };
+    interface HTMLSsTableElementEventMap {
+        "ssSort": SsTableSortEvent;
+    }
+    /**
+     * Rows of data under a row of headers.
+     * It is driven by data rather than markup — `columns` and `rows` are set as
+     * properties, like `ss-checkbox-group`'s value — because a table's cells are
+     * the caller's content, and a scoped component cannot style content slotted
+     * into it. Drawing the cells itself is what lets the table look like the rest
+     * of the library. The trade is that a cell is text, shaped by a column's
+     * `format`.
+     * It is a real `<table>`: the caption names it, every header is a column
+     * header, and a sortable header is a button inside the header cell, with the
+     * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+     * `manual-sort` is set, in which case the table only reports the request and
+     * leaves the order to whoever fetched the rows.
+     * A table wider than its container scrolls sideways, and only then does its
+     * scroll area become a focusable region named after the caption, so a keyboard
+     * user can scroll it. A table that fits adds no stop to the tab order.
+     */
+    interface HTMLSsTableElement extends Components.SsTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTableElementEventMap>(type: K, listener: (this: HTMLSsTableElement, ev: SsTableCustomEvent<HTMLSsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTableElementEventMap>(type: K, listener: (this: HTMLSsTableElement, ev: SsTableCustomEvent<HTMLSsTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTableElement: {
+        prototype: HTMLSsTableElement;
+        new (): HTMLSsTableElement;
+    };
     interface HTMLSsTabsElementEventMap {
         "ssChange": SsTabsChangeEvent;
     }
@@ -3113,6 +3237,7 @@ declare global {
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
         "ss-tab": HTMLSsTabElement;
+        "ss-table": HTMLSsTableElement;
         "ss-tabs": HTMLSsTabsElement;
         "ss-textarea": HTMLSsTextareaElement;
         "ss-toast": HTMLSsToastElement;
@@ -5099,6 +5224,94 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
+     * Rows of data under a row of headers.
+     * It is driven by data rather than markup — `columns` and `rows` are set as
+     * properties, like `ss-checkbox-group`'s value — because a table's cells are
+     * the caller's content, and a scoped component cannot style content slotted
+     * into it. Drawing the cells itself is what lets the table look like the rest
+     * of the library. The trade is that a cell is text, shaped by a column's
+     * `format`.
+     * It is a real `<table>`: the caption names it, every header is a column
+     * header, and a sortable header is a button inside the header cell, with the
+     * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+     * `manual-sort` is set, in which case the table only reports the request and
+     * leaves the order to whoever fetched the rows.
+     * A table wider than its container scrolls sideways, and only then does its
+     * scroll area become a focusable region named after the caption, so a keyboard
+     * user can scroll it. A table that fits adds no stop to the tab order.
+     */
+    interface SsTable {
+        /**
+          * Caption, which is also the table's accessible name.
+         */
+        "caption"?: string;
+        /**
+          * The columns, in order. Set as a property.
+          * @default []
+         */
+        "columns"?: SsTableColumn[];
+        /**
+          * Text shown when there are no rows.
+          * @default 'No data'
+         */
+        "emptyText"?: string;
+        /**
+          * Keeps the caption for assistive technology but hides it from view.
+          * @default false
+         */
+        "hideCaption"?: boolean;
+        /**
+          * Inline CSS styles applied to the container. A max-height here makes the rows scroll.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Reports sort requests without reordering the rows, for data sorted elsewhere.
+          * @default false
+         */
+        "manualSort"?: boolean;
+        /**
+          * Emitted when a sortable header is pressed; detail contains xId, the column key and the direction.
+         */
+        "onSsSort"?: (event: SsTableCustomEvent<SsTableSortEvent>) => void;
+        /**
+          * Property holding each row's identity, so the rows keep their elements when the order changes. Defaults to position.
+         */
+        "rowKey"?: string;
+        /**
+          * The rows, one object each. Set as a property; never modified.
+          * @default []
+         */
+        "rows"?: TableRow[];
+        /**
+          * Cell padding.
+          * @default 'md'
+         */
+        "size"?: TableSize;
+        /**
+          * Direction of the sort. Updated when a header is pressed, and reflected.
+          * @default 'ascending'
+         */
+        "sortDirection"?: TableSortDirection;
+        /**
+          * Column the rows are sorted by. Updated when a header is pressed, and reflected.
+         */
+        "sortKey"?: string;
+        /**
+          * Keeps the header in view while the rows scroll. Give the table a max-height for it to scroll.
+          * @default false
+         */
+        "stickyHeader"?: boolean;
+        /**
+          * Shades every other row.
+          * @default false
+         */
+        "striped"?: boolean;
+        /**
+          * Id applied to the container; also included in the ssSort detail.
+         */
+        "xId"?: string;
+    }
+    /**
      * A set of panels, one shown at a time, chosen from a row of tabs.
      * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
      * tab order — the selected tab — and the arrow keys move between tabs,
@@ -5489,6 +5702,7 @@ declare namespace LocalJSX {
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
         "ss-tab": SsTab;
+        "ss-table": SsTable;
         "ss-tabs": SsTabs;
         "ss-textarea": SsTextarea;
         "ss-toast": SsToast;
@@ -5732,6 +5946,24 @@ declare module "@stencil/core" {
              * uses.
              */
             "ss-tab": LocalJSX.SsTab & JSXBase.HTMLAttributes<HTMLSsTabElement>;
+            /**
+             * Rows of data under a row of headers.
+             * It is driven by data rather than markup — `columns` and `rows` are set as
+             * properties, like `ss-checkbox-group`'s value — because a table's cells are
+             * the caller's content, and a scoped component cannot style content slotted
+             * into it. Drawing the cells itself is what lets the table look like the rest
+             * of the library. The trade is that a cell is text, shaped by a column's
+             * `format`.
+             * It is a real `<table>`: the caption names it, every header is a column
+             * header, and a sortable header is a button inside the header cell, with the
+             * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+             * `manual-sort` is set, in which case the table only reports the request and
+             * leaves the order to whoever fetched the rows.
+             * A table wider than its container scrolls sideways, and only then does its
+             * scroll area become a focusable region named after the caption, so a keyboard
+             * user can scroll it. A table that fits adds no stop to the tab order.
+             */
+            "ss-table": LocalJSX.SsTable & JSXBase.HTMLAttributes<HTMLSsTableElement>;
             /**
              * A set of panels, one shown at a time, chosen from a row of tabs.
              * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the

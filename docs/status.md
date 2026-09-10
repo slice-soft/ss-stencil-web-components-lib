@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-09-10 · 72 test suites, 590 tests.
+Last updated: 2026-09-10 · 74 test suites, 611 tests.
 
 ## What exists
 
@@ -14,8 +14,8 @@ typography.
 **Molecules (11)** — alert, avatar-group, breadcrumb, breadcrumb-item,
 button-group, card, checkbox-group, field, input-group, pagination, radio-group.
 
-**Organisms (12)** — accordion, accordion-item, dropdown, dropdown-item, modal,
-nav, nav-item, popover, tab, tabs, toast, toaster.
+**Organisms (13)** — accordion, accordion-item, dropdown, dropdown-item, modal,
+nav, nav-item, popover, tab, table, tabs, toast, toaster.
 
 **Shared helpers** — `utils/`: a11y, dismiss, focus, id, popup, position,
 roving, slot, style. `types/`: control-events, join, popup, size, typography,
@@ -43,11 +43,14 @@ variant.
 | 4 | tabs, tab | WAI-ARIA tabs: one tab stop, arrows that wrap and skip disabled tabs, Home/End, automatic or manual activation, either orientation. `ss-tabs` draws the tab buttons from each `ss-tab`'s `label`, so tabs and panels share a tree and their IDREFs resolve; the panel stays in `ss-tab`, which asks the set to redraw when its label changes |
 | 4 | accordion, accordion-item | Each item is a disclosure: a real heading (`heading-level`, 1–6) holding a button with `aria-expanded`, over a region named by it. The accordion keeps one open by default (`multiple` for several) and moves between headers with the arrows. It filters `ssOpenChange` by tag and owner, since overlays inside a section emit the same event |
 | 4 | nav, nav-item | A named `nav` landmark over a list of real links, the current one marked `aria-current="page"` on the link itself. No menu roles: site navigation keeps open-in-new-tab and plain Tab. `ssChange` is cancelable, so a client-side router calls `preventDefault()` and routes; a modified click is left to the browser |
+| 4 | table | Data-driven — `columns` and `rows` as properties — because a scoped component cannot style slotted cells. A real `<table>` named by its caption; sortable headers are buttons, with `aria-sort` on the cell; natural sort, empty cells last, on a copy; `manual-sort` for rows sorted elsewhere. The scroll area becomes a focusable region only while it overflows. Optional sticky header |
 
 ## Next
 
-**Phase 4, continued** — table, the last of it. `ss-popover` is the pattern for anything anchored to a trigger, `ss-modal`
-for anything that takes the page over. New organisms go in
+**Phase 4 is built.** What remains of it is measuring the e2e load flake at the
+suite's full size — the first item under "Open". For anything new,
+`ss-popover` is the pattern for what is anchored to a trigger and `ss-modal`
+for what takes the page over. New organisms go in
 `src/components/organisms/`.
 
 Each needs the same shape as everything else: same-name TSX and SCSS, a spec, an
@@ -62,6 +65,11 @@ anything), and a section in `src/index.html`.
   machine. Every new e2e file adds to it, so it is worth measuring once
   phase 4's files all exist rather than now. See "Tests and tooling" in
   `docs/conventions.md` for what fixed it last time.
+- **`ss-table` cells are text.** A column's `format` shapes the text; there are
+  no rich cells, row selection or column resizing. A cell that renders markup
+  needs either a render-function prop, which ties the table to one framework's
+  idea of a render function, or a slot per cell, which a scoped component
+  cannot style. Worth designing against a real consumer.
 - **No imperative toast API.** A toast is markup: showing one from code means
   creating an `ss-toast`, and a closed one stays in the DOM until removed. The
   harness demo does both in a dozen lines. A `toast()` helper or a toaster

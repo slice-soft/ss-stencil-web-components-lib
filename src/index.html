@@ -1838,6 +1838,66 @@
       });
     </script>
 
+    <section>
+      <h2>ss-table</h2>
+      <p class="section-desc">columns · rows · caption · sortKey · sortDirection · manualSort · striped · stickyHeader · size &mdash; columnas y filas se asignan como propiedades; orden natural, vacíos al final</p>
+
+      <div class="card">
+        <p class="label">ordenable por Nombre, Tareas y Desde; «Item 2» va antes que «Item 10»; las celdas vacías quedan últimas en los dos sentidos</p>
+        <ss-table id="demo-table" caption="Equipo" striped></ss-table>
+      </div>
+
+      <div class="card">
+        <p class="label">en un contenedor angosto el área de desplazamiento pasa a ser una región enfocable, nombrada por el caption</p>
+        <div style="max-width: 260px">
+          <ss-table id="demo-table-narrow" caption="Equipo (angosto)" size="sm"></ss-table>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">sticky-header con max-height: el encabezado queda a la vista mientras las filas se desplazan</p>
+        <ss-table id="demo-table-sticky" caption="Registro" sticky-header inline-styles="max-height: 220px" size="sm"></ss-table>
+      </div>
+    </section>
+
+    <script>
+      (function () {
+        var columns = [
+          { key: 'name', label: 'Nombre', sortable: true },
+          { key: 'role', label: 'Rol' },
+          { key: 'tasks', label: 'Tareas', sortable: true, align: 'end' },
+          {
+            key: 'since',
+            label: 'Desde',
+            sortable: true,
+            format: function (value) { return value ? value.toLocaleDateString('es') : ''; },
+          },
+        ];
+        var rows = [
+          { name: 'Item 10', role: 'Diseño', tasks: 3, since: new Date(2024, 2, 1) },
+          { name: 'Item 2', role: 'Código', tasks: 12, since: new Date(2023, 8, 15) },
+          { name: 'Item 1', role: 'Operaciones', tasks: null, since: new Date(2025, 0, 10) },
+          { name: 'Ada', role: 'Código', tasks: 7, since: null },
+        ];
+
+        // Property-only: an array cannot come from an attribute.
+        ['demo-table', 'demo-table-narrow'].forEach(function (id) {
+          var table = document.getElementById(id);
+          table.columns = columns;
+          table.rows = rows;
+        });
+
+        var sticky = document.getElementById('demo-table-sticky');
+        sticky.columns = [
+          { key: 'at', label: 'Hora' },
+          { key: 'event', label: 'Evento' },
+        ];
+        sticky.rows = Array.from({ length: 30 }, function (_, i) {
+          return { at: '10:' + String(i).padStart(2, '0'), event: 'Evento ' + (i + 1) };
+        });
+      })();
+    </script>
+
 
     <script>
       (function () {
