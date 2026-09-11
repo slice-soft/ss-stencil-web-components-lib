@@ -111,9 +111,14 @@ export class SsTable {
   /** Emitted when a sortable header is pressed; detail contains xId, the column key and the direction. */
   @Event() ssSort: EventEmitter<SsTableSortEvent>;
 
+  /**
+   * The first measurement comes from the observer, which reports once as soon
+   * as it starts watching. Measuring here as well changed state inside
+   * `componentDidLoad`, which costs a second render on every table and makes
+   * Stencil warn about it.
+   */
   componentDidLoad() {
     this.releaseResize = onResize([this.scrollEl, this.scrollEl?.firstElementChild], () => this.measure());
-    this.measure();
   }
 
   componentDidUpdate() {
