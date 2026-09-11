@@ -15,12 +15,18 @@ export type ToasterPlacement = 'top-start' | 'top-center' | 'top-end' | 'bottom-
  * The region ignores the pointer, so its empty area never blocks the page under
  * it; the toasts take the pointer back.
  *
+ * Shadow rather than scoped, because toasts are added after the toaster has
+ * rendered — that is the whole point of it. A scoped component only moves its
+ * children into the slot when it renders, so a toast appended later stayed a
+ * direct child of the host, in the page flow, instead of in the fixed corner.
+ * A shadow root slots a child the moment it is added.
+ *
  * @slot - The `ss-toast` elements.
  */
 @Component({
   tag: 'ss-toaster',
   styleUrl: 'ss-toaster.scss',
-  scoped: true,
+  shadow: true,
 })
 export class SsToaster {
   /** Id applied to the region. */

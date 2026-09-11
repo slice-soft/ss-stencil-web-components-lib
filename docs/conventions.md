@@ -116,6 +116,15 @@ instead — the `has` trap is not instrumented.
   so the child slots them itself. `ss-toast` hands its content to `ss-alert`
   this way, `title` included — which the alert detects by querying its own
   light DOM, and finds.
+- **A scoped component only moves children into its slots when it renders.**
+  A child appended later stays a direct child of the host, outside everything
+  the component drew. `ss-toaster` was scoped, and every toast the playground
+  created landed in the page flow instead of the fixed corner — while every
+  e2e passed, because they wrote the toasts into the initial markup. It is
+  shadow now, which slots a child the moment it is added. Test any slotting
+  component with a child added after load. Stencil's
+  `extras.experimentalSlotFixes` is meant to patch this for scoped components
+  library-wide; not enabled — see `docs/status.md`.
 - **Measure-then-position stays out of the render cycle.** Writing coordinates to
   the element directly avoids a re-render per scroll frame; ask for a render only
   when something that appears in the markup changes, such as the resolved side.

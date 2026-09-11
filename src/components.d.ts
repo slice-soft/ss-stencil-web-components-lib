@@ -2159,6 +2159,11 @@ export namespace Components {
      * a live region inside another announces the same message twice.
      * The region ignores the pointer, so its empty area never blocks the page under
      * it; the toasts take the pointer back.
+     * Shadow rather than scoped, because toasts are added after the toaster has
+     * rendered — that is the whole point of it. A scoped component only moves its
+     * children into the slot when it renders, so a toast appended later stayed a
+     * direct child of the host, in the page flow, instead of in the fixed corner.
+     * A shadow root slots a child the moment it is added.
      */
     interface SsToaster {
         /**
@@ -3164,6 +3169,11 @@ declare global {
      * a live region inside another announces the same message twice.
      * The region ignores the pointer, so its empty area never blocks the page under
      * it; the toasts take the pointer back.
+     * Shadow rather than scoped, because toasts are added after the toaster has
+     * rendered — that is the whole point of it. A scoped component only moves its
+     * children into the slot when it renders, so a toast appended later stayed a
+     * direct child of the host, in the page flow, instead of in the fixed corner.
+     * A shadow root slots a child the moment it is added.
      */
     interface HTMLSsToasterElement extends Components.SsToaster, HTMLStencilElement {
     }
@@ -5540,6 +5550,11 @@ declare namespace LocalJSX {
      * a live region inside another announces the same message twice.
      * The region ignores the pointer, so its empty area never blocks the page under
      * it; the toasts take the pointer back.
+     * Shadow rather than scoped, because toasts are added after the toaster has
+     * rendered — that is the whole point of it. A scoped component only moves its
+     * children into the slot when it renders, so a toast appended later stayed a
+     * direct child of the host, in the page flow, instead of in the fixed corner.
+     * A shadow root slots a child the moment it is added.
      */
     interface SsToaster {
         /**
@@ -6005,6 +6020,11 @@ declare module "@stencil/core" {
              * a live region inside another announces the same message twice.
              * The region ignores the pointer, so its empty area never blocks the page under
              * it; the toasts take the pointer back.
+             * Shadow rather than scoped, because toasts are added after the toaster has
+             * rendered — that is the whole point of it. A scoped component only moves its
+             * children into the slot when it renders, so a toast appended later stayed a
+             * direct child of the host, in the page flow, instead of in the fixed corner.
+             * A shadow root slots a child the moment it is added.
              */
             "ss-toaster": LocalJSX.SsToaster & JSXBase.HTMLAttributes<HTMLSsToasterElement>;
             /**

@@ -158,10 +158,18 @@ describe('ss-toaster layout', () => {
     }, selector);
   }
 
+  /** The toaster's region, which lives in its shadow root. */
+  function regionBox(page: E2EPage) {
+    return page.evaluate(() => {
+      const r = document.querySelector('ss-toaster')!.shadowRoot!.querySelector('section')!.getBoundingClientRect();
+      return { top: r.top, bottom: r.bottom, left: r.left, right: r.right, height: r.height };
+    });
+  }
+
   it('pins its toasts to the bottom-end corner, clear of the edges', async () => {
     const page = await setup(STACK());
     const viewport = await page.evaluate(() => ({ width: window.innerWidth, height: window.innerHeight }));
-    const region = await box(page, 'ss-toaster section');
+    const region = await regionBox(page);
 
     expect(region.right).toBe(viewport.width - 16);
     expect(region.bottom).toBe(viewport.height - 16);
@@ -169,7 +177,7 @@ describe('ss-toaster layout', () => {
 
   it('pins them to the top-start corner when asked', async () => {
     const page = await setup(STACK('top-start'));
-    const region = await box(page, 'ss-toaster section');
+    const region = await regionBox(page);
 
     expect(region.top).toBe(16);
     expect(region.left).toBe(16);
@@ -183,5 +191,28 @@ describe('ss-toaster layout', () => {
 
     expect((await box(page, '#closed')).height).toBe(0);
     expect(third.top - first.bottom).toBe(8);
+  });
+
+  it('puts a toast added after load in its corner', async () => {
+    // How toasts are actually used: created and appended once the toaster has
+    // rendered. As a scoped component the toaster left them in the page flow,
+    // and every test above passed, because they write the toasts into the
+    // initial markup.
+    const page = await setup(`<ss-toaster></ss-toaster>`);
+    const viewport = await page.evaluate(() => ({ width: window.innerWidth, height: window.innerHeight }));
+
+    await page.evaluate(() => {
+      const toast = document.createElement('ss-toast') as HTMLElement & { open: boolean; duration: number; heading: string };
+      toast.heading = 'Added later';
+      toast.duration = 0;
+      toast.textContent = 'It belongs in the corner.';
+      toast.open = true;
+      document.querySelector('ss-toaster')!.appendChild(toast);
+    });
+    await page.waitForChanges();
+
+    const toast = await box(page, 'ss-toast');
+    expect(toast.right).toBe(viewport.width - 16);
+    expect(toast.bottom).toBe(viewport.height - 16);
   });
 });

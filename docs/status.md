@@ -70,6 +70,14 @@ anything), and a section in `src/index.html`.
   timeout in thirteen full runs, against five in the seven before; the only
   failures since were the toast's, now understood and fixed. Worth a few more
   full runs before calling it closed.
+- **Scoped components do not slot children added after they render.** Found
+  on `ss-toaster`, now shadow. Any scoped component that slots content is
+  likely to have the same gap when a framework adds a child after mount — a
+  dropdown item, a tab, an accordion section, a nav item, a breadcrumb step —
+  but they have not been checked one by one. Stencil's
+  `extras.experimentalSlotFixes` in `stencil.config.ts` is meant to fix it for
+  all of them; it changes slot behaviour library-wide and wants a full-suite
+  run before it is turned on.
 - **`ss-table` cells are text.** A column's `format` shapes the text; there are
   no rich cells, row selection or column resizing. A cell that renders markup
   needs either a render-function prop, which ties the table to one framework's
