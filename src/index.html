@@ -36,8 +36,11 @@
         transition:   background-color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate), color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate);
       }
 
+      /* Wraps so the token-set and theme controls drop under the title on a
+         phone instead of running off the right edge. */
       .page-header {
         display:         flex;
+        flex-wrap:       wrap;
         align-items:     center;
         justify-content: space-between;
         gap:             var(--ss-dimensions-3);
@@ -59,9 +62,11 @@
 
       .header-controls {
         display:     flex;
+        flex-wrap:   wrap;
         align-items: center;
         gap:         var(--ss-dimensions-2);
         flex-shrink: var(--ss-sizing-none);
+        max-width:   var(--ss-sizing-full);
       }
 
       #token-set-select,
@@ -1038,6 +1043,118 @@
             <option value="c">Option C</option>
             <option value="d">Option D</option>
           </ss-select>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-combobox ===================== -->
+    <section>
+      <h2>ss-combobox</h2>
+      <p class="section-desc">xStyle · size · color · disabled · readonly · invalid · required &mdash; un campo con sugerencias de un datalist nativo: se elige de la lista o se escribe libre</p>
+
+      <div class="card">
+        <p class="label">xStyle &mdash; escribí «u» o «co» para filtrar</p>
+        <div class="col">
+          <ss-combobox x-style="solid" placeholder="solid (default)" accessibility-label="País, solid">
+            <option value="Argentina"></option>
+            <option value="Colombia"></option>
+            <option value="Costa Rica"></option>
+            <option value="México"></option>
+            <option value="Uruguay"></option>
+          </ss-combobox>
+          <ss-combobox x-style="outline" placeholder="outline" accessibility-label="País, outline">
+            <option value="Argentina"></option>
+            <option value="Colombia"></option>
+            <option value="Costa Rica"></option>
+            <option value="México"></option>
+            <option value="Uruguay"></option>
+          </ss-combobox>
+          <ss-combobox x-style="underline" placeholder="underline" accessibility-label="País, underline">
+            <option value="Argentina"></option>
+            <option value="Colombia"></option>
+            <option value="Costa Rica"></option>
+            <option value="México"></option>
+            <option value="Uruguay"></option>
+          </ss-combobox>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size (outline)</p>
+        <div class="col">
+          <ss-combobox size="xs" x-style="outline" placeholder="XSmall" accessibility-label="XSmall"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="sm" x-style="outline" placeholder="Small" accessibility-label="Small"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="md" x-style="outline" placeholder="Medium (default)" accessibility-label="Medium"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="lg" x-style="outline" placeholder="Large" accessibility-label="Large"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="xl" x-style="outline" placeholder="XLarge" accessibility-label="XLarge"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color (outline)</p>
+        <div class="col">
+          <ss-combobox color="primary"   x-style="outline" placeholder="Primary"   accessibility-label="Primary"><option value="Uno"></option></ss-combobox>
+          <ss-combobox color="secondary" x-style="outline" placeholder="Secondary" accessibility-label="Secondary"><option value="Uno"></option></ss-combobox>
+          <ss-combobox color="success"   x-style="outline" placeholder="Success"   accessibility-label="Success"><option value="Uno"></option></ss-combobox>
+          <ss-combobox color="error"     x-style="outline" placeholder="Error"     accessibility-label="Error"><option value="Uno"></option></ss-combobox>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">state</p>
+        <div class="col">
+          <ss-combobox x-style="outline" disabled placeholder="Disabled" accessibility-label="Disabled"><option value="Uno"></option></ss-combobox>
+          <ss-combobox x-style="outline" readonly value="Colombia" accessibility-label="Readonly"><option value="Colombia"></option></ss-combobox>
+          <ss-combobox x-style="outline" invalid placeholder="Invalid" accessibility-label="Invalid"><option value="Uno"></option></ss-combobox>
+          <ss-combobox x-style="outline" required placeholder="Required" accessibility-label="Required"><option value="Uno"></option></ss-combobox>
+          <ss-combobox x-style="outline" full-width placeholder="fullWidth" accessibility-label="Full width"><option value="Uno"></option></ss-combobox>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-slider ===================== -->
+    <section>
+      <h2>ss-slider</h2>
+      <p class="section-desc">value · min · max · step · color · size · showValue · valueLabel · disabled · readonly · invalid</p>
+
+      <div class="card">
+        <p class="label">showValue · min / max / step</p>
+        <div class="col">
+          <ss-slider value="40" show-value full-width accessibility-label="Volumen, 0 a 100"></ss-slider>
+          <ss-slider value="3" min="0" max="10" step="1" show-value full-width accessibility-label="Nivel, 0 a 10"></ss-slider>
+          <ss-slider value="0.5" min="0" max="1" step="0.05" show-value full-width accessibility-label="Opacidad, 0 a 1 en pasos de 0.05"></ss-slider>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color</p>
+        <div class="col">
+          <ss-slider color="primary"   value="30" show-value full-width accessibility-label="Primary"></ss-slider>
+          <ss-slider color="secondary" value="45" show-value full-width accessibility-label="Secondary"></ss-slider>
+          <ss-slider color="success"   value="60" show-value full-width accessibility-label="Success"></ss-slider>
+          <ss-slider color="warning"   value="75" show-value full-width accessibility-label="Warning"></ss-slider>
+          <ss-slider color="error"     value="90" show-value full-width accessibility-label="Error"></ss-slider>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="col">
+          <ss-slider size="xs" value="20" full-width accessibility-label="XSmall"></ss-slider>
+          <ss-slider size="sm" value="35" full-width accessibility-label="Small"></ss-slider>
+          <ss-slider size="md" value="50" full-width accessibility-label="Medium"></ss-slider>
+          <ss-slider size="lg" value="65" full-width accessibility-label="Large"></ss-slider>
+          <ss-slider size="xl" value="80" full-width accessibility-label="XLarge"></ss-slider>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">state · valueLabel</p>
+        <div class="col">
+          <ss-slider value="40" disabled show-value full-width accessibility-label="Disabled"></ss-slider>
+          <ss-slider value="40" readonly show-value full-width accessibility-label="Readonly"></ss-slider>
+          <ss-slider value="40" invalid show-value full-width accessibility-label="Invalid"></ss-slider>
+          <ss-slider value="40" show-value value-label="40 por ciento" full-width accessibility-label="Con valueLabel"></ss-slider>
         </div>
       </div>
     </section>
