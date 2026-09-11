@@ -214,5 +214,10 @@ describe('ss-toaster layout', () => {
     const toast = await box(page, 'ss-toast');
     expect(toast.right).toBe(viewport.width - 16);
     expect(toast.bottom).toBe(viewport.height - 16);
+
+    // The box the reader sees is the alert's, inside its shadow root. The host
+    // measured right while the alert ran 36px past it and off the screen.
+    const visible = await page.evaluate(() => document.querySelector('ss-toast ss-alert')!.shadowRoot!.querySelector('.ss-alert')!.getBoundingClientRect().right);
+    expect(visible).toBe(viewport.width - 16);
   });
 });

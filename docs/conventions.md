@@ -149,6 +149,11 @@ instead — the `has` trap is not instrumented.
   headroom are both needed; neither alone was enough.
 - **`setContent` declares no charset.** Non-ASCII in test markup arrives
   mis-decoded; write it as an HTML entity.
+- **Measure the box the reader sees, not the host.** A component's host is a
+  wrapper; what is drawn is inside its shadow root. The toast test measured the
+  `ss-toast` host — right size, right corner — and passed while the alert
+  inside ran 36px past it and off the screen. Assert on the rendered element
+  when the claim is about layout.
 - **An e2e page is not always the visible tab.** Under the full suite a test's
   page was measured starting hidden and flipping between hidden and visible
   about every half second for the whole test; run alone, it stays visible.
