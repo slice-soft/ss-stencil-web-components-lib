@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.3...ss-stencil-web-components-lib-v0.2.4) (2026-09-12)
+
+
+### Features
+
+* **organisms:** add the phase 4 organisms ([#47](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/47)) ([021adfa](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/021adface4ae2b9dca7658e95a8941c20643789f))
+
 ## [0.2.3](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.2...ss-stencil-web-components-lib-v0.2.3) (2026-09-12)
 
 
