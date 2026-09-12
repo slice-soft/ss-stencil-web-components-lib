@@ -3345,7 +3345,7 @@
       "name": "ss-toaster",
       "description": {
         "kind": "markdown",
-        "value": "The corner of the screen toasts appear in.\n\nIt pins its toasts to one corner, above everything else, and stacks them in\nthe order they were added. It is a named region, so a screen reader user can\njump to the notifications and back again. The announcement itself comes from\neach toast's own live region, which is why the toaster sets no `aria-live`:\na live region inside another announces the same message twice.\n\nThe region ignores the pointer, so its empty area never blocks the page under\nit; the toasts take the pointer back."
+        "value": "The corner of the screen toasts appear in.\n\nIt pins its toasts to one corner, above everything else, and stacks them in\nthe order they were added. It is a named region, so a screen reader user can\njump to the notifications and back again. The announcement itself comes from\neach toast's own live region, which is why the toaster sets no `aria-live`:\na live region inside another announces the same message twice.\n\nThe region ignores the pointer, so its empty area never blocks the page under\nit; the toasts take the pointer back.\n\nShadow rather than scoped, because toasts are added after the toaster has\nrendered — that is the whole point of it. A scoped component only moves its\nchildren into the slot when it renders, so a toast appended later stayed a\ndirect child of the host, in the page flow, instead of in the fixed corner.\nA shadow root slots a child the moment it is added."
       },
       "attributes": [
         {
