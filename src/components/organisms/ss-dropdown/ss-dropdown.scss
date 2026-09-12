@@ -1,0 +1,42 @@
+.ss-dropdown {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+}
+
+.ss-dropdown__trigger {
+  display: inline-flex;
+}
+
+/* Fixed, with coordinates written by the component: see `anchorTo` in
+   utils/position. Inside a dialog or a sticky bar the menu stacks within that
+   ancestor's own context, so the lower z-index role does not put it behind. */
+.ss-dropdown__menu {
+  position: fixed;
+  top: var(--ss-sizing-none);
+  left: var(--ss-sizing-none);
+  z-index: var(--ss-z-index-dropdown);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-0);
+  min-width: calc(var(--ss-dimensions-32) * 1.25);
+  max-width: calc(var(--ss-sizing-full) - var(--ss-dimensions-4));
+  max-height: calc(var(--ss-sizing-full) - var(--ss-dimensions-8));
+  overflow-y: auto;
+  padding: var(--ss-dimensions-1);
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border-radius: var(--ss-radius-md);
+  background: var(--ss-color-card);
+  color: var(--ss-color-card-foreground);
+  box-shadow: var(--ss-shadows-md);
+  font-family: var(--ss-text-fonts-sans);
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline: var(--ss-borders-width-none);
+  }
+}

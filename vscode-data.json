@@ -2,6 +2,64 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "ss-accordion",
+      "description": {
+        "kind": "markdown",
+        "value": "A stack of `ss-accordion-item` sections.\n\nBy default one section is open at a time: opening a section closes the one\nthat was open, so the reader is never left with a column of expanded text\nto find their place in. `multiple` lets several stay open.\n\nThe arrow keys move between headers — Up and Down, wrapping, with Home and\nEnd — which the WAI-ARIA accordion pattern suggests for a long stack. Tab\nstill goes through the headers and into each open section in page order;\nthe arrows are a shortcut, not a replacement."
+      },
+      "attributes": [
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "multiple",
+          "description": "Lets several sections stay open at once."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the container."
+        }
+      ]
+    },
+    {
+      "name": "ss-accordion-item",
+      "description": {
+        "kind": "markdown",
+        "value": "A heading that shows and hides the section under it.\n\nIt follows the WAI-ARIA disclosure pattern the accordion is built from: the\nheading holds a button that says whether the section is expanded and which\nregion it controls, and the region is named by that button. The heading is a\nreal heading, so a screen reader user moving through a page by headings\nstill finds every section — collapsed ones included. Pick `heading-level` to\nfit the page's outline.\n\nIt works alone as a single disclosure. Inside an `ss-accordion` it also takes\npart in single-open behaviour and arrow-key movement between headers."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the header; the section keeps its current state."
+        },
+        {
+          "name": "heading",
+          "description": "Heading text, used when no heading slot content is provided."
+        },
+        {
+          "name": "heading-level",
+          "description": "Level of the heading element, 1 to 6, so the section fits the page's outline."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the item's container."
+        },
+        {
+          "name": "open",
+          "description": "Whether the section is expanded. Updated on interaction, and reflected."
+        },
+        {
+          "name": "value",
+          "description": "Value that identifies the item in events."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the item's container; also included in the ssOpenChange detail."
+        }
+      ]
+    },
+    {
       "name": "ss-alert",
       "description": {
         "kind": "markdown",
@@ -453,6 +511,10 @@
           "description": "Disables the button."
         },
         {
+          "name": "expanded",
+          "description": "Whether what the button controls is open, announced as aria-expanded. Set by whatever it opens."
+        },
+        {
           "name": "full-width",
           "description": "Expands the button to the full width of its container."
         },
@@ -501,6 +563,21 @@
         {
           "name": "one-click",
           "description": "After ssClick fires, button is disabled for disableDuration ms"
+        },
+        {
+          "name": "popup",
+          "description": "What the button opens, announced as aria-haspopup. Set by `ss-popover` and\n`ss-dropdown` on their trigger. A button that opens something is not an\naction that can be sent twice, so it skips the post-click disable: focus\nhanded back to it on close would otherwise land on a disabled control and\nbe lost.",
+          "values": [
+            {
+              "name": "dialog"
+            },
+            {
+              "name": "listbox"
+            },
+            {
+              "name": "menu"
+            }
+          ]
         },
         {
           "name": "shape",
@@ -1184,6 +1261,101 @@
         {
           "name": "x-id",
           "description": "Id applied to the root element."
+        }
+      ]
+    },
+    {
+      "name": "ss-dropdown",
+      "description": {
+        "kind": "markdown",
+        "value": "A button that opens a list of actions.\n\nIt follows the WAI-ARIA menu button pattern, because that is what a screen\nreader announces a `menu` as and what its users will press: the menu takes\nfocus when it opens; arrows move through the items and wrap; Home and End\njump to the ends; a typed letter moves to the next item starting with it;\nEnter or Space picks one. Picking an item, or Escape, closes the menu and\nhands focus back to the button. Tab closes it and lets focus move on — the\nitems are not tab stops, so a menu costs one stop in the page's tab order\nhowever long it is.\n\nA menu is for actions. For a value a form submits, use `ss-select`."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the menu. Defaults to the trigger's label, which is what the reader just pressed."
+        },
+        {
+          "name": "align",
+          "description": "Alignment along the trigger's edge: start, center or end. A menu reads best hanging from the start.",
+          "values": [
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the dropdown; the menu stays closed and the trigger does nothing."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the menu."
+        },
+        {
+          "name": "open",
+          "description": "Whether the menu is showing. Updated on interaction, and reflected."
+        },
+        {
+          "name": "placement",
+          "description": "Side of the trigger to open on. Moves to the opposite side when there is no room.",
+          "values": [
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "top"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the menu."
+        }
+      ]
+    },
+    {
+      "name": "ss-dropdown-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One action in an `ss-dropdown` menu.\n\nThe item is the host itself: `role=\"menuitem\"` and the roving focus both sit\non the element the caller wrote, so each item is a direct child of the menu\nin the accessibility tree and the menu can move focus by calling `focus()`\non it. It is never a tab stop — the menu moves focus between items.\n\nIt does nothing on its own. The menu listens for the press and reports the\nitem's value, so a set of items needs one listener, not one per item."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the item; it is skipped by the arrow keys and cannot be picked."
+        },
+        {
+          "name": "label",
+          "description": "Item text, used when no slot content is provided. Also what typing a letter matches against."
+        },
+        {
+          "name": "value",
+          "description": "Value reported by the menu when this item is picked. Defaults to the label, then the text."
+        },
+        {
+          "name": "variant",
+          "description": "Visual treatment. `destructive` marks an action that removes something.",
+          "values": [
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            }
+          ]
         }
       ]
     },
@@ -1916,6 +2088,84 @@
       ]
     },
     {
+      "name": "ss-nav",
+      "description": {
+        "kind": "markdown",
+        "value": "A site's navigation: a named landmark holding a list of links, one of them\nmarked as the page the reader is on.\n\nEvery item is a real link, so it opens in a new tab, can be copied, and is\nreached by Tab like any other — site navigation is not an application menu,\nand giving it menu roles would take those away and change what the keys do.\n\nAn app that routes on the client listens for `ssChange` and calls\n`preventDefault()` on it: the browser then does not follow the link, and the\napp routes instead. The current item moves either way. A modified click —\nCtrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —\nis left to the browser and changes nothing here."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the landmark, so a page with two navigations tells them apart."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the navigation element."
+        },
+        {
+          "name": "orientation",
+          "description": "Direction the items run in.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value of the current item, marked as the page the reader is on. Updated when an item is followed, and reflected."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the navigation element; also included in the ssChange detail."
+        }
+      ]
+    },
+    {
+      "name": "ss-nav-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One link in an `ss-nav`.\n\nIt renders a real `<a>`, and marks it with `aria-current=\"page\"` when it is\nthe page the reader is on — on the link itself, the element that takes focus\nand that a screen reader announces. `ss-nav` decides which item is current\nand tells it, through `current`.\n\nA disabled item keeps its place but is no longer a link anyone can follow:\nit loses its `href`, so it drops out of the tab order, and is announced as a\ndisabled link."
+      },
+      "attributes": [
+        {
+          "name": "current",
+          "description": "Whether this is the page the reader is on. Set by `ss-nav`."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the item; it can no longer be followed or reached by Tab."
+        },
+        {
+          "name": "href",
+          "description": "Where the item leads."
+        },
+        {
+          "name": "label",
+          "description": "Item text, used when no slot content is provided."
+        },
+        {
+          "name": "orientation",
+          "description": "Direction of the navigation it sits in. Set by `ss-nav`.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value that identifies the item to `ss-nav`. Defaults to the href."
+        }
+      ]
+    },
+    {
       "name": "ss-pagination",
       "description": {
         "kind": "markdown",
@@ -1984,6 +2234,80 @@
         {
           "name": "x-id",
           "description": "Id of the container; also included in event details."
+        }
+      ]
+    },
+    {
+      "name": "ss-popover",
+      "description": {
+        "kind": "markdown",
+        "value": "Content anchored to a trigger, which the reader opens, uses and puts away\nwithout losing the page.\n\nWhere `ss-modal` takes the page over, a popover sits beside it: no backdrop\nand no focus trap. Focus goes into the panel when it opens, because that is\nwhere the reader asked to go. Closing it with Escape sends focus back to the\ntrigger; closing it by pressing or tabbing somewhere else leaves focus where\nthe reader put it.\n\nRendered scoped for the same reason as the modal: finding the first control\nto focus, and telling whether focus has left, both need to see the caller's\ncontent, which a shadow root would hide."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name, for a panel with no visible heading."
+        },
+        {
+          "name": "align",
+          "description": "Alignment along the trigger's edge: start, center or end.",
+          "values": [
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
+          "name": "close-on-escape",
+          "description": "Escape closes the panel."
+        },
+        {
+          "name": "close-on-outside",
+          "description": "Pressing outside the popover closes the panel."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the popover; it stays closed and the trigger does nothing."
+        },
+        {
+          "name": "heading",
+          "description": "Heading shown at the top of the panel, which also names it."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the panel."
+        },
+        {
+          "name": "open",
+          "description": "Whether the panel is showing. Updated on interaction, and reflected."
+        },
+        {
+          "name": "placement",
+          "description": "Side of the trigger to open on: top, right, bottom or left. Moves to the opposite side when there is no room.",
+          "values": [
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "left"
+            },
+            {
+              "name": "right"
+            },
+            {
+              "name": "top"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the panel."
         }
       ]
     },
@@ -2621,6 +2945,172 @@
       ]
     },
     {
+      "name": "ss-tab",
+      "description": {
+        "kind": "markdown",
+        "value": "One tab of an `ss-tabs`: its label, and the panel shown while it is selected.\n\nThe button the reader presses is drawn by `ss-tabs`, in its tab list. What\nstays here is the panel, so the content sits where the caller wrote it and\nonly the label travels. `ss-tabs` tells each panel whether it is showing and\nwhich tab names it — the same coordination by props the rest of the library\nuses."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the tab; it cannot be selected and the arrow keys skip it."
+        },
+        {
+          "name": "label",
+          "description": "Text of the tab. Defaults to the value."
+        },
+        {
+          "name": "panel-id",
+          "description": "Id of the panel, which the tab points at. Set by `ss-tabs`."
+        },
+        {
+          "name": "selected",
+          "description": "Whether this panel is showing. Set by `ss-tabs`."
+        },
+        {
+          "name": "tab-id",
+          "description": "Id of the tab that names this panel. Set by `ss-tabs`."
+        },
+        {
+          "name": "value",
+          "description": "Value that identifies the tab; `ss-tabs` selects by it and reports it. Defaults to the tab's position."
+        }
+      ]
+    },
+    {
+      "name": "ss-table",
+      "description": {
+        "kind": "markdown",
+        "value": "Rows of data under a row of headers.\n\nIt is driven by data rather than markup — `columns` and `rows` are set as\nproperties, like `ss-checkbox-group`'s value — because a table's cells are\nthe caller's content, and a scoped component cannot style content slotted\ninto it. Drawing the cells itself is what lets the table look like the rest\nof the library. The trade is that a cell is text, shaped by a column's\n`format`.\n\nIt is a real `<table>`: the caption names it, every header is a column\nheader, and a sortable header is a button inside the header cell, with the\nsort order stated on the cell as `aria-sort`. Rows are sorted here unless\n`manual-sort` is set, in which case the table only reports the request and\nleaves the order to whoever fetched the rows.\n\nA table wider than its container scrolls sideways, and only then does its\nscroll area become a focusable region named after the caption, so a keyboard\nuser can scroll it. A table that fits adds no stop to the tab order."
+      },
+      "attributes": [
+        {
+          "name": "caption",
+          "description": "Caption, which is also the table's accessible name."
+        },
+        {
+          "name": "columns",
+          "description": "The columns, in order. Set as a property."
+        },
+        {
+          "name": "empty-text",
+          "description": "Text shown when there are no rows."
+        },
+        {
+          "name": "hide-caption",
+          "description": "Keeps the caption for assistive technology but hides it from view."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container. A max-height here makes the rows scroll."
+        },
+        {
+          "name": "manual-sort",
+          "description": "Reports sort requests without reordering the rows, for data sorted elsewhere."
+        },
+        {
+          "name": "row-key",
+          "description": "Property holding each row's identity, so the rows keep their elements when the order changes. Defaults to position."
+        },
+        {
+          "name": "rows",
+          "description": "The rows, one object each. Set as a property; never modified."
+        },
+        {
+          "name": "size",
+          "description": "Cell padding.",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "sort-direction",
+          "description": "Direction of the sort. Updated when a header is pressed, and reflected.",
+          "values": [
+            {
+              "name": "ascending"
+            },
+            {
+              "name": "descending"
+            }
+          ]
+        },
+        {
+          "name": "sort-key",
+          "description": "Column the rows are sorted by. Updated when a header is pressed, and reflected."
+        },
+        {
+          "name": "sticky-header",
+          "description": "Keeps the header in view while the rows scroll. Give the table a max-height for it to scroll."
+        },
+        {
+          "name": "striped",
+          "description": "Shades every other row."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the container; also included in the ssSort detail."
+        }
+      ]
+    },
+    {
+      "name": "ss-tabs",
+      "description": {
+        "kind": "markdown",
+        "value": "A set of panels, one shown at a time, chosen from a row of tabs.\n\nIt follows the WAI-ARIA tabs pattern. The tab list is a single stop in the\ntab order — the selected tab — and the arrow keys move between tabs,\nwrapping, with Home and End for the ends. With automatic activation, the\ndefault, moving to a tab shows its panel. With manual activation the reader\nmoves first and presses Enter or Space to show it, which is the better choice\nwhen a panel is slow to render.\n\nThe tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a\nreal tab list. Drawing them from data rather than slotting the caller's\nmarkup is what keeps the roles intact: every tab is a direct child of the tab\nlist, in the same tree as the panels it controls, so the ids tying the two\ntogether resolve. The trade is that a tab label is text."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the tab list."
+        },
+        {
+          "name": "activation",
+          "description": "Whether moving to a tab shows its panel (automatic) or waits for Enter or Space (manual).",
+          "values": [
+            {
+              "name": "automatic"
+            },
+            {
+              "name": "manual"
+            }
+          ]
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "orientation",
+          "description": "Direction the tabs run in, which also decides the arrow keys: Left and Right, or Up and Down.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value of the selected tab. Updated on interaction, and reflected. Falls back to the first tab that can be selected."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the container; also included in the ssChange detail."
+        }
+      ]
+    },
+    {
       "name": "ss-textarea",
       "description": {
         "kind": "markdown",
@@ -2793,6 +3283,106 @@
               "name": "underline"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "ss-toast",
+      "description": {
+        "kind": "markdown",
+        "value": "A short message that appears, says what happened, and goes away on its own.\n\nThe message is an `ss-alert`, so it brings the alert's severity, layout and\nlive-region role: a screen reader announces info and success politely and\ninterrupts for warning and error. What the toast adds is time. It closes\nitself after `duration`, and the clock stops while the reader is hovering\nover it, has focus inside it, or cannot see the page at all — a message that\ndisappears while someone is reading it, or while they are in another tab, was\nnever delivered (WCAG 2.2.1, Timing Adjustable).\n\nPut toasts inside an `ss-toaster`, which pins them to a corner and stacks\nthem. A closed toast stays in the DOM and takes no room; remove it on\n`ssOpenChange` when toasts are rendered from a list.\n\nScoped so the caller's content reaches the alert's own slots: it is moved\ninto the `ss-alert` element, where the alert slots it natively."
+      },
+      "attributes": [
+        {
+          "name": "dismiss-label",
+          "description": "Accessible label for the dismiss button."
+        },
+        {
+          "name": "dismissible",
+          "description": "Renders a dismiss button."
+        },
+        {
+          "name": "duration",
+          "description": "Milliseconds before the toast closes itself. 0 keeps it until dismissed — use that for anything the reader must act on."
+        },
+        {
+          "name": "heading",
+          "description": "Title text, used when no title slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the toast's container."
+        },
+        {
+          "name": "open",
+          "description": "Whether the toast is showing. Set to show it; updated when it closes, and reflected."
+        },
+        {
+          "name": "variant",
+          "description": "Severity, which sets the colour and how insistently the message is announced.",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the toast's container."
+        }
+      ]
+    },
+    {
+      "name": "ss-toaster",
+      "description": {
+        "kind": "markdown",
+        "value": "The corner of the screen toasts appear in.\n\nIt pins its toasts to one corner, above everything else, and stacks them in\nthe order they were added. It is a named region, so a screen reader user can\njump to the notifications and back again. The announcement itself comes from\neach toast's own live region, which is why the toaster sets no `aria-live`:\na live region inside another announces the same message twice.\n\nThe region ignores the pointer, so its empty area never blocks the page under\nit; the toasts take the pointer back.\n\nShadow rather than scoped, because toasts are added after the toaster has\nrendered — that is the whole point of it. A scoped component only moves its\nchildren into the slot when it renders, so a toast appended later stayed a\ndirect child of the host, in the page flow, instead of in the fixed corner.\nA shadow root slots a child the moment it is added."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the region, which is what a screen reader lists it as."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the region."
+        },
+        {
+          "name": "placement",
+          "description": "Corner of the viewport the toasts are pinned to.",
+          "values": [
+            {
+              "name": "bottom-center"
+            },
+            {
+              "name": "bottom-end"
+            },
+            {
+              "name": "bottom-start"
+            },
+            {
+              "name": "top-center"
+            },
+            {
+              "name": "top-end"
+            },
+            {
+              "name": "top-start"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the region."
         }
       ]
     },

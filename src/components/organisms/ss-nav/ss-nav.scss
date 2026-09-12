@@ -1,0 +1,17 @@
+.ss-nav {
+  font-family: var(--ss-text-fonts-sans);
+}
+
+.ss-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ss-dimensions-1);
+  margin: var(--ss-sizing-none);
+  padding: var(--ss-sizing-none);
+  list-style: none;
+}
+
+.ss-nav--vertical .ss-nav__list {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}

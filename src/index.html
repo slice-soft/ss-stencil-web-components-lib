@@ -36,8 +36,11 @@
         transition:   background-color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate), color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate);
       }
 
+      /* Wraps so the token-set and theme controls drop under the title on a
+         phone instead of running off the right edge. */
       .page-header {
         display:         flex;
+        flex-wrap:       wrap;
         align-items:     center;
         justify-content: space-between;
         gap:             var(--ss-dimensions-3);
@@ -59,9 +62,11 @@
 
       .header-controls {
         display:     flex;
+        flex-wrap:   wrap;
         align-items: center;
         gap:         var(--ss-dimensions-2);
         flex-shrink: var(--ss-sizing-none);
+        max-width:   var(--ss-sizing-full);
       }
 
       #token-set-select,
@@ -1042,6 +1047,118 @@
       </div>
     </section>
 
+    <!-- ===================== ss-combobox ===================== -->
+    <section>
+      <h2>ss-combobox</h2>
+      <p class="section-desc">xStyle · size · color · disabled · readonly · invalid · required &mdash; un campo con sugerencias de un datalist nativo: se elige de la lista o se escribe libre</p>
+
+      <div class="card">
+        <p class="label">xStyle &mdash; escribí «u» o «co» para filtrar</p>
+        <div class="col">
+          <ss-combobox x-style="solid" placeholder="solid (default)" accessibility-label="País, solid">
+            <option value="Argentina"></option>
+            <option value="Colombia"></option>
+            <option value="Costa Rica"></option>
+            <option value="México"></option>
+            <option value="Uruguay"></option>
+          </ss-combobox>
+          <ss-combobox x-style="outline" placeholder="outline" accessibility-label="País, outline">
+            <option value="Argentina"></option>
+            <option value="Colombia"></option>
+            <option value="Costa Rica"></option>
+            <option value="México"></option>
+            <option value="Uruguay"></option>
+          </ss-combobox>
+          <ss-combobox x-style="underline" placeholder="underline" accessibility-label="País, underline">
+            <option value="Argentina"></option>
+            <option value="Colombia"></option>
+            <option value="Costa Rica"></option>
+            <option value="México"></option>
+            <option value="Uruguay"></option>
+          </ss-combobox>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size (outline)</p>
+        <div class="col">
+          <ss-combobox size="xs" x-style="outline" placeholder="XSmall" accessibility-label="XSmall"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="sm" x-style="outline" placeholder="Small" accessibility-label="Small"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="md" x-style="outline" placeholder="Medium (default)" accessibility-label="Medium"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="lg" x-style="outline" placeholder="Large" accessibility-label="Large"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+          <ss-combobox size="xl" x-style="outline" placeholder="XLarge" accessibility-label="XLarge"><option value="Uno"></option><option value="Dos"></option></ss-combobox>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color (outline)</p>
+        <div class="col">
+          <ss-combobox color="primary"   x-style="outline" placeholder="Primary"   accessibility-label="Primary"><option value="Uno"></option></ss-combobox>
+          <ss-combobox color="secondary" x-style="outline" placeholder="Secondary" accessibility-label="Secondary"><option value="Uno"></option></ss-combobox>
+          <ss-combobox color="success"   x-style="outline" placeholder="Success"   accessibility-label="Success"><option value="Uno"></option></ss-combobox>
+          <ss-combobox color="error"     x-style="outline" placeholder="Error"     accessibility-label="Error"><option value="Uno"></option></ss-combobox>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">state</p>
+        <div class="col">
+          <ss-combobox x-style="outline" disabled placeholder="Disabled" accessibility-label="Disabled"><option value="Uno"></option></ss-combobox>
+          <ss-combobox x-style="outline" readonly value="Colombia" accessibility-label="Readonly"><option value="Colombia"></option></ss-combobox>
+          <ss-combobox x-style="outline" invalid placeholder="Invalid" accessibility-label="Invalid"><option value="Uno"></option></ss-combobox>
+          <ss-combobox x-style="outline" required placeholder="Required" accessibility-label="Required"><option value="Uno"></option></ss-combobox>
+          <ss-combobox x-style="outline" full-width placeholder="fullWidth" accessibility-label="Full width"><option value="Uno"></option></ss-combobox>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ss-slider ===================== -->
+    <section>
+      <h2>ss-slider</h2>
+      <p class="section-desc">value · min · max · step · color · size · showValue · valueLabel · disabled · readonly · invalid</p>
+
+      <div class="card">
+        <p class="label">showValue · min / max / step</p>
+        <div class="col">
+          <ss-slider value="40" show-value full-width accessibility-label="Volumen, 0 a 100"></ss-slider>
+          <ss-slider value="3" min="0" max="10" step="1" show-value full-width accessibility-label="Nivel, 0 a 10"></ss-slider>
+          <ss-slider value="0.5" min="0" max="1" step="0.05" show-value full-width accessibility-label="Opacidad, 0 a 1 en pasos de 0.05"></ss-slider>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">color</p>
+        <div class="col">
+          <ss-slider color="primary"   value="30" show-value full-width accessibility-label="Primary"></ss-slider>
+          <ss-slider color="secondary" value="45" show-value full-width accessibility-label="Secondary"></ss-slider>
+          <ss-slider color="success"   value="60" show-value full-width accessibility-label="Success"></ss-slider>
+          <ss-slider color="warning"   value="75" show-value full-width accessibility-label="Warning"></ss-slider>
+          <ss-slider color="error"     value="90" show-value full-width accessibility-label="Error"></ss-slider>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="col">
+          <ss-slider size="xs" value="20" full-width accessibility-label="XSmall"></ss-slider>
+          <ss-slider size="sm" value="35" full-width accessibility-label="Small"></ss-slider>
+          <ss-slider size="md" value="50" full-width accessibility-label="Medium"></ss-slider>
+          <ss-slider size="lg" value="65" full-width accessibility-label="Large"></ss-slider>
+          <ss-slider size="xl" value="80" full-width accessibility-label="XLarge"></ss-slider>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">state · valueLabel</p>
+        <div class="col">
+          <ss-slider value="40" disabled show-value full-width accessibility-label="Disabled"></ss-slider>
+          <ss-slider value="40" readonly show-value full-width accessibility-label="Readonly"></ss-slider>
+          <ss-slider value="40" invalid show-value full-width accessibility-label="Invalid"></ss-slider>
+          <ss-slider value="40" show-value value-label="40 por ciento" full-width accessibility-label="Con valueLabel"></ss-slider>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== ss-textarea ===================== -->
     <section>
       <h2>ss-textarea</h2>
@@ -1608,13 +1725,17 @@
       <div class="card">
         <p class="label">el foco entra, queda atrapado, y vuelve a donde estaba</p>
         <div class="row">
-          <ss-button id="open-modal-basic" label="Abrir diálogo"></ss-button>
-          <ss-button id="open-modal-locked" label="Abrir sin escape" x-style="outline"></ss-button>
+          <ss-button id="open-modal-basic" label="Abrir diálogo" popup="dialog"></ss-button>
+          <ss-button id="open-modal-locked" label="Abrir sin escape" x-style="outline" popup="dialog"></ss-button>
         </div>
       </div>
 
       <ss-modal id="demo-modal-basic" heading="Eliminar archivo">
         <ss-typography>Esta acción no se puede deshacer. El archivo y su historial se pierden.</ss-typography>
+        <ss-popover heading="¿Qué se pierde?" align="start">
+          <ss-button slot="trigger" label="¿Qué se pierde?" x-style="ghost" size="sm"></ss-button>
+          <ss-typography>El archivo, sus versiones y los comentarios. Escape cierra esto primero; un segundo Escape cierra el diálogo.</ss-typography>
+        </ss-popover>
         <ss-button slot="footer" label="Cancelar" x-style="ghost" id="demo-modal-cancel"></ss-button>
         <ss-button slot="footer" label="Eliminar" variant="destructive"></ss-button>
       </ss-modal>
@@ -1624,9 +1745,275 @@
         <ss-field label="Motivo">
           <ss-input x-style="outline" full-width></ss-input>
         </ss-field>
+        <ss-dropdown>
+          <ss-button slot="trigger" label="Motivos frecuentes" x-style="ghost" size="sm"></ss-button>
+          <ss-dropdown-item>Duplicado</ss-dropdown-item>
+          <ss-dropdown-item>Ya no se usa</ss-dropdown-item>
+          <ss-dropdown-item>Otro</ss-dropdown-item>
+        </ss-dropdown>
         <ss-button slot="footer" label="Entendido" id="demo-modal-ack"></ss-button>
       </ss-modal>
     </section>
+
+    <section>
+      <h2>ss-popover</h2>
+      <p class="section-desc">open · heading · placement · align · closeOnEscape · closeOnOutside · disabled &mdash; capa no modal: sin fondo ni trampa de foco</p>
+
+      <div class="card">
+        <p class="label">el foco entra al abrir; Escape lo devuelve al disparador, Tab o un clic afuera lo dejan donde fue</p>
+        <div class="row">
+          <ss-popover heading="Filtros">
+            <ss-button slot="trigger" label="Filtros" x-style="outline"></ss-button>
+            <ss-field label="Buscar">
+              <ss-input x-style="outline" placeholder="Nombre o etiqueta" full-width></ss-input>
+            </ss-field>
+            <ss-button label="Aplicar" size="sm"></ss-button>
+          </ss-popover>
+
+          <ss-popover heading="Alineado al inicio" align="start">
+            <ss-button slot="trigger" label="align=start" x-style="ghost"></ss-button>
+            <ss-typography>El panel cuelga del borde izquierdo del disparador en vez de centrarse.</ss-typography>
+          </ss-popover>
+
+          <ss-popover heading="Arriba" placement="top">
+            <ss-button slot="trigger" label="placement=top" x-style="ghost"></ss-button>
+            <ss-typography>Si no hay lugar arriba, se abre abajo.</ss-typography>
+          </ss-popover>
+
+          <ss-popover heading="Deshabilitado" disabled>
+            <ss-button slot="trigger" label="disabled" x-style="ghost"></ss-button>
+            <ss-typography>No se abre.</ss-typography>
+          </ss-popover>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-dropdown</h2>
+      <p class="section-desc">open · placement · align · disabled · ssSelect &mdash; menú de acciones: flechas, Home/End, una letra, Enter; Escape y elegir devuelven el foco al botón, Tab sigue de largo</p>
+
+      <div class="card">
+        <p class="label">abrí con clic, o con ↓ / ↑ desde el botón; «Archivar» está deshabilitado y las flechas lo saltan</p>
+        <div class="row">
+          <ss-dropdown id="demo-dropdown">
+            <ss-button slot="trigger" label="Acciones" x-style="outline"></ss-button>
+            <ss-dropdown-item value="edit">Editar</ss-dropdown-item>
+            <ss-dropdown-item value="duplicate">Duplicar</ss-dropdown-item>
+            <ss-dropdown-item value="archive" disabled>Archivar</ss-dropdown-item>
+            <ss-divider></ss-divider>
+            <ss-dropdown-item value="delete" variant="destructive">Eliminar</ss-dropdown-item>
+          </ss-dropdown>
+
+          <ss-dropdown align="end">
+            <ss-button slot="trigger" label="align=end" x-style="ghost"></ss-button>
+            <ss-dropdown-item>Perfil</ss-dropdown-item>
+            <ss-dropdown-item>Preferencias</ss-dropdown-item>
+            <ss-dropdown-item>Cerrar sesión</ss-dropdown-item>
+          </ss-dropdown>
+        </div>
+        <ss-typography id="demo-dropdown-result" font-size="sm">Ninguna acción elegida todavía.</ss-typography>
+        <p class="label">dentro de «Abrir sin escape» hay otro menú: Escape cierra el menú y el diálogo sigue abierto</p>
+      </div>
+    </section>
+
+    <script>
+      document.getElementById('demo-dropdown').addEventListener('ssSelect', function (event) {
+        document.getElementById('demo-dropdown-result').textContent = 'Elegida: ' + event.detail.value;
+      });
+    </script>
+
+    <section>
+      <h2>ss-toast · ss-toaster</h2>
+      <p class="section-desc">open · variant · heading · duration · dismissible &mdash; el reloj se detiene con el puntero encima, con el foco adentro o con la pestaña oculta</p>
+
+      <div class="card">
+        <p class="label">cada botón agrega un aviso abajo a la derecha; el de error no se cierra solo (duration=0); cada aviso se quita del DOM al cerrarse</p>
+        <div class="row">
+          <ss-button id="toast-success" label="Guardado" variant="success"></ss-button>
+          <ss-button id="toast-info" label="Info con acción" x-style="outline"></ss-button>
+          <ss-button id="toast-error" label="Error" variant="error"></ss-button>
+        </div>
+      </div>
+
+      <ss-toaster id="demo-toaster"></ss-toaster>
+    </section>
+
+    <script>
+      (function () {
+        var toaster = document.getElementById('demo-toaster');
+
+        function toast(options) {
+          var el = document.createElement('ss-toast');
+          el.variant = options.variant;
+          el.heading = options.heading;
+          el.duration = options.duration;
+          el.textContent = options.message;
+          if (options.action) {
+            var action = document.createElement('ss-button');
+            action.slot = 'actions';
+            action.label = options.action;
+            action.size = 'sm';
+            action.xStyle = 'outline';
+            el.appendChild(action);
+          }
+          // A closed toast stays in the DOM; a list of them is the caller's to prune.
+          el.addEventListener('ssOpenChange', function () { el.remove(); });
+          el.open = true;
+          toaster.appendChild(el);
+        }
+
+        document.getElementById('toast-success').addEventListener('click', function () {
+          toast({ variant: 'success', heading: 'Guardado', message: 'Los cambios quedaron guardados.', duration: 4000 });
+        });
+        document.getElementById('toast-info').addEventListener('click', function () {
+          toast({ variant: 'info', heading: 'Archivo movido', message: 'Se movió a Archivados.', duration: 6000, action: 'Deshacer' });
+        });
+        document.getElementById('toast-error').addEventListener('click', function () {
+          toast({ variant: 'error', heading: 'No se pudo subir', message: 'Revisá la conexión e intentá de nuevo.', duration: 0 });
+        });
+      })();
+    </script>
+
+    <section>
+      <h2>ss-tabs · ss-tab</h2>
+      <p class="section-desc">value · orientation · activation · ssChange &mdash; una sola parada en el orden de Tab; las flechas mueven entre pestañas y Tab entra al panel</p>
+
+      <div class="card">
+        <p class="label">horizontal, activación automática; «Facturación» está deshabilitada y las flechas la saltan</p>
+        <ss-tabs accessibility-label="Configuración">
+          <ss-tab value="cuenta" label="Cuenta"><ss-typography>Nombre, correo y foto de perfil.</ss-typography></ss-tab>
+          <ss-tab value="seguridad" label="Seguridad"><ss-typography>Contraseña y verificación en dos pasos.</ss-typography></ss-tab>
+          <ss-tab value="facturacion" label="Facturación" disabled><ss-typography>Método de pago.</ss-typography></ss-tab>
+          <ss-tab value="equipo" label="Equipo"><ss-typography>Quién tiene acceso a este espacio.</ss-typography></ss-tab>
+        </ss-tabs>
+      </div>
+
+      <div class="card">
+        <p class="label">vertical, activación manual: las flechas mueven el foco, Enter o Espacio muestran el panel</p>
+        <ss-tabs orientation="vertical" activation="manual" value="notificaciones" accessibility-label="Preferencias">
+          <ss-tab value="general" label="General"><ss-typography>Idioma y zona horaria.</ss-typography></ss-tab>
+          <ss-tab value="notificaciones" label="Notificaciones"><ss-typography>Qué avisos recibís y por dónde.</ss-typography></ss-tab>
+          <ss-tab value="avanzado" label="Avanzado"><ss-typography>Opciones para quien sabe lo que hace.</ss-typography></ss-tab>
+        </ss-tabs>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-accordion · ss-accordion-item</h2>
+      <p class="section-desc">multiple · heading · headingLevel · open · disabled &mdash; cada encabezado es un encabezado real; ↑ ↓ Home End se mueven entre ellos</p>
+
+      <div class="card">
+        <p class="label">una sección abierta a la vez; «Devoluciones» está deshabilitada y las flechas la saltan</p>
+        <ss-accordion>
+          <ss-accordion-item heading="Envío" open><ss-typography>Sale en dos días hábiles.</ss-typography></ss-accordion-item>
+          <ss-accordion-item heading="Devoluciones" disabled><ss-typography>Treinta días desde la entrega.</ss-typography></ss-accordion-item>
+          <ss-accordion-item heading="Garantía"><ss-typography>Un año contra defectos de fábrica.</ss-typography></ss-accordion-item>
+        </ss-accordion>
+      </div>
+
+      <div class="card">
+        <p class="label">multiple: abrir una no cierra las demás</p>
+        <ss-accordion multiple>
+          <ss-accordion-item heading="Primera" open><ss-typography>Sigue abierta cuando abrís la otra.</ss-typography></ss-accordion-item>
+          <ss-accordion-item heading="Segunda"><ss-typography>Esta también.</ss-typography></ss-accordion-item>
+        </ss-accordion>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-nav · ss-nav-item</h2>
+      <p class="section-desc">value · orientation · accessibilityLabel · ssChange (cancelable) &mdash; links reales: se abren en otra pestaña y se recorren con Tab; aria-current marca la página actual</p>
+
+      <div class="card">
+        <p class="label">horizontal, con enlaces a esta misma página; «Facturación» está deshabilitada y Tab la saltea</p>
+        <ss-nav value="#nav-inicio" accessibility-label="Principal">
+          <ss-nav-item href="#nav-inicio">Inicio</ss-nav-item>
+          <ss-nav-item href="#nav-proyectos">Proyectos</ss-nav-item>
+          <ss-nav-item href="#nav-facturacion" disabled>Facturación</ss-nav-item>
+          <ss-nav-item href="#nav-equipo">Equipo</ss-nav-item>
+        </ss-nav>
+      </div>
+
+      <div class="card">
+        <p class="label">vertical, enrutado por la app: ssChange se cancela y la app decide; Ctrl/Cmd+clic sigue abriendo otra pestaña</p>
+        <div class="row">
+          <ss-nav id="demo-nav-spa" orientation="vertical" value="/perfil" accessibility-label="Cuenta" inline-styles="width: 220px">
+            <ss-nav-item href="/perfil">Perfil</ss-nav-item>
+            <ss-nav-item href="/seguridad">Seguridad</ss-nav-item>
+            <ss-nav-item href="/notificaciones">Notificaciones</ss-nav-item>
+          </ss-nav>
+          <ss-typography id="demo-nav-route" font-size="sm">Ruta: /perfil</ss-typography>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document.getElementById('demo-nav-spa').addEventListener('ssChange', function (event) {
+        // The app routes; the browser does not follow the link.
+        event.preventDefault();
+        document.getElementById('demo-nav-route').textContent = 'Ruta: ' + event.detail.href;
+      });
+    </script>
+
+    <section>
+      <h2>ss-table</h2>
+      <p class="section-desc">columns · rows · caption · sortKey · sortDirection · manualSort · striped · stickyHeader · size &mdash; columnas y filas se asignan como propiedades; orden natural, vacíos al final</p>
+
+      <div class="card">
+        <p class="label">ordenable por Nombre, Tareas y Desde; «Item 2» va antes que «Item 10»; las celdas vacías quedan últimas en los dos sentidos</p>
+        <ss-table id="demo-table" caption="Equipo" striped></ss-table>
+      </div>
+
+      <div class="card">
+        <p class="label">en un contenedor angosto el área de desplazamiento pasa a ser una región enfocable, nombrada por el caption</p>
+        <div style="max-width: 260px">
+          <ss-table id="demo-table-narrow" caption="Equipo (angosto)" size="sm"></ss-table>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">sticky-header con max-height: el encabezado queda a la vista mientras las filas se desplazan</p>
+        <ss-table id="demo-table-sticky" caption="Registro" sticky-header inline-styles="max-height: 220px" size="sm"></ss-table>
+      </div>
+    </section>
+
+    <script>
+      (function () {
+        var columns = [
+          { key: 'name', label: 'Nombre', sortable: true },
+          { key: 'role', label: 'Rol' },
+          { key: 'tasks', label: 'Tareas', sortable: true, align: 'end' },
+          {
+            key: 'since',
+            label: 'Desde',
+            sortable: true,
+            format: function (value) { return value ? value.toLocaleDateString('es') : ''; },
+          },
+        ];
+        var rows = [
+          { name: 'Item 10', role: 'Diseño', tasks: 3, since: new Date(2024, 2, 1) },
+          { name: 'Item 2', role: 'Código', tasks: 12, since: new Date(2023, 8, 15) },
+          { name: 'Item 1', role: 'Operaciones', tasks: null, since: new Date(2025, 0, 10) },
+          { name: 'Ada', role: 'Código', tasks: 7, since: null },
+        ];
+
+        // Property-only: an array cannot come from an attribute.
+        ['demo-table', 'demo-table-narrow'].forEach(function (id) {
+          var table = document.getElementById(id);
+          table.columns = columns;
+          table.rows = rows;
+        });
+
+        var sticky = document.getElementById('demo-table-sticky');
+        sticky.columns = [
+          { key: 'at', label: 'Hora' },
+          { key: 'event', label: 'Evento' },
+        ];
+        sticky.rows = Array.from({ length: 30 }, function (_, i) {
+          return { at: '10:' + String(i).padStart(2, '0'), event: 'Evento ' + (i + 1) };
+        });
+      })();
+    </script>
 
 
     <script>

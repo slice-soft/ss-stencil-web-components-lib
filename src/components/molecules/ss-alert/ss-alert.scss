@@ -8,7 +8,11 @@
   display: none;
 }
 
+/* Border-box, so `full-width` means the container's width: with padding and a
+   border added on top of 100%, a full-width alert ran 36px past its container —
+   and past the screen edge inside a toast. */
 .ss-alert {
+  box-sizing: border-box;
   display: flex;
   gap: var(--ss-dimensions-3);
   align-items: flex-start;

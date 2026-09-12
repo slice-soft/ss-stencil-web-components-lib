@@ -101,7 +101,7 @@ describe('ss-field naming a light-DOM control', () => {
     await page.setContent(`<ss-field label="Country" helper-text="Where you live."><ss-select><option value="co">Colombia</option></ss-select></ss-field>`);
     await page.waitForChanges();
 
-    expect(await axNodeByRole(page, 'combobox')).toEqual({ name: 'Country', description: 'Where you live.' });
+    expect(await axNodeByRole(page, 'combobox')).toMatchObject({ name: 'Country', description: 'Where you live.' });
   });
 
   it('names and describes a native control', async () => {

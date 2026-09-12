@@ -242,3 +242,31 @@ describe('ss-button', () => {
     expect(getElement<HTMLButtonElement>(shadow, 'button').getAttribute('style')).toBe('color: red; background-color: blue;');
   });
 });
+
+describe('ss-button as a trigger', () => {
+  it('announces what it opens and whether it is open', async () => {
+    const page = await newSpecPage({ components: [SsButton], html: `<ss-button popup="menu" expanded="false" label="Actions"></ss-button>` });
+    const button = getElement<HTMLButtonElement>(getShadowRoot(getRoot(page)), 'button');
+
+    expect(button.getAttribute('aria-haspopup')).toBe('menu');
+    expect(button.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('says nothing about expansion when it controls nothing', async () => {
+    const page = await newSpecPage({ components: [SsButton], html: `<ss-button label="Save"></ss-button>` });
+    const button = getElement<HTMLButtonElement>(getShadowRoot(getRoot(page)), 'button');
+
+    expect(button.hasAttribute('aria-haspopup')).toBe(false);
+    expect(button.hasAttribute('aria-expanded')).toBe(false);
+  });
+
+  it('stays enabled after a click, so focus handed back to it on close lands', async () => {
+    const page = await newSpecPage({ components: [SsButton], html: `<ss-button popup="menu" label="Actions"></ss-button>` });
+    const button = getElement<HTMLButtonElement>(getShadowRoot(getRoot(page)), 'button');
+
+    button.click();
+    await page.waitForChanges();
+
+    expect(button.hasAttribute('disabled')).toBe(false);
+  });
+});

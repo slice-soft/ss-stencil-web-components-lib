@@ -65,14 +65,23 @@ export class SsModal {
     if (this.open) this.activate();
   }
 
+  /**
+   * Opening waits for the render that shows the dialog. The watcher runs before
+   * it, while the dialog is still hidden and nothing inside can take focus — so
+   * a dialog opened after load used to trap focus on nothing and leave it on
+   * the page behind.
+   */
+  componentDidUpdate() {
+    if (this.open) this.activate();
+  }
+
   disconnectedCallback() {
     this.deactivate();
   }
 
   @Watch('open')
   handleOpenChange(open: boolean) {
-    if (open) this.activate();
-    else this.deactivate();
+    if (!open) this.deactivate();
   }
 
   private get headerId() {

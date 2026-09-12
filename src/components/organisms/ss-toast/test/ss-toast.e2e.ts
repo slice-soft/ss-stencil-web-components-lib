@@ -1,0 +1,223 @@
+import type { E2EPage } from '@stencil/core/testing';
+import { emulateFocus, newTestPage, useTokens } from '../../../../test/utils';
+
+async function setup(html: string) {
+  const page = await newTestPage();
+  await page.setContent(html);
+  // The toast listens for focusin and focusout, which a page without window
+  // focus never fires. See `emulateFocus`.
+  await emulateFocus(page);
+  await useTokens(page);
+  return page;
+}
+
+const isOpen = async (page: E2EPage, selector = 'ss-toast') => (await page.find(selector)).getAttribute('open') !== null;
+
+/** Polls until the toast has closed, or gives up and reports that it has not. */
+async function closedWithin(page: E2EPage, ms: number, selector = 'ss-toast') {
+  const deadline = Date.now() + ms;
+  while (Date.now() < deadline) {
+    if (!(await isOpen(page, selector))) return true;
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
+  return !(await isOpen(page, selector));
+}
+
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+function open(page: E2EPage, selector = 'ss-toast') {
+  return page.evaluate(sel => ((document.querySelector(sel) as HTMLElement & { open: boolean }).open = true), selector);
+}
+
+/**
+ * Pins the page as visible, so the test decides visibility and the harness
+ * does not.
+ *
+ * Under the full suite a test's page is not always the visible tab: it was
+ * measured starting hidden and flipping between hidden and visible about every
+ * half second for the whole test. The toast rightly holds its clock while the
+ * page is hidden, so a hover or focus test would otherwise be measuring the
+ * harness — and did, failing most full runs while passing alone.
+ *
+ * A capture listener on the window stops the browser's own events before they
+ * reach the document. A `visible` event is then sent, to clear a hidden pause
+ * the toast may have picked up before the pin.
+ */
+async function pinVisible(page: E2EPage) {
+  await page.evaluate(() => {
+    let state: DocumentVisibilityState = 'visible';
+    Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => state });
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => state === 'hidden' });
+
+    const fromTest = new WeakSet<Event>();
+    window.addEventListener(
+      'visibilitychange',
+      event => {
+        if (!fromTest.has(event)) event.stopImmediatePropagation();
+      },
+      true,
+    );
+
+    const send = (next: DocumentVisibilityState) => {
+      state = next;
+      const event = new Event('visibilitychange');
+      fromTest.add(event);
+      document.dispatchEvent(event);
+    };
+
+    (window as unknown as { setVisibility: typeof send }).setVisibility = send;
+    send('visible');
+  });
+}
+
+function setVisibility(page: E2EPage, state: DocumentVisibilityState) {
+  return page.evaluate(next => (window as unknown as { setVisibility: (state: DocumentVisibilityState) => void }).setVisibility(next), state);
+}
+
+describe('ss-toast holding its clock', () => {
+  const TOAST = `
+    <button id="elsewhere">Elsewhere</button>
+    <ss-toaster>
+      <ss-toast duration="1500" heading="Saved">
+        Your changes are saved.
+        <ss-button slot="actions" label="Undo" size="sm"></ss-button>
+      </ss-toast>
+    </ss-toaster>
+  `;
+
+  it('stays while the pointer is over it, and closes once it leaves', async () => {
+    const page = await setup(TOAST);
+    await pinVisible(page);
+    await open(page);
+    await page.hover('ss-toast');
+
+    await wait(2000);
+    expect(await isOpen(page)).toBe(true);
+
+    await page.mouse.move(0, 0);
+    expect(await closedWithin(page, 3000)).toBe(true);
+  });
+
+  it('stays while focus is inside it, and closes once focus leaves', async () => {
+    // A keyboard user tabbing to Undo is reading the toast as surely as one
+    // hovering over it.
+    const page = await setup(TOAST);
+    await pinVisible(page);
+    await open(page);
+    await (await page.find('ss-toast ss-button >>> button')).focus();
+
+    await wait(2000);
+    expect(await isOpen(page)).toBe(true);
+
+    await page.focus('#elsewhere');
+    expect(await closedWithin(page, 3000)).toBe(true);
+  });
+
+  it('stays while the page is hidden, and closes once it is shown again', async () => {
+    // A message that times out in a tab the reader is not looking at was never
+    // delivered.
+    const page = await setup(TOAST);
+    await pinVisible(page);
+    await open(page);
+    await setVisibility(page, 'hidden');
+
+    await wait(2000);
+    expect(await isOpen(page)).toBe(true);
+
+    await setVisibility(page, 'visible');
+    expect(await closedWithin(page, 3000)).toBe(true);
+  });
+});
+
+describe('ss-toast dismissal', () => {
+  it('closes from its dismiss button and reports the reason', async () => {
+    const page = await setup(`<ss-toaster><ss-toast open duration="0" heading="Saved">Done.</ss-toast></ss-toaster>`);
+    const changed = await page.spyOnEvent('ssOpenChange');
+
+    await (await page.find('ss-toast ss-alert >>> .ss-alert__dismiss')).click();
+    await page.waitForChanges();
+
+    expect(await isOpen(page)).toBe(false);
+    expect(changed).toHaveReceivedEventDetail({ open: false, reason: 'dismiss' });
+  });
+});
+
+describe('ss-toaster layout', () => {
+  const STACK = (placement = 'bottom-end') => `
+    <ss-toaster placement="${placement}">
+      <ss-toast id="first" open duration="0" heading="First">One</ss-toast>
+      <ss-toast id="closed" duration="0" heading="Closed">Two</ss-toast>
+      <ss-toast id="third" open duration="0" heading="Third">Three</ss-toast>
+    </ss-toaster>
+  `;
+
+  function box(page: E2EPage, selector: string) {
+    return page.evaluate(sel => {
+      const r = document.querySelector(sel)!.getBoundingClientRect();
+      return { top: r.top, bottom: r.bottom, left: r.left, right: r.right, height: r.height };
+    }, selector);
+  }
+
+  /** The toaster's region, which lives in its shadow root. */
+  function regionBox(page: E2EPage) {
+    return page.evaluate(() => {
+      const r = document.querySelector('ss-toaster')!.shadowRoot!.querySelector('section')!.getBoundingClientRect();
+      return { top: r.top, bottom: r.bottom, left: r.left, right: r.right, height: r.height };
+    });
+  }
+
+  it('pins its toasts to the bottom-end corner, clear of the edges', async () => {
+    const page = await setup(STACK());
+    const viewport = await page.evaluate(() => ({ width: window.innerWidth, height: window.innerHeight }));
+    const region = await regionBox(page);
+
+    expect(region.right).toBe(viewport.width - 16);
+    expect(region.bottom).toBe(viewport.height - 16);
+  });
+
+  it('pins them to the top-start corner when asked', async () => {
+    const page = await setup(STACK('top-start'));
+    const region = await regionBox(page);
+
+    expect(region.top).toBe(16);
+    expect(region.left).toBe(16);
+  });
+
+  it('stacks open toasts without overlap, and a closed one takes no room', async () => {
+    const page = await setup(STACK());
+
+    const first = await box(page, '#first');
+    const third = await box(page, '#third');
+
+    expect((await box(page, '#closed')).height).toBe(0);
+    expect(third.top - first.bottom).toBe(8);
+  });
+
+  it('puts a toast added after load in its corner', async () => {
+    // How toasts are actually used: created and appended once the toaster has
+    // rendered. As a scoped component the toaster left them in the page flow,
+    // and every test above passed, because they write the toasts into the
+    // initial markup.
+    const page = await setup(`<ss-toaster></ss-toaster>`);
+    const viewport = await page.evaluate(() => ({ width: window.innerWidth, height: window.innerHeight }));
+
+    await page.evaluate(() => {
+      const toast = document.createElement('ss-toast') as HTMLElement & { open: boolean; duration: number; heading: string };
+      toast.heading = 'Added later';
+      toast.duration = 0;
+      toast.textContent = 'It belongs in the corner.';
+      toast.open = true;
+      document.querySelector('ss-toaster')!.appendChild(toast);
+    });
+    await page.waitForChanges();
+
+    const toast = await box(page, 'ss-toast');
+    expect(toast.right).toBe(viewport.width - 16);
+    expect(toast.bottom).toBe(viewport.height - 16);
+
+    // The box the reader sees is the alert's, inside its shadow root. The host
+    // measured right while the alert ran 36px past it and off the screen.
+    const visible = await page.evaluate(() => document.querySelector('ss-toast ss-alert')!.shadowRoot!.querySelector('.ss-alert')!.getBoundingClientRect().right);
+    expect(visible).toBe(viewport.width - 16);
+  });
+});

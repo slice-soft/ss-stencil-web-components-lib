@@ -1,4 +1,4 @@
-import { newTestPage } from '../../../../test/utils';
+import { newTestPage, useTokens } from '../../../../test/utils';
 
 const MODAL = `
   <button id="before">Before</button>
@@ -167,5 +167,66 @@ describe('ss-modal semantics', () => {
     await page.waitForChanges();
 
     expect(await page.evaluate(() => document.body.style.overflow)).not.toBe('hidden');
+  });
+});
+
+describe('ss-modal opened after load', () => {
+  const CLOSED = MODAL.replace('<ss-modal heading="Delete file" open>', '<ss-modal heading="Delete file">');
+
+  it('moves focus in when it is opened after the page has loaded', async () => {
+    const page = await newTestPage();
+    await page.setContent(CLOSED);
+    await page.waitForChanges();
+
+    await page.evaluate(() => ((document.querySelector('ss-modal') as HTMLElement as any).open = true));
+    await page.waitForChanges();
+
+    const inside = await page.evaluate(() => {
+      const dialog = document.querySelector('.ss-modal__dialog')!;
+      let active: Element | null = document.activeElement;
+      while ((active as HTMLElement)?.shadowRoot?.activeElement) active = (active as HTMLElement).shadowRoot!.activeElement;
+      return dialog.contains(active) || dialog === active;
+    });
+    expect(inside).toBe(true);
+  });
+
+  it('hands focus back to an ss-button that opened it', async () => {
+    // `document.activeElement` stops at the button's host, and focusing a host
+    // moves focus nowhere, so the reader used to be dropped on the page.
+    const page = await newTestPage();
+    await page.setContent(`<ss-button id="opener" label="Open"></ss-button>${CLOSED}`);
+    await page.waitForChanges();
+
+    await (await page.find('#opener >>> button')).focus();
+    await page.evaluate(() => ((document.querySelector('ss-modal') as HTMLElement as any).open = true));
+    await page.waitForChanges();
+
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+
+    const back = await page.evaluate(() => {
+      const host = document.activeElement as HTMLElement;
+      return host?.id === 'opener' && host.shadowRoot?.activeElement?.tagName === 'BUTTON';
+    });
+    expect(back).toBe(true);
+  });
+});
+
+describe('ss-modal layout', () => {
+  it('is as wide as its size asks for, and centred', async () => {
+    const page = await newTestPage();
+    await page.setViewport({ width: 1200, height: 800 });
+    await page.setContent(MODAL);
+    await useTokens(page);
+
+    const box = await page.evaluate(() => {
+      const r = document.querySelector('.ss-modal__dialog')!.getBoundingClientRect();
+      return { width: r.width, left: r.left, top: r.top, bottom: r.bottom };
+    });
+
+    // md is four steps of the 128px dimension; it used to be one.
+    expect(box.width).toBe(512);
+    expect(box.left).toBe((1200 - 512) / 2);
+    expect(Math.abs(box.top - (800 - box.bottom))).toBeLessThanOrEqual(1);
   });
 });

@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State } from '@stencil/core';
 import { nextId } from '../../../utils/id';
-import { place, Placement } from '../../../utils/position';
+import { anchorTo, Placement } from '../../../utils/position';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 
 export type TooltipPlacement = Placement;
@@ -100,23 +100,10 @@ export class SsTooltip {
       return;
     }
 
-    const anchor = this.triggerEl.getBoundingClientRect();
-    const content = this.contentEl.getBoundingClientRect();
+    const placement = anchorTo(this.triggerEl, this.contentEl, { placement: this.placement, offset: OFFSET, padding: EDGE_PADDING });
 
-    const next = place({
-      anchor: { top: anchor.top, left: anchor.left, width: anchor.width, height: anchor.height },
-      floating: { width: content.width, height: content.height },
-      viewport: { width: window.innerWidth, height: window.innerHeight },
-      placement: this.placement,
-      offset: OFFSET,
-      padding: EDGE_PADDING,
-    });
-
-    this.contentEl.style.top = `${next.top}px`;
-    this.contentEl.style.left = `${next.left}px`;
-
-    if (this.resolvedPlacement === next.placement) return;
-    this.resolvedPlacement = next.placement;
+    if (this.resolvedPlacement === placement) return;
+    this.resolvedPlacement = placement;
     this.placementVersion += 1;
   }
 

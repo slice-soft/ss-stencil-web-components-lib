@@ -1,4 +1,4 @@
-import { newTestPage } from '../../../../test/utils';
+import { newTestPage, useTokens } from '../../../../test/utils';
 
 describe('ss-alert announcement', () => {
   it('exposes a problem as an assertive alert', async () => {
@@ -54,5 +54,21 @@ describe('ss-alert announcement', () => {
       return getComputedStyle(icon).display;
     });
     expect(display).toBe('none');
+  });
+});
+
+describe('ss-alert layout', () => {
+  it('fits its container when full-width, padding and border included', async () => {
+    // With content-box sizing, 100% plus the padding and border ran 36px past
+    // the container — and off the screen when the alert sat inside a toast.
+    const page = await newTestPage();
+    await page.setContent(`<div id="box" style="width: 400px"><ss-alert full-width heading="Saved">Done.</ss-alert></div>`);
+    await useTokens(page);
+
+    const [container, alert] = await page.evaluate(() => [
+      document.getElementById('box')!.getBoundingClientRect().width,
+      (document.querySelector('ss-alert') as HTMLElement).shadowRoot!.querySelector('.ss-alert')!.getBoundingClientRect().width,
+    ]);
+    expect(alert).toBe(container);
   });
 });

@@ -129,3 +129,42 @@ describe('place without offset or padding', () => {
     expect(result.left).toBe(0);
   });
 });
+
+describe('place with an alignment', () => {
+  const request = (placement: Placement, align: 'start' | 'end', anchor = anchorAt(400, 500)) => ({
+    anchor,
+    floating: FLOATING,
+    viewport: VIEWPORT,
+    placement,
+    align,
+    offset: 8,
+    padding: 4,
+  });
+
+  it('lines up with the start of the anchor', () => {
+    // A menu hangs from its trigger's left edge rather than centring under it.
+    expect(place(request('bottom', 'start')).left).toBe(500);
+  });
+
+  it('lines up with the end of the anchor', () => {
+    // anchor right edge 550 − floating width 100
+    expect(place(request('bottom', 'end')).left).toBe(450);
+  });
+
+  it('aligns along the vertical edge for a side placement', () => {
+    expect(place(request('right', 'start')).top).toBe(400);
+    // anchor bottom edge 420 − floating height 40
+    expect(place(request('right', 'end')).top).toBe(380);
+  });
+
+  it('still pulls back from the viewport edge when aligned', () => {
+    expect(place(request('bottom', 'start', anchorAt(400, 980))).left).toBe(VIEWPORT.width - FLOATING.width - 4);
+  });
+
+  it('keeps the alignment after a flip', () => {
+    const result = place(request('bottom', 'start', anchorAt(770, 500)));
+
+    expect(result.placement).toBe('top');
+    expect(result.left).toBe(500);
+  });
+});

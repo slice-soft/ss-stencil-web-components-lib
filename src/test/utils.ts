@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { newE2EPage } from '@stencil/core/testing';
 import type { E2EPage, SpecPage } from '@stencil/core/testing';
 
@@ -34,7 +36,22 @@ export function getShadowRoot(element: Element): ShadowRoot {
  * to the node simply having an accessible name.
  */
 export async function axNodeByRole(page: E2EPage, role: string, settled: (node: AxNode) => boolean = node => !!node.name): Promise<AxNode> {
-  let node: AxNode = { name: null, description: null };
+  return (await findAxNode(page, candidate => candidate.role === role, settled)) ?? { name: null, description: null };
+}
+
+/**
+ * The node with a given role and accessible name, for a page holding several
+ * of the same role — a trigger among other buttons, one tab of many.
+ * {@link axNodeByRole} takes the first node of the role, which on such a page
+ * is whichever happens to come first. Returns `null` when no node matches.
+ */
+export async function axNodeNamed(page: E2EPage, role: string, name: string, settled: (node: AxNode) => boolean = () => true): Promise<AxNode | null> {
+  return findAxNode(page, candidate => candidate.role === role && candidate.name === name, settled);
+}
+
+/** Re-reads the accessibility tree until a matching node settles. See {@link axNodeByRole}. */
+async function findAxNode(page: E2EPage, match: (candidate: AxSnapshotNode) => boolean, settled: (node: AxNode) => boolean): Promise<AxNode | null> {
+  let node: AxNode | null = null;
 
   for (let attempt = 0; attempt < 10; attempt++) {
     await page.waitForChanges();
@@ -48,9 +65,9 @@ export async function axNodeByRole(page: E2EPage, role: string, settled: (node: 
     };
     if (snapshot) walk(snapshot);
 
-    const found = flat.find(candidate => candidate.role === role);
+    const found = flat.find(match);
     if (found) {
-      node = { name: found.name ?? null, description: found.description ?? null };
+      node = { name: found.name ?? null, description: found.description ?? null, expanded: found.expanded, haspopup: found.haspopup, selected: found.selected };
       if (settled(node)) return node;
     }
   }
@@ -61,6 +78,12 @@ export async function axNodeByRole(page: E2EPage, role: string, settled: (node: 
 export interface AxNode {
   name: string | null;
   description: string | null;
+  /** Present only on nodes that expand something: a disclosure, a menu button. */
+  expanded?: boolean;
+  /** What a trigger announces it opens. */
+  haspopup?: string;
+  /** Present on selectable nodes, such as tabs. */
+  selected?: boolean;
 }
 
 /** The slice of a Puppeteer accessibility snapshot this helper reads. */
@@ -68,6 +91,9 @@ interface AxSnapshotNode {
   role?: string;
   name?: string;
   description?: string;
+  expanded?: boolean;
+  haspopup?: string;
+  selected?: boolean;
   children?: AxSnapshotNode[];
 }
 
@@ -88,16 +114,18 @@ interface AccessibilityPage {
  * verdict. Raising it lets a loaded machine finish instead of giving up, and a
  * genuinely broken page still fails, just later.
  *
- * The ceiling is jest's own per-test timeout, which Stencil derives from an
- * environment variable it overwrites itself, so it cannot be configured: 30s
- * for e2e, times 1.5, is 45s. Waiting longer only trades a clear "App did not
- * load" for jest's generic timeout, so this stays under it.
+ * The ceiling is jest's own per-test timeout. Stencil sets it to 45s — its
+ * default e2e wait times 1.5 — and this comment used to say that could not be
+ * changed. It can: `src/test/jest-setup.ts` runs after Stencil's setup file and
+ * raises it to 90s. The wait stays under that, so a page that never loads
+ * still fails with "App did not load" rather than jest's generic timeout.
  *
  * This is the smaller half of the fix. The larger half is `--max-workers` in
  * the test script: one browser per core leaves each too little to start in
  * time. Neither alone is enough — capping workers still flaked about one run in
  * three on the default wait, and this headroom alone left three failures a run
- * — and together they are clean.
+ * — and together they were clean at 56 files. At 74 they were not: most full
+ * runs lost the first page of some file to a 40s wait, so the wait is now 80s.
  */
 export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promise<E2EPage> {
   const page = await newE2EPage(...args);
@@ -108,4 +136,49 @@ export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promi
   return page;
 }
 
-const APP_LOAD_TIMEOUT = 40_000;
+const APP_LOAD_TIMEOUT = 80_000;
+
+/**
+ * Loads the dev design tokens into an e2e page.
+ *
+ * Every length in the component stylesheets is a `--ss-*` variable, and an e2e
+ * page loads the components but not the tokens, so without this each one
+ * resolves to nothing and `inset`, `max-width` and `padding` fall back to their
+ * initial values. A layout assertion made that way tests a page nobody will
+ * ever see, and misses bugs that only exist with real values — the modal's
+ * centring transform was itself invalid without tokens, so the harm it did to
+ * fixed descendants could not show up.
+ */
+export async function useTokens(page: E2EPage): Promise<void> {
+  const tokens = readFileSync(join(process.cwd(), 'test/token-set-01/tokens.css'), 'utf8');
+  await page.addStyleTag({ content: `${tokens}\n${NO_TRANSITIONS}` });
+  await page.waitForChanges();
+}
+
+/**
+ * Loading tokens into a page that has already rendered changes every length at
+ * once, and a component with a transition on padding animates to its new value
+ * — so the first measurement catches a control mid-animation: `ss-button` was
+ * measured at 35px on its way to 42. Zeroing the durations makes every change
+ * immediate. It is done through the tokens because custom properties inherit
+ * into shadow roots, where a `transition: none` rule in the document would
+ * never reach.
+ */
+/**
+ * Makes the page behave as though its window had focus.
+ *
+ * Under the full suite a test's page is often not the active tab, and a page
+ * without window focus still moves `document.activeElement` on `focus()` but
+ * fires no `focusin` or `focusout` — so a component listening for them never
+ * hears focus arrive or leave. The page was measured with `document.hasFocus()`
+ * false, and `ss-toast`'s focus test failed with its pause never engaging,
+ * while passing alone. Focus emulation is Chrome's own switch for this, set
+ * through the DevTools protocol. Call it after `setContent`.
+ */
+export async function emulateFocus(page: E2EPage): Promise<void> {
+  const session = await (page as unknown as { createCDPSession(): Promise<{ send(method: string, params?: object): Promise<unknown> }> }).createCDPSession();
+  await session.send('Emulation.setFocusEmulationEnabled', { enabled: true });
+}
+
+const NO_TRANSITIONS =
+  ':root { --ss-transitions-durations-instant: 0s; --ss-transitions-durations-short: 0s; --ss-transitions-durations-medium: 0s; --ss-transitions-durations-long: 0s; }';

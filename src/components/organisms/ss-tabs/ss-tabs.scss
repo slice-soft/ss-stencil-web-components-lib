@@ -1,0 +1,77 @@
+@use '../../../global/styles/mixins' as mx;
+
+.ss-tabs {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--ss-text-fonts-sans);
+}
+
+.ss-tabs--vertical {
+  flex-direction: row;
+}
+
+.ss-tabs__list {
+  display: flex;
+  gap: var(--ss-dimensions-1);
+  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+}
+
+.ss-tabs--vertical .ss-tabs__list {
+  flex-direction: column;
+  border-bottom: var(--ss-borders-width-none);
+  border-right: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+}
+
+/* The tab overlaps the list's border by its own width, so the selected tab's
+   indicator replaces that stretch of the line instead of sitting beside it. */
+.ss-tabs__tab {
+  margin-bottom: calc(var(--ss-borders-width-base) * -1);
+  padding: var(--ss-dimensions-2) var(--ss-dimensions-4);
+  border: var(--ss-borders-width-none);
+  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-colors-transparent);
+  background: var(--ss-colors-transparent);
+  color: var(--ss-color-muted-foreground);
+  font: inherit;
+  font-size: var(--ss-text-sizes-sm);
+  font-weight: var(--ss-text-weights-medium);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    color: var(--ss-color-foreground);
+  }
+
+  &:focus-visible {
+    @include mx.focus-ring;
+  }
+
+  &:disabled {
+    @include mx.atom-disabled;
+    opacity: var(--ss-opacity-disabled);
+  }
+}
+
+.ss-tabs__tab--selected {
+  color: var(--ss-color-primary);
+  border-bottom-color: var(--ss-color-primary);
+}
+
+.ss-tabs--vertical .ss-tabs__tab {
+  margin-bottom: var(--ss-sizing-none);
+  margin-right: calc(var(--ss-borders-width-base) * -1);
+  border-bottom: var(--ss-borders-width-none);
+  border-right: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-colors-transparent);
+  text-align: start;
+}
+
+.ss-tabs--vertical .ss-tabs__tab--selected {
+  border-right-color: var(--ss-color-primary);
+}
+
+.ss-tabs__panels {
+  flex: 1;
+  min-width: var(--ss-sizing-none);
+}
+
+.ss-tabs--vertical .ss-tabs__panels {
+  padding-inline-start: var(--ss-dimensions-4);
+}

@@ -5,65 +5,160 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { InlineStyles } from "./utils/style";
+import { SsAccordionItemOpenChangeEvent } from "./components/organisms/ss-accordion-item/ss-accordion-item";
 import { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
 import { Size } from "./types/size";
-import { InlineStyles } from "./utils/style";
 import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 import { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 import { LinkSize } from "./components/atoms/ss-link/ss-link";
 import { JoinSide } from "./types/join";
+import { PopupKind } from "./types/popup";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { Align, Placement } from "./utils/position";
+import { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
+import { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
 import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
 import { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 import { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
+import { Orientation } from "./utils/roving";
+import { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
+import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+import { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
+import { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
+import { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
+import { SsToastOpenChangeEvent } from "./components/organisms/ss-toast/ss-toast";
+import { ToasterPlacement } from "./components/organisms/ss-toaster/ss-toaster";
 import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
+export { InlineStyles } from "./utils/style";
+export { SsAccordionItemOpenChangeEvent } from "./components/organisms/ss-accordion-item/ss-accordion-item";
 export { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
 export { Size } from "./types/size";
-export { InlineStyles } from "./utils/style";
 export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
 export { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
 export { LinkSize } from "./components/atoms/ss-link/ss-link";
 export { JoinSide } from "./types/join";
+export { PopupKind } from "./types/popup";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
 export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { Align, Placement } from "./utils/position";
+export { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
+export { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
 export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
 export { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
 export { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
+export { Orientation } from "./utils/roving";
+export { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
+export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
+export { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
+export { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
 export { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
+export { AlertVariant as AlertVariant1 } from "./components/molecules/ss-alert/ss-alert";
+export { SsToastOpenChangeEvent } from "./components/organisms/ss-toast/ss-toast";
+export { ToasterPlacement } from "./components/organisms/ss-toaster/ss-toaster";
 export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
+    /**
+     * A stack of `ss-accordion-item` sections.
+     * By default one section is open at a time: opening a section closes the one
+     * that was open, so the reader is never left with a column of expanded text
+     * to find their place in. `multiple` lets several stay open.
+     * The arrow keys move between headers — Up and Down, wrapping, with Home and
+     * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+     * still goes through the headers and into each open section in page order;
+     * the arrows are a shortcut, not a replacement.
+     */
+    interface SsAccordion {
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lets several sections stay open at once.
+          * @default false
+         */
+        "multiple": boolean;
+        /**
+          * Id applied to the container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A heading that shows and hides the section under it.
+     * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+     * heading holds a button that says whether the section is expanded and which
+     * region it controls, and the region is named by that button. The heading is a
+     * real heading, so a screen reader user moving through a page by headings
+     * still finds every section — collapsed ones included. Pick `heading-level` to
+     * fit the page's outline.
+     * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+     * part in single-open behaviour and arrow-key movement between headers.
+     */
+    interface SsAccordionItem {
+        /**
+          * Disables the header; the section keeps its current state.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Heading text, used when no heading slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Level of the heading element, 1 to 6, so the section fits the page's outline.
+          * @default 3
+         */
+        "headingLevel": number;
+        /**
+          * Inline CSS styles applied to the item's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the section is expanded. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Value that identifies the item in events.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the item's container; also included in the ssOpenChange detail.
+         */
+        "xId"?: string;
+    }
     /**
      * A message block that states what happened and, when it matters, interrupts to
      * say so.
@@ -331,6 +426,10 @@ export namespace Components {
          */
         "disabled": boolean;
         /**
+          * Whether what the button controls is open, announced as aria-expanded. Set by whatever it opens.
+         */
+        "expanded"?: boolean;
+        /**
           * Expands the button to the full width of its container.
           * @default false
          */
@@ -362,6 +461,10 @@ export namespace Components {
           * @default true
          */
         "oneClick": boolean;
+        /**
+          * What the button opens, announced as aria-haspopup. Set by `ss-popover` and `ss-dropdown` on their trigger. A button that opens something is not an action that can be sent twice, so it skips the post-click disable: focus handed back to it on close would otherwise land on a disabled control and be lost.
+         */
+        "popup"?: PopupKind;
         /**
           * Shape of the button: rounded, pill, circle or square.
           * @default 'rounded'
@@ -726,6 +829,81 @@ export namespace Components {
           * Id applied to the root element.
          */
         "xId"?: string;
+    }
+    /**
+     * A button that opens a list of actions.
+     * It follows the WAI-ARIA menu button pattern, because that is what a screen
+     * reader announces a `menu` as and what its users will press: the menu takes
+     * focus when it opens; arrows move through the items and wrap; Home and End
+     * jump to the ends; a typed letter moves to the next item starting with it;
+     * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+     * hands focus back to the button. Tab closes it and lets focus move on — the
+     * items are not tab stops, so a menu costs one stop in the page's tab order
+     * however long it is.
+     * A menu is for actions. For a value a form submits, use `ss-select`.
+     */
+    interface SsDropdown {
+        /**
+          * Accessible name for the menu. Defaults to the trigger's label, which is what the reader just pressed.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end. A menu reads best hanging from the start.
+          * @default 'start'
+         */
+        "align": Align;
+        /**
+          * Disables the dropdown; the menu stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the menu.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the menu is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Side of the trigger to open on. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement": Placement;
+        /**
+          * Id applied to the menu.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One action in an `ss-dropdown` menu.
+     * The item is the host itself: `role="menuitem"` and the roving focus both sit
+     * on the element the caller wrote, so each item is a direct child of the menu
+     * in the accessibility tree and the menu can move focus by calling `focus()`
+     * on it. It is never a tab stop — the menu moves focus between items.
+     * It does nothing on its own. The menu listens for the press and reports the
+     * item's value, so a set of items needs one listener, not one per item.
+     */
+    interface SsDropdownItem {
+        /**
+          * Disables the item; it is skipped by the arrow keys and cannot be picked.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Item text, used when no slot content is provided. Also what typing a letter matches against.
+         */
+        "label"?: string;
+        /**
+          * Value reported by the menu when this item is picked. Defaults to the label, then the text.
+         */
+        "value"?: string;
+        /**
+          * Visual treatment. `destructive` marks an action that removes something.
+          * @default 'default'
+         */
+        "variant": DropdownItemVariant;
     }
     /**
      * Associates one form control with its label, helper text and error message,
@@ -1104,6 +1282,81 @@ export namespace Components {
         "xId"?: string;
     }
     /**
+     * A site's navigation: a named landmark holding a list of links, one of them
+     * marked as the page the reader is on.
+     * Every item is a real link, so it opens in a new tab, can be copied, and is
+     * reached by Tab like any other — site navigation is not an application menu,
+     * and giving it menu roles would take those away and change what the keys do.
+     * An app that routes on the client listens for `ssChange` and calls
+     * `preventDefault()` on it: the browser then does not follow the link, and the
+     * app routes instead. The current item moves either way. A modified click —
+     * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+     * is left to the browser and changes nothing here.
+     */
+    interface SsNav {
+        /**
+          * Accessible name for the landmark, so a page with two navigations tells them apart.
+          * @default 'Main'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Inline CSS styles applied to the navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Direction the items run in.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Value of the current item, marked as the page the reader is on. Updated when an item is followed, and reflected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the navigation element; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One link in an `ss-nav`.
+     * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+     * the page the reader is on — on the link itself, the element that takes focus
+     * and that a screen reader announces. `ss-nav` decides which item is current
+     * and tells it, through `current`.
+     * A disabled item keeps its place but is no longer a link anyone can follow:
+     * it loses its `href`, so it drops out of the tab order, and is announced as a
+     * disabled link.
+     */
+    interface SsNavItem {
+        /**
+          * Whether this is the page the reader is on. Set by `ss-nav`.
+          * @default false
+         */
+        "current": boolean;
+        /**
+          * Disables the item; it can no longer be followed or reached by Tab.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Where the item leads.
+         */
+        "href"?: string;
+        /**
+          * Item text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Direction of the navigation it sits in. Set by `ss-nav`.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Value that identifies the item to `ss-nav`. Defaults to the href.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -1160,6 +1413,66 @@ export namespace Components {
         "total": number;
         /**
           * Id of the container; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Content anchored to a trigger, which the reader opens, uses and puts away
+     * without losing the page.
+     * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+     * and no focus trap. Focus goes into the panel when it opens, because that is
+     * where the reader asked to go. Closing it with Escape sends focus back to the
+     * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+     * the reader put it.
+     * Rendered scoped for the same reason as the modal: finding the first control
+     * to focus, and telling whether focus has left, both need to see the caller's
+     * content, which a shadow root would hide.
+     */
+    interface SsPopover {
+        /**
+          * Accessible name, for a panel with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end.
+          * @default 'center'
+         */
+        "align": Align;
+        /**
+          * Escape closes the panel.
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Pressing outside the popover closes the panel.
+          * @default true
+         */
+        "closeOnOutside": boolean;
+        /**
+          * Disables the popover; it stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Heading shown at the top of the panel, which also names it.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the panel is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Side of the trigger to open on: top, right, bottom or left. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement": Placement;
+        /**
+          * Id applied to the panel.
          */
         "xId"?: string;
     }
@@ -1525,6 +1838,168 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+     * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+     * stays here is the panel, so the content sits where the caller wrote it and
+     * only the label travels. `ss-tabs` tells each panel whether it is showing and
+     * which tab names it — the same coordination by props the rest of the library
+     * uses.
+     */
+    interface SsTab {
+        /**
+          * Disables the tab; it cannot be selected and the arrow keys skip it.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Text of the tab. Defaults to the value.
+         */
+        "label"?: string;
+        /**
+          * Id of the panel, which the tab points at. Set by `ss-tabs`.
+         */
+        "panelId"?: string;
+        /**
+          * Whether this panel is showing. Set by `ss-tabs`.
+          * @default false
+         */
+        "selected": boolean;
+        /**
+          * Id of the tab that names this panel. Set by `ss-tabs`.
+         */
+        "tabId"?: string;
+        /**
+          * Value that identifies the tab; `ss-tabs` selects by it and reports it. Defaults to the tab's position.
+         */
+        "value"?: string;
+    }
+    /**
+     * Rows of data under a row of headers.
+     * It is driven by data rather than markup — `columns` and `rows` are set as
+     * properties, like `ss-checkbox-group`'s value — because a table's cells are
+     * the caller's content, and a scoped component cannot style content slotted
+     * into it. Drawing the cells itself is what lets the table look like the rest
+     * of the library. The trade is that a cell is text, shaped by a column's
+     * `format`.
+     * It is a real `<table>`: the caption names it, every header is a column
+     * header, and a sortable header is a button inside the header cell, with the
+     * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+     * `manual-sort` is set, in which case the table only reports the request and
+     * leaves the order to whoever fetched the rows.
+     * A table wider than its container scrolls sideways, and only then does its
+     * scroll area become a focusable region named after the caption, so a keyboard
+     * user can scroll it. A table that fits adds no stop to the tab order.
+     */
+    interface SsTable {
+        /**
+          * Caption, which is also the table's accessible name.
+         */
+        "caption"?: string;
+        /**
+          * The columns, in order. Set as a property.
+          * @default []
+         */
+        "columns": SsTableColumn[];
+        /**
+          * Text shown when there are no rows.
+          * @default 'No data'
+         */
+        "emptyText": string;
+        /**
+          * Keeps the caption for assistive technology but hides it from view.
+          * @default false
+         */
+        "hideCaption": boolean;
+        /**
+          * Inline CSS styles applied to the container. A max-height here makes the rows scroll.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Reports sort requests without reordering the rows, for data sorted elsewhere.
+          * @default false
+         */
+        "manualSort": boolean;
+        /**
+          * Property holding each row's identity, so the rows keep their elements when the order changes. Defaults to position.
+         */
+        "rowKey"?: string;
+        /**
+          * The rows, one object each. Set as a property; never modified.
+          * @default []
+         */
+        "rows": TableRow[];
+        /**
+          * Cell padding.
+          * @default 'md'
+         */
+        "size": TableSize;
+        /**
+          * Direction of the sort. Updated when a header is pressed, and reflected.
+          * @default 'ascending'
+         */
+        "sortDirection": TableSortDirection;
+        /**
+          * Column the rows are sorted by. Updated when a header is pressed, and reflected.
+         */
+        "sortKey"?: string;
+        /**
+          * Keeps the header in view while the rows scroll. Give the table a max-height for it to scroll.
+          * @default false
+         */
+        "stickyHeader": boolean;
+        /**
+          * Shades every other row.
+          * @default false
+         */
+        "striped": boolean;
+        /**
+          * Id applied to the container; also included in the ssSort detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A set of panels, one shown at a time, chosen from a row of tabs.
+     * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+     * tab order — the selected tab — and the arrow keys move between tabs,
+     * wrapping, with Home and End for the ends. With automatic activation, the
+     * default, moving to a tab shows its panel. With manual activation the reader
+     * moves first and presses Enter or Space to show it, which is the better choice
+     * when a panel is slow to render.
+     * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+     * real tab list. Drawing them from data rather than slotting the caller's
+     * markup is what keeps the roles intact: every tab is a direct child of the tab
+     * list, in the same tree as the panels it controls, so the ids tying the two
+     * together resolve. The trade is that a tab label is text.
+     */
+    interface SsTabs {
+        /**
+          * Accessible name for the tab list.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Whether moving to a tab shows its panel (automatic) or waits for Enter or Space (manual).
+          * @default 'automatic'
+         */
+        "activation": TabsActivation;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Direction the tabs run in, which also decides the arrow keys: Left and Right, or Up and Down.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Value of the selected tab. Updated on interaction, and reflected. Falls back to the first tab that can be selected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the container; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
     interface SsTextarea {
         /**
           * Accessible label for screen readers.
@@ -1620,6 +2095,95 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": InputStyle;
+    }
+    /**
+     * A short message that appears, says what happened, and goes away on its own.
+     * The message is an `ss-alert`, so it brings the alert's severity, layout and
+     * live-region role: a screen reader announces info and success politely and
+     * interrupts for warning and error. What the toast adds is time. It closes
+     * itself after `duration`, and the clock stops while the reader is hovering
+     * over it, has focus inside it, or cannot see the page at all — a message that
+     * disappears while someone is reading it, or while they are in another tab, was
+     * never delivered (WCAG 2.2.1, Timing Adjustable).
+     * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+     * them. A closed toast stays in the DOM and takes no room; remove it on
+     * `ssOpenChange` when toasts are rendered from a list.
+     * Scoped so the caller's content reaches the alert's own slots: it is moved
+     * into the `ss-alert` element, where the alert slots it natively.
+     */
+    interface SsToast {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel": string;
+        /**
+          * Renders a dismiss button.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Milliseconds before the toast closes itself. 0 keeps it until dismissed — use that for anything the reader must act on.
+          * @default 5000
+         */
+        "duration": number;
+        /**
+          * Title text, used when no title slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the toast's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the toast is showing. Set to show it; updated when it closes, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * Severity, which sets the colour and how insistently the message is announced.
+          * @default 'info'
+         */
+        "variant": AlertVariant1;
+        /**
+          * Id applied to the toast's container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * The corner of the screen toasts appear in.
+     * It pins its toasts to one corner, above everything else, and stacks them in
+     * the order they were added. It is a named region, so a screen reader user can
+     * jump to the notifications and back again. The announcement itself comes from
+     * each toast's own live region, which is why the toaster sets no `aria-live`:
+     * a live region inside another announces the same message twice.
+     * The region ignores the pointer, so its empty area never blocks the page under
+     * it; the toasts take the pointer back.
+     * Shadow rather than scoped, because toasts are added after the toaster has
+     * rendered — that is the whole point of it. A scoped component only moves its
+     * children into the slot when it renders, so a toast appended later stayed a
+     * direct child of the host, in the page flow, instead of in the fixed corner.
+     * A shadow root slots a child the moment it is added.
+     */
+    interface SsToaster {
+        /**
+          * Accessible name for the region, which is what a screen reader lists it as.
+          * @default 'Notifications'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Inline CSS styles applied to the region.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Corner of the viewport the toasts are pinned to.
+          * @default 'bottom-end'
+         */
+        "placement": ToasterPlacement;
+        /**
+          * Id applied to the region.
+         */
+        "xId"?: string;
     }
     /**
      * Rendered scoped rather than shadow because the description has to reach the
@@ -1723,6 +2287,10 @@ export namespace Components {
         "xId"?: string;
     }
 }
+export interface SsAccordionItemCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsAccordionItemElement;
+}
 export interface SsAlertCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsAlertElement;
@@ -1751,6 +2319,10 @@ export interface SsComboboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsComboboxElement;
 }
+export interface SsDropdownCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsDropdownElement;
+}
 export interface SsInputCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsInputElement;
@@ -1763,9 +2335,17 @@ export interface SsModalCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsModalElement;
 }
+export interface SsNavCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsNavElement;
+}
 export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsPaginationElement;
+}
+export interface SsPopoverCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsPopoverElement;
 }
 export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1787,15 +2367,71 @@ export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSwitchElement;
 }
+export interface SsTableCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTableElement;
+}
+export interface SsTabsCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsTabsElement;
+}
 export interface SsTextareaCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsTextareaElement;
+}
+export interface SsToastCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsToastElement;
 }
 export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsTooltipElement;
 }
 declare global {
+    /**
+     * A stack of `ss-accordion-item` sections.
+     * By default one section is open at a time: opening a section closes the one
+     * that was open, so the reader is never left with a column of expanded text
+     * to find their place in. `multiple` lets several stay open.
+     * The arrow keys move between headers — Up and Down, wrapping, with Home and
+     * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+     * still goes through the headers and into each open section in page order;
+     * the arrows are a shortcut, not a replacement.
+     */
+    interface HTMLSsAccordionElement extends Components.SsAccordion, HTMLStencilElement {
+    }
+    var HTMLSsAccordionElement: {
+        prototype: HTMLSsAccordionElement;
+        new (): HTMLSsAccordionElement;
+    };
+    interface HTMLSsAccordionItemElementEventMap {
+        "ssOpenChange": SsAccordionItemOpenChangeEvent;
+    }
+    /**
+     * A heading that shows and hides the section under it.
+     * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+     * heading holds a button that says whether the section is expanded and which
+     * region it controls, and the region is named by that button. The heading is a
+     * real heading, so a screen reader user moving through a page by headings
+     * still finds every section — collapsed ones included. Pick `heading-level` to
+     * fit the page's outline.
+     * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+     * part in single-open behaviour and arrow-key movement between headers.
+     */
+    interface HTMLSsAccordionItemElement extends Components.SsAccordionItem, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsAccordionItemElementEventMap>(type: K, listener: (this: HTMLSsAccordionItemElement, ev: SsAccordionItemCustomEvent<HTMLSsAccordionItemElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsAccordionItemElementEventMap>(type: K, listener: (this: HTMLSsAccordionItemElement, ev: SsAccordionItemCustomEvent<HTMLSsAccordionItemElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsAccordionItemElement: {
+        prototype: HTMLSsAccordionItemElement;
+        new (): HTMLSsAccordionItemElement;
+    };
     interface HTMLSsAlertElementEventMap {
         "ssDismiss": SsAlertDismissEvent;
     }
@@ -2023,6 +2659,51 @@ declare global {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
     };
+    interface HTMLSsDropdownElementEventMap {
+        "ssOpenChange": SsDropdownOpenChangeEvent;
+        "ssSelect": SsDropdownSelectEvent;
+    }
+    /**
+     * A button that opens a list of actions.
+     * It follows the WAI-ARIA menu button pattern, because that is what a screen
+     * reader announces a `menu` as and what its users will press: the menu takes
+     * focus when it opens; arrows move through the items and wrap; Home and End
+     * jump to the ends; a typed letter moves to the next item starting with it;
+     * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+     * hands focus back to the button. Tab closes it and lets focus move on — the
+     * items are not tab stops, so a menu costs one stop in the page's tab order
+     * however long it is.
+     * A menu is for actions. For a value a form submits, use `ss-select`.
+     */
+    interface HTMLSsDropdownElement extends Components.SsDropdown, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsDropdownElementEventMap>(type: K, listener: (this: HTMLSsDropdownElement, ev: SsDropdownCustomEvent<HTMLSsDropdownElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsDropdownElementEventMap>(type: K, listener: (this: HTMLSsDropdownElement, ev: SsDropdownCustomEvent<HTMLSsDropdownElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsDropdownElement: {
+        prototype: HTMLSsDropdownElement;
+        new (): HTMLSsDropdownElement;
+    };
+    /**
+     * One action in an `ss-dropdown` menu.
+     * The item is the host itself: `role="menuitem"` and the roving focus both sit
+     * on the element the caller wrote, so each item is a direct child of the menu
+     * in the accessibility tree and the menu can move focus by calling `focus()`
+     * on it. It is never a tab stop — the menu moves focus between items.
+     * It does nothing on its own. The menu listens for the press and reports the
+     * item's value, so a set of items needs one listener, not one per item.
+     */
+    interface HTMLSsDropdownItemElement extends Components.SsDropdownItem, HTMLStencilElement {
+    }
+    var HTMLSsDropdownItemElement: {
+        prototype: HTMLSsDropdownItemElement;
+        new (): HTMLSsDropdownItemElement;
+    };
     /**
      * Associates one form control with its label, helper text and error message,
      * generating the ids and coordinating the state that a consumer would otherwise
@@ -2131,6 +2812,51 @@ declare global {
         prototype: HTMLSsModalElement;
         new (): HTMLSsModalElement;
     };
+    interface HTMLSsNavElementEventMap {
+        "ssChange": SsNavChangeEvent;
+    }
+    /**
+     * A site's navigation: a named landmark holding a list of links, one of them
+     * marked as the page the reader is on.
+     * Every item is a real link, so it opens in a new tab, can be copied, and is
+     * reached by Tab like any other — site navigation is not an application menu,
+     * and giving it menu roles would take those away and change what the keys do.
+     * An app that routes on the client listens for `ssChange` and calls
+     * `preventDefault()` on it: the browser then does not follow the link, and the
+     * app routes instead. The current item moves either way. A modified click —
+     * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+     * is left to the browser and changes nothing here.
+     */
+    interface HTMLSsNavElement extends Components.SsNav, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsNavElementEventMap>(type: K, listener: (this: HTMLSsNavElement, ev: SsNavCustomEvent<HTMLSsNavElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsNavElementEventMap>(type: K, listener: (this: HTMLSsNavElement, ev: SsNavCustomEvent<HTMLSsNavElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsNavElement: {
+        prototype: HTMLSsNavElement;
+        new (): HTMLSsNavElement;
+    };
+    /**
+     * One link in an `ss-nav`.
+     * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+     * the page the reader is on — on the link itself, the element that takes focus
+     * and that a screen reader announces. `ss-nav` decides which item is current
+     * and tells it, through `current`.
+     * A disabled item keeps its place but is no longer a link anyone can follow:
+     * it loses its `href`, so it drops out of the tab order, and is announced as a
+     * disabled link.
+     */
+    interface HTMLSsNavItemElement extends Components.SsNavItem, HTMLStencilElement {
+    }
+    var HTMLSsNavItemElement: {
+        prototype: HTMLSsNavItemElement;
+        new (): HTMLSsNavItemElement;
+    };
     interface HTMLSsPaginationElementEventMap {
         "ssChange": SsPaginationChangeEvent;
     }
@@ -2157,6 +2883,35 @@ declare global {
     var HTMLSsPaginationElement: {
         prototype: HTMLSsPaginationElement;
         new (): HTMLSsPaginationElement;
+    };
+    interface HTMLSsPopoverElementEventMap {
+        "ssOpenChange": SsPopoverOpenChangeEvent;
+    }
+    /**
+     * Content anchored to a trigger, which the reader opens, uses and puts away
+     * without losing the page.
+     * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+     * and no focus trap. Focus goes into the panel when it opens, because that is
+     * where the reader asked to go. Closing it with Escape sends focus back to the
+     * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+     * the reader put it.
+     * Rendered scoped for the same reason as the modal: finding the first control
+     * to focus, and telling whether focus has left, both need to see the caller's
+     * content, which a shadow root would hide.
+     */
+    interface HTMLSsPopoverElement extends Components.SsPopover, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsPopoverElementEventMap>(type: K, listener: (this: HTMLSsPopoverElement, ev: SsPopoverCustomEvent<HTMLSsPopoverElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsPopoverElementEventMap>(type: K, listener: (this: HTMLSsPopoverElement, ev: SsPopoverCustomEvent<HTMLSsPopoverElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsPopoverElement: {
+        prototype: HTMLSsPopoverElement;
+        new (): HTMLSsPopoverElement;
     };
     interface HTMLSsRadioElementEventMap {
         "ssChange": SsCheckedChangeEvent;
@@ -2273,6 +3028,85 @@ declare global {
         prototype: HTMLSsSwitchElement;
         new (): HTMLSsSwitchElement;
     };
+    /**
+     * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+     * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+     * stays here is the panel, so the content sits where the caller wrote it and
+     * only the label travels. `ss-tabs` tells each panel whether it is showing and
+     * which tab names it — the same coordination by props the rest of the library
+     * uses.
+     */
+    interface HTMLSsTabElement extends Components.SsTab, HTMLStencilElement {
+    }
+    var HTMLSsTabElement: {
+        prototype: HTMLSsTabElement;
+        new (): HTMLSsTabElement;
+    };
+    interface HTMLSsTableElementEventMap {
+        "ssSort": SsTableSortEvent;
+    }
+    /**
+     * Rows of data under a row of headers.
+     * It is driven by data rather than markup — `columns` and `rows` are set as
+     * properties, like `ss-checkbox-group`'s value — because a table's cells are
+     * the caller's content, and a scoped component cannot style content slotted
+     * into it. Drawing the cells itself is what lets the table look like the rest
+     * of the library. The trade is that a cell is text, shaped by a column's
+     * `format`.
+     * It is a real `<table>`: the caption names it, every header is a column
+     * header, and a sortable header is a button inside the header cell, with the
+     * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+     * `manual-sort` is set, in which case the table only reports the request and
+     * leaves the order to whoever fetched the rows.
+     * A table wider than its container scrolls sideways, and only then does its
+     * scroll area become a focusable region named after the caption, so a keyboard
+     * user can scroll it. A table that fits adds no stop to the tab order.
+     */
+    interface HTMLSsTableElement extends Components.SsTable, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTableElementEventMap>(type: K, listener: (this: HTMLSsTableElement, ev: SsTableCustomEvent<HTMLSsTableElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTableElementEventMap>(type: K, listener: (this: HTMLSsTableElement, ev: SsTableCustomEvent<HTMLSsTableElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTableElement: {
+        prototype: HTMLSsTableElement;
+        new (): HTMLSsTableElement;
+    };
+    interface HTMLSsTabsElementEventMap {
+        "ssChange": SsTabsChangeEvent;
+    }
+    /**
+     * A set of panels, one shown at a time, chosen from a row of tabs.
+     * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+     * tab order — the selected tab — and the arrow keys move between tabs,
+     * wrapping, with Home and End for the ends. With automatic activation, the
+     * default, moving to a tab shows its panel. With manual activation the reader
+     * moves first and presses Enter or Space to show it, which is the better choice
+     * when a panel is slow to render.
+     * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+     * real tab list. Drawing them from data rather than slotting the caller's
+     * markup is what keeps the roles intact: every tab is a direct child of the tab
+     * list, in the same tree as the panels it controls, so the ids tying the two
+     * together resolve. The trade is that a tab label is text.
+     */
+    interface HTMLSsTabsElement extends Components.SsTabs, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsTabsElementEventMap>(type: K, listener: (this: HTMLSsTabsElement, ev: SsTabsCustomEvent<HTMLSsTabsElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsTabsElementEventMap>(type: K, listener: (this: HTMLSsTabsElement, ev: SsTabsCustomEvent<HTMLSsTabsElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsTabsElement: {
+        prototype: HTMLSsTabsElement;
+        new (): HTMLSsTabsElement;
+    };
     interface HTMLSsTextareaElementEventMap {
         "ssInput": SsInputValueEvent;
         "ssChange": SsInputValueEvent;
@@ -2293,6 +3127,59 @@ declare global {
     var HTMLSsTextareaElement: {
         prototype: HTMLSsTextareaElement;
         new (): HTMLSsTextareaElement;
+    };
+    interface HTMLSsToastElementEventMap {
+        "ssOpenChange": SsToastOpenChangeEvent;
+    }
+    /**
+     * A short message that appears, says what happened, and goes away on its own.
+     * The message is an `ss-alert`, so it brings the alert's severity, layout and
+     * live-region role: a screen reader announces info and success politely and
+     * interrupts for warning and error. What the toast adds is time. It closes
+     * itself after `duration`, and the clock stops while the reader is hovering
+     * over it, has focus inside it, or cannot see the page at all — a message that
+     * disappears while someone is reading it, or while they are in another tab, was
+     * never delivered (WCAG 2.2.1, Timing Adjustable).
+     * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+     * them. A closed toast stays in the DOM and takes no room; remove it on
+     * `ssOpenChange` when toasts are rendered from a list.
+     * Scoped so the caller's content reaches the alert's own slots: it is moved
+     * into the `ss-alert` element, where the alert slots it natively.
+     */
+    interface HTMLSsToastElement extends Components.SsToast, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsToastElementEventMap>(type: K, listener: (this: HTMLSsToastElement, ev: SsToastCustomEvent<HTMLSsToastElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsToastElementEventMap>(type: K, listener: (this: HTMLSsToastElement, ev: SsToastCustomEvent<HTMLSsToastElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsToastElement: {
+        prototype: HTMLSsToastElement;
+        new (): HTMLSsToastElement;
+    };
+    /**
+     * The corner of the screen toasts appear in.
+     * It pins its toasts to one corner, above everything else, and stacks them in
+     * the order they were added. It is a named region, so a screen reader user can
+     * jump to the notifications and back again. The announcement itself comes from
+     * each toast's own live region, which is why the toaster sets no `aria-live`:
+     * a live region inside another announces the same message twice.
+     * The region ignores the pointer, so its empty area never blocks the page under
+     * it; the toasts take the pointer back.
+     * Shadow rather than scoped, because toasts are added after the toaster has
+     * rendered — that is the whole point of it. A scoped component only moves its
+     * children into the slot when it renders, so a toast appended later stayed a
+     * direct child of the host, in the page flow, instead of in the fixed corner.
+     * A shadow root slots a child the moment it is added.
+     */
+    interface HTMLSsToasterElement extends Components.SsToaster, HTMLStencilElement {
+    }
+    var HTMLSsToasterElement: {
+        prototype: HTMLSsToasterElement;
+        new (): HTMLSsToasterElement;
     };
     interface HTMLSsTooltipElementEventMap {
         "ssOpenChange": SsTooltipOpenChangeEvent;
@@ -2325,6 +3212,8 @@ declare global {
         new (): HTMLSsTypographyElement;
     };
     interface HTMLElementTagNameMap {
+        "ss-accordion": HTMLSsAccordionElement;
+        "ss-accordion-item": HTMLSsAccordionItemElement;
         "ss-alert": HTMLSsAlertElement;
         "ss-avatar": HTMLSsAvatarElement;
         "ss-avatar-group": HTMLSsAvatarGroupElement;
@@ -2338,6 +3227,8 @@ declare global {
         "ss-checkbox-group": HTMLSsCheckboxGroupElement;
         "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-dropdown": HTMLSsDropdownElement;
+        "ss-dropdown-item": HTMLSsDropdownItemElement;
         "ss-field": HTMLSsFieldElement;
         "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
@@ -2345,19 +3236,100 @@ declare global {
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
         "ss-modal": HTMLSsModalElement;
+        "ss-nav": HTMLSsNavElement;
+        "ss-nav-item": HTMLSsNavItemElement;
         "ss-pagination": HTMLSsPaginationElement;
+        "ss-popover": HTMLSsPopoverElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-select": HTMLSsSelectElement;
         "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
+        "ss-tab": HTMLSsTabElement;
+        "ss-table": HTMLSsTableElement;
+        "ss-tabs": HTMLSsTabsElement;
         "ss-textarea": HTMLSsTextareaElement;
+        "ss-toast": HTMLSsToastElement;
+        "ss-toaster": HTMLSsToasterElement;
         "ss-tooltip": HTMLSsTooltipElement;
         "ss-typography": HTMLSsTypographyElement;
     }
 }
 declare namespace LocalJSX {
+    /**
+     * A stack of `ss-accordion-item` sections.
+     * By default one section is open at a time: opening a section closes the one
+     * that was open, so the reader is never left with a column of expanded text
+     * to find their place in. `multiple` lets several stay open.
+     * The arrow keys move between headers — Up and Down, wrapping, with Home and
+     * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+     * still goes through the headers and into each open section in page order;
+     * the arrows are a shortcut, not a replacement.
+     */
+    interface SsAccordion {
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lets several sections stay open at once.
+          * @default false
+         */
+        "multiple"?: boolean;
+        /**
+          * Id applied to the container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A heading that shows and hides the section under it.
+     * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+     * heading holds a button that says whether the section is expanded and which
+     * region it controls, and the region is named by that button. The heading is a
+     * real heading, so a screen reader user moving through a page by headings
+     * still finds every section — collapsed ones included. Pick `heading-level` to
+     * fit the page's outline.
+     * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+     * part in single-open behaviour and arrow-key movement between headers.
+     */
+    interface SsAccordionItem {
+        /**
+          * Disables the header; the section keeps its current state.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Heading text, used when no heading slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Level of the heading element, 1 to 6, so the section fits the page's outline.
+          * @default 3
+         */
+        "headingLevel"?: number;
+        /**
+          * Inline CSS styles applied to the item's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the header is pressed; detail contains xId, value and the new open state.
+         */
+        "onSsOpenChange"?: (event: SsAccordionItemCustomEvent<SsAccordionItemOpenChangeEvent>) => void;
+        /**
+          * Whether the section is expanded. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Value that identifies the item in events.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the item's container; also included in the ssOpenChange detail.
+         */
+        "xId"?: string;
+    }
     /**
      * A message block that states what happened and, when it matters, interrupts to
      * say so.
@@ -2641,6 +3613,10 @@ declare namespace LocalJSX {
          */
         "disabled"?: boolean;
         /**
+          * Whether what the button controls is open, announced as aria-expanded. Set by whatever it opens.
+         */
+        "expanded"?: boolean;
+        /**
           * Expands the button to the full width of its container.
           * @default false
          */
@@ -2676,6 +3652,10 @@ declare namespace LocalJSX {
           * @default true
          */
         "oneClick"?: boolean;
+        /**
+          * What the button opens, announced as aria-haspopup. Set by `ss-popover` and `ss-dropdown` on their trigger. A button that opens something is not an action that can be sent twice, so it skips the post-click disable: focus handed back to it on close would otherwise land on a disabled control and be lost.
+         */
+        "popup"?: PopupKind;
         /**
           * Shape of the button: rounded, pill, circle or square.
           * @default 'rounded'
@@ -3086,6 +4066,89 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     /**
+     * A button that opens a list of actions.
+     * It follows the WAI-ARIA menu button pattern, because that is what a screen
+     * reader announces a `menu` as and what its users will press: the menu takes
+     * focus when it opens; arrows move through the items and wrap; Home and End
+     * jump to the ends; a typed letter moves to the next item starting with it;
+     * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+     * hands focus back to the button. Tab closes it and lets focus move on — the
+     * items are not tab stops, so a menu costs one stop in the page's tab order
+     * however long it is.
+     * A menu is for actions. For a value a form submits, use `ss-select`.
+     */
+    interface SsDropdown {
+        /**
+          * Accessible name for the menu. Defaults to the trigger's label, which is what the reader just pressed.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end. A menu reads best hanging from the start.
+          * @default 'start'
+         */
+        "align"?: Align;
+        /**
+          * Disables the dropdown; the menu stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the menu.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an interaction opens or closes the menu, not when `open` is set from outside; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsDropdownCustomEvent<SsDropdownOpenChangeEvent>) => void;
+        /**
+          * Emitted when an item is picked; detail contains xId and the item's value.
+         */
+        "onSsSelect"?: (event: SsDropdownCustomEvent<SsDropdownSelectEvent>) => void;
+        /**
+          * Whether the menu is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Side of the trigger to open on. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement"?: Placement;
+        /**
+          * Id applied to the menu.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One action in an `ss-dropdown` menu.
+     * The item is the host itself: `role="menuitem"` and the roving focus both sit
+     * on the element the caller wrote, so each item is a direct child of the menu
+     * in the accessibility tree and the menu can move focus by calling `focus()`
+     * on it. It is never a tab stop — the menu moves focus between items.
+     * It does nothing on its own. The menu listens for the press and reports the
+     * item's value, so a set of items needs one listener, not one per item.
+     */
+    interface SsDropdownItem {
+        /**
+          * Disables the item; it is skipped by the arrow keys and cannot be picked.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Item text, used when no slot content is provided. Also what typing a letter matches against.
+         */
+        "label"?: string;
+        /**
+          * Value reported by the menu when this item is picked. Defaults to the label, then the text.
+         */
+        "value"?: string;
+        /**
+          * Visual treatment. `destructive` marks an action that removes something.
+          * @default 'default'
+         */
+        "variant"?: DropdownItemVariant;
+    }
+    /**
      * Associates one form control with its label, helper text and error message,
      * generating the ids and coordinating the state that a consumer would otherwise
      * repeat on both the label and the control.
@@ -3490,6 +4553,85 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     /**
+     * A site's navigation: a named landmark holding a list of links, one of them
+     * marked as the page the reader is on.
+     * Every item is a real link, so it opens in a new tab, can be copied, and is
+     * reached by Tab like any other — site navigation is not an application menu,
+     * and giving it menu roles would take those away and change what the keys do.
+     * An app that routes on the client listens for `ssChange` and calls
+     * `preventDefault()` on it: the browser then does not follow the link, and the
+     * app routes instead. The current item moves either way. A modified click —
+     * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+     * is left to the browser and changes nothing here.
+     */
+    interface SsNav {
+        /**
+          * Accessible name for the landmark, so a page with two navigations tells them apart.
+          * @default 'Main'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an item is followed; detail contains xId, the item's value and its href. Cancel it to route on the client.
+         */
+        "onSsChange"?: (event: SsNavCustomEvent<SsNavChangeEvent>) => void;
+        /**
+          * Direction the items run in.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Value of the current item, marked as the page the reader is on. Updated when an item is followed, and reflected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the navigation element; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One link in an `ss-nav`.
+     * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+     * the page the reader is on — on the link itself, the element that takes focus
+     * and that a screen reader announces. `ss-nav` decides which item is current
+     * and tells it, through `current`.
+     * A disabled item keeps its place but is no longer a link anyone can follow:
+     * it loses its `href`, so it drops out of the tab order, and is announced as a
+     * disabled link.
+     */
+    interface SsNavItem {
+        /**
+          * Whether this is the page the reader is on. Set by `ss-nav`.
+          * @default false
+         */
+        "current"?: boolean;
+        /**
+          * Disables the item; it can no longer be followed or reached by Tab.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Where the item leads.
+         */
+        "href"?: string;
+        /**
+          * Item text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Direction of the navigation it sits in. Set by `ss-nav`.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Value that identifies the item to `ss-nav`. Defaults to the href.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -3550,6 +4692,70 @@ declare namespace LocalJSX {
         "total"?: number;
         /**
           * Id of the container; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Content anchored to a trigger, which the reader opens, uses and puts away
+     * without losing the page.
+     * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+     * and no focus trap. Focus goes into the panel when it opens, because that is
+     * where the reader asked to go. Closing it with Escape sends focus back to the
+     * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+     * the reader put it.
+     * Rendered scoped for the same reason as the modal: finding the first control
+     * to focus, and telling whether focus has left, both need to see the caller's
+     * content, which a shadow root would hide.
+     */
+    interface SsPopover {
+        /**
+          * Accessible name, for a panel with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Alignment along the trigger's edge: start, center or end.
+          * @default 'center'
+         */
+        "align"?: Align;
+        /**
+          * Escape closes the panel.
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Pressing outside the popover closes the panel.
+          * @default true
+         */
+        "closeOnOutside"?: boolean;
+        /**
+          * Disables the popover; it stays closed and the trigger does nothing.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Heading shown at the top of the panel, which also names it.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an interaction opens or closes the panel, not when `open` is set from outside; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsPopoverCustomEvent<SsPopoverOpenChangeEvent>) => void;
+        /**
+          * Whether the panel is showing. Updated on interaction, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Side of the trigger to open on: top, right, bottom or left. Moves to the opposite side when there is no room.
+          * @default 'bottom'
+         */
+        "placement"?: Placement;
+        /**
+          * Id applied to the panel.
          */
         "xId"?: string;
     }
@@ -3991,6 +5197,176 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+     * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+     * stays here is the panel, so the content sits where the caller wrote it and
+     * only the label travels. `ss-tabs` tells each panel whether it is showing and
+     * which tab names it — the same coordination by props the rest of the library
+     * uses.
+     */
+    interface SsTab {
+        /**
+          * Disables the tab; it cannot be selected and the arrow keys skip it.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Text of the tab. Defaults to the value.
+         */
+        "label"?: string;
+        /**
+          * Id of the panel, which the tab points at. Set by `ss-tabs`.
+         */
+        "panelId"?: string;
+        /**
+          * Whether this panel is showing. Set by `ss-tabs`.
+          * @default false
+         */
+        "selected"?: boolean;
+        /**
+          * Id of the tab that names this panel. Set by `ss-tabs`.
+         */
+        "tabId"?: string;
+        /**
+          * Value that identifies the tab; `ss-tabs` selects by it and reports it. Defaults to the tab's position.
+         */
+        "value"?: string;
+    }
+    /**
+     * Rows of data under a row of headers.
+     * It is driven by data rather than markup — `columns` and `rows` are set as
+     * properties, like `ss-checkbox-group`'s value — because a table's cells are
+     * the caller's content, and a scoped component cannot style content slotted
+     * into it. Drawing the cells itself is what lets the table look like the rest
+     * of the library. The trade is that a cell is text, shaped by a column's
+     * `format`.
+     * It is a real `<table>`: the caption names it, every header is a column
+     * header, and a sortable header is a button inside the header cell, with the
+     * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+     * `manual-sort` is set, in which case the table only reports the request and
+     * leaves the order to whoever fetched the rows.
+     * A table wider than its container scrolls sideways, and only then does its
+     * scroll area become a focusable region named after the caption, so a keyboard
+     * user can scroll it. A table that fits adds no stop to the tab order.
+     */
+    interface SsTable {
+        /**
+          * Caption, which is also the table's accessible name.
+         */
+        "caption"?: string;
+        /**
+          * The columns, in order. Set as a property.
+          * @default []
+         */
+        "columns"?: SsTableColumn[];
+        /**
+          * Text shown when there are no rows.
+          * @default 'No data'
+         */
+        "emptyText"?: string;
+        /**
+          * Keeps the caption for assistive technology but hides it from view.
+          * @default false
+         */
+        "hideCaption"?: boolean;
+        /**
+          * Inline CSS styles applied to the container. A max-height here makes the rows scroll.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Reports sort requests without reordering the rows, for data sorted elsewhere.
+          * @default false
+         */
+        "manualSort"?: boolean;
+        /**
+          * Emitted when a sortable header is pressed; detail contains xId, the column key and the direction.
+         */
+        "onSsSort"?: (event: SsTableCustomEvent<SsTableSortEvent>) => void;
+        /**
+          * Property holding each row's identity, so the rows keep their elements when the order changes. Defaults to position.
+         */
+        "rowKey"?: string;
+        /**
+          * The rows, one object each. Set as a property; never modified.
+          * @default []
+         */
+        "rows"?: TableRow[];
+        /**
+          * Cell padding.
+          * @default 'md'
+         */
+        "size"?: TableSize;
+        /**
+          * Direction of the sort. Updated when a header is pressed, and reflected.
+          * @default 'ascending'
+         */
+        "sortDirection"?: TableSortDirection;
+        /**
+          * Column the rows are sorted by. Updated when a header is pressed, and reflected.
+         */
+        "sortKey"?: string;
+        /**
+          * Keeps the header in view while the rows scroll. Give the table a max-height for it to scroll.
+          * @default false
+         */
+        "stickyHeader"?: boolean;
+        /**
+          * Shades every other row.
+          * @default false
+         */
+        "striped"?: boolean;
+        /**
+          * Id applied to the container; also included in the ssSort detail.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A set of panels, one shown at a time, chosen from a row of tabs.
+     * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+     * tab order — the selected tab — and the arrow keys move between tabs,
+     * wrapping, with Home and End for the ends. With automatic activation, the
+     * default, moving to a tab shows its panel. With manual activation the reader
+     * moves first and presses Enter or Space to show it, which is the better choice
+     * when a panel is slow to render.
+     * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+     * real tab list. Drawing them from data rather than slotting the caller's
+     * markup is what keeps the roles intact: every tab is a direct child of the tab
+     * list, in the same tree as the panels it controls, so the ids tying the two
+     * together resolve. The trade is that a tab label is text.
+     */
+    interface SsTabs {
+        /**
+          * Accessible name for the tab list.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Whether moving to a tab shows its panel (automatic) or waits for Enter or Space (manual).
+          * @default 'automatic'
+         */
+        "activation"?: TabsActivation;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when an interaction selects a different tab; detail contains xId and the tab's value.
+         */
+        "onSsChange"?: (event: SsTabsCustomEvent<SsTabsChangeEvent>) => void;
+        /**
+          * Direction the tabs run in, which also decides the arrow keys: Left and Right, or Up and Down.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Value of the selected tab. Updated on interaction, and reflected. Falls back to the first tab that can be selected.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the container; also included in the ssChange detail.
+         */
+        "xId"?: string;
+    }
     interface SsTextarea {
         /**
           * Accessible label for screen readers.
@@ -4108,6 +5484,99 @@ declare namespace LocalJSX {
         "xStyle"?: InputStyle;
     }
     /**
+     * A short message that appears, says what happened, and goes away on its own.
+     * The message is an `ss-alert`, so it brings the alert's severity, layout and
+     * live-region role: a screen reader announces info and success politely and
+     * interrupts for warning and error. What the toast adds is time. It closes
+     * itself after `duration`, and the clock stops while the reader is hovering
+     * over it, has focus inside it, or cannot see the page at all — a message that
+     * disappears while someone is reading it, or while they are in another tab, was
+     * never delivered (WCAG 2.2.1, Timing Adjustable).
+     * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+     * them. A closed toast stays in the DOM and takes no room; remove it on
+     * `ssOpenChange` when toasts are rendered from a list.
+     * Scoped so the caller's content reaches the alert's own slots: it is moved
+     * into the `ss-alert` element, where the alert slots it natively.
+     */
+    interface SsToast {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Renders a dismiss button.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Milliseconds before the toast closes itself. 0 keeps it until dismissed — use that for anything the reader must act on.
+          * @default 5000
+         */
+        "duration"?: number;
+        /**
+          * Title text, used when no title slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the toast's container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the toast closes itself or is dismissed; detail contains xId, open and the reason.
+         */
+        "onSsOpenChange"?: (event: SsToastCustomEvent<SsToastOpenChangeEvent>) => void;
+        /**
+          * Whether the toast is showing. Set to show it; updated when it closes, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * Severity, which sets the colour and how insistently the message is announced.
+          * @default 'info'
+         */
+        "variant"?: AlertVariant1;
+        /**
+          * Id applied to the toast's container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * The corner of the screen toasts appear in.
+     * It pins its toasts to one corner, above everything else, and stacks them in
+     * the order they were added. It is a named region, so a screen reader user can
+     * jump to the notifications and back again. The announcement itself comes from
+     * each toast's own live region, which is why the toaster sets no `aria-live`:
+     * a live region inside another announces the same message twice.
+     * The region ignores the pointer, so its empty area never blocks the page under
+     * it; the toasts take the pointer back.
+     * Shadow rather than scoped, because toasts are added after the toaster has
+     * rendered — that is the whole point of it. A scoped component only moves its
+     * children into the slot when it renders, so a toast appended later stayed a
+     * direct child of the host, in the page flow, instead of in the fixed corner.
+     * A shadow root slots a child the moment it is added.
+     */
+    interface SsToaster {
+        /**
+          * Accessible name for the region, which is what a screen reader lists it as.
+          * @default 'Notifications'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the region.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Corner of the viewport the toasts are pinned to.
+          * @default 'bottom-end'
+         */
+        "placement"?: ToasterPlacement;
+        /**
+          * Id applied to the region.
+         */
+        "xId"?: string;
+    }
+    /**
      * Rendered scoped rather than shadow because the description has to reach the
      * trigger. A tooltip's whole job is to describe the thing it points at, and
      * `aria-describedby` is an IDREF: with the content inside a shadow root, the
@@ -4213,6 +5682,8 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface IntrinsicElements {
+        "ss-accordion": SsAccordion;
+        "ss-accordion-item": SsAccordionItem;
         "ss-alert": SsAlert;
         "ss-avatar": SsAvatar;
         "ss-avatar-group": SsAvatarGroup;
@@ -4226,6 +5697,8 @@ declare namespace LocalJSX {
         "ss-checkbox-group": SsCheckboxGroup;
         "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
+        "ss-dropdown": SsDropdown;
+        "ss-dropdown-item": SsDropdownItem;
         "ss-field": SsField;
         "ss-icon": SsIcon;
         "ss-input": SsInput;
@@ -4233,14 +5706,22 @@ declare namespace LocalJSX {
         "ss-label": SsLabel;
         "ss-link": SsLink;
         "ss-modal": SsModal;
+        "ss-nav": SsNav;
+        "ss-nav-item": SsNavItem;
         "ss-pagination": SsPagination;
+        "ss-popover": SsPopover;
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
         "ss-select": SsSelect;
         "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
+        "ss-tab": SsTab;
+        "ss-table": SsTable;
+        "ss-tabs": SsTabs;
         "ss-textarea": SsTextarea;
+        "ss-toast": SsToast;
+        "ss-toaster": SsToaster;
         "ss-tooltip": SsTooltip;
         "ss-typography": SsTypography;
     }
@@ -4249,6 +5730,29 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * A stack of `ss-accordion-item` sections.
+             * By default one section is open at a time: opening a section closes the one
+             * that was open, so the reader is never left with a column of expanded text
+             * to find their place in. `multiple` lets several stay open.
+             * The arrow keys move between headers — Up and Down, wrapping, with Home and
+             * End — which the WAI-ARIA accordion pattern suggests for a long stack. Tab
+             * still goes through the headers and into each open section in page order;
+             * the arrows are a shortcut, not a replacement.
+             */
+            "ss-accordion": LocalJSX.SsAccordion & JSXBase.HTMLAttributes<HTMLSsAccordionElement>;
+            /**
+             * A heading that shows and hides the section under it.
+             * It follows the WAI-ARIA disclosure pattern the accordion is built from: the
+             * heading holds a button that says whether the section is expanded and which
+             * region it controls, and the region is named by that button. The heading is a
+             * real heading, so a screen reader user moving through a page by headings
+             * still finds every section — collapsed ones included. Pick `heading-level` to
+             * fit the page's outline.
+             * It works alone as a single disclosure. Inside an `ss-accordion` it also takes
+             * part in single-open behaviour and arrow-key movement between headers.
+             */
+            "ss-accordion-item": LocalJSX.SsAccordionItem & JSXBase.HTMLAttributes<HTMLSsAccordionItemElement>;
             /**
              * A message block that states what happened and, when it matters, interrupts to
              * say so.
@@ -4326,6 +5830,29 @@ declare module "@stencil/core" {
             "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             /**
+             * A button that opens a list of actions.
+             * It follows the WAI-ARIA menu button pattern, because that is what a screen
+             * reader announces a `menu` as and what its users will press: the menu takes
+             * focus when it opens; arrows move through the items and wrap; Home and End
+             * jump to the ends; a typed letter moves to the next item starting with it;
+             * Enter or Space picks one. Picking an item, or Escape, closes the menu and
+             * hands focus back to the button. Tab closes it and lets focus move on — the
+             * items are not tab stops, so a menu costs one stop in the page's tab order
+             * however long it is.
+             * A menu is for actions. For a value a form submits, use `ss-select`.
+             */
+            "ss-dropdown": LocalJSX.SsDropdown & JSXBase.HTMLAttributes<HTMLSsDropdownElement>;
+            /**
+             * One action in an `ss-dropdown` menu.
+             * The item is the host itself: `role="menuitem"` and the roving focus both sit
+             * on the element the caller wrote, so each item is a direct child of the menu
+             * in the accessibility tree and the menu can move focus by calling `focus()`
+             * on it. It is never a tab stop — the menu moves focus between items.
+             * It does nothing on its own. The menu listens for the press and reports the
+             * item's value, so a set of items needs one listener, not one per item.
+             */
+            "ss-dropdown-item": LocalJSX.SsDropdownItem & JSXBase.HTMLAttributes<HTMLSsDropdownItemElement>;
+            /**
              * Associates one form control with its label, helper text and error message,
              * generating the ids and coordinating the state that a consumer would otherwise
              * repeat on both the label and the control.
@@ -4362,6 +5889,30 @@ declare module "@stencil/core" {
              */
             "ss-modal": LocalJSX.SsModal & JSXBase.HTMLAttributes<HTMLSsModalElement>;
             /**
+             * A site's navigation: a named landmark holding a list of links, one of them
+             * marked as the page the reader is on.
+             * Every item is a real link, so it opens in a new tab, can be copied, and is
+             * reached by Tab like any other — site navigation is not an application menu,
+             * and giving it menu roles would take those away and change what the keys do.
+             * An app that routes on the client listens for `ssChange` and calls
+             * `preventDefault()` on it: the browser then does not follow the link, and the
+             * app routes instead. The current item moves either way. A modified click —
+             * Ctrl, Cmd, Shift or Alt, which the reader uses to open a new tab or window —
+             * is left to the browser and changes nothing here.
+             */
+            "ss-nav": LocalJSX.SsNav & JSXBase.HTMLAttributes<HTMLSsNavElement>;
+            /**
+             * One link in an `ss-nav`.
+             * It renders a real `<a>`, and marks it with `aria-current="page"` when it is
+             * the page the reader is on — on the link itself, the element that takes focus
+             * and that a screen reader announces. `ss-nav` decides which item is current
+             * and tells it, through `current`.
+             * A disabled item keeps its place but is no longer a link anyone can follow:
+             * it loses its `href`, so it drops out of the tab order, and is announced as a
+             * disabled link.
+             */
+            "ss-nav-item": LocalJSX.SsNavItem & JSXBase.HTMLAttributes<HTMLSsNavItemElement>;
+            /**
              * Page navigation for a list that does not fit on one screen.
              * Unlike the other molecules this one is driven by props rather than slots: a
              * page range is data, not content, and the pages between the ends are computed
@@ -4372,6 +5923,19 @@ declare module "@stencil/core" {
              * `page`; fetching the rows for it stays with the consumer.
              */
             "ss-pagination": LocalJSX.SsPagination & JSXBase.HTMLAttributes<HTMLSsPaginationElement>;
+            /**
+             * Content anchored to a trigger, which the reader opens, uses and puts away
+             * without losing the page.
+             * Where `ss-modal` takes the page over, a popover sits beside it: no backdrop
+             * and no focus trap. Focus goes into the panel when it opens, because that is
+             * where the reader asked to go. Closing it with Escape sends focus back to the
+             * trigger; closing it by pressing or tabbing somewhere else leaves focus where
+             * the reader put it.
+             * Rendered scoped for the same reason as the modal: finding the first control
+             * to focus, and telling whether focus has left, both need to see the caller's
+             * content, which a shadow root would hide.
+             */
+            "ss-popover": LocalJSX.SsPopover & JSXBase.HTMLAttributes<HTMLSsPopoverElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             /**
              * Presents N `ss-radio` children as one selected value, one change event and
@@ -4388,7 +5952,81 @@ declare module "@stencil/core" {
             "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
+            /**
+             * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
+             * The button the reader presses is drawn by `ss-tabs`, in its tab list. What
+             * stays here is the panel, so the content sits where the caller wrote it and
+             * only the label travels. `ss-tabs` tells each panel whether it is showing and
+             * which tab names it — the same coordination by props the rest of the library
+             * uses.
+             */
+            "ss-tab": LocalJSX.SsTab & JSXBase.HTMLAttributes<HTMLSsTabElement>;
+            /**
+             * Rows of data under a row of headers.
+             * It is driven by data rather than markup — `columns` and `rows` are set as
+             * properties, like `ss-checkbox-group`'s value — because a table's cells are
+             * the caller's content, and a scoped component cannot style content slotted
+             * into it. Drawing the cells itself is what lets the table look like the rest
+             * of the library. The trade is that a cell is text, shaped by a column's
+             * `format`.
+             * It is a real `<table>`: the caption names it, every header is a column
+             * header, and a sortable header is a button inside the header cell, with the
+             * sort order stated on the cell as `aria-sort`. Rows are sorted here unless
+             * `manual-sort` is set, in which case the table only reports the request and
+             * leaves the order to whoever fetched the rows.
+             * A table wider than its container scrolls sideways, and only then does its
+             * scroll area become a focusable region named after the caption, so a keyboard
+             * user can scroll it. A table that fits adds no stop to the tab order.
+             */
+            "ss-table": LocalJSX.SsTable & JSXBase.HTMLAttributes<HTMLSsTableElement>;
+            /**
+             * A set of panels, one shown at a time, chosen from a row of tabs.
+             * It follows the WAI-ARIA tabs pattern. The tab list is a single stop in the
+             * tab order — the selected tab — and the arrow keys move between tabs,
+             * wrapping, with Home and End for the ends. With automatic activation, the
+             * default, moving to a tab shows its panel. With manual activation the reader
+             * moves first and presses Enter or Space to show it, which is the better choice
+             * when a panel is slow to render.
+             * The tabs are drawn here, from each `ss-tab`'s `label`, as real buttons in a
+             * real tab list. Drawing them from data rather than slotting the caller's
+             * markup is what keeps the roles intact: every tab is a direct child of the tab
+             * list, in the same tree as the panels it controls, so the ids tying the two
+             * together resolve. The trade is that a tab label is text.
+             */
+            "ss-tabs": LocalJSX.SsTabs & JSXBase.HTMLAttributes<HTMLSsTabsElement>;
             "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;
+            /**
+             * A short message that appears, says what happened, and goes away on its own.
+             * The message is an `ss-alert`, so it brings the alert's severity, layout and
+             * live-region role: a screen reader announces info and success politely and
+             * interrupts for warning and error. What the toast adds is time. It closes
+             * itself after `duration`, and the clock stops while the reader is hovering
+             * over it, has focus inside it, or cannot see the page at all — a message that
+             * disappears while someone is reading it, or while they are in another tab, was
+             * never delivered (WCAG 2.2.1, Timing Adjustable).
+             * Put toasts inside an `ss-toaster`, which pins them to a corner and stacks
+             * them. A closed toast stays in the DOM and takes no room; remove it on
+             * `ssOpenChange` when toasts are rendered from a list.
+             * Scoped so the caller's content reaches the alert's own slots: it is moved
+             * into the `ss-alert` element, where the alert slots it natively.
+             */
+            "ss-toast": LocalJSX.SsToast & JSXBase.HTMLAttributes<HTMLSsToastElement>;
+            /**
+             * The corner of the screen toasts appear in.
+             * It pins its toasts to one corner, above everything else, and stacks them in
+             * the order they were added. It is a named region, so a screen reader user can
+             * jump to the notifications and back again. The announcement itself comes from
+             * each toast's own live region, which is why the toaster sets no `aria-live`:
+             * a live region inside another announces the same message twice.
+             * The region ignores the pointer, so its empty area never blocks the page under
+             * it; the toasts take the pointer back.
+             * Shadow rather than scoped, because toasts are added after the toaster has
+             * rendered — that is the whole point of it. A scoped component only moves its
+             * children into the slot when it renders, so a toast appended later stayed a
+             * direct child of the host, in the page flow, instead of in the fixed corner.
+             * A shadow root slots a child the moment it is added.
+             */
+            "ss-toaster": LocalJSX.SsToaster & JSXBase.HTMLAttributes<HTMLSsToasterElement>;
             /**
              * Rendered scoped rather than shadow because the description has to reach the
              * trigger. A tooltip's whole job is to describe the thing it points at, and

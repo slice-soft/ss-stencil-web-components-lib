@@ -1,0 +1,20 @@
+@use '../../../global/styles/mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.ss-tab {
+  padding-block: var(--ss-dimensions-4);
+  border-radius: var(--ss-radius-sm);
+
+  &[hidden] {
+    display: none;
+  }
+
+  /* Focusable so a panel with nothing interactive in it is still reached by
+     Tab straight after the tab list. */
+  &:focus-visible {
+    @include mx.focus-ring;
+  }
+}

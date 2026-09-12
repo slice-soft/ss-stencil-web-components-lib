@@ -1,0 +1,48 @@
+@use '../../../global/styles/mixins' as mx;
+
+:host {
+  display: block;
+}
+
+.ss-nav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ss-dimensions-2);
+  box-sizing: border-box;
+  padding: var(--ss-dimensions-2) var(--ss-dimensions-3);
+  border-radius: var(--ss-radius-base);
+  color: var(--ss-color-muted-foreground);
+  font-size: var(--ss-text-sizes-sm);
+  font-weight: var(--ss-text-weights-medium);
+  text-decoration: none;
+  transition: background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+
+  &:hover:not(.ss-nav-item--disabled) {
+    background: var(--ss-color-muted);
+    color: var(--ss-color-foreground);
+  }
+
+  &:focus-visible {
+    @include mx.focus-ring;
+  }
+}
+
+.ss-nav-item--vertical {
+  display: flex;
+  width: var(--ss-sizing-full);
+}
+
+.ss-nav-item--current {
+  background: var(--ss-color-muted);
+  color: var(--ss-color-foreground);
+}
+
+.ss-nav-item--disabled {
+  @include mx.atom-disabled;
+  opacity: var(--ss-opacity-disabled);
+}
+
+.ss-nav-item__icon {
+  display: inline-flex;
+  flex: none;
+}
