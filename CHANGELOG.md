@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.2...ss-stencil-web-components-lib-v0.2.3) (2026-09-12)
+
+
+### Features
+
+* add the molecule layer and the overlay foundation ([#46](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/46)) ([71e3b56](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/71e3b564d2c04fb8ea3d73a7f55f2406605c60ca))
+
 ## [0.2.2](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.1...ss-stencil-web-components-lib-v0.2.2) (2026-09-02)
 
 
