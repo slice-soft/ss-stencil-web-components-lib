@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-checkbox browser behavior', () => {
   it('toggles through a real click and emits its public payload', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-checkbox x-id="terms" name="terms" value="accepted" label="Accept terms"></ss-checkbox>');
     const changeSpy = await page.spyOnEvent('ssChange');
     const input = await page.find('ss-checkbox input');
@@ -17,7 +17,7 @@ describe('ss-checkbox browser behavior', () => {
   });
 
   it('synchronizes indeterminate state and clears it on user input', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-checkbox indeterminate label="Select all"></ss-checkbox>');
     const input = await page.find('ss-checkbox input');
     const label = await page.find('ss-checkbox label');
@@ -31,7 +31,7 @@ describe('ss-checkbox browser behavior', () => {
   });
 
   it('restores its state and emits no change when readonly', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-checkbox checked readonly label="Accept terms"></ss-checkbox>');
     const changeSpy = await page.spyOnEvent('ssChange');
     const input = await page.find('ss-checkbox input');

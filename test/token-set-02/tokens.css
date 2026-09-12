@@ -240,6 +240,69 @@
   --ss-typography-component-color-warning: var(--ss-color-warning);
   --ss-typography-component-color-error:   var(--ss-color-error);
   --ss-typography-component-color-info:    var(--ss-color-info);
+
+  /* ── Structural primitives — theme-independent, mirrored from
+       ss-design-system/dist/css/_variables.css ─────────────────── */
+  --ss-angles-none: 0deg;
+  --ss-angles-full: 360deg;
+  --ss-animation-iteration-counts-infinite: infinite;
+  --ss-borders-styles-solid: solid;
+  --ss-borders-width-none: 0px;
+  --ss-borders-width-base: 2px;
+  --ss-color-keywords-current: currentColor;
+  --ss-colors-transparent: rgba(0, 0, 0, 0);
+  --ss-effects-brightness-button-hover: 0.88;
+  --ss-effects-brightness-input-underline-hover: 0.85;
+  --ss-effects-scale-active: 0.98;
+  --ss-opacity-hidden: 0;
+  --ss-opacity-hover-quiet: 0.07;
+  --ss-opacity-hover-subtle: 0.12;
+  --ss-opacity-focus-ring-muted: 0.15;
+  --ss-opacity-spinner-track: 0.24;
+  --ss-opacity-focus-ring: 0.25;
+  --ss-opacity-disabled: 0.4;
+  --ss-opacity-accent-border: 0.5;
+  --ss-opacity-muted: 0.6;
+  --ss-opacity-link-hover: 0.82;
+  --ss-opacity-visible: 1;
+  --ss-radius-none: 0px;
+  --ss-ratios-square: 1;
+  --ss-shapes-checkbox-checkmark: polygon(14% 44%, 0 60%, 42% 100%, 100% 16%, 84% 0, 38% 66%);
+  --ss-sizing-none: 0;
+  --ss-sizing-fifth: 20%;
+  --ss-sizing-half: 50%;
+  --ss-sizing-full: 100%;
+  --ss-sizing-negative-half: -50%;
+  --ss-sizing-icon: 1em;
+  --ss-sizing-thumb: 0.75em;
+  --ss-sizing-switch-track: 2em;
+  --ss-sizing-button-icon-only: 2.5em;
+  --ss-text-letter-spacings-tight: -0.05em;
+  --ss-text-letter-spacings-normal: 0;
+  --ss-text-letter-spacings-wide: 0.05em;
+  --ss-text-letter-spacings-wider: 0.08em;
+  --ss-transitions-durations-spin: 750ms;
+  --ss-transitions-easing-keywords-linear: linear;
+  /* Layering scale — reserved roles for the molecules/organisms layer so no
+     component reinvents a number. Gaps of 100 allow inserting a layer. */
+  --ss-z-index-base: 0;
+  --ss-z-index-dropdown: 1000;
+  --ss-z-index-sticky: 1100;
+  --ss-z-index-overlay: 1200;
+  --ss-z-index-modal: 1300;
+  --ss-z-index-popover: 1400;
+  --ss-z-index-tooltip: 1500;
+  --ss-z-index-toast: 1600;
+
+  /* Tertiary/quaternary — the Variant union has 11 values; these two were the
+     only semantic pairs the dev sets never defined. */
+  --ss-color-tertiary:               var(--ss-colors-amber-500);
+  --ss-color-tertiary-foreground:    var(--ss-colors-gray-950);
+  --ss-color-quaternary:             var(--ss-colors-gray-100);
+  --ss-color-quaternary-foreground:  var(--ss-colors-gray-900);
+  --ss-typography-component-color-secondary:  var(--ss-color-secondary-foreground);
+  --ss-typography-component-color-tertiary:   var(--ss-color-tertiary);
+  --ss-typography-component-color-quaternary: var(--ss-color-quaternary-foreground);
 }
 
 /* ── Dark ────────────────────────────────────────────────────── */
@@ -383,4 +446,14 @@
   --ss-color-error-foreground:       #ffffff;
   --ss-color-info:                   #38bdf8;
   --ss-color-info-foreground:        #0c1a2e;
+
+  /* Tertiary/quaternary — the Variant union has 11 values; these two were the
+     only semantic pairs the dev sets never defined. */
+  --ss-color-tertiary:               var(--ss-colors-amber-400);
+  --ss-color-tertiary-foreground:    var(--ss-colors-gray-950);
+  --ss-color-quaternary:             var(--ss-colors-gray-800);
+  --ss-color-quaternary-foreground:  var(--ss-colors-gray-100);
+  --ss-typography-component-color-secondary:  var(--ss-color-secondary-foreground);
+  --ss-typography-component-color-tertiary:   var(--ss-color-tertiary);
+  --ss-typography-component-color-quaternary: var(--ss-color-quaternary-foreground);
 }

@@ -109,3 +109,19 @@ $sizes: (
 // Icon / label slots
 .ss-button__icon  { display: inline-flex; align-items: center; justify-content: center; }
 .ss-button__label { display: inline-block; }
+
+/* Joined into a segmented group: the corners meeting a neighbour go flat.
+   Logical properties, so the flattening follows the writing direction. */
+.ss-button--join-start {
+  border-start-start-radius: var(--ss-radius-none);
+  border-end-start-radius: var(--ss-radius-none);
+}
+
+.ss-button--join-end {
+  border-start-end-radius: var(--ss-radius-none);
+  border-end-end-radius: var(--ss-radius-none);
+}
+
+.ss-button--join-both {
+  border-radius: var(--ss-radius-none);
+}

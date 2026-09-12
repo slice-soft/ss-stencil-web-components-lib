@@ -41,6 +41,19 @@
 |      | Label content. |
 
 
+## Dependencies
+
+### Used by
+
+ - [ss-checkbox-group](../../molecules/ss-checkbox-group)
+
+### Graph
+```mermaid
+graph TD;
+  ss-checkbox-group --> ss-checkbox
+  style ss-checkbox fill:#000,stroke:#fff,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with love ❤️ by [Slice Soft](https://slicesoft.dev/) Team*

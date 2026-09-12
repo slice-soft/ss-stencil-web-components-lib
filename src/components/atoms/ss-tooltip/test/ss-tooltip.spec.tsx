@@ -1,6 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { SsTooltip } from '../ss-tooltip';
-import { getRoot, getElement, getShadowRoot } from '../../../../test/utils';
+import { getRoot, getElement } from '../../../../test/utils';
 
 describe('ss-tooltip', () => {
   it('renders content hidden by default with tooltip role', async () => {
@@ -9,8 +9,7 @@ describe('ss-tooltip', () => {
       html: `<ss-tooltip content="More info"><button slot="trigger">Info</button></ss-tooltip>`,
     });
     const root = getRoot(page);
-    const shadow = getShadowRoot(root);
-    const content = getElement(shadow, '.ss-tooltip__content');
+    const content = getElement(root, '.ss-tooltip__content');
 
     expect(content.getAttribute('role')).toBe('tooltip');
     expect(content.getAttribute('aria-hidden')).toBe('true');
@@ -24,14 +23,17 @@ describe('ss-tooltip', () => {
     });
     const spy = jest.fn();
     const root = getRoot(page);
-    const shadow = getShadowRoot(root);
     root.addEventListener('ssOpenChange', spy);
 
-    getElement(shadow, '.ss-tooltip__trigger').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    getElement(root, '.ss-tooltip__trigger').dispatchEvent(new MouseEvent('click', { bubbles: true }));
     await page.waitForChanges();
 
     expect(spy).toHaveBeenCalledWith(expect.objectContaining({ detail: { xId: 'tip', open: true } }));
-    expect(getElement(shadow, '.ss-tooltip__content').getAttribute('aria-hidden')).toBe('false');
-    expect(getElement(shadow, '.ss-tooltip__trigger').getAttribute('aria-describedby')).toContain('ss-tooltip-');
+    expect(getElement(root, '.ss-tooltip__content').getAttribute('aria-hidden')).toBe('false');
+
+    // The description lands on the slotted trigger, which is what takes focus,
+    // not on the wrapper the tooltip renders around it.
+    const trigger = getElement<HTMLElement>(root, 'button[slot="trigger"]');
+    expect(trigger.getAttribute('aria-describedby')).toContain('ss-tooltip-content-');
   });
 });

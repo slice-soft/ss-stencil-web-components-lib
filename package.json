@@ -49,14 +49,15 @@
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
-    "test": "stencil test --spec --e2e --coverage",
+    "test": "stencil test --spec --e2e --coverage --max-workers=3",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
     "eslint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
     "prettier": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
-    "lint": "npm run eslint && npm run prettier"
+    "typecheck": "tsc --noEmit",
+    "lint": "npm run eslint && npm run prettier && npm run typecheck"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",

@@ -1,0 +1,26 @@
+.ss-pagination__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ss-dimensions-1);
+  margin: var(--ss-sizing-none);
+  padding: var(--ss-sizing-none);
+  list-style: none;
+}
+
+.ss-pagination__item {
+  display: flex;
+}
+
+.ss-pagination__gap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--ss-dimensions-8);
+  color: var(--ss-color-muted-foreground);
+  font-family: var(--ss-text-fonts-sans);
+}
+
+.ss-pagination--disabled {
+  opacity: var(--ss-opacity-disabled);
+}

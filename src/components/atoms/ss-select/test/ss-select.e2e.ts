@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-select browser behavior', () => {
   it('selects an option and emits the public value payload', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`
       <ss-select x-id="country" name="country" placeholder="Choose a country">
         <option value="co">Colombia</option>
@@ -23,7 +23,7 @@ describe('ss-select browser behavior', () => {
   });
 
   it('emits every selected value in multiple mode', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(`
       <ss-select name="frameworks" multiple>
         <option value="angular">Angular</option>
@@ -45,7 +45,7 @@ describe('ss-select browser behavior', () => {
   });
 
   it('forwards focus, blur, and native invalid behavior', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-select required><option value="">Choose</option></ss-select><button>Next</button>');
     const focusSpy = await page.spyOnEvent('ssFocus');
     const blurSpy = await page.spyOnEvent('ssBlur');

@@ -14,22 +14,38 @@ import { SsCheckedChangeEvent } from '../../../types/control-events';
 export class SsRadio {
   private input?: HTMLInputElement;
 
+  /** Id applied to the native input; also included in event details. */
   @Prop() xId?: string;
+  /** Name shared by the radios that form one group; what makes the browser treat them as a set. */
   @Prop() name?: string;
+  /** Value submitted with the form when this radio is the selected one. */
   @Prop() value?: string;
+  /** Whether this radio is the selected one; updated on user interaction and reflected as an attribute. */
   @Prop({ mutable: true, reflect: true }) checked: boolean = false;
+  /** Disables the radio. */
   @Prop() disabled: boolean = false;
+  /** Prevents selection while still allowing focus and blur events. */
   @Prop() readonly: boolean = false;
+  /** Marks the radio required; one required radio makes its whole native group required. */
   @Prop() required: boolean = false;
+  /** Applies error styling and sets aria-invalid. */
   @Prop() invalid: boolean = false;
+  /** Label text rendered when no slot content is provided. */
   @Prop() label?: string;
+  /** Size of the radio. */
   @Prop() size: Size = 'md';
+  /** Id of the element that describes the radio, set as aria-describedby. */
   @Prop() describedBy?: string;
+  /** Inline CSS styles applied to the rendered label element. */
   @Prop() inlineStyles?: InlineStyles;
 
+  /** Emitted when the radio becomes selected; detail contains xId, name, value and checked. */
   @Event() ssChange: EventEmitter<SsCheckedChangeEvent>;
+  /** Emitted when the radio gains focus; detail is the native FocusEvent. */
   @Event() ssFocus: EventEmitter<FocusEvent>;
+  /** Emitted when the radio loses focus; detail is the native FocusEvent. */
   @Event() ssBlur: EventEmitter<FocusEvent>;
+  /** Emitted on native invalid events; detail contains xId, name, value and checked. */
   @Event() ssInvalid: EventEmitter<SsCheckedChangeEvent>;
 
   private getClasses() {

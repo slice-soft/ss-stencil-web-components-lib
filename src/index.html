@@ -1089,5 +1089,561 @@
       </div>
     </section>
 
+    <!-- ===================== MOLECULES ===================== -->
+    <section>
+      <h2>ss-field</h2>
+      <p class="section-desc">label · helperText · errorText · required · invalid · disabled · size · orientation · slots</p>
+
+      <div class="card">
+        <p class="label">the composition it replaces &mdash; click any label to focus its control</p>
+        <div class="col">
+          <ss-field label="Email address" helper-text="We'll never share it." required>
+            <ss-input type="email" x-style="outline" placeholder="email@example.com" full-width></ss-input>
+          </ss-field>
+          <ss-field label="Bio" helper-text="A short introduction.">
+            <ss-textarea x-style="outline" rows="2" full-width></ss-textarea>
+          </ss-field>
+          <ss-field label="Accept the terms" helper-text="Required to continue.">
+            <ss-checkbox></ss-checkbox>
+          </ss-field>
+          <ss-field label="Volume" helper-text="A slider has no required state to coordinate.">
+            <ss-slider show-value full-width></ss-slider>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">invalid &mdash; the error joins the description and is announced</p>
+        <div class="col">
+          <ss-field label="Email address" helper-text="We'll never share it." error-text="Enter a valid email address" required invalid>
+            <ss-input type="email" x-style="outline" value="not-an-email" full-width></ss-input>
+          </ss-field>
+          <ss-field label="Country" error-text="Choose a country" required invalid>
+            <ss-select x-style="outline" placeholder="Select one" full-width>
+              <option value="co">Colombia</option>
+              <option value="mx">M&eacute;xico</option>
+            </ss-select>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation</p>
+        <div class="col">
+          <ss-field label="Vertical" helper-text="Label above the control.">
+            <ss-input x-style="outline" full-width></ss-input>
+          </ss-field>
+          <ss-field label="Horizontal" orientation="horizontal" helper-text="Label beside the control.">
+            <ss-input x-style="outline" full-width></ss-input>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &mdash; helper and error text follow one step below the label</p>
+        <div class="col">
+          <ss-field size="xs" label="XSmall" helper-text="Helper text"><ss-input size="xs" x-style="outline" full-width></ss-input></ss-field>
+          <ss-field size="sm" label="Small" helper-text="Helper text"><ss-input size="sm" x-style="outline" full-width></ss-input></ss-field>
+          <ss-field size="md" label="Medium (default)" helper-text="Helper text"><ss-input x-style="outline" full-width></ss-input></ss-field>
+          <ss-field size="lg" label="Large" helper-text="Helper text"><ss-input size="lg" x-style="outline" full-width></ss-input></ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">slots &mdash; rich label, helper and error content</p>
+        <div class="col">
+          <ss-field required invalid>
+            <span slot="label">Email <ss-badge label="new" size="xs"></ss-badge></span>
+            <ss-input type="email" x-style="outline" full-width></ss-input>
+            <span slot="helper">Use your corporate email</span>
+            <span slot="error">This address is already registered</span>
+          </ss-field>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">disabled &mdash; one source for the whole field</p>
+        <div class="col">
+          <ss-field label="Disabled field" helper-text="The control is disabled by the field." disabled>
+            <ss-input x-style="outline" value="Not editable" full-width></ss-input>
+          </ss-field>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-radio-group</h2>
+      <p class="section-desc">name · value · label · helperText · errorText · required · invalid · disabled · orientation · size</p>
+
+      <div class="card">
+        <p class="label">one name, one value, one change event &mdash; arrow keys still navigate</p>
+        <div class="col">
+          <ss-radio-group name="demo-plan" value="pro" label="Choose a plan" helper-text="You can change it later">
+            <ss-radio value="free">Free</ss-radio>
+            <ss-radio value="pro">Pro</ss-radio>
+            <ss-radio value="team">Team</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation</p>
+        <div class="col">
+          <ss-radio-group name="demo-orientation" value="b" orientation="horizontal" label="Horizontal">
+            <ss-radio value="a">Option A</ss-radio>
+            <ss-radio value="b">Option B</ss-radio>
+            <ss-radio value="c">Option C</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">required + invalid &mdash; nothing selected</p>
+        <div class="col">
+          <ss-radio-group name="demo-required" label="Pick a shipping speed" error-text="Choose a shipping speed" required invalid>
+            <ss-radio value="standard">Standard</ss-radio>
+            <ss-radio value="express">Express</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &middot; disabled</p>
+        <div class="col">
+          <ss-radio-group name="demo-size-sm" size="sm" value="a" label="Small" orientation="horizontal">
+            <ss-radio value="a">A</ss-radio>
+            <ss-radio value="b">B</ss-radio>
+          </ss-radio-group>
+          <ss-radio-group name="demo-size-lg" size="lg" value="a" label="Large" orientation="horizontal">
+            <ss-radio value="a">A</ss-radio>
+            <ss-radio value="b">B</ss-radio>
+          </ss-radio-group>
+          <ss-radio-group name="demo-disabled" value="a" label="Disabled group" orientation="horizontal" disabled>
+            <ss-radio value="a">A</ss-radio>
+            <ss-radio value="b">B</ss-radio>
+          </ss-radio-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">slots &mdash; rich group label and helper</p>
+        <div class="col">
+          <ss-radio-group name="demo-slots" value="pro">
+            <span slot="label">Plan <ss-badge label="beta" size="xs"></ss-badge></span>
+            <ss-radio value="free">Free</ss-radio>
+            <ss-radio value="pro">Pro</ss-radio>
+            <span slot="helper">Billing starts next month</span>
+          </ss-radio-group>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-checkbox-group</h2>
+      <p class="section-desc">name · value (array) · selectAllLabel · label · helperText · errorText · required · invalid · disabled · orientation · size</p>
+
+      <div class="card">
+        <p class="label">one array value, one change event</p>
+        <div class="col">
+          <ss-checkbox-group id="demo-cb-group" name="demo-topics" label="Topics" helper-text="Pick what interests you">
+            <ss-checkbox value="design">Design</ss-checkbox>
+            <ss-checkbox value="engineering">Engineering</ss-checkbox>
+            <ss-checkbox value="product">Product</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">select-all master &mdash; indeterminate is derived, never set by hand</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-perms" label="Permissions" select-all-label="Select all">
+            <ss-checkbox value="read">Read</ss-checkbox>
+            <ss-checkbox value="write">Write</ss-checkbox>
+            <ss-checkbox value="admin">Admin</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">a disabled choice keeps its value and is left out of select-all</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-locked" label="Features" select-all-label="Select all">
+            <ss-checkbox value="basic">Basic</ss-checkbox>
+            <ss-checkbox value="legacy" disabled>Legacy (locked)</ss-checkbox>
+            <ss-checkbox value="beta">Beta</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">required + invalid &mdash; any selection satisfies the group</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-cb-required" label="Accept at least one" error-text="Pick at least one option" required invalid>
+            <ss-checkbox value="email">Email updates</ss-checkbox>
+            <ss-checkbox value="sms">SMS updates</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation &middot; size &middot; disabled</p>
+        <div class="col">
+          <ss-checkbox-group name="demo-cb-h" label="Horizontal" orientation="horizontal">
+            <ss-checkbox value="a">A</ss-checkbox>
+            <ss-checkbox value="b">B</ss-checkbox>
+            <ss-checkbox value="c">C</ss-checkbox>
+          </ss-checkbox-group>
+          <ss-checkbox-group name="demo-cb-lg" size="lg" label="Large" orientation="horizontal">
+            <ss-checkbox value="a">A</ss-checkbox>
+            <ss-checkbox value="b">B</ss-checkbox>
+          </ss-checkbox-group>
+          <ss-checkbox-group name="demo-cb-disabled" label="Disabled group" orientation="horizontal" disabled>
+            <ss-checkbox value="a">A</ss-checkbox>
+            <ss-checkbox value="b">B</ss-checkbox>
+          </ss-checkbox-group>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // An array value is a property, not an attribute.
+      document.querySelector('#demo-cb-group').value = ['design'];
+    </script>
+
+
+    <section>
+      <h2>ss-alert</h2>
+      <p class="section-desc">variant · heading · dismissible · size · fullWidth · slots (title, icon, actions)</p>
+
+      <div class="card">
+        <p class="label">severity &mdash; a problem interrupts (role="alert"), a confirmation waits (role="status")</p>
+        <div class="col">
+          <ss-alert variant="info" heading="Heads up" full-width>A new version is available.</ss-alert>
+          <ss-alert variant="success" heading="Saved" full-width>Your changes were published.</ss-alert>
+          <ss-alert variant="warning" heading="Almost out of space" full-width>You have used 92% of your quota.</ss-alert>
+          <ss-alert variant="error" heading="Upload failed" full-width>The file exceeds the 10&nbsp;MB limit.</ss-alert>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">without a title</p>
+        <div class="col">
+          <ss-alert variant="info" full-width>Just the message, no heading.</ss-alert>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">dismissible &middot; icon &middot; actions</p>
+        <div class="col">
+          <ss-alert variant="warning" heading="Session expiring" dismissible full-width>
+            <ss-icon slot="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" /><path d="M12 8v5M12 16h.01" />
+              </svg>
+            </ss-icon>
+            You will be signed out in 2 minutes.
+            <ss-button slot="actions" size="sm" variant="warning" label="Stay signed in"></ss-button>
+            <ss-button slot="actions" size="sm" x-style="ghost" variant="warning" label="Sign out"></ss-button>
+          </ss-alert>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size</p>
+        <div class="col">
+          <ss-alert size="xs" variant="info" heading="XSmall" full-width>Message</ss-alert>
+          <ss-alert size="sm" variant="info" heading="Small" full-width>Message</ss-alert>
+          <ss-alert size="md" variant="info" heading="Medium (default)" full-width>Message</ss-alert>
+          <ss-alert size="lg" variant="info" heading="Large" full-width>Message</ss-alert>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-card</h2>
+      <p class="section-desc">xStyle · padding · fullWidth · slots (media, header, footer) &mdash; empty regions collapse</p>
+
+      <div class="card">
+        <p class="label">xStyle</p>
+        <div class="row">
+          <ss-card x-style="elevated" inline-styles="max-width: 16rem"><ss-typography>Elevated (default)</ss-typography></ss-card>
+          <ss-card x-style="outlined" inline-styles="max-width: 16rem"><ss-typography>Outlined</ss-typography></ss-card>
+          <ss-card x-style="filled" inline-styles="max-width: 16rem"><ss-typography>Filled</ss-typography></ss-card>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">regions &mdash; the same card with and without a header/footer</p>
+        <div class="row">
+          <ss-card x-style="outlined" inline-styles="max-width: 18rem">
+            <ss-typography slot="header" as="strong">Monthly report</ss-typography>
+            <ss-typography>Nothing above or below opens a gap when it is not there.</ss-typography>
+            <ss-button slot="footer" size="sm" label="Download"></ss-button>
+          </ss-card>
+          <ss-card x-style="outlined" inline-styles="max-width: 18rem">
+            <ss-typography>Content only &mdash; no divider, no empty padding.</ss-typography>
+          </ss-card>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">padding &mdash; media stays full-bleed</p>
+        <div class="row">
+          <ss-card padding="none" x-style="outlined" inline-styles="max-width: 14rem"><ss-typography>padding="none"</ss-typography></ss-card>
+          <ss-card padding="sm" x-style="outlined" inline-styles="max-width: 14rem"><ss-typography>padding="sm"</ss-typography></ss-card>
+          <ss-card padding="lg" x-style="outlined" inline-styles="max-width: 14rem"><ss-typography>padding="lg"</ss-typography></ss-card>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <h2>ss-button-group</h2>
+      <p class="section-desc">orientation · size · variant · disabled · fullWidth · accessibilityLabel</p>
+
+      <div class="card">
+        <p class="label">one place for the shared size and variant</p>
+        <div class="col">
+          <ss-button-group accessibility-label="Text actions" size="sm">
+            <ss-button label="Cut"></ss-button>
+            <ss-button label="Copy"></ss-button>
+            <ss-button label="Paste"></ss-button>
+          </ss-button-group>
+          <ss-button-group accessibility-label="Record actions" variant="secondary">
+            <ss-button label="Save"></ss-button>
+            <ss-button label="Duplicate"></ss-button>
+            <ss-button label="Delete" variant="destructive"></ss-button>
+          </ss-button-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">attached &mdash; un control segmentado; el borde compartido se dibuja una vez</p>
+        <div class="col">
+          <ss-button-group attached accessibility-label="Range" variant="secondary">
+            <ss-button label="Day"></ss-button>
+            <ss-button label="Week"></ss-button>
+            <ss-button label="Month"></ss-button>
+          </ss-button-group>
+          <ss-button-group attached accessibility-label="Alignment" size="sm" x-style="outline">
+            <ss-button label="Left"></ss-button>
+            <ss-button label="Center"></ss-button>
+            <ss-button label="Right"></ss-button>
+          </ss-button-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">orientation &middot; disabled</p>
+        <div class="row">
+          <ss-button-group orientation="vertical" accessibility-label="Vertical actions" size="sm">
+            <ss-button label="Top"></ss-button>
+            <ss-button label="Middle"></ss-button>
+            <ss-button label="Bottom"></ss-button>
+          </ss-button-group>
+          <ss-button-group accessibility-label="Disabled actions" disabled>
+            <ss-button label="One"></ss-button>
+            <ss-button label="Two"></ss-button>
+          </ss-button-group>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-avatar-group</h2>
+      <p class="section-desc">size · shape · max · accessibilityLabel &mdash; one name for the whole stack</p>
+
+      <div class="card">
+        <p class="label">overlap &middot; overflow count</p>
+        <div class="col">
+          <ss-avatar-group accessibility-label="4 collaborators">
+            <ss-avatar initials="AB"></ss-avatar>
+            <ss-avatar initials="CD"></ss-avatar>
+            <ss-avatar initials="EF"></ss-avatar>
+            <ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+          <ss-avatar-group accessibility-label="6 collaborators" max="3">
+            <ss-avatar initials="AB"></ss-avatar>
+            <ss-avatar initials="CD"></ss-avatar>
+            <ss-avatar initials="EF"></ss-avatar>
+            <ss-avatar initials="GH"></ss-avatar>
+            <ss-avatar initials="IJ"></ss-avatar>
+            <ss-avatar initials="KL"></ss-avatar>
+          </ss-avatar-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &middot; shape</p>
+        <div class="col">
+          <ss-avatar-group accessibility-label="Small stack" size="sm" max="3">
+            <ss-avatar initials="AB"></ss-avatar><ss-avatar initials="CD"></ss-avatar><ss-avatar initials="EF"></ss-avatar><ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+          <ss-avatar-group accessibility-label="Large stack" size="lg" max="3">
+            <ss-avatar initials="AB"></ss-avatar><ss-avatar initials="CD"></ss-avatar><ss-avatar initials="EF"></ss-avatar><ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+          <ss-avatar-group accessibility-label="Square stack" shape="square" max="3">
+            <ss-avatar initials="AB"></ss-avatar><ss-avatar initials="CD"></ss-avatar><ss-avatar initials="EF"></ss-avatar><ss-avatar initials="GH"></ss-avatar>
+          </ss-avatar-group>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <h2>ss-input-group</h2>
+      <p class="section-desc">size · disabled · fullWidth · slots (start, end) &mdash; el addon se une al control sin tocarle el shadow</p>
+
+      <div class="card">
+        <p class="label">addon antes, después, y ambos</p>
+        <div class="col">
+          <ss-input-group full-width>
+            <span slot="start">$</span>
+            <ss-input type="number" placeholder="0.00" x-style="outline" full-width></ss-input>
+          </ss-input-group>
+          <ss-input-group full-width>
+            <ss-input type="number" placeholder="Weight" x-style="outline" full-width></ss-input>
+            <span slot="end">kg</span>
+          </ss-input-group>
+          <ss-input-group full-width>
+            <span slot="start">https://</span>
+            <ss-input placeholder="example" x-style="outline" full-width></ss-input>
+            <span slot="end">.com</span>
+          </ss-input-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">sin addons &mdash; el control queda redondeado y no se dibuja ninguna caja</p>
+        <div class="col">
+          <ss-input-group full-width>
+            <ss-input placeholder="Sin addons" x-style="outline" full-width></ss-input>
+          </ss-input-group>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">size &middot; disabled</p>
+        <div class="col">
+          <ss-input-group size="sm" full-width><span slot="start">@</span><ss-input placeholder="Small" x-style="outline" full-width></ss-input></ss-input-group>
+          <ss-input-group size="lg" full-width><span slot="start">@</span><ss-input placeholder="Large" x-style="outline" full-width></ss-input></ss-input-group>
+          <ss-input-group disabled full-width><span slot="start">@</span><ss-input placeholder="Disabled" x-style="outline" full-width></ss-input></ss-input-group>
+        </div>
+      </div>
+    </section>
+
+
+    <section>
+      <h2>ss-breadcrumb</h2>
+      <p class="section-desc">separator · size · accessibilityLabel &mdash; el último paso es la página actual, no un enlace a sí misma</p>
+
+      <div class="card">
+        <p class="label">un rastro corriente</p>
+        <div class="col">
+          <ss-breadcrumb accessibility-label="You are here">
+            <ss-breadcrumb-item href="#demo">Home</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Docs</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Components</ss-breadcrumb-item>
+            <ss-breadcrumb-item>Breadcrumb</ss-breadcrumb-item>
+          </ss-breadcrumb>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">separator &middot; size</p>
+        <div class="col">
+          <ss-breadcrumb separator="&rsaquo;" size="sm">
+            <ss-breadcrumb-item href="#demo">Home</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Library</ss-breadcrumb-item>
+            <ss-breadcrumb-item>Small</ss-breadcrumb-item>
+          </ss-breadcrumb>
+          <ss-breadcrumb separator="&bull;" size="lg">
+            <ss-breadcrumb-item href="#demo">Home</ss-breadcrumb-item>
+            <ss-breadcrumb-item href="#demo">Library</ss-breadcrumb-item>
+            <ss-breadcrumb-item>Large</ss-breadcrumb-item>
+          </ss-breadcrumb>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">un solo paso &mdash; es la página actual, aunque tenga href</p>
+        <div class="col">
+          <ss-breadcrumb>
+            <ss-breadcrumb-item href="#demo">Sólo aquí</ss-breadcrumb-item>
+          </ss-breadcrumb>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ss-pagination</h2>
+      <p class="section-desc">page · total · siblingCount · size · disabled &mdash; el rango se calcula, no se slottea</p>
+
+      <div class="card">
+        <p class="label">rango corto: se muestran todas &middot; rango largo: se colapsa</p>
+        <div class="col">
+          <ss-pagination page="3" total="5" accessibility-label="Rango corto"></ss-pagination>
+          <ss-pagination page="1" total="20" accessibility-label="Al principio"></ss-pagination>
+          <ss-pagination page="10" total="20" accessibility-label="En el medio"></ss-pagination>
+          <ss-pagination page="20" total="20" accessibility-label="Al final"></ss-pagination>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">siblingCount &middot; size &middot; disabled</p>
+        <div class="col">
+          <ss-pagination page="10" total="30" sibling-count="2" accessibility-label="Más vecinos"></ss-pagination>
+          <ss-pagination page="5" total="12" size="sm" accessibility-label="Small"></ss-pagination>
+          <ss-pagination page="5" total="12" disabled accessibility-label="Disabled"></ss-pagination>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ===================== ORGANISMS ===================== -->
+    <section>
+      <h2>ss-modal</h2>
+      <p class="section-desc">open · heading · size · dismissible · closeOnEscape · closeOnBackdrop &mdash; primer consumidor de la capa overlay</p>
+
+      <div class="card">
+        <p class="label">el foco entra, queda atrapado, y vuelve a donde estaba</p>
+        <div class="row">
+          <ss-button id="open-modal-basic" label="Abrir diálogo"></ss-button>
+          <ss-button id="open-modal-locked" label="Abrir sin escape" x-style="outline"></ss-button>
+        </div>
+      </div>
+
+      <ss-modal id="demo-modal-basic" heading="Eliminar archivo">
+        <ss-typography>Esta acción no se puede deshacer. El archivo y su historial se pierden.</ss-typography>
+        <ss-button slot="footer" label="Cancelar" x-style="ghost" id="demo-modal-cancel"></ss-button>
+        <ss-button slot="footer" label="Eliminar" variant="destructive"></ss-button>
+      </ss-modal>
+
+      <ss-modal id="demo-modal-locked" heading="Hay que responder" close-on-escape="false" close-on-backdrop="false">
+        <ss-typography>Ni Escape ni el fondo cierran este diálogo: hay que usar un botón.</ss-typography>
+        <ss-field label="Motivo">
+          <ss-input x-style="outline" full-width></ss-input>
+        </ss-field>
+        <ss-button slot="footer" label="Entendido" id="demo-modal-ack"></ss-button>
+      </ss-modal>
+    </section>
+
+
+    <script>
+      (function () {
+        var open = function (id) {
+          return function () { document.getElementById(id).open = true; };
+        };
+        document.getElementById('open-modal-basic').addEventListener('click', open('demo-modal-basic'));
+        document.getElementById('open-modal-locked').addEventListener('click', open('demo-modal-locked'));
+        document.getElementById('demo-modal-cancel').addEventListener('click', function () {
+          document.getElementById('demo-modal-basic').open = false;
+        });
+        document.getElementById('demo-modal-ack').addEventListener('click', function () {
+          document.getElementById('demo-modal-locked').open = false;
+        });
+      })();
+    </script>
+
   </body>
 </html>

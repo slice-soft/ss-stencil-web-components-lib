@@ -1,8 +1,8 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-typography', () => {
   it('renders', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-typography></ss-typography>');
 
     const element = await page.find('ss-typography');
@@ -10,7 +10,7 @@ describe('ss-typography', () => {
   });
 
   it('renders with all props and classes', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent(
       `<ss-typography as="h3" font-size="xl" align="right" color="secondary" font-weight="medium" line-height="tight" letter-spacing="tight" truncate transform="capitalize" x-id="e2e-id">E2E Test</ss-typography>`,
     );
@@ -28,7 +28,7 @@ describe('ss-typography', () => {
   });
 
   it('renders slot content', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-typography>Slot E2E</ss-typography>');
     const el = await page.find('ss-typography');
     expect(el.textContent).toContain('Slot E2E');

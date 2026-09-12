@@ -1,6 +1,8 @@
 import { Component, h, Prop, Event, EventEmitter, State, Element } from '@stencil/core';
 import { Variant } from '../../../types/variant';
+import { applyDescribedBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
+import { JoinSide } from '../../../types/join';
 import { Size } from '../../../types/size';
 
 export type ButtonStyle = 'solid' | 'outline' | 'ghost';
@@ -20,12 +22,22 @@ export type IconPosition = 'left' | 'right' | 'only';
 export class SsButton {
   @Element() el!: HTMLElement;
 
+  private button?: HTMLButtonElement;
+
   /** Id applied to the button element; emitted as the ssClick detail. */
   @Prop() xId?: string;
   /** Text rendered inside the button when no slot content is provided; also the aria-label fallback. */
   @Prop() label?: string;
   /** Accessible label for screen readers; falls back to label. */
   @Prop() accessibilityLabel?: string;
+  /**
+   * Flattens the corners on the side that meets a neighbour, so a group can
+   * present several controls as one segmented unit. A wrapper sets this rather
+   * than reaching into the shadow root, which nothing outside it can style.
+   */
+  @Prop() join?: JoinSide;
+  /** Id of the element that describes the button, set as aria-describedby. */
+  @Prop() describedBy?: string;
   /** Native button type: button, submit or reset. */
   @Prop() type: ButtonType = 'button';
   /** Disables the button. */
@@ -61,6 +73,14 @@ export class SsButton {
 
   /** Emitted when the button is clicked while enabled; detail is the xId. */
   @Event() ssClick: EventEmitter<string | undefined>;
+
+  componentDidLoad() {
+    applyDescribedBy(this.el, this.button, this.describedBy);
+  }
+
+  componentDidUpdate() {
+    applyDescribedBy(this.el, this.button, this.describedBy);
+  }
 
   disconnectedCallback() {
     this.clearDisableTimeout();
@@ -131,6 +151,7 @@ export class SsButton {
       [`${b}--${this.xStyle}`]: true,
       [`${b}--${this.size}`]: true,
       [`${b}--${this.shape}`]: true,
+      [`${b}--join-${this.join}`]: !!this.join,
       [`${b}--full-width`]: this.fullWidth,
       [`${b}--status-${this.currentStatus}`]: true,
     };
@@ -145,6 +166,7 @@ export class SsButton {
 
     return (
       <button
+        ref={el => (this.button = el)}
         id={this.xId}
         type={this.type}
         class={this.getClasses()}
@@ -153,6 +175,7 @@ export class SsButton {
         aria-disabled={disabled.toString()}
         aria-busy={this.currentStatus === 'loading'}
         aria-label={this.accessibilityLabel || this.label}
+        aria-describedby={this.describedBy}
         tabindex={disabled ? -1 : 0}
         onClick={this.ssClickHandler}
       >

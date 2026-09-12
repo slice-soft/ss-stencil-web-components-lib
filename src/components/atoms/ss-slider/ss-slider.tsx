@@ -1,6 +1,7 @@
-import { Component, Event, EventEmitter, h, Prop } from '@stencil/core';
+import { AttachInternals, Component, Element, Event, EventEmitter, h, Prop, State } from '@stencil/core';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
+import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 
 export type SsSliderValueEvent = { xId?: string; name?: string; value: number };
@@ -8,10 +9,25 @@ export type SsSliderValueEvent = { xId?: string; name?: string; value: number };
 @Component({
   tag: 'ss-slider',
   styleUrl: 'ss-slider.scss',
-  shadow: true,
+  shadow: { delegatesFocus: true },
+  formAssociated: true,
 })
 export class SsSlider {
   private input?: HTMLInputElement;
+  /** Value the slider loaded with; restored on form reset, since `value` mutates. */
+  private defaultValue: number = 0;
+
+  /**
+   * Form association for the host element. The rendered range input lives in
+   * this component's shadow root, where a surrounding form cannot see it, so
+   * the host mirrors its value and validity instead.
+   */
+  @Element() el!: HTMLElement;
+
+  @AttachInternals() internals: ElementInternals;
+
+  /** Set by an ancestor fieldset through formDisabledCallback. */
+  @State() ancestorDisabled: boolean = false;
 
   /** Id applied to the native range input; also included in event details. */
   @Prop() xId?: string;
@@ -43,6 +59,8 @@ export class SsSlider {
   @Prop() valueLabel?: string;
   /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that labels the slider, set as aria-labelledby. */
+  @Prop() labelledBy?: string;
   /** Id of the element that describes the slider, set as aria-describedby. */
   @Prop() describedBy?: string;
   /** Inline CSS styles applied to the wrapper element. */
@@ -59,6 +77,52 @@ export class SsSlider {
   /** Emitted on native invalid events; detail contains xId, name and value. */
   @Event() ssInvalid: EventEmitter<SsSliderValueEvent>;
 
+  private get isDisabled() {
+    return this.disabled || this.ancestorDisabled;
+  }
+
+  componentWillLoad() {
+    this.defaultValue = this.value;
+  }
+
+  componentDidLoad() {
+    this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
+    applyDescribedBy(this.el, this.input, this.describedBy);
+  }
+
+  componentDidUpdate() {
+    this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
+    applyDescribedBy(this.el, this.input, this.describedBy);
+  }
+
+  /** Restores the value the slider loaded with, as a native range input does. */
+  formResetCallback() {
+    this.value = this.defaultValue;
+    if (this.input) this.input.value = String(this.value);
+    this.syncFormState();
+  }
+
+  /** Fired when an ancestor fieldset is disabled or re-enabled. */
+  formDisabledCallback(disabled: boolean) {
+    this.ancestorDisabled = disabled;
+  }
+
+  /**
+   * Copies the rendered input's value and native validity onto the host, so the
+   * surrounding form submits the value a plain range input would submit.
+   */
+  private syncFormState() {
+    // `ElementInternals` needs a polyfill in older browsers, and Stencil's
+    // spec-test DOM does not implement it at all, so form association is
+    // verified in the e2e suite. The check uses `in` rather than reading the
+    // property: the spec DOM's stand-in logs every property it is asked for.
+    if (!this.input || !('setFormValue' in this.internals)) return;
+    this.internals.setFormValue(this.input.value);
+    this.internals.setValidity(this.input.validity, this.input.validationMessage, this.input);
+  }
+
   private getClasses() {
     const b = 'ss-slider';
     return {
@@ -66,7 +130,7 @@ export class SsSlider {
       [`${b}--${this.color}`]: true,
       [`${b}--${this.size}`]: true,
       [`${b}--full-width`]: this.fullWidth,
-      [`${b}--disabled`]: this.disabled,
+      [`${b}--disabled`]: this.isDisabled,
       [`${b}--readonly`]: this.readonly,
       [`${b}--invalid`]: this.invalid,
     };
@@ -87,6 +151,7 @@ export class SsSlider {
       return;
     }
     this.value = this.getEventValue(event);
+    this.syncFormState();
     this.ssInput.emit(this.emitValue());
   };
 
@@ -97,6 +162,7 @@ export class SsSlider {
       return;
     }
     this.value = this.getEventValue(event);
+    this.syncFormState();
     this.ssChange.emit(this.emitValue());
   };
 
@@ -121,10 +187,11 @@ export class SsSlider {
           max={this.max}
           step={this.step}
           value={this.value}
-          disabled={this.disabled}
+          disabled={this.isDisabled}
           aria-readonly={this.readonly ? 'true' : undefined}
           aria-invalid={this.invalid ? 'true' : undefined}
           aria-label={this.accessibilityLabel}
+          aria-labelledby={this.labelledBy}
           aria-describedby={this.describedBy}
           onInput={this.handleInput}
           onChange={this.handleChange}

@@ -1,0 +1,80 @@
+@use '../../../global/styles/mixins' as mx;
+
+:host {
+  display: block;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.ss-alert {
+  display: flex;
+  gap: var(--ss-dimensions-3);
+  align-items: flex-start;
+  padding: var(--ss-dimensions-3) var(--ss-dimensions-4);
+  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) currentColor;
+  border-radius: var(--ss-radius-base);
+  font-family: var(--ss-text-fonts-sans);
+}
+
+.ss-alert--full-width {
+  width: var(--ss-sizing-full);
+}
+
+/* Severity supplies the accent; the surface is a tint of it so the text keeps
+   its contrast against the page rather than against a saturated fill. */
+@each $name in (info, success, warning, error) {
+  .ss-alert--#{$name} {
+    $accent: var(--ss-color-#{$name});
+    color: $accent;
+    border-color: color-mix(in srgb, $accent calc(var(--ss-opacity-accent-border) * var(--ss-sizing-full)), var(--ss-color-border));
+    background: color-mix(in srgb, $accent calc(var(--ss-opacity-hover-quiet) * var(--ss-sizing-full)), var(--ss-color-background));
+  }
+}
+
+/* CSS cannot see slotted content from inside a shadow root, so the component
+   reports which regions are filled. */
+.ss-alert__icon,
+.ss-alert__actions {
+  display: none;
+}
+
+.ss-alert--has-icon .ss-alert__icon {
+  display: block;
+  flex: none;
+}
+
+.ss-alert__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-dimensions-1);
+  min-width: var(--ss-sizing-none);
+  flex: 1;
+}
+
+.ss-alert__message {
+  color: var(--ss-color-foreground);
+}
+
+.ss-alert--has-actions .ss-alert__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ss-dimensions-2);
+  margin-top: var(--ss-dimensions-1);
+}
+
+.ss-alert__dismiss {
+  flex: none;
+  padding: var(--ss-sizing-none);
+  border: var(--ss-borders-width-none);
+  background: var(--ss-colors-transparent);
+  color: inherit;
+  cursor: pointer;
+  line-height: 1;
+  font-size: var(--ss-text-sizes-lg);
+
+  &:focus-visible {
+    @include mx.focus-ring(currentColor);
+  }
+}

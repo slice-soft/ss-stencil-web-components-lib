@@ -38,6 +38,19 @@
 |      | Link content. |
 
 
+## Dependencies
+
+### Used by
+
+ - [ss-breadcrumb-item](../../molecules/ss-breadcrumb-item)
+
+### Graph
+```mermaid
+graph TD;
+  ss-breadcrumb-item --> ss-link
+  style ss-link fill:#000,stroke:#fff,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with love ❤️ by [Slice Soft](https://slicesoft.dev/) Team*

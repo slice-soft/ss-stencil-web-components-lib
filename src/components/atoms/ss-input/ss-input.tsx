@@ -1,5 +1,7 @@
-import { Component, h, Prop, Event, EventEmitter } from '@stencil/core';
+import { AttachInternals, Component, Element, h, Prop, State, Event, EventEmitter } from '@stencil/core';
+import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
+import { JoinSide } from '../../../types/join';
 import { Size } from '../../../types/size';
 import { Variant } from '../../../types/variant';
 import { InputStyle, SsInputValueEvent } from '../../../types/control-events';
@@ -9,9 +11,24 @@ export type SsInputType = 'text' | 'password' | 'email' | 'number' | 'url' | 'te
 @Component({
   tag: 'ss-input',
   styleUrl: 'ss-input.scss',
-  shadow: true,
+  shadow: { delegatesFocus: true },
+  formAssociated: true,
 })
 export class SsInput {
+  private input?: HTMLInputElement;
+
+  /**
+   * Form association for the host element. The rendered input lives in this
+   * component's shadow root, where a surrounding form cannot see it, so the
+   * host mirrors its value and validity instead.
+   */
+  @Element() el!: HTMLElement;
+
+  @AttachInternals() internals: ElementInternals;
+
+  /** Set by an ancestor fieldset through formDisabledCallback. */
+  @State() ancestorDisabled: boolean = false;
+
   /** Id applied to the native input; also included in event details. */
   @Prop() xId?: string;
   /** Name of the native input for form submission. */
@@ -20,7 +37,7 @@ export class SsInput {
   @Prop() type: SsInputType = 'text';
   /** Color variant of the input. */
   @Prop() color: Variant = 'primary';
-  /** Current value of the input. */
+  /** Current value of the input; also the value restored on form reset. */
   @Prop() value?: string;
   /** Placeholder text shown when the input is empty. */
   @Prop() placeholder?: string;
@@ -46,6 +63,8 @@ export class SsInput {
   @Prop() maxLength?: number;
   /** Accessible label for screen readers. */
   @Prop() accessibilityLabel?: string;
+  /** Id of the element that labels the input, set as aria-labelledby. */
+  @Prop() labelledBy?: string;
   /** Id of the element that describes the input, set as aria-describedby. */
   @Prop() describedBy?: string;
   /** Inline CSS styles applied to the input element. */
@@ -54,6 +73,12 @@ export class SsInput {
   @Prop() size: Size = 'md';
   /** Expands the input to the full width of its container. */
   @Prop() fullWidth: boolean = false;
+  /**
+   * Flattens the corners on the side that meets a neighbour, so a group can
+   * present several controls as one segmented unit. A wrapper sets this rather
+   * than reaching into the shadow root, which nothing outside it can style.
+   */
+  @Prop() join?: JoinSide;
   /** Visual style of the input. */
   @Prop() xStyle: InputStyle = 'solid';
 
@@ -68,15 +93,59 @@ export class SsInput {
   /** Emitted when the input loses focus; detail is the native FocusEvent. */
   @Event() ssBlur: EventEmitter<FocusEvent>;
 
+  private get isDisabled() {
+    return this.disabled || this.ancestorDisabled;
+  }
+
+  componentDidLoad() {
+    this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
+    applyDescribedBy(this.el, this.input, this.describedBy);
+  }
+
+  componentDidUpdate() {
+    this.syncFormState();
+    applyLabelledBy(this.el, this.input, this.labelledBy);
+    applyDescribedBy(this.el, this.input, this.describedBy);
+  }
+
+  /** Restores the value the input was rendered with, as a native input does. */
+  formResetCallback() {
+    if (this.input) this.input.value = this.value ?? '';
+    this.syncFormState();
+  }
+
+  /** Fired when an ancestor fieldset is disabled or re-enabled. */
+  formDisabledCallback(disabled: boolean) {
+    this.ancestorDisabled = disabled;
+  }
+
+  /**
+   * Copies the rendered input's value and native validity onto the host, so the
+   * surrounding form submits the value and reports the same constraint failures
+   * it would report for a plain input. The input is passed as the validation
+   * anchor so the browser points its message at the visible control.
+   */
+  private syncFormState() {
+    // `ElementInternals` needs a polyfill in older browsers, and Stencil's
+    // spec-test DOM does not implement it at all, so form association is
+    // verified in the e2e suite. The check uses `in` rather than reading the
+    // property: the spec DOM's stand-in logs every property it is asked for.
+    if (!this.input || !('setFormValue' in this.internals)) return;
+    this.internals.setFormValue(this.input.value);
+    this.internals.setValidity(this.input.validity, this.input.validationMessage, this.input);
+  }
+
   private getClasses() {
     const b = 'ss-input';
     return {
       [b]: true,
       [`${b}--${this.color}`]: true,
       [`${b}--${this.xStyle}`]: true,
+      [`${b}--join-${this.join}`]: !!this.join,
       [`${b}--${this.size}`]: true,
       [`${b}--full-width`]: this.fullWidth,
-      [`${b}--disabled`]: this.disabled,
+      [`${b}--disabled`]: this.isDisabled,
       [`${b}--readonly`]: this.readonly,
       [`${b}--invalid`]: this.invalid,
     };
@@ -86,19 +155,31 @@ export class SsInput {
     return { xId: this.xId, value: (ev.target as HTMLInputElement).value };
   }
 
+  private handleInput = (ev: Event) => {
+    this.syncFormState();
+    this.ssInput.emit(this.emitValue(ev));
+  };
+
+  private handleChange = (ev: Event) => {
+    this.syncFormState();
+    this.ssChange.emit(this.emitValue(ev));
+  };
+
   render() {
     return (
       <input
+        ref={el => (this.input = el)}
         id={this.xId}
         name={this.name}
         type={this.type}
         class={this.getClasses()}
         style={resolveInlineStyles(this.inlineStyles)}
-        disabled={this.disabled}
+        disabled={this.isDisabled}
         readOnly={this.readonly}
         required={this.required}
         aria-invalid={this.invalid ? 'true' : undefined}
         aria-label={this.accessibilityLabel}
+        aria-labelledby={this.labelledBy}
         aria-describedby={this.describedBy}
         autoComplete={this.autocomplete}
         min={this.min}
@@ -108,8 +189,8 @@ export class SsInput {
         maxLength={this.maxLength}
         placeholder={this.placeholder}
         value={this.value}
-        onInput={ev => this.ssInput.emit(this.emitValue(ev))}
-        onChange={ev => this.ssChange.emit(this.emitValue(ev))}
+        onInput={this.handleInput}
+        onChange={this.handleChange}
         onInvalid={ev => this.ssInvalid.emit(this.emitValue(ev))}
         onFocus={ev => this.ssFocus.emit(ev)}
         onBlur={ev => this.ssBlur.emit(ev)}

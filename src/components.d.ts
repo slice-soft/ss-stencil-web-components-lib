@@ -5,17 +5,28 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+import { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
+import { Size } from "./types/size";
 import { InlineStyles } from "./utils/style";
+import { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+import { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 import { Variant } from "./types/variant";
 import { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
-import { Size } from "./types/size";
+import { LinkSize } from "./components/atoms/ss-link/ss-link";
+import { JoinSide } from "./types/join";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+import { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
+import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
+import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 import { IconSize } from "./components/atoms/ss-icon/ss-icon";
 import { SsInputType } from "./components/atoms/ss-input/ss-input";
-import { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+import { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
+import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
+import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
@@ -23,17 +34,28 @@ import { TextareaResize } from "./components/atoms/ss-textarea/ss-textarea";
 import { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./components/atoms/ss-tooltip/ss-tooltip";
 import { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 import { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
-export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+export { AlertVariant, SsAlertDismissEvent } from "./components/molecules/ss-alert/ss-alert";
+export { Size } from "./types/size";
 export { InlineStyles } from "./utils/style";
+export { AvatarShape, AvatarSize, SsAvatarImageEvent } from "./components/atoms/ss-avatar/ss-avatar";
+export { AvatarShape as AvatarShape1, AvatarSize as AvatarSize1 } from "./components/atoms/ss-avatar/ss-avatar";
 export { Variant } from "./types/variant";
 export { BadgeStyle, SsBadgeDismissEvent } from "./components/atoms/ss-badge/ss-badge";
-export { Size } from "./types/size";
+export { LinkSize } from "./components/atoms/ss-link/ss-link";
+export { JoinSide } from "./types/join";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
+export { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
+export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
+export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { FieldOrientation } from "./components/molecules/ss-field/ss-field";
 export { IconSize } from "./components/atoms/ss-icon/ss-icon";
 export { SsInputType } from "./components/atoms/ss-input/ss-input";
-export { LinkSize, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { LinkSize as LinkSize1, LinkTarget, LinkUnderline, SsLinkClickEvent } from "./components/atoms/ss-link/ss-link";
+export { SsModalOpenChangeEvent } from "./components/organisms/ss-modal/ss-modal";
+export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
+export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
@@ -42,6 +64,52 @@ export { SsTooltipOpenChangeEvent, TooltipPlacement, TooltipTrigger } from "./co
 export { TypographyColor, TypographyFamily, TypographyLevel, TypographySize, TypographyTag } from "./components/atoms/ss-typography/ss-typography";
 export { FontWeight, LetterSpacing, LineHeight, TextAlign, TextTransform } from "./types/typography";
 export namespace Components {
+    /**
+     * A message block that states what happened and, when it matters, interrupts to
+     * say so.
+     * The alert supplies the severity, the layout and the announcement; the caller
+     * supplies the words, and any icon or actions, through slots. There is no
+     * built-in icon set, following `ss-icon`, which is also a slot.
+     */
+    interface SsAlert {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel": string;
+        /**
+          * Renders a dismiss button.
+          * @default false
+         */
+        "dismissible": boolean;
+        /**
+          * Expands the alert to the full width of its container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Title text, used when no title slot content is provided. Named `heading` because `title` is a global attribute and would render a browser tooltip.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Size of the alert.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Severity, which sets both the colour and how insistently it is announced.
+          * @default 'info'
+         */
+        "variant": AlertVariant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
     interface SsAvatar {
         /**
           * Alt text for the image; also used as the accessible label of the avatar.
@@ -79,44 +147,179 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * Overlaps a set of avatars into one stack, with an optional count for the ones
+     * it does not show.
+     * The stack is a single unit to assistive technology: the avatars themselves are
+     * hidden from it and the group carries one name, because hearing eight names in
+     * a row conveys less than "8 collaborators" when the individual identities are
+     * not actionable here.
+     * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+     * scoped stylesheet cannot: Stencil marks only the elements a component renders
+     * itself with its scope class, never the children the caller slots in, so
+     * `.ss-avatar-group ss-avatar { … }` would match nothing.
+     */
+    interface SsAvatarGroup {
+        /**
+          * Accessible name for the stack as a whole.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Shows at most this many avatars; the rest become a count.
+         */
+        "max"?: number;
+        /**
+          * Shape shared by every avatar.
+          * @default 'circle'
+         */
+        "shape": AvatarShape1;
+        /**
+          * Size shared by every avatar, and by the overflow count.
+          * @default 'md'
+         */
+        "size": AvatarSize1;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
     interface SsBadge {
         /**
+          * Applies the disabled styling and disables the dismiss button.
           * @default false
          */
         "disabled": boolean;
         /**
+          * Accessible label for the dismiss button.
           * @default 'Dismiss'
          */
         "dismissLabel": string;
         /**
+          * Renders a dismiss button.
           * @default false
          */
         "dismissible": boolean;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Badge text rendered when no slot content is provided.
+         */
         "label"?: string;
         /**
+          * Rounds the badge into a pill.
           * @default false
          */
         "pill": boolean;
         /**
+          * Size of the badge.
           * @default 'sm'
          */
         "size": Size;
         /**
+          * Semantic colour of the badge.
           * @default 'primary'
          */
         "variant": Variant;
+        /**
+          * Id applied to the rendered element.
+         */
         "xId"?: string;
         /**
+          * Visual style: a solid fill, a subtle tint, or an outline.
           * @default 'subtle'
          */
         "xStyle": BadgeStyle;
+    }
+    /**
+     * The trail of pages leading to the one being read.
+     * The trail owns the separator, the sizing and which step is the current page;
+     * each step draws its own separator because CSS cannot put one between slotted
+     * children. The last step is marked as current, so a reader is told where they
+     * are rather than being offered a link to where they already are.
+     */
+    interface SsBreadcrumb {
+        /**
+          * Accessible name for the trail, so a page with two of them stays navigable.
+          * @default 'Breadcrumb'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Inline CSS styles applied to the rendered navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Character drawn between steps.
+          * @default '/'
+         */
+        "separator": string;
+        /**
+          * Size shared by every step.
+          * @default 'md'
+         */
+        "size": LinkSize;
+        /**
+          * Id applied to the rendered navigation element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One step in a breadcrumb trail.
+     * It exists because a separator cannot be drawn between slotted children: CSS
+     * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+     * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+     * and the trail tells it whether it is the last one — the same coordination the
+     * rest of this library uses.
+     * The last step is the page the reader is already on, so it is text rather than
+     * a link, and carries `aria-current="page"`.
+     */
+    interface SsBreadcrumbItem {
+        /**
+          * Where this step leads. Omitted, or on the last step, it renders as plain text.
+         */
+        "href"?: string;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Step text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Whether this is the last step. Set by `ss-breadcrumb`; it decides the separator and aria-current.
+          * @default false
+         */
+        "last": boolean;
+        /**
+          * Separator drawn after this step. Set by `ss-breadcrumb`.
+          * @default '/'
+         */
+        "separator": string;
+        /**
+          * Size of the step. Set by `ss-breadcrumb`.
+          * @default 'md'
+         */
+        "size": LinkSize;
+        /**
+          * Id applied to the rendered element.
+         */
+        "xId"?: string;
     }
     interface SsButton {
         /**
           * Accessible label for screen readers; falls back to label.
          */
         "accessibilityLabel"?: string;
+        /**
+          * Id of the element that describes the button, set as aria-describedby.
+         */
+        "describedBy"?: string;
         /**
           * Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click.
           * @default 1000
@@ -141,6 +344,10 @@ export namespace Components {
           * Inline CSS styles applied to the button element.
          */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
         /**
           * Text rendered inside the button when no slot content is provided; also the aria-label fallback.
          */
@@ -189,6 +396,93 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": ButtonStyle;
+    }
+    /**
+     * Presents a set of related actions as one group: shared sizing and styling in
+     * one place, and an accessible name for the set.
+     * With `attached`, the buttons become one segmented control. The seam is made
+     * by telling each button which of its corners meet a neighbour, through `join`,
+     * because `ss-button` renders into its own shadow root and no wrapper can reach
+     * a border radius in there. Attaching applies to a horizontal row: a vertical
+     * group would need to flatten block corners, which `join` does not describe.
+     */
+    interface SsButtonGroup {
+        /**
+          * Accessible name for the set of actions.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Joins the buttons into one segmented control. Horizontal groups only.
+          * @default false
+         */
+        "attached": boolean;
+        /**
+          * Disables every button in the group.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Expands the group, and its buttons, to the full width of the container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lays the actions out in a row, or stacks them.
+          * @default 'horizontal'
+         */
+        "orientation": ButtonGroupOrientation;
+        /**
+          * Size shared by every button.
+         */
+        "size"?: Size;
+        /**
+          * Colour variant shared by every button.
+         */
+        "variant"?: Variant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A surface that groups related content, with optional media, header and footer
+     * regions around it.
+     * It is layout only: no elevation logic, no click behaviour and no events. A
+     * card that should act as a link or a button holds one in its content, so the
+     * accessible role stays on the element that actually has it; a clickable
+     * container would have to invent the keyboard and role semantics that
+     * `ss-button` and `ss-link` already provide.
+     * Each region collapses when nothing is slotted into it, so an unused header
+     * leaves no gap and draws no divider.
+     */
+    interface SsCard {
+        /**
+          * Expands the card to the full width of its container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Inner spacing applied to the header, content and footer regions.
+          * @default 'md'
+         */
+        "padding": CardPadding;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+        /**
+          * Visual style: raised off the page, outlined, or filled with a surface tone.
+          * @default 'elevated'
+         */
+        "xStyle": CardStyle;
     }
     interface SsCheckbox {
         /**
@@ -248,6 +542,73 @@ export namespace Components {
         "value"?: string;
         /**
           * Id applied to the native input; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Presents N `ss-checkbox` children as one `string[]` value and one change
+     * event, with group semantics and an optional select-all master.
+     * Membership is by value: a checkbox with no `value` cannot be a member and is
+     * left uncoordinated, and two checkboxes sharing a value toggle together,
+     * because the aggregate holds values rather than element identities.
+     */
+    interface SsCheckboxGroup {
+        /**
+          * Disables every checkbox in the group, including the master.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every checkbox, for form submission.
+         */
+        "name"?: string;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation": CheckboxGroupOrientation;
+        /**
+          * Requires at least one selection. HTML has no native "one of this set", so the group expresses it with the only construct that does: while nothing is selected the first checkbox is `required`, which makes the form invalid, and the moment anything is selected that requirement is lifted. Only one checkbox is ever announced as required, and checking any of them satisfies the group rather than that particular choice.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Label for an optional select-all checkbox. Supplying it renders the master; its checked and indeterminate state is derived from the selection and is not separately controllable.
+         */
+        "selectAllLabel"?: string;
+        /**
+          * Size shared by every checkbox, and by the group label.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * The selected values. An array is not an attribute, so assign it as a property, following `ss-select.value`; no comma-separated form is accepted.
+          * @default []
+         */
+        "value": string[];
+        /**
+          * Id of the container; also the seed for the generated message ids.
          */
         "xId"?: string;
     }
@@ -366,6 +727,64 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * Associates one form control with its label, helper text and error message,
+     * generating the ids and coordinating the state that a consumer would otherwise
+     * repeat on both the label and the control.
+     * The control is supplied through the default slot and stays owned by the
+     * caller: the field never touches its value, type, placeholder or appearance.
+     * It sets only what association requires — the id the label points at, the
+     * description reference, and the `required`/`disabled`/`invalid` state it was
+     * given. State the field was not given is left as the caller set it on the
+     * control; the field only clears what it applied itself.
+     */
+    interface SsField {
+        /**
+          * Disables the field: attenuates the label and disables the control.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the field invalid: reveals the error message and sets the control's invalid state.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Label text, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Places the label above the control, or beside it.
+          * @default 'vertical'
+         */
+        "orientation": FieldOrientation;
+        /**
+          * Marks the field required: adds the label marker and sets the control's required state.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Size of the label; helper and error text follow one step below it.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id of the container; also the seed for the generated control and message ids.
+         */
+        "xId"?: string;
+    }
     interface SsIcon {
         /**
           * Color token applied to the icon; current uses the current text color.
@@ -433,6 +852,14 @@ export namespace Components {
          */
         "invalid": boolean;
         /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
+        /**
+          * Id of the element that labels the input, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
+        /**
           * Maximum value for numeric and date inputs.
          */
         "max"?: string;
@@ -481,7 +908,7 @@ export namespace Components {
          */
         "type": SsInputType;
         /**
-          * Current value of the input.
+          * Current value of the input; also the value restored on form reset.
          */
         "value"?: string;
         /**
@@ -493,6 +920,39 @@ export namespace Components {
           * @default 'solid'
          */
         "xStyle": InputStyle;
+    }
+    /**
+     * Joins a control to the addons beside it — a currency symbol, a unit, a button
+     * — so the set reads as one field.
+     * The seam is made by telling the control which of its corners meet a
+     * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+     * its own shadow root, and no wrapper can reach a border radius in there. That
+     * is also why the addon, not the control, is what this component draws.
+     */
+    interface SsInputGroup {
+        /**
+          * Disables the control.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Expands the group, and its control, to the full width of the container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Size shared by the control and the addons.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
     }
     interface SsLabel {
         /**
@@ -565,7 +1025,7 @@ export namespace Components {
           * Size of the link: sm, md or lg.
           * @default 'md'
          */
-        "size": LinkSize;
+        "size": LinkSize1;
         /**
           * Where to open the link: _self, _blank, _parent or _top.
          */
@@ -585,36 +1045,243 @@ export namespace Components {
          */
         "xId"?: string;
     }
-    interface SsRadio {
+    /**
+     * A dialog that takes over the page until it is answered.
+     * It is the first consumer of the overlay utilities, and it is what proves
+     * them: the focus trap and the dismissal behaviour are only really testable
+     * through something that mounts them in a browser.
+     * Rendered scoped rather than shadow so the trap can see the caller's content.
+     * Focus order is a property of the composed tree, and a light-DOM query inside
+     * a shadow root would find only what the dialog itself renders — a dialog full
+     * of the caller's controls would look empty and trap focus on nothing.
+     */
+    interface SsModal {
         /**
+          * Accessible name, for a dialog with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes the dialog.
+          * @default true
+         */
+        "closeOnBackdrop": boolean;
+        /**
+          * Escape closes the dialog.
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Accessible label for the close button.
+          * @default 'Close'
+         */
+        "dismissLabel": string;
+        /**
+          * Renders a close button in the header.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Heading text, used when no header slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the dialog element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Whether the dialog is showing. Updated when it is dismissed, and reflected.
           * @default false
          */
-        "checked": boolean;
-        "describedBy"?: string;
+        "open": boolean;
         /**
+          * Width of the dialog.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id applied to the dialog element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Page navigation for a list that does not fit on one screen.
+     * Unlike the other molecules this one is driven by props rather than slots: a
+     * page range is data, not content, and the pages between the ends are computed
+     * from `page` and `total`. Every rendered page is a real button, so keyboard
+     * and screen-reader users move through the list the same way they move through
+     * any other row of controls.
+     * The component reports the page the reader asked for and updates its own
+     * `page`; fetching the rows for it stays with the consumer.
+     */
+    interface SsPagination {
+        /**
+          * Accessible name for the navigation region, so a page with two of them stays distinguishable.
+          * @default 'Pagination'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Disables the whole control.
           * @default false
          */
         "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Label for the next-page control.
+          * @default 'Next page'
+         */
+        "nextLabel": string;
+        /**
+          * The page currently shown, counting from one. Updated on interaction and reflected.
+          * @default 1
+         */
+        "page": number;
+        /**
+          * Label for the previous-page control.
+          * @default 'Previous page'
+         */
+        "previousLabel": string;
+        /**
+          * How many pages to show either side of the current one before collapsing into a gap.
+          * @default 1
+         */
+        "siblingCount": number;
+        /**
+          * Size shared by every control.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * How many pages there are in total.
+          * @default 1
+         */
+        "total": number;
+        /**
+          * Id of the container; also included in event details.
+         */
+        "xId"?: string;
+    }
+    interface SsRadio {
+        /**
+          * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
+          * @default false
+         */
+        "checked": boolean;
+        /**
+          * Id of the element that describes the radio, set as aria-describedby.
+         */
+        "describedBy"?: string;
+        /**
+          * Disables the radio.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Inline CSS styles applied to the rendered label element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Name shared by the radios that form one group; what makes the browser treat them as a set.
+         */
         "name"?: string;
         /**
+          * Prevents selection while still allowing focus and blur events.
           * @default false
          */
         "readonly": boolean;
         /**
+          * Marks the radio required; one required radio makes its whole native group required.
           * @default false
          */
         "required": boolean;
         /**
+          * Size of the radio.
           * @default 'md'
          */
         "size": Size;
+        /**
+          * Value submitted with the form when this radio is the selected one.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Presents N `ss-radio` children as one selected value, one change event and
+     * one set of group semantics, replacing the shared `name` a consumer would
+     * otherwise repeat on every radio without ever gaining a group role, a group
+     * label or an aggregate value.
+     * The radios keep their own native input, styling and focus behaviour: arrow-key
+     * navigation comes from the browser, because same-name radios in one tree
+     * already do it. The group adds the name, the selected value, the accessible
+     * grouping and the messages.
+     */
+    interface SsRadioGroup {
+        /**
+          * Disables every radio in the group.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every radio in the group — the thing that makes the browser treat them as one group. Left unset, the group generates one, so a group always works; a name is only needed to submit under a chosen key.  It stays optional because a mandatory prop would make every custom element require it wherever a dynamic tag resolves against the generated JSX types.
+         */
+        "name"?: string;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation": RadioGroupOrientation;
+        /**
+          * Requires a selection: marks the group required for native validation.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Size shared by every radio, and by the group label.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Value of the selected radio; updated on user interaction and reflected as an attribute.
+         */
+        "value"?: string;
+        /**
+          * Id of the container; also the seed for the generated message ids.
+         */
         "xId"?: string;
     }
     interface SsSelect {
@@ -720,6 +1387,10 @@ export namespace Components {
           * @default false
          */
         "invalid": boolean;
+        /**
+          * Id of the element that labels the slider, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
         /**
           * Maximum value.
           * @default 100
@@ -892,6 +1563,10 @@ export namespace Components {
          */
         "invalid": boolean;
         /**
+          * Id of the element that labels the textarea, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
+        /**
           * Maximum number of characters allowed.
          */
         "maxLength"?: number;
@@ -933,7 +1608,7 @@ export namespace Components {
          */
         "size": Size;
         /**
-          * Current value of the textarea.
+          * Current value of the textarea; also the value restored on form reset.
          */
         "value"?: string;
         /**
@@ -946,6 +1621,13 @@ export namespace Components {
          */
         "xStyle": InputStyle;
     }
+    /**
+     * Rendered scoped rather than shadow because the description has to reach the
+     * trigger. A tooltip's whole job is to describe the thing it points at, and
+     * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+     * reference never resolved and the trigger was announced with no description
+     * at all — correct-looking markup, nothing reaching the user.
+     */
     interface SsTooltip {
         /**
           * Tooltip text rendered when no default slot content is provided.
@@ -1041,6 +1723,10 @@ export namespace Components {
         "xId"?: string;
     }
 }
+export interface SsAlertCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsAlertElement;
+}
 export interface SsAvatarCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsAvatarElement;
@@ -1057,6 +1743,10 @@ export interface SsCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsCheckboxElement;
 }
+export interface SsCheckboxGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsCheckboxGroupElement;
+}
 export interface SsComboboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsComboboxElement;
@@ -1069,9 +1759,21 @@ export interface SsLinkCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsLinkElement;
 }
+export interface SsModalCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsModalElement;
+}
+export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsPaginationElement;
+}
 export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsRadioElement;
+}
+export interface SsRadioGroupCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsRadioGroupElement;
 }
 export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -1094,6 +1796,30 @@ export interface SsTooltipCustomEvent<T> extends CustomEvent<T> {
     target: HTMLSsTooltipElement;
 }
 declare global {
+    interface HTMLSsAlertElementEventMap {
+        "ssDismiss": SsAlertDismissEvent;
+    }
+    /**
+     * A message block that states what happened and, when it matters, interrupts to
+     * say so.
+     * The alert supplies the severity, the layout and the announcement; the caller
+     * supplies the words, and any icon or actions, through slots. There is no
+     * built-in icon set, following `ss-icon`, which is also a slot.
+     */
+    interface HTMLSsAlertElement extends Components.SsAlert, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsAlertElementEventMap>(type: K, listener: (this: HTMLSsAlertElement, ev: SsAlertCustomEvent<HTMLSsAlertElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsAlertElementEventMap>(type: K, listener: (this: HTMLSsAlertElement, ev: SsAlertCustomEvent<HTMLSsAlertElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsAlertElement: {
+        prototype: HTMLSsAlertElement;
+        new (): HTMLSsAlertElement;
+    };
     interface HTMLSsAvatarElementEventMap {
         "ssLoad": SsAvatarImageEvent;
         "ssError": SsAvatarImageEvent;
@@ -1112,6 +1838,24 @@ declare global {
         prototype: HTMLSsAvatarElement;
         new (): HTMLSsAvatarElement;
     };
+    /**
+     * Overlaps a set of avatars into one stack, with an optional count for the ones
+     * it does not show.
+     * The stack is a single unit to assistive technology: the avatars themselves are
+     * hidden from it and the group carries one name, because hearing eight names in
+     * a row conveys less than "8 collaborators" when the individual identities are
+     * not actionable here.
+     * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+     * scoped stylesheet cannot: Stencil marks only the elements a component renders
+     * itself with its scope class, never the children the caller slots in, so
+     * `.ss-avatar-group ss-avatar { … }` would match nothing.
+     */
+    interface HTMLSsAvatarGroupElement extends Components.SsAvatarGroup, HTMLStencilElement {
+    }
+    var HTMLSsAvatarGroupElement: {
+        prototype: HTMLSsAvatarGroupElement;
+        new (): HTMLSsAvatarGroupElement;
+    };
     interface HTMLSsBadgeElementEventMap {
         "ssDismiss": SsBadgeDismissEvent;
     }
@@ -1129,6 +1873,35 @@ declare global {
         prototype: HTMLSsBadgeElement;
         new (): HTMLSsBadgeElement;
     };
+    /**
+     * The trail of pages leading to the one being read.
+     * The trail owns the separator, the sizing and which step is the current page;
+     * each step draws its own separator because CSS cannot put one between slotted
+     * children. The last step is marked as current, so a reader is told where they
+     * are rather than being offered a link to where they already are.
+     */
+    interface HTMLSsBreadcrumbElement extends Components.SsBreadcrumb, HTMLStencilElement {
+    }
+    var HTMLSsBreadcrumbElement: {
+        prototype: HTMLSsBreadcrumbElement;
+        new (): HTMLSsBreadcrumbElement;
+    };
+    /**
+     * One step in a breadcrumb trail.
+     * It exists because a separator cannot be drawn between slotted children: CSS
+     * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+     * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+     * and the trail tells it whether it is the last one — the same coordination the
+     * rest of this library uses.
+     * The last step is the page the reader is already on, so it is text rather than
+     * a link, and carries `aria-current="page"`.
+     */
+    interface HTMLSsBreadcrumbItemElement extends Components.SsBreadcrumbItem, HTMLStencilElement {
+    }
+    var HTMLSsBreadcrumbItemElement: {
+        prototype: HTMLSsBreadcrumbItemElement;
+        new (): HTMLSsBreadcrumbItemElement;
+    };
     interface HTMLSsButtonElementEventMap {
         "ssClick": string | undefined;
     }
@@ -1145,6 +1918,38 @@ declare global {
     var HTMLSsButtonElement: {
         prototype: HTMLSsButtonElement;
         new (): HTMLSsButtonElement;
+    };
+    /**
+     * Presents a set of related actions as one group: shared sizing and styling in
+     * one place, and an accessible name for the set.
+     * With `attached`, the buttons become one segmented control. The seam is made
+     * by telling each button which of its corners meet a neighbour, through `join`,
+     * because `ss-button` renders into its own shadow root and no wrapper can reach
+     * a border radius in there. Attaching applies to a horizontal row: a vertical
+     * group would need to flatten block corners, which `join` does not describe.
+     */
+    interface HTMLSsButtonGroupElement extends Components.SsButtonGroup, HTMLStencilElement {
+    }
+    var HTMLSsButtonGroupElement: {
+        prototype: HTMLSsButtonGroupElement;
+        new (): HTMLSsButtonGroupElement;
+    };
+    /**
+     * A surface that groups related content, with optional media, header and footer
+     * regions around it.
+     * It is layout only: no elevation logic, no click behaviour and no events. A
+     * card that should act as a link or a button holds one in its content, so the
+     * accessible role stays on the element that actually has it; a clickable
+     * container would have to invent the keyboard and role semantics that
+     * `ss-button` and `ss-link` already provide.
+     * Each region collapses when nothing is slotted into it, so an unused header
+     * leaves no gap and draws no divider.
+     */
+    interface HTMLSsCardElement extends Components.SsCard, HTMLStencilElement {
+    }
+    var HTMLSsCardElement: {
+        prototype: HTMLSsCardElement;
+        new (): HTMLSsCardElement;
     };
     interface HTMLSsCheckboxElementEventMap {
         "ssChange": SsCheckedChangeEvent;
@@ -1165,6 +1970,31 @@ declare global {
     var HTMLSsCheckboxElement: {
         prototype: HTMLSsCheckboxElement;
         new (): HTMLSsCheckboxElement;
+    };
+    interface HTMLSsCheckboxGroupElementEventMap {
+        "ssChange": SsCheckboxGroupChangeEvent;
+        "ssInvalid": SsCheckboxGroupChangeEvent;
+    }
+    /**
+     * Presents N `ss-checkbox` children as one `string[]` value and one change
+     * event, with group semantics and an optional select-all master.
+     * Membership is by value: a checkbox with no `value` cannot be a member and is
+     * left uncoordinated, and two checkboxes sharing a value toggle together,
+     * because the aggregate holds values rather than element identities.
+     */
+    interface HTMLSsCheckboxGroupElement extends Components.SsCheckboxGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLSsCheckboxGroupElement, ev: SsCheckboxGroupCustomEvent<HTMLSsCheckboxGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsCheckboxGroupElementEventMap>(type: K, listener: (this: HTMLSsCheckboxGroupElement, ev: SsCheckboxGroupCustomEvent<HTMLSsCheckboxGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsCheckboxGroupElement: {
+        prototype: HTMLSsCheckboxGroupElement;
+        new (): HTMLSsCheckboxGroupElement;
     };
     interface HTMLSsComboboxElementEventMap {
         "ssInput": SsInputValueEvent;
@@ -1193,6 +2023,23 @@ declare global {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
     };
+    /**
+     * Associates one form control with its label, helper text and error message,
+     * generating the ids and coordinating the state that a consumer would otherwise
+     * repeat on both the label and the control.
+     * The control is supplied through the default slot and stays owned by the
+     * caller: the field never touches its value, type, placeholder or appearance.
+     * It sets only what association requires — the id the label points at, the
+     * description reference, and the `required`/`disabled`/`invalid` state it was
+     * given. State the field was not given is left as the caller set it on the
+     * control; the field only clears what it applied itself.
+     */
+    interface HTMLSsFieldElement extends Components.SsField, HTMLStencilElement {
+    }
+    var HTMLSsFieldElement: {
+        prototype: HTMLSsFieldElement;
+        new (): HTMLSsFieldElement;
+    };
     interface HTMLSsIconElement extends Components.SsIcon, HTMLStencilElement {
     }
     var HTMLSsIconElement: {
@@ -1220,6 +2067,20 @@ declare global {
         prototype: HTMLSsInputElement;
         new (): HTMLSsInputElement;
     };
+    /**
+     * Joins a control to the addons beside it — a currency symbol, a unit, a button
+     * — so the set reads as one field.
+     * The seam is made by telling the control which of its corners meet a
+     * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+     * its own shadow root, and no wrapper can reach a border radius in there. That
+     * is also why the addon, not the control, is what this component draws.
+     */
+    interface HTMLSsInputGroupElement extends Components.SsInputGroup, HTMLStencilElement {
+    }
+    var HTMLSsInputGroupElement: {
+        prototype: HTMLSsInputGroupElement;
+        new (): HTMLSsInputGroupElement;
+    };
     interface HTMLSsLabelElement extends Components.SsLabel, HTMLStencilElement {
     }
     var HTMLSsLabelElement: {
@@ -1243,6 +2104,60 @@ declare global {
         prototype: HTMLSsLinkElement;
         new (): HTMLSsLinkElement;
     };
+    interface HTMLSsModalElementEventMap {
+        "ssOpenChange": SsModalOpenChangeEvent;
+    }
+    /**
+     * A dialog that takes over the page until it is answered.
+     * It is the first consumer of the overlay utilities, and it is what proves
+     * them: the focus trap and the dismissal behaviour are only really testable
+     * through something that mounts them in a browser.
+     * Rendered scoped rather than shadow so the trap can see the caller's content.
+     * Focus order is a property of the composed tree, and a light-DOM query inside
+     * a shadow root would find only what the dialog itself renders — a dialog full
+     * of the caller's controls would look empty and trap focus on nothing.
+     */
+    interface HTMLSsModalElement extends Components.SsModal, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsModalElementEventMap>(type: K, listener: (this: HTMLSsModalElement, ev: SsModalCustomEvent<HTMLSsModalElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsModalElementEventMap>(type: K, listener: (this: HTMLSsModalElement, ev: SsModalCustomEvent<HTMLSsModalElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsModalElement: {
+        prototype: HTMLSsModalElement;
+        new (): HTMLSsModalElement;
+    };
+    interface HTMLSsPaginationElementEventMap {
+        "ssChange": SsPaginationChangeEvent;
+    }
+    /**
+     * Page navigation for a list that does not fit on one screen.
+     * Unlike the other molecules this one is driven by props rather than slots: a
+     * page range is data, not content, and the pages between the ends are computed
+     * from `page` and `total`. Every rendered page is a real button, so keyboard
+     * and screen-reader users move through the list the same way they move through
+     * any other row of controls.
+     * The component reports the page the reader asked for and updates its own
+     * `page`; fetching the rows for it stays with the consumer.
+     */
+    interface HTMLSsPaginationElement extends Components.SsPagination, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsPaginationElementEventMap>(type: K, listener: (this: HTMLSsPaginationElement, ev: SsPaginationCustomEvent<HTMLSsPaginationElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsPaginationElementEventMap>(type: K, listener: (this: HTMLSsPaginationElement, ev: SsPaginationCustomEvent<HTMLSsPaginationElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsPaginationElement: {
+        prototype: HTMLSsPaginationElement;
+        new (): HTMLSsPaginationElement;
+    };
     interface HTMLSsRadioElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -1262,6 +2177,34 @@ declare global {
     var HTMLSsRadioElement: {
         prototype: HTMLSsRadioElement;
         new (): HTMLSsRadioElement;
+    };
+    interface HTMLSsRadioGroupElementEventMap {
+        "ssChange": SsRadioGroupChangeEvent;
+        "ssInvalid": SsRadioGroupInvalidEvent;
+    }
+    /**
+     * Presents N `ss-radio` children as one selected value, one change event and
+     * one set of group semantics, replacing the shared `name` a consumer would
+     * otherwise repeat on every radio without ever gaining a group role, a group
+     * label or an aggregate value.
+     * The radios keep their own native input, styling and focus behaviour: arrow-key
+     * navigation comes from the browser, because same-name radios in one tree
+     * already do it. The group adds the name, the selected value, the accessible
+     * grouping and the messages.
+     */
+    interface HTMLSsRadioGroupElement extends Components.SsRadioGroup, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsRadioGroupElementEventMap>(type: K, listener: (this: HTMLSsRadioGroupElement, ev: SsRadioGroupCustomEvent<HTMLSsRadioGroupElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsRadioGroupElementEventMap>(type: K, listener: (this: HTMLSsRadioGroupElement, ev: SsRadioGroupCustomEvent<HTMLSsRadioGroupElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsRadioGroupElement: {
+        prototype: HTMLSsRadioGroupElement;
+        new (): HTMLSsRadioGroupElement;
     };
     interface HTMLSsSelectElementEventMap {
         "ssChange": SsSelectChangeEvent;
@@ -1354,6 +2297,13 @@ declare global {
     interface HTMLSsTooltipElementEventMap {
         "ssOpenChange": SsTooltipOpenChangeEvent;
     }
+    /**
+     * Rendered scoped rather than shadow because the description has to reach the
+     * trigger. A tooltip's whole job is to describe the thing it points at, and
+     * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+     * reference never resolved and the trigger was announced with no description
+     * at all — correct-looking markup, nothing reaching the user.
+     */
     interface HTMLSsTooltipElement extends Components.SsTooltip, HTMLStencilElement {
         addEventListener<K extends keyof HTMLSsTooltipElementEventMap>(type: K, listener: (this: HTMLSsTooltipElement, ev: SsTooltipCustomEvent<HTMLSsTooltipElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
         addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -1375,17 +2325,29 @@ declare global {
         new (): HTMLSsTypographyElement;
     };
     interface HTMLElementTagNameMap {
+        "ss-alert": HTMLSsAlertElement;
         "ss-avatar": HTMLSsAvatarElement;
+        "ss-avatar-group": HTMLSsAvatarGroupElement;
         "ss-badge": HTMLSsBadgeElement;
+        "ss-breadcrumb": HTMLSsBreadcrumbElement;
+        "ss-breadcrumb-item": HTMLSsBreadcrumbItemElement;
         "ss-button": HTMLSsButtonElement;
+        "ss-button-group": HTMLSsButtonGroupElement;
+        "ss-card": HTMLSsCardElement;
         "ss-checkbox": HTMLSsCheckboxElement;
+        "ss-checkbox-group": HTMLSsCheckboxGroupElement;
         "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-field": HTMLSsFieldElement;
         "ss-icon": HTMLSsIconElement;
         "ss-input": HTMLSsInputElement;
+        "ss-input-group": HTMLSsInputGroupElement;
         "ss-label": HTMLSsLabelElement;
         "ss-link": HTMLSsLinkElement;
+        "ss-modal": HTMLSsModalElement;
+        "ss-pagination": HTMLSsPaginationElement;
         "ss-radio": HTMLSsRadioElement;
+        "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-select": HTMLSsSelectElement;
         "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
@@ -1396,6 +2358,56 @@ declare global {
     }
 }
 declare namespace LocalJSX {
+    /**
+     * A message block that states what happened and, when it matters, interrupts to
+     * say so.
+     * The alert supplies the severity, the layout and the announcement; the caller
+     * supplies the words, and any icon or actions, through slots. There is no
+     * built-in icon set, following `ss-icon`, which is also a slot.
+     */
+    interface SsAlert {
+        /**
+          * Accessible label for the dismiss button.
+          * @default 'Dismiss'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Renders a dismiss button.
+          * @default false
+         */
+        "dismissible"?: boolean;
+        /**
+          * Expands the alert to the full width of its container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Title text, used when no title slot content is provided. Named `heading` because `title` is a global attribute and would render a browser tooltip.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the dismiss button is pressed; detail contains xId.
+         */
+        "onSsDismiss"?: (event: SsAlertCustomEvent<SsAlertDismissEvent>) => void;
+        /**
+          * Size of the alert.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Severity, which sets both the colour and how insistently it is announced.
+          * @default 'info'
+         */
+        "variant"?: AlertVariant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
     interface SsAvatar {
         /**
           * Alt text for the image; also used as the accessible label of the avatar.
@@ -1441,45 +2453,183 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * Overlaps a set of avatars into one stack, with an optional count for the ones
+     * it does not show.
+     * The stack is a single unit to assistive technology: the avatars themselves are
+     * hidden from it and the group carries one name, because hearing eight names in
+     * a row conveys less than "8 collaborators" when the individual identities are
+     * not actionable here.
+     * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+     * scoped stylesheet cannot: Stencil marks only the elements a component renders
+     * itself with its scope class, never the children the caller slots in, so
+     * `.ss-avatar-group ss-avatar { … }` would match nothing.
+     */
+    interface SsAvatarGroup {
+        /**
+          * Accessible name for the stack as a whole.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Shows at most this many avatars; the rest become a count.
+         */
+        "max"?: number;
+        /**
+          * Shape shared by every avatar.
+          * @default 'circle'
+         */
+        "shape"?: AvatarShape1;
+        /**
+          * Size shared by every avatar, and by the overflow count.
+          * @default 'md'
+         */
+        "size"?: AvatarSize1;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
     interface SsBadge {
         /**
+          * Applies the disabled styling and disables the dismiss button.
           * @default false
          */
         "disabled"?: boolean;
         /**
+          * Accessible label for the dismiss button.
           * @default 'Dismiss'
          */
         "dismissLabel"?: string;
         /**
+          * Renders a dismiss button.
           * @default false
          */
         "dismissible"?: boolean;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Badge text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Emitted when the dismiss button is pressed; detail contains xId.
+         */
         "onSsDismiss"?: (event: SsBadgeCustomEvent<SsBadgeDismissEvent>) => void;
         /**
+          * Rounds the badge into a pill.
           * @default false
          */
         "pill"?: boolean;
         /**
+          * Size of the badge.
           * @default 'sm'
          */
         "size"?: Size;
         /**
+          * Semantic colour of the badge.
           * @default 'primary'
          */
         "variant"?: Variant;
+        /**
+          * Id applied to the rendered element.
+         */
         "xId"?: string;
         /**
+          * Visual style: a solid fill, a subtle tint, or an outline.
           * @default 'subtle'
          */
         "xStyle"?: BadgeStyle;
+    }
+    /**
+     * The trail of pages leading to the one being read.
+     * The trail owns the separator, the sizing and which step is the current page;
+     * each step draws its own separator because CSS cannot put one between slotted
+     * children. The last step is marked as current, so a reader is told where they
+     * are rather than being offered a link to where they already are.
+     */
+    interface SsBreadcrumb {
+        /**
+          * Accessible name for the trail, so a page with two of them stays navigable.
+          * @default 'Breadcrumb'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Inline CSS styles applied to the rendered navigation element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Character drawn between steps.
+          * @default '/'
+         */
+        "separator"?: string;
+        /**
+          * Size shared by every step.
+          * @default 'md'
+         */
+        "size"?: LinkSize;
+        /**
+          * Id applied to the rendered navigation element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One step in a breadcrumb trail.
+     * It exists because a separator cannot be drawn between slotted children: CSS
+     * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+     * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+     * and the trail tells it whether it is the last one — the same coordination the
+     * rest of this library uses.
+     * The last step is the page the reader is already on, so it is text rather than
+     * a link, and carries `aria-current="page"`.
+     */
+    interface SsBreadcrumbItem {
+        /**
+          * Where this step leads. Omitted, or on the last step, it renders as plain text.
+         */
+        "href"?: string;
+        /**
+          * Inline CSS styles applied to the rendered element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Step text, used when no slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Whether this is the last step. Set by `ss-breadcrumb`; it decides the separator and aria-current.
+          * @default false
+         */
+        "last"?: boolean;
+        /**
+          * Separator drawn after this step. Set by `ss-breadcrumb`.
+          * @default '/'
+         */
+        "separator"?: string;
+        /**
+          * Size of the step. Set by `ss-breadcrumb`.
+          * @default 'md'
+         */
+        "size"?: LinkSize;
+        /**
+          * Id applied to the rendered element.
+         */
+        "xId"?: string;
     }
     interface SsButton {
         /**
           * Accessible label for screen readers; falls back to label.
          */
         "accessibilityLabel"?: string;
+        /**
+          * Id of the element that describes the button, set as aria-describedby.
+         */
+        "describedBy"?: string;
         /**
           * Duration in milliseconds of the temporary disabled state (oneClick) or loading feedback after a click.
           * @default 1000
@@ -1504,6 +2654,10 @@ declare namespace LocalJSX {
           * Inline CSS styles applied to the button element.
          */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
         /**
           * Text rendered inside the button when no slot content is provided; also the aria-label fallback.
          */
@@ -1556,6 +2710,93 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: ButtonStyle;
+    }
+    /**
+     * Presents a set of related actions as one group: shared sizing and styling in
+     * one place, and an accessible name for the set.
+     * With `attached`, the buttons become one segmented control. The seam is made
+     * by telling each button which of its corners meet a neighbour, through `join`,
+     * because `ss-button` renders into its own shadow root and no wrapper can reach
+     * a border radius in there. Attaching applies to a horizontal row: a vertical
+     * group would need to flatten block corners, which `join` does not describe.
+     */
+    interface SsButtonGroup {
+        /**
+          * Accessible name for the set of actions.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Joins the buttons into one segmented control. Horizontal groups only.
+          * @default false
+         */
+        "attached"?: boolean;
+        /**
+          * Disables every button in the group.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Expands the group, and its buttons, to the full width of the container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Lays the actions out in a row, or stacks them.
+          * @default 'horizontal'
+         */
+        "orientation"?: ButtonGroupOrientation;
+        /**
+          * Size shared by every button.
+         */
+        "size"?: Size;
+        /**
+          * Colour variant shared by every button.
+         */
+        "variant"?: Variant;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A surface that groups related content, with optional media, header and footer
+     * regions around it.
+     * It is layout only: no elevation logic, no click behaviour and no events. A
+     * card that should act as a link or a button holds one in its content, so the
+     * accessible role stays on the element that actually has it; a clickable
+     * container would have to invent the keyboard and role semantics that
+     * `ss-button` and `ss-link` already provide.
+     * Each region collapses when nothing is slotted into it, so an unused header
+     * leaves no gap and draws no divider.
+     */
+    interface SsCard {
+        /**
+          * Expands the card to the full width of its container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Inner spacing applied to the header, content and footer regions.
+          * @default 'md'
+         */
+        "padding"?: CardPadding;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
+        /**
+          * Visual style: raised off the page, outlined, or filled with a surface tone.
+          * @default 'elevated'
+         */
+        "xStyle"?: CardStyle;
     }
     interface SsCheckbox {
         /**
@@ -1631,6 +2872,81 @@ declare namespace LocalJSX {
         "value"?: string;
         /**
           * Id applied to the native input; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Presents N `ss-checkbox` children as one `string[]` value and one change
+     * event, with group semantics and an optional select-all master.
+     * Membership is by value: a checkbox with no `value` cannot be a member and is
+     * left uncoordinated, and two checkboxes sharing a value toggle together,
+     * because the aggregate holds values rather than element identities.
+     */
+    interface SsCheckboxGroup {
+        /**
+          * Disables every checkbox in the group, including the master.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every checkbox, for form submission.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the aggregate selection changes; detail carries the whole array.
+         */
+        "onSsChange"?: (event: SsCheckboxGroupCustomEvent<SsCheckboxGroupChangeEvent>) => void;
+        /**
+          * Emitted when the group fails native validation.
+         */
+        "onSsInvalid"?: (event: SsCheckboxGroupCustomEvent<SsCheckboxGroupChangeEvent>) => void;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation"?: CheckboxGroupOrientation;
+        /**
+          * Requires at least one selection. HTML has no native "one of this set", so the group expresses it with the only construct that does: while nothing is selected the first checkbox is `required`, which makes the form invalid, and the moment anything is selected that requirement is lifted. Only one checkbox is ever announced as required, and checking any of them satisfies the group rather than that particular choice.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Label for an optional select-all checkbox. Supplying it renders the master; its checked and indeterminate state is derived from the selection and is not separately controllable.
+         */
+        "selectAllLabel"?: string;
+        /**
+          * Size shared by every checkbox, and by the group label.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * The selected values. An array is not an attribute, so assign it as a property, following `ss-select.value`; no comma-separated form is accepted.
+          * @default []
+         */
+        "value"?: string[];
+        /**
+          * Id of the container; also the seed for the generated message ids.
          */
         "xId"?: string;
     }
@@ -1769,6 +3085,64 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * Associates one form control with its label, helper text and error message,
+     * generating the ids and coordinating the state that a consumer would otherwise
+     * repeat on both the label and the control.
+     * The control is supplied through the default slot and stays owned by the
+     * caller: the field never touches its value, type, placeholder or appearance.
+     * It sets only what association requires — the id the label points at, the
+     * description reference, and the `required`/`disabled`/`invalid` state it was
+     * given. State the field was not given is left as the caller set it on the
+     * control; the field only clears what it applied itself.
+     */
+    interface SsField {
+        /**
+          * Disables the field: attenuates the label and disables the control.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the field invalid: reveals the error message and sets the control's invalid state.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Label text, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Places the label above the control, or beside it.
+          * @default 'vertical'
+         */
+        "orientation"?: FieldOrientation;
+        /**
+          * Marks the field required: adds the label marker and sets the control's required state.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Size of the label; helper and error text follow one step below it.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id of the container; also the seed for the generated control and message ids.
+         */
+        "xId"?: string;
+    }
     interface SsIcon {
         /**
           * Color token applied to the icon; current uses the current text color.
@@ -1835,6 +3209,14 @@ declare namespace LocalJSX {
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Flattens the corners on the side that meets a neighbour, so a group can present several controls as one segmented unit. A wrapper sets this rather than reaching into the shadow root, which nothing outside it can style.
+         */
+        "join"?: JoinSide;
+        /**
+          * Id of the element that labels the input, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
         /**
           * Maximum value for numeric and date inputs.
          */
@@ -1904,7 +3286,7 @@ declare namespace LocalJSX {
          */
         "type"?: SsInputType;
         /**
-          * Current value of the input.
+          * Current value of the input; also the value restored on form reset.
          */
         "value"?: string;
         /**
@@ -1916,6 +3298,39 @@ declare namespace LocalJSX {
           * @default 'solid'
          */
         "xStyle"?: InputStyle;
+    }
+    /**
+     * Joins a control to the addons beside it — a currency symbol, a unit, a button
+     * — so the set reads as one field.
+     * The seam is made by telling the control which of its corners meet a
+     * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+     * its own shadow root, and no wrapper can reach a border radius in there. That
+     * is also why the addon, not the control, is what this component draws.
+     */
+    interface SsInputGroup {
+        /**
+          * Disables the control.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Expands the group, and its control, to the full width of the container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Size shared by the control and the addons.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id applied to the rendered container.
+         */
+        "xId"?: string;
     }
     interface SsLabel {
         /**
@@ -1992,7 +3407,7 @@ declare namespace LocalJSX {
           * Size of the link: sm, md or lg.
           * @default 'md'
          */
-        "size"?: LinkSize;
+        "size"?: LinkSize1;
         /**
           * Where to open the link: _self, _blank, _parent or _top.
          */
@@ -2012,40 +3427,275 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
-    interface SsRadio {
+    /**
+     * A dialog that takes over the page until it is answered.
+     * It is the first consumer of the overlay utilities, and it is what proves
+     * them: the focus trap and the dismissal behaviour are only really testable
+     * through something that mounts them in a browser.
+     * Rendered scoped rather than shadow so the trap can see the caller's content.
+     * Focus order is a property of the composed tree, and a light-DOM query inside
+     * a shadow root would find only what the dialog itself renders — a dialog full
+     * of the caller's controls would look empty and trap focus on nothing.
+     */
+    interface SsModal {
         /**
+          * Accessible name, for a dialog with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes the dialog.
+          * @default true
+         */
+        "closeOnBackdrop"?: boolean;
+        /**
+          * Escape closes the dialog.
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Accessible label for the close button.
+          * @default 'Close'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Renders a close button in the header.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Heading text, used when no header slot content is provided.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the dialog element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted when the dialog opens or closes through an interaction; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsModalCustomEvent<SsModalOpenChangeEvent>) => void;
+        /**
+          * Whether the dialog is showing. Updated when it is dismissed, and reflected.
           * @default false
          */
-        "checked"?: boolean;
-        "describedBy"?: string;
+        "open"?: boolean;
         /**
+          * Width of the dialog.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id applied to the dialog element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Page navigation for a list that does not fit on one screen.
+     * Unlike the other molecules this one is driven by props rather than slots: a
+     * page range is data, not content, and the pages between the ends are computed
+     * from `page` and `total`. Every rendered page is a real button, so keyboard
+     * and screen-reader users move through the list the same way they move through
+     * any other row of controls.
+     * The component reports the page the reader asked for and updates its own
+     * `page`; fetching the rows for it stays with the consumer.
+     */
+    interface SsPagination {
+        /**
+          * Accessible name for the navigation region, so a page with two of them stays distinguishable.
+          * @default 'Pagination'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Disables the whole control.
           * @default false
          */
         "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the container.
+         */
         "inlineStyles"?: InlineStyles;
         /**
+          * Label for the next-page control.
+          * @default 'Next page'
+         */
+        "nextLabel"?: string;
+        /**
+          * Emitted when a different page is requested; detail contains xId and the page.
+         */
+        "onSsChange"?: (event: SsPaginationCustomEvent<SsPaginationChangeEvent>) => void;
+        /**
+          * The page currently shown, counting from one. Updated on interaction and reflected.
+          * @default 1
+         */
+        "page"?: number;
+        /**
+          * Label for the previous-page control.
+          * @default 'Previous page'
+         */
+        "previousLabel"?: string;
+        /**
+          * How many pages to show either side of the current one before collapsing into a gap.
+          * @default 1
+         */
+        "siblingCount"?: number;
+        /**
+          * Size shared by every control.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * How many pages there are in total.
+          * @default 1
+         */
+        "total"?: number;
+        /**
+          * Id of the container; also included in event details.
+         */
+        "xId"?: string;
+    }
+    interface SsRadio {
+        /**
+          * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
+          * @default false
+         */
+        "checked"?: boolean;
+        /**
+          * Id of the element that describes the radio, set as aria-describedby.
+         */
+        "describedBy"?: string;
+        /**
+          * Disables the radio.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Inline CSS styles applied to the rendered label element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Applies error styling and sets aria-invalid.
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Label text rendered when no slot content is provided.
+         */
         "label"?: string;
+        /**
+          * Name shared by the radios that form one group; what makes the browser treat them as a set.
+         */
         "name"?: string;
+        /**
+          * Emitted when the radio loses focus; detail is the native FocusEvent.
+         */
         "onSsBlur"?: (event: SsRadioCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the radio becomes selected; detail contains xId, name, value and checked.
+         */
         "onSsChange"?: (event: SsRadioCustomEvent<SsCheckedChangeEvent>) => void;
+        /**
+          * Emitted when the radio gains focus; detail is the native FocusEvent.
+         */
         "onSsFocus"?: (event: SsRadioCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted on native invalid events; detail contains xId, name, value and checked.
+         */
         "onSsInvalid"?: (event: SsRadioCustomEvent<SsCheckedChangeEvent>) => void;
         /**
+          * Prevents selection while still allowing focus and blur events.
           * @default false
          */
         "readonly"?: boolean;
         /**
+          * Marks the radio required; one required radio makes its whole native group required.
           * @default false
          */
         "required"?: boolean;
         /**
+          * Size of the radio.
           * @default 'md'
          */
         "size"?: Size;
+        /**
+          * Value submitted with the form when this radio is the selected one.
+         */
         "value"?: string;
+        /**
+          * Id applied to the native input; also included in event details.
+         */
+        "xId"?: string;
+    }
+    /**
+     * Presents N `ss-radio` children as one selected value, one change event and
+     * one set of group semantics, replacing the shared `name` a consumer would
+     * otherwise repeat on every radio without ever gaining a group role, a group
+     * label or an aggregate value.
+     * The radios keep their own native input, styling and focus behaviour: arrow-key
+     * navigation comes from the browser, because same-name radios in one tree
+     * already do it. The group adds the name, the selected value, the accessible
+     * grouping and the messages.
+     */
+    interface SsRadioGroup {
+        /**
+          * Disables every radio in the group.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Error text, used when no error slot content is provided; shown only while invalid.
+         */
+        "errorText"?: string;
+        /**
+          * Helper text, used when no helper slot content is provided.
+         */
+        "helperText"?: string;
+        /**
+          * Inline CSS styles applied to the container.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the group invalid: reveals the error message and sets aria-invalid.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Group label, used when no label slot content is provided.
+         */
+        "label"?: string;
+        /**
+          * Native name shared by every radio in the group — the thing that makes the browser treat them as one group. Left unset, the group generates one, so a group always works; a name is only needed to submit under a chosen key.  It stays optional because a mandatory prop would make every custom element require it wherever a dynamic tag resolves against the generated JSX types.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the selected value changes; detail contains xId, name and value.
+         */
+        "onSsChange"?: (event: SsRadioGroupCustomEvent<SsRadioGroupChangeEvent>) => void;
+        /**
+          * Emitted when the group fails native validation; detail may carry no value.
+         */
+        "onSsInvalid"?: (event: SsRadioGroupCustomEvent<SsRadioGroupInvalidEvent>) => void;
+        /**
+          * Stacks the choices, or lays them out in a row.
+          * @default 'vertical'
+         */
+        "orientation"?: RadioGroupOrientation;
+        /**
+          * Requires a selection: marks the group required for native validation.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Size shared by every radio, and by the group label.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Value of the selected radio; updated on user interaction and reflected as an attribute.
+         */
+        "value"?: string;
+        /**
+          * Id of the container; also the seed for the generated message ids.
+         */
         "xId"?: string;
     }
     interface SsSelect {
@@ -2167,6 +3817,10 @@ declare namespace LocalJSX {
           * @default false
          */
         "invalid"?: boolean;
+        /**
+          * Id of the element that labels the slider, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
         /**
           * Maximum value.
           * @default 100
@@ -2375,6 +4029,10 @@ declare namespace LocalJSX {
          */
         "invalid"?: boolean;
         /**
+          * Id of the element that labels the textarea, set as aria-labelledby.
+         */
+        "labelledBy"?: string;
+        /**
           * Maximum number of characters allowed.
          */
         "maxLength"?: number;
@@ -2436,7 +4094,7 @@ declare namespace LocalJSX {
          */
         "size"?: Size;
         /**
-          * Current value of the textarea.
+          * Current value of the textarea; also the value restored on form reset.
          */
         "value"?: string;
         /**
@@ -2449,6 +4107,13 @@ declare namespace LocalJSX {
          */
         "xStyle"?: InputStyle;
     }
+    /**
+     * Rendered scoped rather than shadow because the description has to reach the
+     * trigger. A tooltip's whole job is to describe the thing it points at, and
+     * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+     * reference never resolved and the trigger was announced with no description
+     * at all — correct-looking markup, nothing reaching the user.
+     */
     interface SsTooltip {
         /**
           * Tooltip text rendered when no default slot content is provided.
@@ -2548,17 +4213,29 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     interface IntrinsicElements {
+        "ss-alert": SsAlert;
         "ss-avatar": SsAvatar;
+        "ss-avatar-group": SsAvatarGroup;
         "ss-badge": SsBadge;
+        "ss-breadcrumb": SsBreadcrumb;
+        "ss-breadcrumb-item": SsBreadcrumbItem;
         "ss-button": SsButton;
+        "ss-button-group": SsButtonGroup;
+        "ss-card": SsCard;
         "ss-checkbox": SsCheckbox;
+        "ss-checkbox-group": SsCheckboxGroup;
         "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
+        "ss-field": SsField;
         "ss-icon": SsIcon;
         "ss-input": SsInput;
+        "ss-input-group": SsInputGroup;
         "ss-label": SsLabel;
         "ss-link": SsLink;
+        "ss-modal": SsModal;
+        "ss-pagination": SsPagination;
         "ss-radio": SsRadio;
+        "ss-radio-group": SsRadioGroup;
         "ss-select": SsSelect;
         "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
@@ -2572,22 +4249,153 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * A message block that states what happened and, when it matters, interrupts to
+             * say so.
+             * The alert supplies the severity, the layout and the announcement; the caller
+             * supplies the words, and any icon or actions, through slots. There is no
+             * built-in icon set, following `ss-icon`, which is also a slot.
+             */
+            "ss-alert": LocalJSX.SsAlert & JSXBase.HTMLAttributes<HTMLSsAlertElement>;
             "ss-avatar": LocalJSX.SsAvatar & JSXBase.HTMLAttributes<HTMLSsAvatarElement>;
+            /**
+             * Overlaps a set of avatars into one stack, with an optional count for the ones
+             * it does not show.
+             * The stack is a single unit to assistive technology: the avatars themselves are
+             * hidden from it and the group carries one name, because hearing eight names in
+             * a row conveys less than "8 collaborators" when the individual identities are
+             * not actionable here.
+             * Rendered into a shadow root so that `::slotted` can lay the avatars out. A
+             * scoped stylesheet cannot: Stencil marks only the elements a component renders
+             * itself with its scope class, never the children the caller slots in, so
+             * `.ss-avatar-group ss-avatar { … }` would match nothing.
+             */
+            "ss-avatar-group": LocalJSX.SsAvatarGroup & JSXBase.HTMLAttributes<HTMLSsAvatarGroupElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
+            /**
+             * The trail of pages leading to the one being read.
+             * The trail owns the separator, the sizing and which step is the current page;
+             * each step draws its own separator because CSS cannot put one between slotted
+             * children. The last step is marked as current, so a reader is told where they
+             * are rather than being offered a link to where they already are.
+             */
+            "ss-breadcrumb": LocalJSX.SsBreadcrumb & JSXBase.HTMLAttributes<HTMLSsBreadcrumbElement>;
+            /**
+             * One step in a breadcrumb trail.
+             * It exists because a separator cannot be drawn between slotted children: CSS
+             * inside a shadow root cannot reach them, a scoped stylesheet does not apply to
+             * them, and `::slotted` takes no pseudo-element. So each step draws its own,
+             * and the trail tells it whether it is the last one — the same coordination the
+             * rest of this library uses.
+             * The last step is the page the reader is already on, so it is text rather than
+             * a link, and carries `aria-current="page"`.
+             */
+            "ss-breadcrumb-item": LocalJSX.SsBreadcrumbItem & JSXBase.HTMLAttributes<HTMLSsBreadcrumbItemElement>;
             "ss-button": LocalJSX.SsButton & JSXBase.HTMLAttributes<HTMLSsButtonElement>;
+            /**
+             * Presents a set of related actions as one group: shared sizing and styling in
+             * one place, and an accessible name for the set.
+             * With `attached`, the buttons become one segmented control. The seam is made
+             * by telling each button which of its corners meet a neighbour, through `join`,
+             * because `ss-button` renders into its own shadow root and no wrapper can reach
+             * a border radius in there. Attaching applies to a horizontal row: a vertical
+             * group would need to flatten block corners, which `join` does not describe.
+             */
+            "ss-button-group": LocalJSX.SsButtonGroup & JSXBase.HTMLAttributes<HTMLSsButtonGroupElement>;
+            /**
+             * A surface that groups related content, with optional media, header and footer
+             * regions around it.
+             * It is layout only: no elevation logic, no click behaviour and no events. A
+             * card that should act as a link or a button holds one in its content, so the
+             * accessible role stays on the element that actually has it; a clickable
+             * container would have to invent the keyboard and role semantics that
+             * `ss-button` and `ss-link` already provide.
+             * Each region collapses when nothing is slotted into it, so an unused header
+             * leaves no gap and draws no divider.
+             */
+            "ss-card": LocalJSX.SsCard & JSXBase.HTMLAttributes<HTMLSsCardElement>;
             "ss-checkbox": LocalJSX.SsCheckbox & JSXBase.HTMLAttributes<HTMLSsCheckboxElement>;
+            /**
+             * Presents N `ss-checkbox` children as one `string[]` value and one change
+             * event, with group semantics and an optional select-all master.
+             * Membership is by value: a checkbox with no `value` cannot be a member and is
+             * left uncoordinated, and two checkboxes sharing a value toggle together,
+             * because the aggregate holds values rather than element identities.
+             */
+            "ss-checkbox-group": LocalJSX.SsCheckboxGroup & JSXBase.HTMLAttributes<HTMLSsCheckboxGroupElement>;
             "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            /**
+             * Associates one form control with its label, helper text and error message,
+             * generating the ids and coordinating the state that a consumer would otherwise
+             * repeat on both the label and the control.
+             * The control is supplied through the default slot and stays owned by the
+             * caller: the field never touches its value, type, placeholder or appearance.
+             * It sets only what association requires — the id the label points at, the
+             * description reference, and the `required`/`disabled`/`invalid` state it was
+             * given. State the field was not given is left as the caller set it on the
+             * control; the field only clears what it applied itself.
+             */
+            "ss-field": LocalJSX.SsField & JSXBase.HTMLAttributes<HTMLSsFieldElement>;
             "ss-icon": LocalJSX.SsIcon & JSXBase.HTMLAttributes<HTMLSsIconElement>;
             "ss-input": LocalJSX.SsInput & JSXBase.HTMLAttributes<HTMLSsInputElement>;
+            /**
+             * Joins a control to the addons beside it — a currency symbol, a unit, a button
+             * — so the set reads as one field.
+             * The seam is made by telling the control which of its corners meet a
+             * neighbour, through `join`, rather than by styling it: `ss-input` renders into
+             * its own shadow root, and no wrapper can reach a border radius in there. That
+             * is also why the addon, not the control, is what this component draws.
+             */
+            "ss-input-group": LocalJSX.SsInputGroup & JSXBase.HTMLAttributes<HTMLSsInputGroupElement>;
             "ss-label": LocalJSX.SsLabel & JSXBase.HTMLAttributes<HTMLSsLabelElement>;
             "ss-link": LocalJSX.SsLink & JSXBase.HTMLAttributes<HTMLSsLinkElement>;
+            /**
+             * A dialog that takes over the page until it is answered.
+             * It is the first consumer of the overlay utilities, and it is what proves
+             * them: the focus trap and the dismissal behaviour are only really testable
+             * through something that mounts them in a browser.
+             * Rendered scoped rather than shadow so the trap can see the caller's content.
+             * Focus order is a property of the composed tree, and a light-DOM query inside
+             * a shadow root would find only what the dialog itself renders — a dialog full
+             * of the caller's controls would look empty and trap focus on nothing.
+             */
+            "ss-modal": LocalJSX.SsModal & JSXBase.HTMLAttributes<HTMLSsModalElement>;
+            /**
+             * Page navigation for a list that does not fit on one screen.
+             * Unlike the other molecules this one is driven by props rather than slots: a
+             * page range is data, not content, and the pages between the ends are computed
+             * from `page` and `total`. Every rendered page is a real button, so keyboard
+             * and screen-reader users move through the list the same way they move through
+             * any other row of controls.
+             * The component reports the page the reader asked for and updates its own
+             * `page`; fetching the rows for it stays with the consumer.
+             */
+            "ss-pagination": LocalJSX.SsPagination & JSXBase.HTMLAttributes<HTMLSsPaginationElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
+            /**
+             * Presents N `ss-radio` children as one selected value, one change event and
+             * one set of group semantics, replacing the shared `name` a consumer would
+             * otherwise repeat on every radio without ever gaining a group role, a group
+             * label or an aggregate value.
+             * The radios keep their own native input, styling and focus behaviour: arrow-key
+             * navigation comes from the browser, because same-name radios in one tree
+             * already do it. The group adds the name, the selected value, the accessible
+             * grouping and the messages.
+             */
+            "ss-radio-group": LocalJSX.SsRadioGroup & JSXBase.HTMLAttributes<HTMLSsRadioGroupElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
             "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             "ss-textarea": LocalJSX.SsTextarea & JSXBase.HTMLAttributes<HTMLSsTextareaElement>;
+            /**
+             * Rendered scoped rather than shadow because the description has to reach the
+             * trigger. A tooltip's whole job is to describe the thing it points at, and
+             * `aria-describedby` is an IDREF: with the content inside a shadow root, the
+             * reference never resolved and the trigger was announced with no description
+             * at all — correct-looking markup, nothing reaching the user.
+             */
             "ss-tooltip": LocalJSX.SsTooltip & JSXBase.HTMLAttributes<HTMLSsTooltipElement>;
             "ss-typography": LocalJSX.SsTypography & JSXBase.HTMLAttributes<HTMLSsTypographyElement>;
         }

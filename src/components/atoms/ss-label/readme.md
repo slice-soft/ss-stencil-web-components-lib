@@ -25,6 +25,19 @@
 |      | Label text. |
 
 
+## Dependencies
+
+### Used by
+
+ - [ss-field](../../molecules/ss-field)
+
+### Graph
+```mermaid
+graph TD;
+  ss-field --> ss-label
+  style ss-label fill:#000,stroke:#fff,stroke-width:4px
+```
+
 ----------------------------------------------
 
 *Built with love ❤️ by [Slice Soft](https://slicesoft.dev/) Team*

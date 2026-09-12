@@ -1,15 +1,15 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { newTestPage } from '../../../../test/utils';
 
 describe('ss-button', () => {
   it('renders hydrated', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-button></ss-button>');
     const element = await page.find('ss-button');
     expect(element).toHaveClass('hydrated');
   });
 
   it('emits ssClick event on click', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-button x-id="btn1"></ss-button>');
     const spy = await page.spyOnEvent('ssClick');
     await page.evaluate(() => {
@@ -19,7 +19,7 @@ describe('ss-button', () => {
   });
 
   it('does not emit ssClick if disabled', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-button disabled x-id="btn2"></ss-button>');
     const spy = await page.spyOnEvent('ssClick');
     await page.evaluate(() => {
@@ -29,7 +29,7 @@ describe('ss-button', () => {
   });
 
   it('shows loading state', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-button status="loading"></ss-button>');
     const button = await page.find('ss-button >>> button');
     expect(await button.getAttribute('aria-busy')).not.toBeNull();
@@ -37,14 +37,14 @@ describe('ss-button', () => {
   });
 
   it('applies fullWidth class', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-button full-width></ss-button>');
     const button = await page.find('ss-button >>> button');
     expect(await button.classList.contains('ss-button--full-width')).toBe(true);
   });
 
   it('renders with icon slot', async () => {
-    const page = await newE2EPage();
+    const page = await newTestPage();
     await page.setContent('<ss-button icon-position="left"><span slot="icon">icon</span>Label</ss-button>');
     const icon = await page.find('ss-button >>> .ss-button__icon--left');
     expect(icon).not.toBeNull();

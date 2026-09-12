@@ -2,6 +2,84 @@
   "version": 1.1,
   "tags": [
     {
+      "name": "ss-alert",
+      "description": {
+        "kind": "markdown",
+        "value": "A message block that states what happened and, when it matters, interrupts to\nsay so.\n\nThe alert supplies the severity, the layout and the announcement; the caller\nsupplies the words, and any icon or actions, through slots. There is no\nbuilt-in icon set, following `ss-icon`, which is also a slot."
+      },
+      "attributes": [
+        {
+          "name": "dismiss-label",
+          "description": "Accessible label for the dismiss button."
+        },
+        {
+          "name": "dismissible",
+          "description": "Renders a dismiss button."
+        },
+        {
+          "name": "full-width",
+          "description": "Expands the alert to the full width of its container."
+        },
+        {
+          "name": "heading",
+          "description": "Title text, used when no title slot content is provided. Named `heading`\nbecause `title` is a global attribute and would render a browser tooltip."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "size",
+          "description": "Size of the alert.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "Severity, which sets both the colour and how insistently it is announced.",
+          "values": [
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
+        }
+      ]
+    },
+    {
       "name": "ss-avatar",
       "description": {
         "kind": "markdown",
@@ -82,6 +160,70 @@
       ]
     },
     {
+      "name": "ss-avatar-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Overlaps a set of avatars into one stack, with an optional count for the ones\nit does not show.\n\nThe stack is a single unit to assistive technology: the avatars themselves are\nhidden from it and the group carries one name, because hearing eight names in\na row conveys less than \"8 collaborators\" when the individual identities are\nnot actionable here.\n\nRendered into a shadow root so that `::slotted` can lay the avatars out. A\nscoped stylesheet cannot: Stencil marks only the elements a component renders\nitself with its scope class, never the children the caller slots in, so\n`.ss-avatar-group ss-avatar { … }` would match nothing."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the stack as a whole."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "max",
+          "description": "Shows at most this many avatars; the rest become a count."
+        },
+        {
+          "name": "shape",
+          "description": "Shape shared by every avatar.",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "rounded"
+            },
+            {
+              "name": "square"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every avatar, and by the overflow count.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
+        }
+      ]
+    },
+    {
       "name": "ss-badge",
       "description": {
         "kind": "markdown",
@@ -90,31 +232,31 @@
       "attributes": [
         {
           "name": "disabled",
-          "description": ""
+          "description": "Applies the disabled styling and disables the dismiss button."
         },
         {
           "name": "dismiss-label",
-          "description": ""
+          "description": "Accessible label for the dismiss button."
         },
         {
           "name": "dismissible",
-          "description": ""
+          "description": "Renders a dismiss button."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the rendered element."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Badge text rendered when no slot content is provided."
         },
         {
           "name": "pill",
-          "description": ""
+          "description": "Rounds the badge into a pill."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the badge.",
           "values": [
             {
               "name": "2xl"
@@ -141,7 +283,7 @@
         },
         {
           "name": "variant",
-          "description": "",
+          "description": "Semantic colour of the badge.",
           "values": [
             {
               "name": "brand"
@@ -180,11 +322,11 @@
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the rendered element."
         },
         {
           "name": "x-style",
-          "description": "",
+          "description": "Visual style: a solid fill, a subtle tint, or an outline.",
           "values": [
             {
               "name": "outline"
@@ -200,6 +342,94 @@
       ]
     },
     {
+      "name": "ss-breadcrumb",
+      "description": {
+        "kind": "markdown",
+        "value": "The trail of pages leading to the one being read.\n\nThe trail owns the separator, the sizing and which step is the current page;\neach step draws its own separator because CSS cannot put one between slotted\nchildren. The last step is marked as current, so a reader is told where they\nare rather than being offered a link to where they already are."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the trail, so a page with two of them stays navigable."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the rendered navigation element."
+        },
+        {
+          "name": "separator",
+          "description": "Character drawn between steps."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every step.",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered navigation element."
+        }
+      ]
+    },
+    {
+      "name": "ss-breadcrumb-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One step in a breadcrumb trail.\n\nIt exists because a separator cannot be drawn between slotted children: CSS\ninside a shadow root cannot reach them, a scoped stylesheet does not apply to\nthem, and `::slotted` takes no pseudo-element. So each step draws its own,\nand the trail tells it whether it is the last one — the same coordination the\nrest of this library uses.\n\nThe last step is the page the reader is already on, so it is text rather than\na link, and carries `aria-current=\"page\"`."
+      },
+      "attributes": [
+        {
+          "name": "href",
+          "description": "Where this step leads. Omitted, or on the last step, it renders as plain text."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the rendered element."
+        },
+        {
+          "name": "label",
+          "description": "Step text, used when no slot content is provided."
+        },
+        {
+          "name": "last",
+          "description": "Whether this is the last step. Set by `ss-breadcrumb`; it decides the separator and aria-current."
+        },
+        {
+          "name": "separator",
+          "description": "Separator drawn after this step. Set by `ss-breadcrumb`."
+        },
+        {
+          "name": "size",
+          "description": "Size of the step. Set by `ss-breadcrumb`.",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered element."
+        }
+      ]
+    },
+    {
       "name": "ss-button",
       "description": {
         "kind": "markdown",
@@ -209,6 +439,10 @@
         {
           "name": "accessibility-label",
           "description": "Accessible label for screen readers; falls back to label."
+        },
+        {
+          "name": "described-by",
+          "description": "Id of the element that describes the button, set as aria-describedby."
         },
         {
           "name": "disable-duration",
@@ -240,6 +474,21 @@
         {
           "name": "inline-styles",
           "description": "Inline CSS styles applied to the button element."
+        },
+        {
+          "name": "join",
+          "description": "Flattens the corners on the side that meets a neighbour, so a group can\npresent several controls as one segmented unit. A wrapper sets this rather\nthan reaching into the shadow root, which nothing outside it can style.",
+          "values": [
+            {
+              "name": "both"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
         },
         {
           "name": "label",
@@ -389,6 +638,171 @@
       ]
     },
     {
+      "name": "ss-button-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Presents a set of related actions as one group: shared sizing and styling in\none place, and an accessible name for the set.\n\nWith `attached`, the buttons become one segmented control. The seam is made\nby telling each button which of its corners meet a neighbour, through `join`,\nbecause `ss-button` renders into its own shadow root and no wrapper can reach\na border radius in there. Attaching applies to a horizontal row: a vertical\ngroup would need to flatten block corners, which `join` does not describe."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the set of actions."
+        },
+        {
+          "name": "attached",
+          "description": "Joins the buttons into one segmented control. Horizontal groups only."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables every button in the group."
+        },
+        {
+          "name": "full-width",
+          "description": "Expands the group, and its buttons, to the full width of the container."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "orientation",
+          "description": "Lays the actions out in a row, or stacks them.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every button.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "variant",
+          "description": "Colour variant shared by every button.",
+          "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
+        }
+      ]
+    },
+    {
+      "name": "ss-card",
+      "description": {
+        "kind": "markdown",
+        "value": "A surface that groups related content, with optional media, header and footer\nregions around it.\n\nIt is layout only: no elevation logic, no click behaviour and no events. A\ncard that should act as a link or a button holds one in its content, so the\naccessible role stays on the element that actually has it; a clickable\ncontainer would have to invent the keyboard and role semantics that\n`ss-button` and `ss-link` already provide.\n\nEach region collapses when nothing is slotted into it, so an unused header\nleaves no gap and draws no divider."
+      },
+      "attributes": [
+        {
+          "name": "full-width",
+          "description": "Expands the card to the full width of its container."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "padding",
+          "description": "Inner spacing applied to the header, content and footer regions.",
+          "values": [
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "none"
+            },
+            {
+              "name": "sm"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
+        },
+        {
+          "name": "x-style",
+          "description": "Visual style: raised off the page, outlined, or filled with a surface tone.",
+          "values": [
+            {
+              "name": "elevated"
+            },
+            {
+              "name": "filled"
+            },
+            {
+              "name": "outlined"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "ss-checkbox",
       "description": {
         "kind": "markdown",
@@ -469,6 +883,98 @@
         {
           "name": "x-id",
           "description": "Id applied to the native input; also included in event details."
+        }
+      ]
+    },
+    {
+      "name": "ss-checkbox-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Presents N `ss-checkbox` children as one `string[]` value and one change\nevent, with group semantics and an optional select-all master.\n\nMembership is by value: a checkbox with no `value` cannot be a member and is\nleft uncoordinated, and two checkboxes sharing a value toggle together,\nbecause the aggregate holds values rather than element identities."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables every checkbox in the group, including the master."
+        },
+        {
+          "name": "error-text",
+          "description": "Error text, used when no error slot content is provided; shown only while invalid."
+        },
+        {
+          "name": "helper-text",
+          "description": "Helper text, used when no helper slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "invalid",
+          "description": "Marks the group invalid: reveals the error message and sets aria-invalid."
+        },
+        {
+          "name": "label",
+          "description": "Group label, used when no label slot content is provided."
+        },
+        {
+          "name": "name",
+          "description": "Native name shared by every checkbox, for form submission."
+        },
+        {
+          "name": "orientation",
+          "description": "Stacks the choices, or lays them out in a row.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "required",
+          "description": "Requires at least one selection. HTML has no native \"one of this set\", so\nthe group expresses it with the only construct that does: while nothing is\nselected the first checkbox is `required`, which makes the form invalid,\nand the moment anything is selected that requirement is lifted. Only one\ncheckbox is ever announced as required, and checking any of them satisfies\nthe group rather than that particular choice."
+        },
+        {
+          "name": "select-all-label",
+          "description": "Label for an optional select-all checkbox. Supplying it renders the master;\nits checked and indeterminate state is derived from the selection and is\nnot separately controllable."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every checkbox, and by the group label.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "The selected values. An array is not an attribute, so assign it as a\nproperty, following `ss-select.value`; no comma-separated form is accepted."
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also the seed for the generated message ids."
         }
       ]
     },
@@ -682,6 +1188,86 @@
       ]
     },
     {
+      "name": "ss-field",
+      "description": {
+        "kind": "markdown",
+        "value": "Associates one form control with its label, helper text and error message,\ngenerating the ids and coordinating the state that a consumer would otherwise\nrepeat on both the label and the control.\n\nThe control is supplied through the default slot and stays owned by the\ncaller: the field never touches its value, type, placeholder or appearance.\nIt sets only what association requires — the id the label points at, the\ndescription reference, and the `required`/`disabled`/`invalid` state it was\ngiven. State the field was not given is left as the caller set it on the\ncontrol; the field only clears what it applied itself."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the field: attenuates the label and disables the control."
+        },
+        {
+          "name": "error-text",
+          "description": "Error text, used when no error slot content is provided; shown only while invalid."
+        },
+        {
+          "name": "helper-text",
+          "description": "Helper text, used when no helper slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "invalid",
+          "description": "Marks the field invalid: reveals the error message and sets the control's invalid state."
+        },
+        {
+          "name": "label",
+          "description": "Label text, used when no label slot content is provided."
+        },
+        {
+          "name": "orientation",
+          "description": "Places the label above the control, or beside it.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "required",
+          "description": "Marks the field required: adds the label marker and sets the control's required state."
+        },
+        {
+          "name": "size",
+          "description": "Size of the label; helper and error text follow one step below it.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also the seed for the generated control and message ids."
+        }
+      ]
+    },
+    {
       "name": "ss-icon",
       "description": {
         "kind": "markdown",
@@ -859,6 +1445,25 @@
           "description": "Applies error styling and sets aria-invalid without changing native validity."
         },
         {
+          "name": "join",
+          "description": "Flattens the corners on the side that meets a neighbour, so a group can\npresent several controls as one segmented unit. A wrapper sets this rather\nthan reaching into the shadow root, which nothing outside it can style.",
+          "values": [
+            {
+              "name": "both"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            }
+          ]
+        },
+        {
+          "name": "labelled-by",
+          "description": "Id of the element that labels the input, set as aria-labelledby."
+        },
+        {
           "name": "max",
           "description": "Maximum value for numeric and date inputs."
         },
@@ -971,7 +1576,7 @@
         },
         {
           "name": "value",
-          "description": "Current value of the input."
+          "description": "Current value of the input; also the value restored on form reset."
         },
         {
           "name": "x-id",
@@ -991,6 +1596,58 @@
               "name": "underline"
             }
           ]
+        }
+      ]
+    },
+    {
+      "name": "ss-input-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Joins a control to the addons beside it — a currency symbol, a unit, a button\n— so the set reads as one field.\n\nThe seam is made by telling the control which of its corners meet a\nneighbour, through `join`, rather than by styling it: `ss-input` renders into\nits own shadow root, and no wrapper can reach a border radius in there. That\nis also why the addon, not the control, is what this component draws."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables the control."
+        },
+        {
+          "name": "full-width",
+          "description": "Expands the group, and its control, to the full width of the container."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by the control and the addons.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the rendered container."
         }
       ]
     },
@@ -1187,6 +1844,150 @@
       ]
     },
     {
+      "name": "ss-modal",
+      "description": {
+        "kind": "markdown",
+        "value": "A dialog that takes over the page until it is answered.\n\nIt is the first consumer of the overlay utilities, and it is what proves\nthem: the focus trap and the dismissal behaviour are only really testable\nthrough something that mounts them in a browser.\n\nRendered scoped rather than shadow so the trap can see the caller's content.\nFocus order is a property of the composed tree, and a light-DOM query inside\na shadow root would find only what the dialog itself renders — a dialog full\nof the caller's controls would look empty and trap focus on nothing."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name, for a dialog with no visible heading."
+        },
+        {
+          "name": "close-on-backdrop",
+          "description": "Pressing the backdrop closes the dialog."
+        },
+        {
+          "name": "close-on-escape",
+          "description": "Escape closes the dialog."
+        },
+        {
+          "name": "dismiss-label",
+          "description": "Accessible label for the close button."
+        },
+        {
+          "name": "dismissible",
+          "description": "Renders a close button in the header."
+        },
+        {
+          "name": "heading",
+          "description": "Heading text, used when no header slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the dialog element."
+        },
+        {
+          "name": "open",
+          "description": "Whether the dialog is showing. Updated when it is dismissed, and reflected."
+        },
+        {
+          "name": "size",
+          "description": "Width of the dialog.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the dialog element."
+        }
+      ]
+    },
+    {
+      "name": "ss-pagination",
+      "description": {
+        "kind": "markdown",
+        "value": "Page navigation for a list that does not fit on one screen.\n\nUnlike the other molecules this one is driven by props rather than slots: a\npage range is data, not content, and the pages between the ends are computed\nfrom `page` and `total`. Every rendered page is a real button, so keyboard\nand screen-reader users move through the list the same way they move through\nany other row of controls.\n\nThe component reports the page the reader asked for and updates its own\n`page`; fetching the rows for it stays with the consumer."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name for the navigation region, so a page with two of them stays distinguishable."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the whole control."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "next-label",
+          "description": "Label for the next-page control."
+        },
+        {
+          "name": "page",
+          "description": "The page currently shown, counting from one. Updated on interaction and reflected."
+        },
+        {
+          "name": "previous-label",
+          "description": "Label for the previous-page control."
+        },
+        {
+          "name": "sibling-count",
+          "description": "How many pages to show either side of the current one before collapsing into a gap."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every control.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "total",
+          "description": "How many pages there are in total."
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also included in event details."
+        }
+      ]
+    },
+    {
       "name": "ss-radio",
       "description": {
         "kind": "markdown",
@@ -1195,43 +1996,43 @@
       "attributes": [
         {
           "name": "checked",
-          "description": ""
+          "description": "Whether this radio is the selected one; updated on user interaction and reflected as an attribute."
         },
         {
           "name": "described-by",
-          "description": ""
+          "description": "Id of the element that describes the radio, set as aria-describedby."
         },
         {
           "name": "disabled",
-          "description": ""
+          "description": "Disables the radio."
         },
         {
           "name": "inline-styles",
-          "description": ""
+          "description": "Inline CSS styles applied to the rendered label element."
         },
         {
           "name": "invalid",
-          "description": ""
+          "description": "Applies error styling and sets aria-invalid."
         },
         {
           "name": "label",
-          "description": ""
+          "description": "Label text rendered when no slot content is provided."
         },
         {
           "name": "name",
-          "description": ""
+          "description": "Name shared by the radios that form one group; what makes the browser treat them as a set."
         },
         {
           "name": "readonly",
-          "description": ""
+          "description": "Prevents selection while still allowing focus and blur events."
         },
         {
           "name": "required",
-          "description": ""
+          "description": "Marks the radio required; one required radio makes its whole native group required."
         },
         {
           "name": "size",
-          "description": "",
+          "description": "Size of the radio.",
           "values": [
             {
               "name": "2xl"
@@ -1258,11 +2059,99 @@
         },
         {
           "name": "value",
-          "description": ""
+          "description": "Value submitted with the form when this radio is the selected one."
         },
         {
           "name": "x-id",
-          "description": ""
+          "description": "Id applied to the native input; also included in event details."
+        }
+      ]
+    },
+    {
+      "name": "ss-radio-group",
+      "description": {
+        "kind": "markdown",
+        "value": "Presents N `ss-radio` children as one selected value, one change event and\none set of group semantics, replacing the shared `name` a consumer would\notherwise repeat on every radio without ever gaining a group role, a group\nlabel or an aggregate value.\n\nThe radios keep their own native input, styling and focus behaviour: arrow-key\nnavigation comes from the browser, because same-name radios in one tree\nalready do it. The group adds the name, the selected value, the accessible\ngrouping and the messages."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Disables every radio in the group."
+        },
+        {
+          "name": "error-text",
+          "description": "Error text, used when no error slot content is provided; shown only while invalid."
+        },
+        {
+          "name": "helper-text",
+          "description": "Helper text, used when no helper slot content is provided."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the container."
+        },
+        {
+          "name": "invalid",
+          "description": "Marks the group invalid: reveals the error message and sets aria-invalid."
+        },
+        {
+          "name": "label",
+          "description": "Group label, used when no label slot content is provided."
+        },
+        {
+          "name": "name",
+          "description": "Native name shared by every radio in the group — the thing that makes the\nbrowser treat them as one group. Left unset, the group generates one, so a\ngroup always works; a name is only needed to submit under a chosen key.\n\nIt stays optional because a mandatory prop would make every custom element\nrequire it wherever a dynamic tag resolves against the generated JSX types."
+        },
+        {
+          "name": "orientation",
+          "description": "Stacks the choices, or lays them out in a row.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "required",
+          "description": "Requires a selection: marks the group required for native validation."
+        },
+        {
+          "name": "size",
+          "description": "Size shared by every radio, and by the group label.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Value of the selected radio; updated on user interaction and reflected as an attribute."
+        },
+        {
+          "name": "x-id",
+          "description": "Id of the container; also the seed for the generated message ids."
         }
       ]
     },
@@ -1473,6 +2362,10 @@
         {
           "name": "invalid",
           "description": "Applies error styling and sets aria-invalid."
+        },
+        {
+          "name": "labelled-by",
+          "description": "Id of the element that labels the slider, set as aria-labelledby."
         },
         {
           "name": "max",
@@ -1802,6 +2695,10 @@
           "description": "Applies error styling and sets aria-invalid."
         },
         {
+          "name": "labelled-by",
+          "description": "Id of the element that labels the textarea, set as aria-labelledby."
+        },
+        {
           "name": "max-length",
           "description": "Maximum number of characters allowed."
         },
@@ -1876,7 +2773,7 @@
         },
         {
           "name": "value",
-          "description": "Current value of the textarea."
+          "description": "Current value of the textarea; also the value restored on form reset."
         },
         {
           "name": "x-id",
@@ -1903,7 +2800,7 @@
       "name": "ss-tooltip",
       "description": {
         "kind": "markdown",
-        "value": ""
+        "value": "Rendered scoped rather than shadow because the description has to reach the\ntrigger. A tooltip's whole job is to describe the thing it points at, and\n`aria-describedby` is an IDREF: with the content inside a shadow root, the\nreference never resolved and the trigger was announced with no description\nat all — correct-looking markup, nothing reaching the user."
       },
       "attributes": [
         {
