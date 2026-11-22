@@ -16,6 +16,7 @@ $sizes: (
   display:       inline-block;
   box-sizing:    border-box;
   width:         auto;
+  max-width: var(--ss-sizing-full);
   font-family:   var(--ss-input-font-family, var(--ss-text-fonts-sans));
   font-size:     var(--ss-input-font-size, var(--ss-text-sizes-sm));
   color:         var(--ss-input-foreground, var(--ss-color-foreground));

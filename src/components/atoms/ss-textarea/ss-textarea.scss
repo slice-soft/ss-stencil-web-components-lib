@@ -3,6 +3,7 @@
 .ss-textarea {
   @include mx.atom-control-base;
   display: inline-block;
+  max-width: var(--ss-sizing-full);
   min-height: var(--ss-dimensions-20);
   line-height: var(--ss-text-line-heights-normal);
 }

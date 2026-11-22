@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-09-10 · 74 test suites, 612 tests.
+Last updated: 2026-11-18 · 74 test suites, 615 tests.
 
 ## What exists
 
@@ -46,23 +46,39 @@ variant.
 | 4 | table | Data-driven — `columns` and `rows` as properties — because a scoped component cannot style slotted cells. A real `<table>` named by its caption; sortable headers are buttons, with `aria-sort` on the cell; natural sort, empty cells last, on a copy; `manual-sort` for rows sorted elsewhere. The scroll area becomes a focusable region only while it overflows. Optional sticky header |
 | 4 | e2e harness at full size | At 74 files the load flake returned and the toast's clock tests failed most full runs. jest's timeout, recorded as a fixed 45s, is raised to 90s by a setup file that runs after Stencil's, and the app-load wait to 80s. The toast tests were measuring the harness — a test's page is often a background tab, hidden and without window focus — and now pin visibility and emulate focus |
 
-## Next
+## Playground and release readiness
 
-**Phase 4 is built, and the suite is green at its full size.** What is left is
-under "Open" — decisions worth making before they are needed — plus merging #47,
-which carries all of phase 4. Phases 0–3 went in as #46, squashed onto `main`
-and released as 0.2.3; #47 was rebased onto `main` after that and is open
-against it.
-For anything new,
-`ss-popover` is the pattern for what is anchored to a trigger and `ss-modal`
-for what takes the page over. New organisms go in
-`src/components/organisms/`.
+The playground catalog covers 42 components across 36 examples. Search includes
+the names of companion components, and each example has a direct link. The theme
+and token-set controls retain their selections between visits.
 
-Each needs the same shape as everything else: same-name TSX and SCSS, a spec, an
-e2e where behaviour needs a real browser (with `useTokens` before measuring
-anything), and a section in `src/index.html`.
+The browser review found horizontal overflow in the input, textarea and combobox
+at 320 CSS pixels. Their intrinsic widths now respect the available space. The
+playground supplies accessible names for its standalone input, textarea and
+select examples. An interactive tooltip now shares Escape dismissal with its containing
+dialog, so a keyboard user can dismiss it independently.
+
+Before release, verify keyboard and screen-reader behavior across the catalog,
+contrast in both token sets and themes, and consumer builds using the documented
+package entry points. Use a consumer scenario to prioritize additional components
+or APIs. For anchored organisms, follow `ss-popover`. For modal dialogs, follow
+`ss-modal`. Add an example in `src/index.html` alongside component specs and
+browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed
+
+- **Contrast in the token sets.** Chromium measurements of the default-size solid
+  buttons found these ratios below 4.5:1. The test token sets mirror
+  `ss-design-system`. Coordinate corrections at the token source before syncing
+  these fixtures and retesting other component states.
+
+  | Set | Theme | Variants below 4.5:1 |
+  | --- | --- | --- |
+  | Neon Purple | Light | Primary 4.23, Tertiary 3.53, Success 3.68, Warning 3.53, Info 4.23 |
+  | Neon Purple | Dark | Error 3.76 |
+  | Organic Emerald | Light | Primary 2.54, Success 2.54, Warning 2.15, Error 3.76, Info 2.77 |
+  | Organic Emerald | Dark | Error 2.77 |
+
 
 - **The suite has three consecutive clean runs, not ten.** The last flake fix
   was held to ten. Since the timeout ceiling was raised there has been no load
@@ -87,10 +103,8 @@ anything), and a section in `src/index.html`.
   harness demo does both in a dozen lines. A `toast()` helper or a toaster
   method would save every app writing them, but its shape — options, return
   value, queue limit — is better decided by a first real consumer.
-- **`ss-tooltip` sits outside the dismissal stack.** It listens for Escape on its
-  own, so Escape over a tooltip inside a dialog closes both. It also does not
-  follow a trigger that resizes while it is open; popover and dropdown do,
-  through `onResize`.
+- **Tooltip repositioning after resize.** Tooltip follows scrolling and viewport
+  resize. Popover and dropdown also observe changes to their anchor dimensions.
 - **A vertical segmented group.** `join` names inline sides (`start`/`end`).
   Flattening block corners for a stacked group is a different contract, not an
   extra value, so `ss-button-group` refuses to attach when vertical.

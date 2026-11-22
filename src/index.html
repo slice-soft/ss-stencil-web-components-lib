@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>SS Web Components — Dev</title>
+    <title>Slice Soft · Component Playground</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
@@ -16,7 +16,9 @@
         'token-set-01': { label: 'Set 01 — Neon Purple',     path: '/test-tokens/token-set-01/tokens.css' },
         'token-set-02': { label: 'Set 02 — Organic Emerald', path: '/test-tokens/token-set-02/tokens.css' },
       };
-      var activeSet = localStorage.getItem('ss-token-set') || 'token-set-01';
+      var activeSet = localStorage.getItem('ss-token-set');
+      if (!Object.hasOwn(TOKEN_SETS, activeSet)) activeSet = 'token-set-01';
+      document.documentElement.dataset.theme = localStorage.getItem('ss-playground-theme') === 'dark' ? 'dark' : 'light';
       document.getElementById('token-set-link').href = TOKEN_SETS[activeSet].path;
     </script>
 
@@ -27,75 +29,121 @@
       *, *::before, *::after { box-sizing: border-box; margin: var(--ss-sizing-none); padding: var(--ss-sizing-none); }
 
       body {
-        font-family:  var(--ss-text-fonts-sans);
-        background:   var(--ss-color-background);
-        color:        var(--ss-color-foreground);
-        padding:      var(--ss-dimensions-10) var(--ss-dimensions-6);
-        max-width:    var(--ss-layout-max-widths-component-demo);
-        margin:       var(--ss-sizing-none) auto;
-        transition:   background-color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate), color var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate);
+        font-family: var(--ss-text-fonts-sans, system-ui);
+        background: var(--ss-color-background);
+        color: var(--ss-color-foreground);
+        line-height: 1.5;
       }
 
-      /* Wraps so the token-set and theme controls drop under the title on a
-         phone instead of running off the right edge. */
+      [hidden] { display: none !important; }
+      :focus-visible { outline: 2px solid var(--ss-color-foreground); outline-offset: 3px; }
+
+      .skip-link {
+        position: absolute;
+        z-index: 10;
+        top: .75rem;
+        left: .75rem;
+        padding: .5rem .75rem;
+        background: var(--ss-color-surface);
+        color: var(--ss-color-foreground);
+        transform: translateY(-200%);
+      }
+      .skip-link:focus { transform: none; }
+
       .page-header {
-        display:         flex;
-        flex-wrap:       wrap;
-        align-items:     center;
-        justify-content: space-between;
-        gap:             var(--ss-dimensions-3);
-        margin-bottom:   var(--ss-dimensions-12);
+        border-bottom: 1px solid var(--ss-color-border);
+        background: var(--ss-color-surface);
       }
 
-      .page-header-info { flex: 1; }
-
-      h1 {
-        font-size:     var(--ss-text-sizes-3xl);
-        font-weight:   var(--ss-text-weights-bold);
-        margin-bottom: var(--ss-dimensions-1);
+      .header-inner, .playground {
+        max-width: 92rem;
+        margin-inline: auto;
+        padding-inline: clamp(1rem, 4vw, 4rem);
       }
 
-      .subtitle {
-        color:     var(--ss-color-muted-foreground);
-        font-size: var(--ss-text-sizes-sm);
-      }
-
-      .header-controls {
-        display:     flex;
-        flex-wrap:   wrap;
+      .header-inner {
+        display: flex;
+        flex-wrap: wrap;
         align-items: center;
-        gap:         var(--ss-dimensions-2);
-        flex-shrink: var(--ss-sizing-none);
-        max-width:   var(--ss-sizing-full);
+        justify-content: space-between;
+        gap: 1rem 2rem;
+        padding-block: 1rem;
       }
 
-      #token-set-select,
-      #theme-toggle {
-        padding:       var(--ss-dimensions-2) var(--ss-dimensions-3);
-        border-radius: var(--ss-radius-base);
-        border:        var(--ss-borders-width-hairline) var(--ss-borders-styles-solid) var(--ss-color-border);
-        background:    var(--ss-color-surface);
-        color:         var(--ss-color-foreground);
-        font-family:   var(--ss-text-fonts-sans);
-        font-size:     var(--ss-text-sizes-sm);
-        cursor:        pointer;
-        transition:    all var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
-        white-space:   nowrap;
+      .brand { display: flex; align-items: center; gap: .7rem; font-weight: 700; }
+      .brand-mark {
+        width: 1.5rem;
+        aspect-ratio: 1;
+        border-radius: .4rem;
+        background: linear-gradient(135deg, #a895ff 48%, #6346d6 49%);
       }
 
-      #token-set-select:hover,
-      #theme-toggle:hover {
-        background: var(--ss-color-surface-alt);
+      .header-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; }
+
+      #token-set-select, #theme-toggle, #component-search {
+        max-width: 100%;
+        min-height: 2.6rem;
+        padding: .45rem .75rem;
+        border: 1px solid var(--ss-color-border);
+        border-radius: .5rem;
+        background: var(--ss-color-background);
+        color: var(--ss-color-foreground);
+        font: inherit;
+        font-size: .875rem;
       }
 
-      section { margin-bottom: calc(var(--ss-dimensions-12) + var(--ss-dimensions-2)); }
+      #token-set-select, #theme-toggle { cursor: pointer; }
 
-      section > h2 {
-        font-size:      var(--ss-text-sizes-lg);
-        font-weight:    var(--ss-text-weights-semibold);
-        margin-bottom:  var(--ss-dimensions-1);
-        padding-bottom: var(--ss-dimensions-2);
-        border-bottom:  var(--ss-borders-width-hairline) var(--ss-borders-styles-solid) var(--ss-color-border);
+      .playground {
+        display: grid;
+        grid-template-columns: 14rem minmax(0, 1fr);
+        gap: clamp(1.5rem, 4vw, 4rem);
+        padding-block: clamp(1.5rem, 4vw, 3.5rem);
+      }
+
+      .catalog { position: sticky; top: 1rem; align-self: start; }
+      .catalog label { display: block; margin-bottom: .4rem; font-weight: 600; }
+      #component-search { width: 100%; }
+      #catalog-status { margin-block: .45rem .8rem; font-size: .875rem; }
+      #component-nav { max-height: min(65vh, calc(100dvh - 8rem)); overflow-y: auto; padding: .25rem; }
+      #component-nav h2 { font-size: .8rem; margin: .85rem 0 .4rem; }
+      #component-nav ul { list-style: none; }
+      #component-nav a {
+        display: block;
+        padding: .35rem .5rem;
+        border-radius: .4rem;
+        color: inherit;
+        font-size: .85rem;
+        text-decoration: none;
+      }
+      #component-nav a:hover, #component-nav a[aria-current] { background: var(--ss-color-surface-alt); text-decoration: underline; }
+
+      .intro {
+        padding: clamp(1.25rem, 4vw, 3rem);
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--ss-color-border);
+        border-radius: 1.2rem;
+        background: linear-gradient(125deg, var(--ss-color-surface-alt), var(--ss-color-surface));
+      }
+
+      h1 { font-size: clamp(2rem, 5vw, 3.6rem); line-height: 1.1; letter-spacing: -.04em; }
+      .intro p { margin-top: .85rem; max-width: 45ch; }
+
+      main > section {
+        margin-bottom: 1.25rem;
+        padding: clamp(1rem, 3vw, 2rem);
+        border: 1px solid var(--ss-color-border);
+        border-radius: 1rem;
+        scroll-margin-top: 1rem;
+        overflow-wrap: anywhere;
+      }
+
+      main > section > h2 { scroll-margin-top: 1rem; font-size: clamp(1.1rem, 2.5vw, 1.5rem); line-height: 1.25; }
+
+      @media (max-width: 48rem) {
+        .playground { grid-template-columns: minmax(0, 1fr); }
+        .catalog { position: static; }
+        #component-nav { max-height: 11rem; }
       }
 
       .section-desc {
@@ -138,7 +186,7 @@
 
       .field-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(calc(var(--ss-dimensions-20) + var(--ss-dimensions-32) + var(--ss-dimensions-3)), 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
         gap: var(--ss-dimensions-4);
       }
 
@@ -178,22 +226,21 @@
   </head>
   <body>
 
-    <div class="page-header">
-      <div class="page-header-info">
-        <h1>SS Web Components</h1>
-        <p class="subtitle" id="active-set-label">Dev playground</p>
+    <a class="skip-link" href="#playground-main">Skip to examples</a>
+    <header class="page-header">
+      <div class="header-inner">
+        <div class="brand"><span class="brand-mark" aria-hidden="true"></span>Slice Soft</div>
+        <div class="header-controls">
+          <select id="token-set-select" aria-label="Design tokens"></select>
+          <button id="theme-toggle" type="button" aria-pressed="false">Dark theme</button>
+        </div>
       </div>
-      <div class="header-controls">
-        <select id="token-set-select" aria-label="Select token set"></select>
-        <button id="theme-toggle">🌙 Dark</button>
-      </div>
-    </div>
+    </header>
 
     <script>
       (function () {
         var select  = document.getElementById('token-set-select');
         var link    = document.getElementById('token-set-link');
-        var label   = document.getElementById('active-set-label');
         var toggle  = document.getElementById('theme-toggle');
         var html    = document.documentElement;
 
@@ -208,7 +255,6 @@
         function applySet(key) {
           activeSet           = key;
           link.href           = TOKEN_SETS[key].path;
-          label.textContent   = TOKEN_SETS[key].label;
           localStorage.setItem('ss-token-set', key);
         }
 
@@ -216,16 +262,31 @@
         select.addEventListener('change', function () { applySet(select.value); });
 
         var isDark = function () { return html.dataset.theme === 'dark'; };
+        toggle.setAttribute('aria-pressed', String(isDark()));
         toggle.addEventListener('click', function () {
-          html.dataset.theme  = isDark() ? 'light' : 'dark';
-          toggle.textContent  = isDark() ? '☀️ Light' : '🌙 Dark';
+          html.dataset.theme = isDark() ? 'light' : 'dark';
+          toggle.setAttribute('aria-pressed', String(isDark()));
+          localStorage.setItem('ss-playground-theme', html.dataset.theme);
         });
       })();
     </script>
 
+    <div class="playground">
+      <aside class="catalog" aria-label="Component catalog">
+        <label for="component-search">Find a component</label>
+        <input id="component-search" type="search" placeholder="Search by name" />
+        <p id="catalog-status" role="status"></p>
+        <nav id="component-nav" aria-label="Component examples"></nav>
+      </aside>
+      <main id="playground-main" tabindex="-1">
+        <header class="intro">
+          <h1>Component playground</h1>
+          <p>Explore live examples and compare how they render across themes and token sets.</p>
+        </header>
+
     <!-- ===================== ss-button ===================== -->
-    <section>
-      <h2>ss-button</h2>
+    <section data-group="Atoms">
+      <h2 id="ss-button" tabindex="-1">ss-button</h2>
       <p class="section-desc">variant · xStyle · size · shape · status · fullWidth · iconPosition</p>
 
       <div class="card">
@@ -312,71 +373,71 @@
 
     <!-- ===================== ss-input ===================== -->
     <section>
-      <h2>ss-input</h2>
+      <h2 id="ss-input" tabindex="-1">ss-input</h2>
       <p class="section-desc">xStyle · size · color · type · state</p>
 
       <div class="card">
         <p class="label">xStyle</p>
         <div class="col">
-          <ss-input x-style="solid"     placeholder="solid style"></ss-input>
-          <ss-input x-style="outline"   placeholder="outline style"></ss-input>
-          <ss-input x-style="underline" placeholder="underline style"></ss-input>
+          <ss-input x-style="solid"     placeholder="solid style" accessibility-label="solid style"></ss-input>
+          <ss-input x-style="outline"   placeholder="outline style" accessibility-label="outline style"></ss-input>
+          <ss-input x-style="underline" placeholder="underline style" accessibility-label="underline style"></ss-input>
         </div>
       </div>
 
       <div class="card">
         <p class="label">size (outline)</p>
         <div class="col">
-          <ss-input size="xs" x-style="outline" placeholder="XSmall"></ss-input>
-          <ss-input size="sm" x-style="outline" placeholder="Small"></ss-input>
-          <ss-input size="md" x-style="outline" placeholder="Medium"></ss-input>
-          <ss-input size="lg" x-style="outline" placeholder="Large"></ss-input>
-          <ss-input size="xl" x-style="outline" placeholder="XLarge"></ss-input>
+          <ss-input size="xs" x-style="outline" placeholder="XSmall" accessibility-label="XSmall"></ss-input>
+          <ss-input size="sm" x-style="outline" placeholder="Small" accessibility-label="Small"></ss-input>
+          <ss-input size="md" x-style="outline" placeholder="Medium" accessibility-label="Medium"></ss-input>
+          <ss-input size="lg" x-style="outline" placeholder="Large" accessibility-label="Large"></ss-input>
+          <ss-input size="xl" x-style="outline" placeholder="XLarge" accessibility-label="XLarge"></ss-input>
         </div>
       </div>
 
       <div class="card">
         <p class="label">color (outline · md)</p>
         <div class="col">
-          <ss-input color="primary"   x-style="outline" placeholder="primary"   value="primary"></ss-input>
-          <ss-input color="secondary" x-style="outline" placeholder="secondary"></ss-input>
-          <ss-input color="success"   x-style="outline" placeholder="success"></ss-input>
-          <ss-input color="warning"   x-style="outline" placeholder="warning"></ss-input>
-          <ss-input color="error"     x-style="outline" placeholder="error"></ss-input>
-          <ss-input color="info"      x-style="outline" placeholder="info"></ss-input>
+          <ss-input color="primary"   x-style="outline" placeholder="primary"   value="primary" accessibility-label="primary"></ss-input>
+          <ss-input color="secondary" x-style="outline" placeholder="secondary" accessibility-label="secondary"></ss-input>
+          <ss-input color="success"   x-style="outline" placeholder="success" accessibility-label="success"></ss-input>
+          <ss-input color="warning"   x-style="outline" placeholder="warning" accessibility-label="warning"></ss-input>
+          <ss-input color="error"     x-style="outline" placeholder="error" accessibility-label="error"></ss-input>
+          <ss-input color="info"      x-style="outline" placeholder="info" accessibility-label="info"></ss-input>
         </div>
       </div>
 
       <div class="card">
         <p class="label">type</p>
         <div class="col">
-          <ss-input type="text"     x-style="outline" placeholder="text (default)"></ss-input>
-          <ss-input type="email"    x-style="outline" placeholder="email@example.com"></ss-input>
-          <ss-input type="password" x-style="outline" placeholder="password"></ss-input>
-          <ss-input type="number"   x-style="outline" placeholder="0" min="0" max="100" step="1"></ss-input>
-          <ss-input type="date"     x-style="outline"></ss-input>
-          <ss-input type="search"   x-style="outline" placeholder="search…"></ss-input>
-          <ss-input type="url"      x-style="outline" placeholder="https://"></ss-input>
-          <ss-input type="tel"      x-style="outline" placeholder="+1 (555) 000-0000"></ss-input>
+          <ss-input type="text"     x-style="outline" placeholder="text (default)" accessibility-label="text (default)"></ss-input>
+          <ss-input type="email"    x-style="outline" placeholder="email@example.com" accessibility-label="email@example.com"></ss-input>
+          <ss-input type="password" x-style="outline" placeholder="password" accessibility-label="password"></ss-input>
+          <ss-input type="number"   x-style="outline" placeholder="0" min="0" max="100" step="1" accessibility-label="0"></ss-input>
+          <ss-input type="date"     x-style="outline" accessibility-label="Date"></ss-input>
+          <ss-input type="search"   x-style="outline" placeholder="search…" accessibility-label="search…"></ss-input>
+          <ss-input type="url"      x-style="outline" placeholder="https://" accessibility-label="https://"></ss-input>
+          <ss-input type="tel"      x-style="outline" placeholder="+1 (555) 000-0000" accessibility-label="+1 (555) 000-0000"></ss-input>
         </div>
       </div>
 
       <div class="card">
         <p class="label">state (outline · md)</p>
         <div class="col">
-          <ss-input x-style="outline" value="Normal value"></ss-input>
-          <ss-input x-style="outline" value="Read only" readonly></ss-input>
-          <ss-input x-style="outline" value="Disabled" disabled></ss-input>
-          <ss-input x-style="outline" placeholder="Invalid" invalid></ss-input>
-          <ss-input x-style="outline" placeholder="Required" required></ss-input>
-          <ss-input x-style="outline" placeholder="Full width" full-width></ss-input>
+          <ss-input x-style="outline" value="Normal value" accessibility-label="Normal value"></ss-input>
+          <ss-input x-style="outline" value="Read only" readonly accessibility-label="Read only"></ss-input>
+          <ss-input x-style="outline" value="Disabled" disabled accessibility-label="Disabled"></ss-input>
+          <ss-input x-style="outline" placeholder="Invalid" invalid accessibility-label="Invalid"></ss-input>
+          <ss-input x-style="outline" placeholder="Required" required accessibility-label="Required"></ss-input>
+          <ss-input x-style="outline" placeholder="Full width" full-width accessibility-label="Full width"></ss-input>
         </div>
       </div>
     </section>
 
     <!-- ===================== ss-typography ===================== -->
     <section>
-      <h2>ss-typography</h2>
+      <h2 id="ss-typography" tabindex="-1">ss-typography</h2>
       <p class="section-desc">level · as · family · fontSize · fontWeight · color · align · lineHeight · letterSpacing · transform · truncate</p>
 
       <div class="card">
@@ -516,7 +577,7 @@
 
     <!-- ===================== ss-label ===================== -->
     <section>
-      <h2>ss-label</h2>
+      <h2 id="ss-label" tabindex="-1">ss-label</h2>
       <p class="section-desc">size · required · disabled · htmlFor · slot vs label prop</p>
 
       <div class="card">
@@ -557,7 +618,7 @@
 
     <!-- ===================== ss-link ===================== -->
     <section>
-      <h2>ss-link</h2>
+      <h2 id="ss-link" tabindex="-1">ss-link</h2>
       <p class="section-desc">variant · size · underline · disabled</p>
 
       <div class="card">
@@ -604,7 +665,7 @@
 
     <!-- ===================== ss-icon ===================== -->
     <section>
-      <h2>ss-icon</h2>
+      <h2 id="ss-icon" tabindex="-1">ss-icon</h2>
       <p class="section-desc">size · color · decorative vs accessible</p>
 
       <div class="card">
@@ -650,7 +711,7 @@
 
     <!-- ===================== ss-badge ===================== -->
     <section>
-      <h2>ss-badge</h2>
+      <h2 id="ss-badge" tabindex="-1">ss-badge</h2>
       <p class="section-desc">variant · xStyle · size · pill · dismissible · icon slot</p>
 
       <div class="card">
@@ -727,7 +788,7 @@
 
     <!-- ===================== ss-avatar ===================== -->
     <section>
-      <h2>ss-avatar</h2>
+      <h2 id="ss-avatar" tabindex="-1">ss-avatar</h2>
       <p class="section-desc">size · shape · src · initials · fallback slot</p>
 
       <div class="card">
@@ -765,7 +826,7 @@
 
     <!-- ===================== ss-spinner ===================== -->
     <section>
-      <h2>ss-spinner</h2>
+      <h2 id="ss-spinner" tabindex="-1">ss-spinner</h2>
       <p class="section-desc">size · color · label</p>
 
       <div class="card">
@@ -799,7 +860,7 @@
 
     <!-- ===================== ss-divider ===================== -->
     <section>
-      <h2>ss-divider</h2>
+      <h2 id="ss-divider" tabindex="-1">ss-divider</h2>
       <p class="section-desc">orientation · spacing · label · decorative</p>
 
       <div class="card">
@@ -840,7 +901,7 @@
 
     <!-- ===================== ss-tooltip ===================== -->
     <section>
-      <h2>ss-tooltip</h2>
+      <h2 id="ss-tooltip" tabindex="-1">ss-tooltip</h2>
       <p class="section-desc">placement · trigger · content · disabled</p>
 
       <div class="card">
@@ -888,7 +949,7 @@
 
     <!-- ===================== ss-checkbox ===================== -->
     <section>
-      <h2>ss-checkbox</h2>
+      <h2 id="ss-checkbox" tabindex="-1">ss-checkbox</h2>
       <p class="section-desc">checked · indeterminate · disabled · readonly · invalid · required · size</p>
 
       <div class="card">
@@ -919,7 +980,7 @@
 
     <!-- ===================== ss-radio ===================== -->
     <section>
-      <h2>ss-radio</h2>
+      <h2 id="ss-radio" tabindex="-1">ss-radio</h2>
       <p class="section-desc">checked · disabled · readonly · invalid · required · size</p>
 
       <div class="card">
@@ -949,7 +1010,7 @@
 
     <!-- ===================== ss-switch ===================== -->
     <section>
-      <h2>ss-switch</h2>
+      <h2 id="ss-switch" tabindex="-1">ss-switch</h2>
       <p class="section-desc">checked · disabled · readonly · invalid · labelPosition · size</p>
 
       <div class="card">
@@ -986,23 +1047,23 @@
 
     <!-- ===================== ss-select ===================== -->
     <section>
-      <h2>ss-select</h2>
+      <h2 id="ss-select" tabindex="-1">ss-select</h2>
       <p class="section-desc">xStyle · size · color · disabled · invalid · multiple · placeholder</p>
 
       <div class="card">
         <p class="label">xStyle</p>
         <div class="col">
-          <ss-select x-style="solid" placeholder="solid (default)">
+          <ss-select x-style="solid" placeholder="solid (default)" accessibility-label="solid (default)">
             <option value="a">Option A</option>
             <option value="b">Option B</option>
             <option value="c">Option C</option>
           </ss-select>
-          <ss-select x-style="outline" placeholder="outline">
+          <ss-select x-style="outline" placeholder="outline" accessibility-label="outline">
             <option value="a">Option A</option>
             <option value="b">Option B</option>
             <option value="c">Option C</option>
           </ss-select>
-          <ss-select x-style="underline" placeholder="underline">
+          <ss-select x-style="underline" placeholder="underline" accessibility-label="underline">
             <option value="a">Option A</option>
             <option value="b">Option B</option>
             <option value="c">Option C</option>
@@ -1013,31 +1074,31 @@
       <div class="card">
         <p class="label">size (outline)</p>
         <div class="col">
-          <ss-select size="xs" x-style="outline"><option>XSmall</option></ss-select>
-          <ss-select size="sm" x-style="outline"><option>Small</option></ss-select>
-          <ss-select size="md" x-style="outline"><option>Medium (default)</option></ss-select>
-          <ss-select size="lg" x-style="outline"><option>Large</option></ss-select>
-          <ss-select size="xl" x-style="outline"><option>XLarge</option></ss-select>
+          <ss-select size="xs" x-style="outline" accessibility-label="XSmall"><option>XSmall</option></ss-select>
+          <ss-select size="sm" x-style="outline" accessibility-label="Small"><option>Small</option></ss-select>
+          <ss-select size="md" x-style="outline" accessibility-label="Medium (default)"><option>Medium (default)</option></ss-select>
+          <ss-select size="lg" x-style="outline" accessibility-label="Large"><option>Large</option></ss-select>
+          <ss-select size="xl" x-style="outline" accessibility-label="XLarge"><option>XLarge</option></ss-select>
         </div>
       </div>
 
       <div class="card">
         <p class="label">color (outline)</p>
         <div class="col">
-          <ss-select color="primary"   x-style="outline"><option>Primary</option></ss-select>
-          <ss-select color="secondary" x-style="outline"><option>Secondary</option></ss-select>
-          <ss-select color="success"   x-style="outline"><option>Success</option></ss-select>
-          <ss-select color="error"     x-style="outline"><option>Error</option></ss-select>
+          <ss-select color="primary"   x-style="outline" accessibility-label="Primary"><option>Primary</option></ss-select>
+          <ss-select color="secondary" x-style="outline" accessibility-label="Secondary"><option>Secondary</option></ss-select>
+          <ss-select color="success"   x-style="outline" accessibility-label="Success"><option>Success</option></ss-select>
+          <ss-select color="error"     x-style="outline" accessibility-label="Error"><option>Error</option></ss-select>
         </div>
       </div>
 
       <div class="card">
         <p class="label">state · multiple</p>
         <div class="col">
-          <ss-select x-style="outline" disabled><option>Disabled</option></ss-select>
-          <ss-select x-style="outline" invalid><option>Invalid</option></ss-select>
-          <ss-select x-style="outline" required placeholder="Required"></ss-select>
-          <ss-select x-style="outline" multiple full-width>
+          <ss-select x-style="outline" disabled accessibility-label="Disabled"><option>Disabled</option></ss-select>
+          <ss-select x-style="outline" invalid accessibility-label="Invalid"><option>Invalid</option></ss-select>
+          <ss-select x-style="outline" required placeholder="Required" accessibility-label="Required"></ss-select>
+          <ss-select x-style="outline" multiple full-width accessibility-label="Multiple options">
             <option value="a">Option A (multiple — hold Ctrl/Cmd)</option>
             <option value="b">Option B</option>
             <option value="c">Option C</option>
@@ -1049,7 +1110,7 @@
 
     <!-- ===================== ss-combobox ===================== -->
     <section>
-      <h2>ss-combobox</h2>
+      <h2 id="ss-combobox" tabindex="-1">ss-combobox</h2>
       <p class="section-desc">xStyle · size · color · disabled · readonly · invalid · required &mdash; un campo con sugerencias de un datalist nativo: se elige de la lista o se escribe libre</p>
 
       <div class="card">
@@ -1114,7 +1175,7 @@
 
     <!-- ===================== ss-slider ===================== -->
     <section>
-      <h2>ss-slider</h2>
+      <h2 id="ss-slider" tabindex="-1">ss-slider</h2>
       <p class="section-desc">value · min · max · step · color · size · showValue · valueLabel · disabled · readonly · invalid</p>
 
       <div class="card">
@@ -1161,54 +1222,54 @@
 
     <!-- ===================== ss-textarea ===================== -->
     <section>
-      <h2>ss-textarea</h2>
+      <h2 id="ss-textarea" tabindex="-1">ss-textarea</h2>
       <p class="section-desc">xStyle · size · resize · rows · disabled · readonly · invalid</p>
 
       <div class="card">
         <p class="label">xStyle</p>
         <div class="col">
-          <ss-textarea x-style="solid"     placeholder="solid style" rows="2"></ss-textarea>
-          <ss-textarea x-style="outline"   placeholder="outline style" rows="2"></ss-textarea>
-          <ss-textarea x-style="underline" placeholder="underline style" rows="2"></ss-textarea>
+          <ss-textarea x-style="solid"     placeholder="solid style" rows="2" accessibility-label="solid style"></ss-textarea>
+          <ss-textarea x-style="outline"   placeholder="outline style" rows="2" accessibility-label="outline style"></ss-textarea>
+          <ss-textarea x-style="underline" placeholder="underline style" rows="2" accessibility-label="underline style"></ss-textarea>
         </div>
       </div>
 
       <div class="card">
         <p class="label">size (outline)</p>
         <div class="col">
-          <ss-textarea size="xs" x-style="outline" placeholder="XSmall" rows="2"></ss-textarea>
-          <ss-textarea size="sm" x-style="outline" placeholder="Small" rows="2"></ss-textarea>
-          <ss-textarea size="md" x-style="outline" placeholder="Medium (default)" rows="2"></ss-textarea>
-          <ss-textarea size="lg" x-style="outline" placeholder="Large" rows="2"></ss-textarea>
-          <ss-textarea size="xl" x-style="outline" placeholder="XLarge" rows="2"></ss-textarea>
+          <ss-textarea size="xs" x-style="outline" placeholder="XSmall" rows="2" accessibility-label="XSmall"></ss-textarea>
+          <ss-textarea size="sm" x-style="outline" placeholder="Small" rows="2" accessibility-label="Small"></ss-textarea>
+          <ss-textarea size="md" x-style="outline" placeholder="Medium (default)" rows="2" accessibility-label="Medium (default)"></ss-textarea>
+          <ss-textarea size="lg" x-style="outline" placeholder="Large" rows="2" accessibility-label="Large"></ss-textarea>
+          <ss-textarea size="xl" x-style="outline" placeholder="XLarge" rows="2" accessibility-label="XLarge"></ss-textarea>
         </div>
       </div>
 
       <div class="card">
         <p class="label">resize</p>
         <div class="col">
-          <ss-textarea x-style="outline" resize="none"       placeholder='resize="none"'       rows="2"></ss-textarea>
-          <ss-textarea x-style="outline" resize="vertical"   placeholder='resize="vertical" (default)' rows="2"></ss-textarea>
-          <ss-textarea x-style="outline" resize="horizontal" placeholder='resize="horizontal"' rows="2"></ss-textarea>
-          <ss-textarea x-style="outline" resize="both"       placeholder='resize="both"'       rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" resize="none"       placeholder='resize="none"'       rows="2" accessibility-label="resize=&quot;none&quot;"></ss-textarea>
+          <ss-textarea x-style="outline" resize="vertical"   placeholder='resize="vertical" (default)' rows="2" accessibility-label="resize=&quot;vertical&quot; (default)"></ss-textarea>
+          <ss-textarea x-style="outline" resize="horizontal" placeholder='resize="horizontal"' rows="2" accessibility-label="resize=&quot;horizontal&quot;"></ss-textarea>
+          <ss-textarea x-style="outline" resize="both"       placeholder='resize="both"'       rows="2" accessibility-label="resize=&quot;both&quot;"></ss-textarea>
         </div>
       </div>
 
       <div class="card">
         <p class="label">state</p>
         <div class="col">
-          <ss-textarea x-style="outline" value="Normal textarea" rows="2"></ss-textarea>
-          <ss-textarea x-style="outline" value="Readonly textarea" readonly rows="2"></ss-textarea>
-          <ss-textarea x-style="outline" value="Disabled textarea" disabled rows="2"></ss-textarea>
-          <ss-textarea x-style="outline" placeholder="Invalid textarea" invalid rows="2"></ss-textarea>
-          <ss-textarea x-style="outline" placeholder="Full width" full-width rows="2"></ss-textarea>
+          <ss-textarea x-style="outline" value="Normal textarea" rows="2" accessibility-label="Normal textarea"></ss-textarea>
+          <ss-textarea x-style="outline" value="Readonly textarea" readonly rows="2" accessibility-label="Readonly textarea"></ss-textarea>
+          <ss-textarea x-style="outline" value="Disabled textarea" disabled rows="2" accessibility-label="Disabled textarea"></ss-textarea>
+          <ss-textarea x-style="outline" placeholder="Invalid textarea" invalid rows="2" accessibility-label="Invalid textarea"></ss-textarea>
+          <ss-textarea x-style="outline" placeholder="Full width" full-width rows="2" accessibility-label="Full width"></ss-textarea>
         </div>
       </div>
     </section>
 
     <!-- ===================== MOLECULES ===================== -->
-    <section>
-      <h2>ss-field</h2>
+    <section data-group="Molecules">
+      <h2 id="ss-field" tabindex="-1">ss-field</h2>
       <p class="section-desc">label · helperText · errorText · required · invalid · disabled · size · orientation · slots</p>
 
       <div class="card">
@@ -1289,7 +1350,7 @@
     </section>
 
     <section>
-      <h2>ss-radio-group</h2>
+      <h2 id="ss-radio-group" tabindex="-1">ss-radio-group</h2>
       <p class="section-desc">name · value · label · helperText · errorText · required · invalid · disabled · orientation · size</p>
 
       <div class="card">
@@ -1356,7 +1417,7 @@
     </section>
 
     <section>
-      <h2>ss-checkbox-group</h2>
+      <h2 id="ss-checkbox-group" tabindex="-1">ss-checkbox-group</h2>
       <p class="section-desc">name · value (array) · selectAllLabel · label · helperText · errorText · required · invalid · disabled · orientation · size</p>
 
       <div class="card">
@@ -1429,7 +1490,7 @@
 
 
     <section>
-      <h2>ss-alert</h2>
+      <h2 id="ss-alert" tabindex="-1">ss-alert</h2>
       <p class="section-desc">variant · heading · dismissible · size · fullWidth · slots (title, icon, actions)</p>
 
       <div class="card">
@@ -1477,7 +1538,7 @@
     </section>
 
     <section>
-      <h2>ss-card</h2>
+      <h2 id="ss-card" tabindex="-1">ss-card</h2>
       <p class="section-desc">xStyle · padding · fullWidth · slots (media, header, footer) &mdash; empty regions collapse</p>
 
       <div class="card">
@@ -1515,7 +1576,7 @@
 
 
     <section>
-      <h2>ss-button-group</h2>
+      <h2 id="ss-button-group" tabindex="-1">ss-button-group</h2>
       <p class="section-desc">orientation · size · variant · disabled · fullWidth · accessibilityLabel</p>
 
       <div class="card">
@@ -1567,7 +1628,7 @@
     </section>
 
     <section>
-      <h2>ss-avatar-group</h2>
+      <h2 id="ss-avatar-group" tabindex="-1">ss-avatar-group</h2>
       <p class="section-desc">size · shape · max · accessibilityLabel &mdash; one name for the whole stack</p>
 
       <div class="card">
@@ -1608,7 +1669,7 @@
 
 
     <section>
-      <h2>ss-input-group</h2>
+      <h2 id="ss-input-group" tabindex="-1">ss-input-group</h2>
       <p class="section-desc">size · disabled · fullWidth · slots (start, end) &mdash; el addon se une al control sin tocarle el shadow</p>
 
       <div class="card">
@@ -1651,7 +1712,7 @@
 
 
     <section>
-      <h2>ss-breadcrumb</h2>
+      <h2 id="ss-breadcrumb" tabindex="-1">ss-breadcrumb · ss-breadcrumb-item</h2>
       <p class="section-desc">separator · size · accessibilityLabel &mdash; el último paso es la página actual, no un enlace a sí misma</p>
 
       <div class="card">
@@ -1693,7 +1754,7 @@
     </section>
 
     <section>
-      <h2>ss-pagination</h2>
+      <h2 id="ss-pagination" tabindex="-1">ss-pagination</h2>
       <p class="section-desc">page · total · siblingCount · size · disabled &mdash; el rango se calcula, no se slottea</p>
 
       <div class="card">
@@ -1718,8 +1779,8 @@
 
 
     <!-- ===================== ORGANISMS ===================== -->
-    <section>
-      <h2>ss-modal</h2>
+    <section data-group="Organisms">
+      <h2 id="ss-modal" tabindex="-1">ss-modal</h2>
       <p class="section-desc">open · heading · size · dismissible · closeOnEscape · closeOnBackdrop &mdash; primer consumidor de la capa overlay</p>
 
       <div class="card">
@@ -1756,7 +1817,7 @@
     </section>
 
     <section>
-      <h2>ss-popover</h2>
+      <h2 id="ss-popover" tabindex="-1">ss-popover</h2>
       <p class="section-desc">open · heading · placement · align · closeOnEscape · closeOnOutside · disabled &mdash; capa no modal: sin fondo ni trampa de foco</p>
 
       <div class="card">
@@ -1789,7 +1850,7 @@
     </section>
 
     <section>
-      <h2>ss-dropdown</h2>
+      <h2 id="ss-dropdown" tabindex="-1">ss-dropdown · ss-dropdown-item</h2>
       <p class="section-desc">open · placement · align · disabled · ssSelect &mdash; menú de acciones: flechas, Home/End, una letra, Enter; Escape y elegir devuelven el foco al botón, Tab sigue de largo</p>
 
       <div class="card">
@@ -1823,7 +1884,7 @@
     </script>
 
     <section>
-      <h2>ss-toast · ss-toaster</h2>
+      <h2 id="ss-toast" tabindex="-1">ss-toast · ss-toaster</h2>
       <p class="section-desc">open · variant · heading · duration · dismissible &mdash; el reloj se detiene con el puntero encima, con el foco adentro o con la pestaña oculta</p>
 
       <div class="card">
@@ -1875,7 +1936,7 @@
     </script>
 
     <section>
-      <h2>ss-tabs · ss-tab</h2>
+      <h2 id="ss-tabs" tabindex="-1">ss-tabs · ss-tab</h2>
       <p class="section-desc">value · orientation · activation · ssChange &mdash; una sola parada en el orden de Tab; las flechas mueven entre pestañas y Tab entra al panel</p>
 
       <div class="card">
@@ -1899,7 +1960,7 @@
     </section>
 
     <section>
-      <h2>ss-accordion · ss-accordion-item</h2>
+      <h2 id="ss-accordion" tabindex="-1">ss-accordion · ss-accordion-item</h2>
       <p class="section-desc">multiple · heading · headingLevel · open · disabled &mdash; cada encabezado es un encabezado real; ↑ ↓ Home End se mueven entre ellos</p>
 
       <div class="card">
@@ -1921,7 +1982,7 @@
     </section>
 
     <section>
-      <h2>ss-nav · ss-nav-item</h2>
+      <h2 id="ss-nav" tabindex="-1">ss-nav · ss-nav-item</h2>
       <p class="section-desc">value · orientation · accessibilityLabel · ssChange (cancelable) &mdash; links reales: se abren en otra pestaña y se recorren con Tab; aria-current marca la página actual</p>
 
       <div class="card">
@@ -1956,7 +2017,7 @@
     </script>
 
     <section>
-      <h2>ss-table</h2>
+      <h2 id="ss-table" tabindex="-1">ss-table</h2>
       <p class="section-desc">columns · rows · caption · sortKey · sortDirection · manualSort · striped · stickyHeader · size &mdash; columnas y filas se asignan como propiedades; orden natural, vacíos al final</p>
 
       <div class="card">
@@ -2032,5 +2093,74 @@
       })();
     </script>
 
+        <p id="catalog-empty" hidden>No matching components. Try another name.</p>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        const search = document.getElementById('component-search');
+        const nav = document.getElementById('component-nav');
+        const status = document.getElementById('catalog-status');
+        const empty = document.getElementById('catalog-empty');
+        const groups = [];
+        let group;
+
+        for (const section of document.querySelectorAll('main > section')) {
+          if (section.dataset.group) {
+            const wrapper = document.createElement('div');
+            const title = document.createElement('h2');
+            const list = document.createElement('ul');
+            title.textContent = section.dataset.group;
+            wrapper.append(title, list);
+            nav.append(wrapper);
+            group = { wrapper, list, examples: [] };
+            groups.push(group);
+          }
+
+          const heading = section.querySelector('h2');
+          const name = heading.textContent;
+
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#' + heading.id;
+          link.textContent = name;
+          item.append(link);
+          group.list.append(item);
+          group.examples.push({ section, item, link, name });
+        }
+
+        function filterCatalog() {
+          const query = search.value.trim().toLowerCase();
+          let count = 0;
+          for (const { wrapper, examples } of groups) {
+            let matches = 0;
+            for (const { section, item, name } of examples) {
+              const visible = name.toLowerCase().includes(query);
+              section.hidden = item.hidden = !visible;
+              if (visible) matches++;
+            }
+            wrapper.hidden = matches === 0;
+            count += matches;
+          }
+          status.textContent = count + (count === 1 ? ' example' : ' examples');
+          empty.hidden = count > 0;
+        }
+
+        function markCurrentExample() {
+          for (const { examples } of groups) {
+            for (const { link } of examples) {
+              if (link.hash === location.hash) link.setAttribute('aria-current', 'location');
+              else link.removeAttribute('aria-current');
+            }
+          }
+        }
+
+        search.addEventListener('input', filterCatalog);
+        window.addEventListener('hashchange', markCurrentExample);
+        filterCatalog();
+        markCurrentExample();
+      })();
+    </script>
   </body>
 </html>

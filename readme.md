@@ -30,6 +30,20 @@ npm install
 npm start
 ```
 
+El playground incluye búsqueda, enlaces directos a los ejemplos y controles de
+tema y tokens. Si trabajas por SSH, inicia el servidor en el host remoto y abre
+un túnel desde tu equipo:
+
+```bash
+# Host remoto
+npm start -- --address 127.0.0.1 --port 3434 --no-open
+
+# Equipo local
+ssh -N -L 3434:127.0.0.1:3434 usuario@host
+```
+
+Abre `http://127.0.0.1:3434` en tu navegador.
+
 ## Scripts
 
 ```bash
