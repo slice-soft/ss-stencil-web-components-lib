@@ -14,10 +14,12 @@ $sizes: (
 .ss-combobox {
   display: inline-block;
   width: auto;
+  max-width: var(--ss-sizing-full);
 }
 
 .ss-combobox__input {
   @include mx.atom-control-base;
+  max-width: var(--ss-sizing-full);
 }
 
 .ss-combobox--full-width,

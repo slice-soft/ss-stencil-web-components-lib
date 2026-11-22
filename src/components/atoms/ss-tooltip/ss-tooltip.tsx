@@ -1,4 +1,5 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, State } from '@stencil/core';
+import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { onDismiss } from '../../../utils/dismiss';
 import { nextId } from '../../../utils/id';
 import { anchorTo, Placement } from '../../../utils/position';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
@@ -35,6 +36,7 @@ export class SsTooltip {
   private contentId = nextId('ss-tooltip-content');
   private triggerEl?: HTMLElement;
   private contentEl?: HTMLElement;
+  private releaseDismiss?: () => void;
 
   /**
    * The side the tooltip ended up on, which is not always the side it asked
@@ -66,11 +68,13 @@ export class SsTooltip {
 
   componentDidLoad() {
     this.describeTrigger();
+    this.syncDismissal();
     this.reposition();
   }
 
   componentDidUpdate() {
     this.describeTrigger();
+    this.syncDismissal();
     this.reposition();
   }
 
@@ -107,16 +111,28 @@ export class SsTooltip {
     this.placementVersion += 1;
   }
 
-  /**
-   * Escape dismisses a tooltip without moving focus, which is what lets a
-   * keyboard user get a tooltip out of the way when it covers what they were
-   * reading. It is bound to the document because a hover tooltip can be open
-   * while focus is somewhere else entirely.
-   */
-  @Listen('keydown', { target: 'document' })
-  handleKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Escape' || !this.open) return;
-    this.setOpen(false);
+  connectedCallback() {
+    if (this.contentEl) this.syncDismissal();
+  }
+
+  disconnectedCallback() {
+    this.releaseDismiss?.();
+    this.releaseDismiss = undefined;
+  }
+
+  @Watch('open')
+  @Watch('disabled')
+  @Watch('trigger')
+  protected syncDismissal() {
+    if (this.visible && this.trigger !== 'manual') {
+      this.releaseDismiss ??= onDismiss(this.el, {
+        outside: 'ignore',
+        onDismiss: () => this.setOpen(false),
+      });
+    } else {
+      this.releaseDismiss?.();
+      this.releaseDismiss = undefined;
+    }
   }
 
   /**

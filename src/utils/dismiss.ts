@@ -3,14 +3,14 @@ export interface DismissOptions {
   onDismiss: (reason: 'escape' | 'outside') => void;
   /** Escape closes it. */
   escape?: boolean;
-  /** A press starting outside the container closes it. */
-  outside?: boolean;
+  /** A press outside closes the layer. Use 'ignore' to let another layer handle the press. */
+  outside?: boolean | 'ignore';
 }
 
 interface Layer {
   container: HTMLElement;
   escape: boolean;
-  outside: boolean;
+  outside: boolean | 'ignore';
   dismiss: DismissOptions['onDismiss'];
 }
 
@@ -37,8 +37,10 @@ function handleKeyDown(event: KeyboardEvent) {
 }
 
 function handlePointerDown(event: PointerEvent) {
-  const layer = top();
-  if (layer?.outside && !event.composedPath().includes(layer.container)) layer.dismiss('outside');
+  let index = layers.length - 1;
+  while (layers[index]?.outside === 'ignore') index -= 1;
+  const layer = layers[index];
+  if (layer?.outside === true && !event.composedPath().includes(layer.container)) layer.dismiss('outside');
 }
 
 /**

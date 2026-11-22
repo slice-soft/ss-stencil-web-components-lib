@@ -113,6 +113,27 @@ describe('ss-tooltip dismissal', () => {
     expect(await page.find('ss-tooltip')).not.toHaveAttribute('open');
   });
 
+  it('dismisses an open tooltip before its containing dialog', async () => {
+    const page = await newTestPage();
+    await page.setContent(`
+      <ss-modal heading="Details" open>
+        <ss-tooltip trigger="click" content="More info"><button slot="trigger">Info</button></ss-tooltip>
+      </ss-modal>
+    `);
+    await (await page.find('button[slot="trigger"]')).click();
+    await page.waitForChanges();
+    expect(await page.find('ss-tooltip')).toHaveAttribute('open');
+
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+    expect(await page.find('ss-tooltip')).not.toHaveAttribute('open');
+    expect(await page.find('ss-modal')).toHaveAttribute('open');
+
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+    expect(await page.find('ss-modal')).not.toHaveAttribute('open');
+  });
+
   it('leaves a manual tooltip to its owner', async () => {
     const page = await newTestPage();
     await page.setContent(`<ss-tooltip open trigger="manual" content="More info"><button slot="trigger">Info</button></ss-tooltip>`);
