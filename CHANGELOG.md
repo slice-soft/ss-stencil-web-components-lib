@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.5](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.4...ss-stencil-web-components-lib-v0.2.5) (2026-11-22)
+
+
+### Bug Fixes
+
+* **atoms:** fit form controls at 320px and stack tooltip dismissal ([#50](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/50)) ([6268ae5](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/6268ae5cd2d773d8a0b0ce52d8981a6aa1af7ddc))
+
 ## [0.2.4](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.3...ss-stencil-web-components-lib-v0.2.4) (2026-09-12)
 
 
