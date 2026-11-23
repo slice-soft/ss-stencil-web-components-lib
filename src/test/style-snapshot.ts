@@ -83,3 +83,45 @@ export async function focusedStyles(page: E2EPage, key: string): Promise<Record<
   await page.evaluate(`document.activeElement && document.activeElement.blur()`);
   return styles;
 }
+
+/**
+ * Computed styles of named parts of each `data-case` host, for components
+ * whose drawing is not their form control (a checkbox draws `__control` and
+ * `__mark`; its input is hidden). `parts` maps a name to a selector looked up
+ * in the shadow root, or in the host for a scoped component; ':host' is the
+ * host itself. Keys are `<case>/<part>`.
+ */
+export async function computedParts(page: E2EPage, parts: Record<string, string>, cases?: string[]): Promise<Record<string, Record<string, string>>> {
+  const filter = cases ? JSON.stringify(cases) : 'null';
+  return (await page.evaluate(`(() => {
+    const only = ${filter};
+    const parts = ${JSON.stringify(parts)};
+    const props = ${JSON.stringify(STYLE_PROPS.concat(['width', 'transform']))};
+    const out = {};
+    for (const host of document.querySelectorAll('[data-case]')) {
+      const key = host.getAttribute('data-case');
+      if (only && !only.includes(key)) continue;
+      const root = host.shadowRoot || host;
+      for (const [name, selector] of Object.entries(parts)) {
+        const el = selector === ':host' ? host : root.querySelector(selector);
+        if (!el) continue;
+        const style = getComputedStyle(el);
+        out[key + '/' + name] = Object.fromEntries(props.map(p => [p, style.getPropertyValue(p)]));
+      }
+    }
+    return out;
+  })()`)) as Record<string, Record<string, string>>;
+}
+
+/** Focuses a host's form control from the keyboard and returns its parts' styles. */
+export async function focusedParts(page: E2EPage, key: string, parts: Record<string, string>): Promise<Record<string, Record<string, string>>> {
+  await page.evaluate(`(() => {
+    const host = document.querySelector('[data-case="${key}"]');
+    const drawn = (host.shadowRoot && host.shadowRoot.querySelector('${DRAWN}')) || host.querySelector('${DRAWN}');
+    drawn.focus({ focusVisible: true });
+  })()`);
+  await page.waitForChanges();
+  const styles = await computedParts(page, parts, [key]);
+  await page.evaluate(`document.activeElement && document.activeElement.blur()`);
+  return styles;
+}
