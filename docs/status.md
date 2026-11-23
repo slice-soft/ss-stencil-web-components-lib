@@ -47,6 +47,7 @@ variant.
 | 4 | e2e harness at full size | At 74 files the load flake returned and the toast's clock tests failed most full runs. jest's timeout, recorded as a fixed 45s, is raised to 90s by a setup file that runs after Stencil's, and the app-load wait to 80s. The toast tests were measuring the harness — a test's page is often a background tab, hidden and without window focus — and now pin visibility and emulate focus |
 | 5 | Tests on the released design tokens | e2e and the playground load ss-design-system from its CDN at the version pinned in `test/tokens.config.json` (2.7.0), through a disk cache. The hand-copied token sets are gone; `test/brands/` holds two test brands (not clients) as override files on top of slicesoft, checked against the pinned tokens and for button contrast in both themes |
 | 5 | Token layer lint | `npm run lint` counts, per component, every `var(--ss-*)` outside its own tokens. Components listed as migrated in `scripts/token-layers.config.json` fail on any. Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
+| 5 | Playground is local only | `src/index.html` is a bare page (CDN tokens + build scripts). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
 
 ## Playground and release readiness
 
@@ -64,7 +65,7 @@ Before release, verify keyboard and screen-reader behavior across the catalog,
 contrast in both token sets and themes, and consumer builds using the documented
 package entry points. Use a consumer scenario to prioritize additional components
 or APIs. For anchored organisms, follow `ss-popover`. For modal dialogs, follow
-`ss-modal`. Add an example in `src/index.html` alongside component specs and
+`ss-modal`. Add an example in the local playground (`src/playground.html`, git-ignored) alongside component specs and
 browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed

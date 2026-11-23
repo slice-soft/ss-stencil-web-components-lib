@@ -50,7 +50,7 @@ you write a line.
 npm test     # spec + e2e + coverage. Needs --max-workers; the script sets it
 npm run lint # eslint + prettier + tsc --noEmit
 npm run build
-npm start    # visual harness at src/index.html, with token-set and theme switching
+npm start    # serves src/playground.html (local, git-ignored) if present, else the bare src/index.html
 ```
 
 Every component has `test/<tag>.spec.tsx` and, where behaviour needs a real

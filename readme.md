@@ -30,8 +30,12 @@ npm install
 npm start
 ```
 
-El playground incluye búsqueda, enlaces directos a los ejemplos y controles de
-tema y tokens. Si trabajas por SSH, inicia el servidor en el host remoto y abre
+`src/index.html` es una página vacía que solo carga los tokens y la librería. El
+playground es local y no se versiona: si existe `src/playground.html` (ignorado
+por git), `npm start` lo sirve en su lugar. Incluye búsqueda, enlaces directos a
+los ejemplos y controles de tema y marca de prueba; toma la versión de los tokens
+de `test/tokens.config.json`. La última versión versionada está en el historial
+(`git show 6268ae5:src/index.html`). Si trabajas por SSH, inicia el servidor en el host remoto y abre
 un túnel desde tu equipo:
 
 ```bash
