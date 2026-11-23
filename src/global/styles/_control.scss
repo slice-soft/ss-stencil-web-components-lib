@@ -78,3 +78,22 @@ $variants: default, brand, primary, secondary, tertiary, quaternary, success, wa
     }
   }
 }
+
+// The outline a keyboard focus draws around a control.
+@mixin focus-outline($component, $color) {
+  outline: t($component, focus-ring-width) solid $color;
+  outline-offset: t($component, focus-ring-offset);
+}
+
+// Font size and gap per size, for controls drawn next to their label
+// (checkbox, radio, switch, label).
+@mixin label-sizes($block, $c, $gap: true) {
+  @each $size in $sizes {
+    .#{$block}--#{$size} {
+      font-size: t($c, size-#{$size}-font-size);
+      @if $gap {
+        gap: t($c, size-#{$size}-gap);
+      }
+    }
+  }
+}

@@ -1,20 +1,20 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-switch {
   display: inline-flex;
   align-items: center;
-  gap: var(--ss-dimensions-2);
+  gap: c.t(switch, gap);
   width: fit-content;
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-base);
-  line-height: var(--ss-text-line-heights-normal);
-  color: var(--ss-color-foreground);
+  font-family: c.t(switch, font-family);
+  font-size: c.t(switch, font-size);
+  line-height: c.t(switch, line-height);
+  color: c.t(switch, foreground);
   cursor: pointer;
 }
 
 .ss-switch__input {
   position: absolute;
-  opacity: var(--ss-opacity-hidden);
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -22,59 +22,54 @@
   display: inline-flex;
   align-items: center;
   flex: none;
-  width: var(--ss-sizing-switch-track);
-  height: var(--ss-sizing-icon);
-  padding: var(--ss-dimensions-1);
-  background: var(--ss-color-muted);
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
-  border-radius: var(--ss-radius-full);
+  width: c.t(switch, track-width);
+  height: c.t(switch, track-height);
+  padding: c.t(switch, track-padding);
+  background: c.t(switch, track-background);
+  border: c.t(switch, border-width) solid c.t(switch, track-border-color);
+  border-radius: c.t(switch, radius);
   transition:
-    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    border-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+    background-color c.t(switch, transition-duration) c.t(switch, transition-easing),
+    border-color c.t(switch, transition-duration) c.t(switch, transition-easing);
 }
 
 .ss-switch__thumb {
   display: block;
-  width: var(--ss-sizing-thumb);
-  height: var(--ss-sizing-thumb);
-  background: var(--ss-color-background);
-  border-radius: var(--ss-radius-full);
-  transition: transform var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+  width: c.t(switch, thumb-size);
+  height: c.t(switch, thumb-size);
+  background: c.t(switch, thumb-background);
+  border-radius: c.t(switch, radius);
+  transition: transform c.t(switch, transition-duration) c.t(switch, transition-easing);
 }
 
 .ss-switch__input:focus-visible + .ss-switch__track,
 .ss-switch__input:focus-visible + .ss-switch__label + .ss-switch__track {
-  @include mx.focus-ring(var(--ss-color-ring));
+  @include c.focus-outline(switch, c.t(switch, focus-ring-color));
 }
 
 .ss-switch--checked .ss-switch__track {
-  background: var(--ss-color-primary);
-  border-color: var(--ss-color-primary);
+  background: c.t(switch, checked-background);
+  border-color: c.t(switch, checked-border-color);
 }
 
 .ss-switch--checked .ss-switch__thumb {
-  transform: translateX(var(--ss-sizing-icon));
+  transform: translateX(c.t(switch, checked-thumb-offset));
 }
 
 .ss-switch--label-start .ss-switch__thumb {
   order: 1;
 }
 
-.ss-switch--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }
-.ss-switch--sm { font-size: var(--ss-text-sizes-sm); gap: var(--ss-dimensions-1); }
-.ss-switch--md { font-size: var(--ss-text-sizes-base); }
-.ss-switch--lg { font-size: var(--ss-text-sizes-lg); }
-.ss-switch--xl,
-.ss-switch--2xl,
-.ss-switch--3xl { font-size: var(--ss-text-sizes-xl); }
+@include c.label-sizes('ss-switch', switch);
 
 .ss-switch--disabled {
-  @include mx.atom-disabled;
+  color: c.t(switch, disabled-foreground);
+  cursor: not-allowed;
 }
 
 .ss-switch--disabled .ss-switch__track {
-  background: var(--ss-color-muted);
-  border-color: var(--ss-color-border);
+  background: c.t(switch, disabled-track-background);
+  border-color: c.t(switch, disabled-border-color);
 }
 
 .ss-switch--readonly {
@@ -82,5 +77,5 @@
 }
 
 .ss-switch--invalid .ss-switch__track {
-  border-color: var(--ss-color-error);
+  border-color: c.t(switch, invalid-border-color);
 }

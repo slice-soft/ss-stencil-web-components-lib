@@ -1,20 +1,20 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-checkbox {
   display: inline-flex;
   align-items: center;
-  gap: var(--ss-dimensions-2);
+  gap: c.t(checkbox, gap);
   width: fit-content;
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-base);
-  line-height: var(--ss-text-line-heights-normal);
-  color: var(--ss-color-foreground);
+  font-family: c.t(checkbox, font-family);
+  font-size: c.t(checkbox, font-size);
+  line-height: c.t(checkbox, line-height);
+  color: c.t(checkbox, foreground);
   cursor: pointer;
 }
 
 .ss-checkbox__input {
   position: absolute;
-  opacity: var(--ss-opacity-hidden);
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -23,63 +23,58 @@
   align-items: center;
   justify-content: center;
   flex: none;
-  width: var(--ss-sizing-icon);
-  height: var(--ss-sizing-icon);
-  color: var(--ss-color-primary-foreground);
-  background: var(--ss-input-background, var(--ss-color-background));
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
-  border-radius: var(--ss-radius-sm);
+  width: c.t(checkbox, control-size);
+  height: c.t(checkbox, control-size);
+  color: c.t(checkbox, mark-color);
+  background: c.t(checkbox, control-background);
+  border: c.t(checkbox, border-width) solid c.t(checkbox, border-color);
+  border-radius: c.t(checkbox, radius);
   transition:
-    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    border-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+    background-color c.t(checkbox, transition-duration) c.t(checkbox, transition-easing),
+    border-color c.t(checkbox, transition-duration) c.t(checkbox, transition-easing);
 }
 
 .ss-checkbox__mark {
   display: block;
-  width: var(--ss-sizing-half);
-  height: var(--ss-sizing-half);
-  background: var(--ss-color-keywords-current);
-  opacity: var(--ss-opacity-hidden);
+  width: 50%;
+  height: 50%;
+  background: currentColor;
+  opacity: 0;
 }
 
 .ss-checkbox__input:focus-visible + .ss-checkbox__control {
-  @include mx.focus-ring(var(--ss-color-ring));
+  @include c.focus-outline(checkbox, c.t(checkbox, focus-ring-color));
 }
 
 .ss-checkbox--checked .ss-checkbox__control,
 .ss-checkbox--indeterminate .ss-checkbox__control {
-  background: var(--ss-color-primary);
-  border-color: var(--ss-color-primary);
+  background: c.t(checkbox, checked-background);
+  border-color: c.t(checkbox, checked-border-color);
 }
 
 .ss-checkbox--checked .ss-checkbox__mark,
 .ss-checkbox--indeterminate .ss-checkbox__mark {
-  opacity: var(--ss-opacity-visible);
+  opacity: 1;
 }
 
 .ss-checkbox--checked .ss-checkbox__mark {
-  clip-path: var(--ss-shapes-checkbox-checkmark);
+  clip-path: c.t(checkbox, checkmark-shape);
 }
 
 .ss-checkbox--indeterminate .ss-checkbox__mark {
-  height: var(--ss-sizing-fifth);
+  height: 20%;
 }
 
-.ss-checkbox--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }
-.ss-checkbox--sm { font-size: var(--ss-text-sizes-sm); gap: var(--ss-dimensions-1); }
-.ss-checkbox--md { font-size: var(--ss-text-sizes-base); }
-.ss-checkbox--lg { font-size: var(--ss-text-sizes-lg); }
-.ss-checkbox--xl,
-.ss-checkbox--2xl,
-.ss-checkbox--3xl { font-size: var(--ss-text-sizes-xl); }
+@include c.label-sizes('ss-checkbox', checkbox);
 
 .ss-checkbox--disabled {
-  @include mx.atom-disabled;
+  color: c.t(checkbox, disabled-foreground);
+  cursor: not-allowed;
 }
 
 .ss-checkbox--disabled .ss-checkbox__control {
-  background: var(--ss-color-muted);
-  border-color: var(--ss-color-border);
+  background: c.t(checkbox, disabled-control-background);
+  border-color: c.t(checkbox, disabled-border-color);
 }
 
 .ss-checkbox--readonly {
@@ -87,5 +82,5 @@
 }
 
 .ss-checkbox--invalid .ss-checkbox__control {
-  border-color: var(--ss-color-error);
+  border-color: c.t(checkbox, invalid-border-color);
 }
