@@ -39,6 +39,7 @@ export const config: Config = {
       // DEV ONLY — test brands (test/brands/<brand>/_variables.css, _dark.css),
       // loaded by the playground on top of the CDN design tokens. Not in dist/loader.
       copy: [
+        { src: '../test/tokens', dest: 'test-tokens' },
         { src: '../test/brands', dest: 'test-brands' },
         { src: '../test/tokens.config.json', dest: 'tokens.config.json' },
       ],

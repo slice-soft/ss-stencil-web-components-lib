@@ -8,8 +8,8 @@ Each folder holds override files named like the ss-design-system CDN files:
 - `_variables.css` — `:root` overrides
 - `_dark.css` — `[data-theme="dark"]` overrides
 
-They load **on top of** ss-design-system at the version pinned in
-`test/tokens.config.json` (from the CDN). Whatever a test brand does not declare
+They load **on top of** the committed ss-design-system copy in
+`test/tokens/slicesoft/` (the release named in `test/tokens.config.json`). Whatever a test brand does not declare
 falls back to slicesoft, so no variable is ever undefined.
 
 Rules, checked by `src/test/brands.spec.ts`:

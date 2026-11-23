@@ -59,7 +59,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "npm run eslint && npm run prettier && npm run typecheck && npm run test:scripts && npm run lint:tokens",
     "test:scripts": "node --test \"scripts/*.test.mjs\"",
-    "lint:tokens": "node scripts/check-token-layers.mjs"
+    "lint:tokens": "node scripts/check-token-layers.mjs",
+    "tokens:sync": "node scripts/sync-tokens.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",

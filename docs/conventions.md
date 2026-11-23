@@ -141,9 +141,10 @@ instead — the `has` trap is not instrumented.
   pointing at a system role or semantic color with the value the stylesheet
   reads today, and its variables to that repo's
   `test/fixtures/library-contract.json`; then rewrite the stylesheet until the
-  snapshot passes untouched. To test before the design system is released, put
-  its local `dist/css/_variables.css` and `_dark.css` in
-  `.cache/design-system/<next version>/` and pin that version.
+  snapshot passes untouched. Ahead of the release, pin the next version in
+  `test/tokens.config.json` and run `npm run tokens:sync -- --from
+  ../ss-design-system/dist/css`; once it is released, `npm run tokens:sync`
+  from the CDN should leave no diff.
 - **A test that injects its own tokens must name the component's.** The input
   group's seam test set `--ss-radius-base`; the migrated input reads
   `--ss-input-size-md-radius`, and the corner silently went to 0.
@@ -172,10 +173,10 @@ instead — the `has` trap is not instrumented.
   throws `ReferenceError: cov_… is not defined`. A test run alone without
   coverage passes, so the break shows only in the full run. `useTokens` sets
   `data-theme` with a string expression for this reason.
-- **The e2e tokens are the released design system.** `useTokens` loads
-  ss-design-system at the version pinned in `test/tokens.config.json`, from
-  the CDN, through a cache in `.cache/design-system/`. Without network or
-  cache it fails naming the URL.
+- **Tests never touch the network.** `useTokens` loads the committed copy of
+  ss-design-system in `test/tokens/slicesoft/`, the release named in
+  `test/tokens.config.json`. Refresh it with `npm run tokens:sync`, never by
+  hand; `brands.spec.ts` checks the test brands against it.
 - **`setContent` declares no charset.** Non-ASCII in test markup arrives
   mis-decoded; write it as an HTML entity.
 - **Measure the box the reader sees, not the host.** A component's host is a

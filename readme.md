@@ -17,6 +17,9 @@ con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.
 ```
 
 La versión con la que se prueba la librería está en `test/tokens.config.json`.
+Los tests no usan la red: leen una copia versionada en `test/tokens/slicesoft/`,
+que se actualiza con `npm run tokens:sync` (desde el CDN, o con
+`-- --from <ruta>/dist/css` desde un build local de ss-design-system).
 
 ```bash
 npm install @slice-soft/ss-stencil-web-components-lib
