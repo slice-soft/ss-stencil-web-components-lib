@@ -47,7 +47,7 @@ you write a line.
 ## Commands
 
 ```
-npm test     # spec + e2e + coverage. Needs --max-workers; the script sets it
+npm test     # spec + e2e + coverage, one worker (see docs/conventions.md, "App did not load")
 npm run lint # eslint + prettier + tsc --noEmit
 npm run build
 npm start    # serves src/playground.html (local, git-ignored) if present, else the bare src/index.html

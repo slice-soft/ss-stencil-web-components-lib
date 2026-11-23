@@ -50,6 +50,7 @@ variant.
 | 5 | Playground is local only | `src/index.html` is a bare page (the CDN tokens a consumer loads + build scripts). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
 | 6 | Wave 1 on component tokens | `ss-button`, `ss-input`, `ss-textarea`, `ss-select`, `ss-combobox` read only `--ss-<component>-*`, defined in ss-design-system 2.8.0 (`tokens/components/`, with new `control.*`, `field.size.*` and `motion.duration.spin` roles). A computed-style snapshot taken before the move (`src/test/wave-1.styles.e2e.ts`, every size, variant, style, rest/hover/focus, both themes) is unchanged except the intended fix: outline and ghost button text now uses `--ss-color-*-text` (dark; tertiary and destructive have their own roles since 2.8.0) and `*-foreground` for default/secondary/quaternary, which were illegible (1.10:1 on white). `wave-1.tokens.e2e.ts` proves a component token moves only its component. `ss-input` still honors `--ss-input-border`, `-border-radius` and `-border-focus`; `ss-textarea`, `ss-select` and `ss-combobox` no longer read `--ss-input-*` overrides (they have their own tokens) |
 | 6 | Theming by container | ss-design-system 2.8.0 re-declares component tokens under `[data-theme]` and the light semantic colors under `[data-theme="light"]`, so `data-theme` on any container (a dark card on a light page, or the reverse) reaches the components inside it. `wave-1.tokens.e2e.ts` checks both directions |
+| 6 | The "App did not load" flake, root-caused | Pages from parallel workers share one Chrome; one worker's new page could hide another's, and a hidden page runs no animation frames, so Stencil never finished loading it. Measured 9 of 239 pages hidden with 3 workers, none with 1. `npm test` runs one worker (~250s for the full suite, 2 clean runs of 654). Details in `docs/conventions.md` |
 
 ## Playground and release readiness
 
@@ -80,11 +81,6 @@ browser coverage for interactive behavior.
   (`field.size.*.radius` points at it), so a brand that overrides those roles
   moves all five.
 
-- **The suite has three consecutive clean runs, not ten.** The last flake fix
-  was held to ten. Since the timeout ceiling was raised there has been no load
-  timeout in thirteen full runs, against five in the seven before; the only
-  failures since were the toast's, now understood and fixed. Worth a few more
-  full runs before calling it closed.
 - **Scoped components do not slot children added after they render.** Found
   on `ss-toaster`, now shadow. Any scoped component that slots content is
   likely to have the same gap when a framework adds a child after mount — a

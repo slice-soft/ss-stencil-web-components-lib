@@ -89,7 +89,9 @@ for (const component of COMPONENTS) {
         }
 
         expect({ rest, hovered, focused }).toMatchSnapshot();
-      });
+        // Hovering and focusing every variant of every style, one by one, is
+        // slow: ss-button alone took 106s in CI against jest's 90s.
+      }, 300_000);
     });
   }
 }

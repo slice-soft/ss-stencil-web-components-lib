@@ -165,8 +165,20 @@ instead — the `has` trap is not instrumented.
   puts its setup file first in `setupFilesAfterEnv`, so
   `src/test/jest-setup.ts`, listed in `stencil.config.ts`, runs after it and
   raises the timeout to 90s. Checked both ways with a test that waits 50s: it
-  fails at 45s without the file and passes with it. Worker count and load
-  headroom are both needed; neither alone was enough.
+  fails at 45s without the file and passes with it.
+- **"App did not load" was hidden pages, not slow ones — e2e runs one
+  worker.** Every worker opens its pages in the one Chrome Stencil launches,
+  and a page opened by one worker can leave another worker's page hidden. A
+  hidden page gets no `requestAnimationFrame`, so Stencil never finishes its
+  first render, `window.stencilAppLoaded` stays false, and Stencil's own wait
+  (which also polls on animation frames) gives up. Instrumented on a failure:
+  `visibilityState` hidden, `stencilAppLoaded` false, every element already
+  defined, rAF not firing, four pages open. Measured on the full e2e suite: 3
+  workers created 9 of 239 pages hidden and failed one test; 1 worker created
+  none, failed none, and took 237s against 194s. Raising the load wait only
+  hid this (a hidden page can stay hidden past any wait); `bringToFront()` did
+  not help, since the next page another worker opens takes the front again.
+  `scripts/test-config.test.mjs` keeps the script at one worker.
 - **Pass `page.evaluate` a string in shared helpers.** `npm test` runs with
   `--coverage`, which instruments every function in `src/`, including one
   handed to `page.evaluate`; in the page its counters do not exist and it
