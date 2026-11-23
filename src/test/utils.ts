@@ -1,7 +1,7 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { newE2EPage } from '@stencil/core/testing';
 import type { E2EPage, SpecPage } from '@stencil/core/testing';
+import { brandOverrides, slicesoftCss } from './tokens';
+import type { TestBrand } from './tokens';
 
 export function getRoot(page: SpecPage): HTMLElement {
   expect(page.root).toBeDefined();
@@ -139,7 +139,8 @@ export async function newTestPage(...args: Parameters<typeof newE2EPage>): Promi
 const APP_LOAD_TIMEOUT = 80_000;
 
 /**
- * Loads the dev design tokens into an e2e page.
+ * Loads the design tokens (ss-design-system at the pinned version, see
+ * ./tokens.ts) into an e2e page.
  *
  * Every length in the component stylesheets is a `--ss-*` variable, and an e2e
  * page loads the components but not the tokens, so without this each one
@@ -149,9 +150,13 @@ const APP_LOAD_TIMEOUT = 80_000;
  * centring transform was itself invalid without tokens, so the harm it did to
  * fixed descendants could not show up.
  */
-export async function useTokens(page: E2EPage): Promise<void> {
-  const tokens = readFileSync(join(process.cwd(), 'test/token-set-01/tokens.css'), 'utf8');
-  await page.addStyleTag({ content: `${tokens}\n${NO_TRANSITIONS}` });
+export async function useTokens(page: E2EPage, theme: 'light' | 'dark' = 'light', brand: TestBrand = 'slicesoft'): Promise<void> {
+  const css = [await slicesoftCss('_variables.css'), await slicesoftCss('_dark.css'), brandOverrides(brand, '_variables.css'), brandOverrides(brand, '_dark.css'), NO_TRANSITIONS];
+  await page.addStyleTag({ content: css.join('\n') });
+  // Dark only applies from <html>: component tokens resolve on :root. A string,
+  // not a function: --coverage instruments functions passed to evaluate, and
+  // the counters it adds do not exist in the page.
+  await page.evaluate(`document.documentElement.setAttribute('data-theme', '${theme}')`);
   await page.waitForChanges();
 }
 

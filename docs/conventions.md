@@ -147,6 +147,16 @@ instead — the `has` trap is not instrumented.
   raises the timeout to 90s. Checked both ways with a test that waits 50s: it
   fails at 45s without the file and passes with it. Worker count and load
   headroom are both needed; neither alone was enough.
+- **Pass `page.evaluate` a string in shared helpers.** `npm test` runs with
+  `--coverage`, which instruments every function in `src/`, including one
+  handed to `page.evaluate`; in the page its counters do not exist and it
+  throws `ReferenceError: cov_… is not defined`. A test run alone without
+  coverage passes, so the break shows only in the full run. `useTokens` sets
+  `data-theme` with a string expression for this reason.
+- **The e2e tokens are the released design system.** `useTokens` loads
+  ss-design-system at the version pinned in `test/tokens.config.json`, from
+  the CDN, through a cache in `.cache/design-system/`. Without network or
+  cache it fails naming the URL.
 - **`setContent` declares no charset.** Non-ASCII in test markup arrives
   mis-decoded; write it as an HTML entity.
 - **Measure the box the reader sees, not the host.** A component's host is a

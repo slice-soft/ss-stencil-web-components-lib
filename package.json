@@ -57,7 +57,9 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
     "prettier": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,md}\"",
     "typecheck": "tsc --noEmit",
-    "lint": "npm run eslint && npm run prettier && npm run typecheck"
+    "lint": "npm run eslint && npm run prettier && npm run typecheck && npm run test:scripts && npm run lint:tokens",
+    "test:scripts": "node --test \"scripts/*.test.mjs\"",
+    "lint:tokens": "node scripts/check-token-layers.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",
@@ -73,6 +75,7 @@
     "jest-cli": "^29.7.0",
     "prettier": "3.5.3",
     "puppeteer": "^25.9.0",
+    "sass-embedded": "1.89.0",
     "typescript-eslint": "^8.32.1"
   },
   "license": "MIT"

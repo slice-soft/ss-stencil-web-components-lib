@@ -27,3 +27,7 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
+/.cache/
+
+# Local component playground; npm start serves it when present (stencil.config.ts)
+/src/playground.html

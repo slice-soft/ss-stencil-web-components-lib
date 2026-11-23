@@ -1,0 +1,71 @@
+/**
+ * Test brand "neon-purple", not a client. Overrides on top of ss-design-system
+ * v2.7.0 or later: everything not declared here falls back to slicesoft.
+ * Values come from the example brand reviewed in ss-design-system PR #25
+ * (contrast-corrected). See test/brands/README.md.
+ */
+
+:root {
+  --ss-brand-primary: #8b5cf6;
+  --ss-brand-primary-hover: #7c3aed;
+  --ss-brand-secondary-dark: #0F172A;
+  --ss-brand-surface: #1e1b4b;
+  --ss-brand-surface-alt: #4c1d95;
+  --ss-brand-text-primary: #f5f3ff;
+  --ss-brand-text-secondary: #c4b5fd;
+  --ss-division-core: #8b5cf6;
+  --ss-division-products: #3b82f6;
+  --ss-division-labs: #22d3ee;
+  --ss-division-academy: #f59e0b;
+  --ss-division-hardware: #1e1b4b;
+  --ss-division-entertainment: #ec4899;
+  --ss-shape-radius-control: 2px;
+  --ss-shape-radius-surface: 4px;
+  --ss-color-background: #ffffff;
+  --ss-color-foreground: #1e1b4b;
+  --ss-color-primary: #7c3aed;
+  --ss-color-primary-foreground: #ffffff;
+  --ss-color-primary-hover: #6d28d9;
+  --ss-color-primary-text: #7c3aed;
+  --ss-color-secondary: #ede9fe;
+  --ss-color-secondary-foreground: #4c1d95;
+  --ss-color-tertiary: #db2777;
+  --ss-color-tertiary-foreground: #ffffff;
+  --ss-color-quaternary: #f1f5f9;
+  --ss-color-quaternary-foreground: #0f172a;
+  --ss-color-muted: #f5f3ff;
+  --ss-color-muted-foreground: #7c3aed;
+  --ss-color-border: #ddd6fe;
+  --ss-color-input: #ddd6fe;
+  --ss-color-ring: #8b5cf6;
+  --ss-color-card: #ffffff;
+  --ss-color-card-foreground: #1e1b4b;
+  --ss-color-surface: #faf5ff;
+  --ss-color-surface-alt: #ede9fe;
+  --ss-color-destructive: #dc2626;
+  --ss-color-destructive-foreground: #ffffff;
+  --ss-color-destructive-hover: #b91c1c;
+  --ss-color-success: #0e7490;
+  --ss-color-success-foreground: #ffffff;
+  --ss-color-success-hover: #155e75;
+  --ss-color-success-text: #0e7490;
+  --ss-color-warning: #db2777;
+  --ss-color-warning-foreground: #ffffff;
+  --ss-color-warning-hover: #be185d;
+  --ss-color-warning-text: #db2777;
+  --ss-color-error: #dc2626;
+  --ss-color-error-foreground: #ffffff;
+  --ss-color-error-hover: #b91c1c;
+  --ss-color-error-text: #dc2626;
+  --ss-color-info: #7c3aed;
+  --ss-color-info-foreground: #ffffff;
+  --ss-color-info-hover: #6d28d9;
+  --ss-color-info-text: #7c3aed;
+  --ss-control-size-xs-radius: 2px;
+  --ss-control-size-sm-radius: 2px;
+  --ss-control-size-md-radius: 2px;
+  --ss-control-size-lg-radius: 2px;
+  --ss-control-size-xl-radius: 2px;
+  --ss-control-size-2xl-radius: 2px;
+  --ss-control-size-3xl-radius: 2px;
+}

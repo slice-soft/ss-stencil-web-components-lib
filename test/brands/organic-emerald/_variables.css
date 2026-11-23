@@ -1,0 +1,71 @@
+/**
+ * Test brand "organic-emerald", not a client. Overrides on top of ss-design-system
+ * v2.7.0 or later: everything not declared here falls back to slicesoft.
+ * Values come from the example brand reviewed in ss-design-system PR #25
+ * (contrast-corrected). See test/brands/README.md.
+ */
+
+:root {
+  --ss-brand-primary: #10b981;
+  --ss-brand-primary-hover: #059669;
+  --ss-brand-secondary-dark: #0F172A;
+  --ss-brand-surface: #064e3b;
+  --ss-brand-surface-alt: #065f46;
+  --ss-brand-text-primary: #ecfdf5;
+  --ss-brand-text-secondary: #6ee7b7;
+  --ss-division-core: #10b981;
+  --ss-division-products: #3b82f6;
+  --ss-division-labs: #22d3ee;
+  --ss-division-academy: #f59e0b;
+  --ss-division-hardware: #022c22;
+  --ss-division-entertainment: #ec4899;
+  --ss-shape-radius-control: 20px;
+  --ss-shape-radius-surface: 24px;
+  --ss-color-background: #fffef5;
+  --ss-color-foreground: #052e16;
+  --ss-color-primary: #047857;
+  --ss-color-primary-foreground: #ffffff;
+  --ss-color-primary-hover: #065f46;
+  --ss-color-primary-text: #047857;
+  --ss-color-secondary: #d1fae5;
+  --ss-color-secondary-foreground: #064e3b;
+  --ss-color-tertiary: #f59e0b;
+  --ss-color-tertiary-foreground: #020617;
+  --ss-color-quaternary: #f1f5f9;
+  --ss-color-quaternary-foreground: #0f172a;
+  --ss-color-muted: #ecfdf5;
+  --ss-color-muted-foreground: #6b7280;
+  --ss-color-border: #a7f3d0;
+  --ss-color-input: #a7f3d0;
+  --ss-color-ring: #059669;
+  --ss-color-card: #ffffff;
+  --ss-color-card-foreground: #052e16;
+  --ss-color-surface: #f0fdf4;
+  --ss-color-surface-alt: #dcfce7;
+  --ss-color-destructive: #dc2626;
+  --ss-color-destructive-foreground: #ffffff;
+  --ss-color-destructive-hover: #b91c1c;
+  --ss-color-success: #047857;
+  --ss-color-success-foreground: #ffffff;
+  --ss-color-success-hover: #065f46;
+  --ss-color-success-text: #047857;
+  --ss-color-warning: #b45309;
+  --ss-color-warning-foreground: #ffffff;
+  --ss-color-warning-hover: #92400e;
+  --ss-color-warning-text: #b45309;
+  --ss-color-error: #dc2626;
+  --ss-color-error-foreground: #ffffff;
+  --ss-color-error-hover: #b91c1c;
+  --ss-color-error-text: #dc2626;
+  --ss-color-info: #0369a1;
+  --ss-color-info-foreground: #ffffff;
+  --ss-color-info-hover: #075985;
+  --ss-color-info-text: #0369a1;
+  --ss-control-size-xs-radius: 8px;
+  --ss-control-size-sm-radius: 8px;
+  --ss-control-size-md-radius: 20px;
+  --ss-control-size-lg-radius: 24px;
+  --ss-control-size-xl-radius: 24px;
+  --ss-control-size-2xl-radius: 24px;
+  --ss-control-size-3xl-radius: 24px;
+}
