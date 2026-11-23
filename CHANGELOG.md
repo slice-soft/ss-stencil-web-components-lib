@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.3.0...ss-stencil-web-components-lib-v0.4.0) (2026-11-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **atoms:** these components need ss-design-system 2.9.0 or later, and ss-checkbox and ss-radio no longer read --ss-input-background or --ss-input-border; they read their own tokens.
+
+### Features
+
+* **atoms:** read wave 2 controls from component tokens ([#55](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/55)) ([a4574f6](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/a4574f66f550e69f09cb231d9040e947352d9e83))
+
 ## [0.3.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.5...ss-stencil-web-components-lib-v0.3.0) (2026-11-23)
 
 
