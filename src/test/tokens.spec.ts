@@ -1,4 +1,4 @@
-import { mkdtempSync } from 'fs';
+import { existsSync, mkdtempSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { cdnUrl, DESIGN_SYSTEM_VERSION, slicesoftCss } from './tokens';
@@ -27,6 +27,20 @@ describe('design tokens from the CDN', () => {
     global.fetch = jest.fn().mockRejectedValue(new Error('getaddrinfo ENOTFOUND')) as unknown as typeof fetch;
     const emptyCache = mkdtempSync(join(tmpdir(), 'ss-tokens-'));
     await expect(slicesoftCss('_dark.css', emptyCache)).rejects.toThrow(/unavailable: https:\/\/cdn\.slicesoft\.dev\/\S+ \(getaddrinfo ENOTFOUND\)/);
+  });
+
+  it('does not cache a response that is not a token stylesheet', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, status: 200, text: async () => '<html>Not found</html>' }) as unknown as typeof fetch;
+    const cache = mkdtempSync(join(tmpdir(), 'ss-tokens-'));
+    await expect(slicesoftCss('_variables.css', cache)).rejects.toThrow(/not a design-token stylesheet/);
+    expect(existsSync(join(cache, DESIGN_SYSTEM_VERSION, '_variables.css'))).toBe(false);
+  });
+
+  it('gives up on a CDN that does not answer', async () => {
+    const fetchMock = jest.fn().mockResolvedValue({ ok: true, status: 200, text: async () => ':root { --ss-x: 1px; }' });
+    global.fetch = fetchMock as unknown as typeof fetch;
+    await slicesoftCss('_dark.css', mkdtempSync(join(tmpdir(), 'ss-tokens-')));
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('_dark.css'), expect.objectContaining({ signal: expect.anything() }));
   });
 
   it('serves a cached copy without the network', async () => {

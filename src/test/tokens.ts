@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
 /**
@@ -13,6 +13,9 @@ export type TokenFile = '_variables.css' | '_dark.css';
 const config = JSON.parse(readFileSync(join(process.cwd(), 'test/tokens.config.json'), 'utf8')) as { designSystem: string };
 
 export const DESIGN_SYSTEM_VERSION: string = config.designSystem;
+
+// Under jest's 90s test timeout, so a hung CDN fails naming the URL.
+const FETCH_TIMEOUT = 15_000;
 
 export function cdnUrl(file: TokenFile, version = DESIGN_SYSTEM_VERSION): string {
   return `https://cdn.slicesoft.dev/design-system/ss-design-system-v${version}/css/${file}`;
@@ -32,15 +35,20 @@ export async function slicesoftCss(file: TokenFile, cacheDir = join(process.cwd(
   const url = cdnUrl(file);
   let css: string;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { signal: AbortSignal.timeout(FETCH_TIMEOUT) });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     css = await response.text();
+    if (!css.includes('--ss-')) throw new Error('not a design-token stylesheet');
   } catch (error) {
     throw new Error(`Design tokens v${DESIGN_SYSTEM_VERSION} unavailable: ${url} (${(error as Error).message})`);
   }
 
+  // Written aside and renamed into place: with several jest workers on a cold
+  // cache, another one may find the file while this one is still writing it.
   mkdirSync(join(cacheDir, DESIGN_SYSTEM_VERSION), { recursive: true });
-  writeFileSync(cached, css);
+  const partial = `${cached}.${process.pid}.tmp`;
+  writeFileSync(partial, css);
+  renameSync(partial, cached);
   return css;
 }
 

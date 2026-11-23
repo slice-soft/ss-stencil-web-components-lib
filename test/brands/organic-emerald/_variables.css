@@ -1,6 +1,6 @@
 /**
  * Test brand "organic-emerald", not a client. Overrides on top of ss-design-system
- * v2.7.0: everything not declared here falls back to slicesoft.
+ * v2.7.0 or later: everything not declared here falls back to slicesoft.
  * Values come from the example brand reviewed in ss-design-system PR #25
  * (contrast-corrected). See test/brands/README.md.
  */

@@ -7,7 +7,10 @@ import { spawnSync } from 'node:child_process';
 import process from 'node:process';
 import { violations } from './check-token-layers.mjs';
 
-const vars = scss => violations(scss, 'ss-button').map(v => v.variable);
+// violations() reads compiled CSS: what a component actually ships, whatever
+// mixins or helpers produced it.
+const TAGS = ['ss-button', 'ss-button-group', 'ss-input', 'ss-tab', 'ss-table', 'ss-typography'];
+const vars = (css, tag = 'ss-button') => violations(css, tag, TAGS).map(v => v.variable);
 
 test('a component reads its own tokens and private variables', () => {
   assert.deepEqual(vars('a { gap: var(--ss-button-gap); padding: var(--_pad-x); color: var(--atom-accent); }'), []);
@@ -31,25 +34,31 @@ test('a fallback inside var() is checked too', () => {
   assert.deepEqual(vars('a { color: var(--ss-button-text, var(--ss-color-primary)); }'), ['--ss-color-primary']);
 });
 
-test('a prefix of another component is not its own', () => {
-  assert.deepEqual(
-    violations('a { gap: var(--ss-table-gap); }', 'ss-tab').map(v => v.variable),
-    ['--ss-table-gap'],
-  );
+test('a var() split across lines is still read', () => {
+  assert.deepEqual(vars('a { color: var(\n    --ss-color-primary); }'), ['--ss-color-primary']);
+});
+
+test('another component whose name extends this one is not its own', () => {
+  assert.deepEqual(vars('a { gap: var(--ss-button-group-gap); }'), ['--ss-button-group-gap']);
+  assert.deepEqual(vars('a { gap: var(--ss-table-gap); }', 'ss-tab'), ['--ss-table-gap']);
+});
+
+test('comments are not code', () => {
+  assert.deepEqual(vars('/* was var(--ss-color-primary) */ a { gap: var(--ss-button-gap); }'), []);
 });
 
 test('ss-typography reads --ss-typography-component-*', () => {
-  assert.deepEqual(violations('a { color: var(--ss-typography-component-color-muted); }', 'ss-typography'), []);
+  assert.deepEqual(vars('a { color: var(--ss-typography-component-color-muted); }', 'ss-typography'), []);
 });
 
 test('violations report their line', () => {
-  assert.deepEqual(violations('a {\n  gap: var(--ss-dimensions-2);\n}', 'ss-button'), [{ line: 2, variable: '--ss-dimensions-2' }]);
+  assert.deepEqual(violations('a {\n  gap: var(--ss-dimensions-2);\n}', 'ss-button', TAGS), [{ line: 2, variable: '--ss-dimensions-2' }]);
 });
 
-function fixture(migrated) {
+function fixture(migrated, scss) {
   const root = mkdtempSync(join(tmpdir(), 'ss-layers-'));
   mkdirSync(join(root, 'src/components/atoms/ss-button'), { recursive: true });
-  writeFileSync(join(root, 'src/components/atoms/ss-button/ss-button.scss'), 'a { gap: var(--ss-dimensions-2); }');
+  writeFileSync(join(root, 'src/components/atoms/ss-button/ss-button.scss'), scss);
   mkdirSync(join(root, 'scripts'));
   writeFileSync(join(root, 'scripts/token-layers.config.json'), JSON.stringify({ migrated }));
   return root;
@@ -57,14 +66,19 @@ function fixture(migrated) {
 
 const cli = cwd => spawnSync(process.execPath, [join(import.meta.dirname, 'check-token-layers.mjs')], { cwd, encoding: 'utf8' });
 
-test('the CLI fails on a migrated component with a violation', () => {
-  const run = cli(fixture(['ss-button']));
+test('the CLI lints what the stylesheet compiles to, mixins included', () => {
+  const run = cli(fixture(['ss-button'], '@mixin ring { outline-color: var(--ss-color-ring); }\na { @include ring; }'));
   assert.equal(run.status, 1);
-  assert.match(run.stderr, /ss-button\.scss:1 reads --ss-dimensions-2/);
+  assert.match(run.stderr, /ss-button reads --ss-color-ring/);
 });
 
 test('the CLI only reports components not yet migrated', () => {
-  const run = cli(fixture([]));
+  const run = cli(fixture([], 'a { gap: var(--ss-dimensions-2); }'));
   assert.equal(run.status, 0);
   assert.match(run.stdout, /ss-button: 1 reference outside its own tokens \(not migrated\)/);
+});
+
+test('the module can be imported without a script path', () => {
+  const run = spawnSync(process.execPath, ['--input-type=module', '-e', `import(${JSON.stringify(join(import.meta.dirname, 'check-token-layers.mjs'))})`], { encoding: 'utf8' });
+  assert.equal(run.status, 0, run.stderr);
 });
