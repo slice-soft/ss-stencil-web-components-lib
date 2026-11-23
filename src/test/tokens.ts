@@ -7,9 +7,10 @@ import { join } from 'path';
  *
  * - test/tokens/design-system/: ss-design-system's stylesheets, committed, for
  *   the structure (every variable, the system roles, the component tokens).
- *   `npm run tokens:sync` refreshes them from the CDN release pinned in
- *   test/tokens.config.json or, ahead of a release, from a local build
- *   (`-- --from <dist/css>`). Tests and CI never touch the network.
+ *   `npm run tokens:sync` copies them from a local design-system build
+ *   (../ss-design-system/dist/css, or `-- --from <dist/css>`); the version
+ *   they come from is recorded in test/tokens.config.json. Tests and CI never
+ *   touch the network.
  * - test/brands/test-base/: a generic test brand that replaces every
  *   brand-level value (color, brand, division), so no value of the design
  *   system's own brand reaches a test. brands.spec.ts enforces it.
@@ -20,12 +21,8 @@ export type TokenFile = '_variables.css' | '_dark.css';
 
 const config = JSON.parse(readFileSync(join(process.cwd(), 'test/tokens.config.json'), 'utf8')) as { designSystem: string };
 
-/** The design-system release consumers need, and the one the copy comes from. */
+/** The design-system version the copy comes from, and the minimum consumers need. */
 export const DESIGN_SYSTEM_VERSION: string = config.designSystem;
-
-export function cdnUrl(file: TokenFile, version = DESIGN_SYSTEM_VERSION): string {
-  return `https://cdn.slicesoft.dev/design-system/ss-design-system-v${version}/css/${file}`;
-}
 
 export async function designSystemCss(file: TokenFile): Promise<string> {
   return readFileSync(join(process.cwd(), 'test/tokens/design-system', file), 'utf8');

@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { cdnUrl, designSystemCss, DESIGN_SYSTEM_VERSION } from './tokens';
+import { designSystemCss, DESIGN_SYSTEM_VERSION } from './tokens';
 
 describe('design tokens the library is tested with', () => {
   const realFetch = global.fetch;
@@ -10,10 +10,6 @@ describe('design tokens the library is tested with', () => {
 
   it('pins a released version', () => {
     expect(DESIGN_SYSTEM_VERSION).toMatch(/^\d+\.\d+\.\d+$/);
-  });
-
-  it('builds the CDN url consumers load', () => {
-    expect(cdnUrl('_dark.css', '2.8.0')).toBe('https://cdn.slicesoft.dev/design-system/ss-design-system-v2.8.0/css/_dark.css');
   });
 
   it('reads the vendored stylesheets without the network', async () => {

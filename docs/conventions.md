@@ -141,10 +141,10 @@ instead — the `has` trap is not instrumented.
   pointing at a system role or semantic color with the value the stylesheet
   reads today, and its variables to that repo's
   `test/fixtures/library-contract.json`; then rewrite the stylesheet until the
-  snapshot passes untouched. Ahead of the release, pin the next version in
-  `test/tokens.config.json` and run `npm run tokens:sync -- --from
-  ../ss-design-system/dist/css`; once it is released, `npm run tokens:sync`
-  from the CDN should leave no diff.
+  snapshot passes untouched. Build the design-system branch (`npm run build`
+  there), run `npm run tokens:sync` here (it copies
+  `../ss-design-system/dist/css`), and set the version it will be released
+  as in `test/tokens.config.json`.
 - **A test that injects its own tokens must name the component's.** The input
   group's seam test set `--ss-radius-base`; the migrated input reads
   `--ss-input-size-md-radius`, and the corner silently went to 0.
