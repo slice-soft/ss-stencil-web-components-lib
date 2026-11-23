@@ -1,8 +1,9 @@
 import { newTestPage } from '../../../../test/utils';
 
+// ss-input reads its radius from its own size token (md by default); the
+// addons read --ss-input-border-radius.
 const TOKENS = `<style>:root{
-  --ss-radius-base: 8px;
-  --ss-radius-none: 0px;
+  --ss-input-size-md-radius: 8px;
   --ss-input-border-radius: 8px;
 }</style>`;
 

@@ -1,6 +1,6 @@
 /**
- * Test brand "organic-emerald", not a client. Overrides on top of ss-design-system
- * v2.7.0 or later: everything not declared here falls back to slicesoft.
+ * Test brand "organic-emerald", not a client. Overrides on top of test-base
+ * (test/brands/test-base): everything not declared here falls back to it.
  * Values come from the example brand reviewed in ss-design-system PR #25
  * (contrast-corrected). See test/brands/README.md.
  */
@@ -46,4 +46,6 @@
   --ss-color-info-foreground: #0c1a2e;
   --ss-color-info-hover: #7dd3fc;
   --ss-color-info-text: #38bdf8;
+  --ss-color-tertiary-text: #fbbf24;
+  --ss-color-destructive-text: #f87171;
 }

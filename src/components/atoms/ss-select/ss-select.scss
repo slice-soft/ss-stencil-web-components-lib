@@ -1,23 +1,23 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-select {
-  @include mx.atom-control-base;
+  @include c.control-base(select);
   display: inline-block;
-  line-height: var(--ss-text-line-heights-normal);
+  line-height: c.t(select, line-height);
   cursor: pointer;
 }
 
-@include mx.atom-control-sizes('ss-select');
-@include mx.atom-accent-variants('ss-select');
+@include c.control-sizes('ss-select', select);
+@include c.accent-variants('ss-select', select);
 
 .ss-select--outline {
-  background: var(--ss-colors-transparent);
+  background: transparent;
 }
 
 .ss-select--underline {
-  background: var(--ss-colors-transparent);
-  border-width: var(--ss-borders-width-none) var(--ss-borders-width-none) var(--ss-borders-width-base);
-  border-radius: var(--ss-radius-none);
+  background: transparent;
+  border-width: 0 0 c.t(select, border-width);
+  border-radius: 0;
 }
 
 .ss-select--success,
@@ -29,9 +29,9 @@
 }
 
 .ss-select--invalid {
-  border-color: var(--ss-color-error);
+  border-color: c.t(select, invalid-border-color);
 }
 
 .ss-select--full-width {
-  width: var(--ss-sizing-full);
+  width: 100%;
 }

@@ -1,22 +1,28 @@
 # Test brands
 
-Brands the library is tested and demonstrated with. **They are not clients.**
-Client brands are generated outside both repositories.
+Brands the library is tested and demonstrated with. **None is a real brand,
+none is a client.** Client brands are generated outside both repositories.
 
-Each folder holds override files named like the ss-design-system CDN files:
+Load order, in tests (`useTokens`) and in the local playground:
 
-- `_variables.css` — `:root` overrides
-- `_dark.css` — `[data-theme="dark"]` overrides
+1. `test/tokens/design-system/` — ss-design-system at the release named in
+   `test/tokens.config.json`, for the structure (every variable, system roles,
+   component tokens). Refreshed with `npm run tokens:sync`.
+2. `test-base/` — a generic brand (blue primary, neutral grays) that replaces
+   **every** brand-level value of that copy, so the design system's own brand
+   never reaches a test.
+3. `neon-purple/` or `organic-emerald/` — variations, overriding only what
+   differs. Whatever they leave out falls back to test-base.
 
-They load **on top of** ss-design-system at the version pinned in
-`test/tokens.config.json` (from the CDN). Whatever a test brand does not declare
-falls back to slicesoft, so no variable is ever undefined.
+Each folder holds `_variables.css` (`:root` overrides) and `_dark.css`
+(`[data-theme="dark"]` overrides), named like the design-system files.
 
 Rules, checked by `src/test/brands.spec.ts`:
 
 - Only brand-level layers: `--ss-color-*`, `--ss-brand-*`, `--ss-division-*`,
   `--ss-shape-*`, `--ss-control-*`. Never a component token.
 - Only variables the pinned design system declares.
+- test-base declares every brand-level variable the design-system copy has.
 
 `src/test/brand-contrast.e2e.ts` checks solid buttons meet WCAG AA in every
 brand and theme.

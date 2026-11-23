@@ -4,12 +4,24 @@ Libreria de Web Components reutilizables desarrollados con StencilJS para SliceS
 
 ## Uso
 
-Los componentes consumen tokens CSS de `@slice-soft/ss-design-system`. Carga `_variables.css` antes de usar la libreria y `_dark.css` despues si necesitas modo oscuro.
+Los componentes consumen tokens CSS de `@slice-soft/ss-design-system` **2.8.0 o
+superior**: cada componente migrado lee solo sus propios tokens
+(`--ss-<componente>-*`), que existen desde esa versión. Con una versión anterior
+esos componentes se ven sin estilo. Carga `_variables.css` antes de usar la
+librería y `_dark.css` después si necesitas modo oscuro; el tema se cambia
+con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.
 
 ```html
-<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_variables.css">
-<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_dark.css">
+<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/ss-design-system-v2.8.0/css/_variables.css">
+<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/ss-design-system-v2.8.0/css/_dark.css">
 ```
+
+La versión con la que se prueba la librería está en `test/tokens.config.json`.
+Los tests no usan la red ni los valores de ninguna marca real: leen una copia
+versionada de ss-design-system en `test/tokens/design-system/` (la estructura),
+que se actualiza con `npm run tokens:sync` copiando un build local
+(`../ss-design-system/dist/css`, o `-- --from <ruta>/dist/css`), y encima la
+marca genérica de pruebas `test/brands/test-base/`.
 
 ```bash
 npm install @slice-soft/ss-stencil-web-components-lib

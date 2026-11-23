@@ -1,16 +1,5 @@
-// Shared mixins for ss-* components.
-// All variants use semantic tokens (--ss-color-*) → dark mode works automatically.
-@use 'sass:map';
-
-$atom-control-sizes: (
-  'xs': (padding: var(--ss-dimensions-1) var(--ss-dimensions-2), font-size: var(--ss-text-sizes-xs), radius: var(--ss-radius-sm), gap: var(--ss-dimensions-1)),
-  'sm': (padding: var(--ss-dimensions-1) var(--ss-dimensions-2), font-size: var(--ss-text-sizes-sm), radius: var(--ss-radius-sm), gap: var(--ss-dimensions-1)),
-  'md': (padding: var(--ss-dimensions-2) var(--ss-dimensions-3), font-size: var(--ss-text-sizes-base), radius: var(--ss-radius-base), gap: var(--ss-dimensions-2)),
-  'lg': (padding: var(--ss-dimensions-3) var(--ss-dimensions-4), font-size: var(--ss-text-sizes-lg), radius: var(--ss-radius-lg), gap: var(--ss-dimensions-2)),
-  'xl': (padding: var(--ss-dimensions-4) var(--ss-dimensions-5), font-size: var(--ss-text-sizes-xl), radius: var(--ss-radius-xl), gap: var(--ss-dimensions-3)),
-  '2xl': (padding: var(--ss-dimensions-5) var(--ss-dimensions-6), font-size: var(--ss-text-sizes-2xl), radius: var(--ss-radius-2xl), gap: var(--ss-dimensions-3)),
-  '3xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-8), font-size: var(--ss-text-sizes-3xl), radius: var(--ss-radius-2xl), gap: var(--ss-dimensions-4)),
-);
+// Shared mixins for ss-* components that still read design-system tokens
+// directly. Components migrated to their own tokens use ./control instead.
 
 @mixin focus-ring($color: var(--ss-color-ring)) {
   outline: var(--ss-borders-width-base) var(--ss-borders-styles-solid) $color;
@@ -20,55 +9,6 @@ $atom-control-sizes: (
 @mixin atom-disabled {
   color: var(--ss-color-muted-foreground);
   cursor: not-allowed;
-}
-
-@mixin atom-control-base {
-  box-sizing: border-box;
-  width: auto;
-  min-width: var(--ss-sizing-none);
-  font-family: var(--ss-input-font-family, var(--ss-text-fonts-sans));
-  font-size: var(--ss-input-font-size, var(--ss-text-sizes-base));
-  color: var(--ss-input-foreground, var(--ss-color-foreground));
-  background: var(--ss-input-background, var(--ss-color-background));
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
-  border-radius: var(--ss-input-border-radius, var(--ss-radius-base));
-  transition:
-    border-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    box-shadow var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
-
-  &:focus,
-  &:focus-visible {
-    outline: none;
-    border-color: var(--ss-input-border-focus, var(--ss-color-ring));
-    box-shadow:
-      var(--ss-sizing-none)
-      var(--ss-sizing-none)
-      var(--ss-sizing-none)
-      var(--ss-borders-width-base)
-      color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-  }
-
-  &:disabled,
-  &[aria-disabled='true'] {
-    background: var(--ss-color-muted);
-    @include atom-disabled;
-  }
-
-  &[readonly] {
-    background: var(--ss-color-surface);
-  }
-}
-
-@mixin atom-control-sizes($block) {
-  @each $size, $values in $atom-control-sizes {
-    .#{$block}--#{$size} {
-      padding: map.get($values, 'padding');
-      font-size: map.get($values, 'font-size');
-      border-radius: map.get($values, 'radius');
-      gap: map.get($values, 'gap');
-    }
-  }
 }
 
 @mixin atom-accent-variants($block) {
@@ -83,97 +23,4 @@ $atom-control-sizes: (
   .#{$block}--error { --atom-accent: var(--ss-color-error); --atom-accent-foreground: var(--ss-color-error-foreground); }
   .#{$block}--destructive { --atom-accent: var(--ss-color-destructive); --atom-accent-foreground: var(--ss-color-destructive-foreground); }
   .#{$block}--info { --atom-accent: var(--ss-color-info); --atom-accent-foreground: var(--ss-color-info-foreground); }
-}
-
-// Button variant — generates solid / outline / ghost styles from a semantic color name.
-// Expects --ss-color-{$name} and --ss-color-{$name}-foreground to exist.
-@mixin btn-variant($name, $fallback-name: $name) {
-  $color: var(--ss-color-#{$name}, var(--ss-color-#{$fallback-name}));
-  $fg:    var(--ss-color-#{$name}-foreground, var(--ss-color-#{$fallback-name}-foreground));
-
-  &.ss-button--solid {
-    background:   $color;
-    color:        $fg;
-    border-color: var(--ss-colors-transparent);
-
-    &:hover:not([disabled])  { filter: brightness(var(--ss-effects-brightness-button-hover)); }
-    &:active:not([disabled]) { transform: scale(var(--ss-effects-scale-active)); }
-    &:focus-visible          { @include focus-ring($color); }
-    &[disabled]              { opacity: var(--ss-opacity-disabled); }
-  }
-
-  &.ss-button--outline {
-    background:   var(--ss-colors-transparent);
-    color:        $color;
-    border-color: $color;
-
-    &:hover:not([disabled])  { background: color-mix(in srgb, $color calc(var(--ss-opacity-hover-subtle) * var(--ss-sizing-full)), var(--ss-colors-transparent)); }
-    &:active:not([disabled]) { transform: scale(var(--ss-effects-scale-active)); }
-    &:focus-visible          { @include focus-ring($color); }
-    &[disabled]              { opacity: var(--ss-opacity-disabled); }
-  }
-
-  &.ss-button--ghost {
-    background:   var(--ss-colors-transparent);
-    color:        $color;
-    border-color: var(--ss-colors-transparent);
-
-    &:hover:not([disabled])  { background: color-mix(in srgb, $color calc(var(--ss-opacity-hover-subtle) * var(--ss-sizing-full)), var(--ss-colors-transparent)); }
-    &:active:not([disabled]) { transform: scale(var(--ss-effects-scale-active)); }
-    &:focus-visible          { @include focus-ring($color); }
-    &[disabled]              { opacity: var(--ss-opacity-disabled); }
-  }
-}
-
-// Input variant — uses $name as accent color for border/ring.
-// Base bg stays neutral (--ss-color-background / surface) so text stays readable in both themes.
-@mixin input-variant($name, $fallback-name: $name) {
-  $accent: var(--ss-color-#{$name}, var(--ss-color-#{$fallback-name}));
-
-  &.ss-input--solid {
-    background:   var(--ss-color-surface);
-    color:        var(--ss-color-foreground);
-    border-color: color-mix(in srgb, $accent calc(var(--ss-opacity-accent-border) * var(--ss-sizing-full)), var(--ss-color-border));
-
-    &:hover:not([disabled]) { background: var(--ss-color-surface-alt); }
-    &:focus {
-      border-color: $accent;
-      box-shadow:
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-borders-width-base)
-        color-mix(in srgb, $accent calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-    }
-    &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
-  }
-
-  &.ss-input--outline {
-    background:   var(--ss-colors-transparent);
-    color:        var(--ss-color-foreground);
-    border-color: $accent;
-
-    &:hover:not([disabled]) { background: color-mix(in srgb, $accent calc(var(--ss-opacity-hover-quiet) * var(--ss-sizing-full)), var(--ss-colors-transparent)); }
-    &:focus {
-      border-color: $accent;
-      box-shadow:
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-borders-width-base)
-        color-mix(in srgb, $accent calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-    }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
-  }
-
-  &.ss-input--underline {
-    background:        var(--ss-colors-transparent);
-    color:             var(--ss-color-foreground);
-    border-bottom-color: $accent;
-    border-radius:     var(--ss-radius-none);
-
-    &:hover:not([disabled]) { filter: brightness(var(--ss-effects-brightness-input-underline-hover)); }
-    &:focus { border-bottom-color: $accent; box-shadow: none; }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
-  }
 }

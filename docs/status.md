@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-11-23 · 77 test suites, 633 tests.
+Last updated: 2026-11-23 · 79 test suites, 652 tests.
 
 ## What exists
 
@@ -45,9 +45,12 @@ variant.
 | 4 | nav, nav-item | A named `nav` landmark over a list of real links, the current one marked `aria-current="page"` on the link itself. No menu roles: site navigation keeps open-in-new-tab and plain Tab. `ssChange` is cancelable, so a client-side router calls `preventDefault()` and routes; a modified click is left to the browser |
 | 4 | table | Data-driven — `columns` and `rows` as properties — because a scoped component cannot style slotted cells. A real `<table>` named by its caption; sortable headers are buttons, with `aria-sort` on the cell; natural sort, empty cells last, on a copy; `manual-sort` for rows sorted elsewhere. The scroll area becomes a focusable region only while it overflows. Optional sticky header |
 | 4 | e2e harness at full size | At 74 files the load flake returned and the toast's clock tests failed most full runs. jest's timeout, recorded as a fixed 45s, is raised to 90s by a setup file that runs after Stencil's, and the app-load wait to 80s. The toast tests were measuring the harness — a test's page is often a background tab, hidden and without window focus — and now pin visibility and emulate focus |
-| 5 | Tests on the released design tokens | e2e and the playground load ss-design-system from its CDN at the version pinned in `test/tokens.config.json` (2.7.0), through a disk cache. The hand-copied token sets are gone; `test/brands/` holds two test brands (not clients) as override files on top of slicesoft, checked against the pinned tokens and for button contrast in both themes |
+| 5 | Tests on the released design tokens | Tests and the local playground use a committed copy of ss-design-system (`test/tokens/design-system/`) for the structure, refreshed by `npm run tokens:sync`, which copies a local design-system build (`../ss-design-system/dist/css`) — nothing is downloaded; `test/tokens.config.json` records its version. No test touches the network. On top of it, `test/brands/test-base/` replaces every brand-level value with generic ones, so no real brand's values reach a test (`brands.spec.ts` enforces it); `neon-purple` and `organic-emerald` are variations on top of test-base, checked for button contrast in both themes |
 | 5 | Token layer lint | `npm run lint` counts, per component, every `var(--ss-*)` outside its own tokens. Components listed as migrated in `scripts/token-layers.config.json` fail on any. Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
-| 5 | Playground is local only | `src/index.html` is a bare page (CDN tokens + build scripts). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
+| 5 | Playground is local only | `src/index.html` is a bare page (the CDN tokens a consumer loads + build scripts). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
+| 6 | Wave 1 on component tokens | `ss-button`, `ss-input`, `ss-textarea`, `ss-select`, `ss-combobox` read only `--ss-<component>-*`, defined in ss-design-system 2.8.0 (`tokens/components/`, with new `control.*`, `field.size.*` and `motion.duration.spin` roles). A computed-style snapshot taken before the move (`src/test/wave-1.styles.e2e.ts`, every size, variant, style, rest/hover/focus, both themes) is unchanged except the intended fix: outline and ghost button text now uses `--ss-color-*-text` (dark; tertiary and destructive have their own roles since 2.8.0) and `*-foreground` for default/secondary/quaternary, which were illegible (1.10:1 on white). `wave-1.tokens.e2e.ts` proves a component token moves only its component. `ss-input` still honors `--ss-input-border`, `-border-radius` and `-border-focus`; `ss-textarea`, `ss-select` and `ss-combobox` no longer read `--ss-input-*` overrides (they have their own tokens) |
+| 6 | Theming by container | ss-design-system 2.8.0 re-declares component tokens under `[data-theme]` and the light semantic colors under `[data-theme="light"]`, so `data-theme` on any container (a dark card on a light page, or the reverse) reaches the components inside it. `wave-1.tokens.e2e.ts` checks both directions |
+| 6 | The "App did not load" flake, root-caused | Pages from parallel workers share one Chrome; one worker's new page could hide another's, and a hidden page runs no animation frames, so Stencil never finished loading it. Measured 9 of 239 pages hidden with 3 workers, none with 1. `npm test` runs one worker (~250s for the full suite, 2 clean runs of 654). Details in `docs/conventions.md` |
 
 ## Playground and release readiness
 
@@ -70,18 +73,14 @@ browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed
 
-- **Components read primitives, not their own tokens.** All 42 do (see the
-  `lint:tokens` count). The plan migrates them in waves, each paired with a
-  design-system release that adds the component's tokens; wave 1 is button,
-  input, textarea, select and combobox. Outline and ghost buttons use the fill
-  as text, which fails contrast in dark (orange-700 on the page is 3.71); wave 1
-  moves them to `--ss-color-*-text`.
+- **37 components still read primitives.** See the `lint:tokens` count. Next is
+  wave 2: checkbox, radio, switch, slider, label. Same pattern as wave 1: style
+  snapshot first, then the component tokens in ss-design-system (and the
+  variables in `test/fixtures/library-contract.json` there), then the
+  stylesheet. Every control's sized radius follows `control.size.*.radius`
+  (`field.size.*.radius` points at it), so a brand that overrides those roles
+  moves all five.
 
-- **The suite has three consecutive clean runs, not ten.** The last flake fix
-  was held to ten. Since the timeout ceiling was raised there has been no load
-  timeout in thirteen full runs, against five in the seven before; the only
-  failures since were the toast's, now understood and fixed. Worth a few more
-  full runs before calling it closed.
 - **Scoped components do not slot children added after they render.** Found
   on `ss-toaster`, now shadow. Any scoped component that slots content is
   likely to have the same gap when a framework adds a child after mount — a
@@ -116,9 +115,6 @@ browser coverage for interactive behavior.
 
 ## Known limits
 
-- **Dark applies from `<html>` only.** Component tokens resolve on `:root`, so
-  `data-theme="dark"` on a container changes semantic colors inside it but not
-  components (ss-design-system `docs/web.md`).
 - **Overlay widths are arithmetic.** There is no width token above 128px, so the
   overlays use multiples of `--ss-dimensions-32`. Recorded in
   `docs/pending-token-proposals.md`.

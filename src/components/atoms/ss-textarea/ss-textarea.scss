@@ -1,24 +1,24 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-textarea {
-  @include mx.atom-control-base;
+  @include c.control-base(textarea);
   display: inline-block;
-  max-width: var(--ss-sizing-full);
-  min-height: var(--ss-dimensions-20);
-  line-height: var(--ss-text-line-heights-normal);
+  max-width: 100%;
+  min-height: c.t(textarea, min-height);
+  line-height: c.t(textarea, line-height);
 }
 
-@include mx.atom-control-sizes('ss-textarea');
-@include mx.atom-accent-variants('ss-textarea');
+@include c.control-sizes('ss-textarea', textarea);
+@include c.accent-variants('ss-textarea', textarea);
 
 .ss-textarea--outline {
-  background: var(--ss-colors-transparent);
+  background: transparent;
 }
 
 .ss-textarea--underline {
-  background: var(--ss-colors-transparent);
-  border-width: var(--ss-borders-width-none) var(--ss-borders-width-none) var(--ss-borders-width-base);
-  border-radius: var(--ss-radius-none);
+  background: transparent;
+  border-width: 0 0 c.t(textarea, border-width);
+  border-radius: 0;
 }
 
 .ss-textarea--success,
@@ -30,7 +30,7 @@
 }
 
 .ss-textarea--invalid {
-  border-color: var(--ss-color-error);
+  border-color: c.t(textarea, invalid-border-color);
 }
 
 .ss-textarea--resize-none { resize: none; }
@@ -39,5 +39,5 @@
 .ss-textarea--resize-both { resize: both; }
 
 .ss-textarea--full-width {
-  width: var(--ss-sizing-full);
+  width: 100%;
 }

@@ -129,6 +129,26 @@ instead — the `has` trap is not instrumented.
   the element directly avoids a re-render per scroll frame; ask for a render only
   when something that appears in the markup changes, such as the resolved side.
 
+## Component tokens
+
+- **A migrated component reads only `--ss-<component>-*`.** Listed in
+  `scripts/token-layers.config.json`; `npm run lint` fails on any other
+  `--ss-*`, semantic colors included. CSS keywords that are not design
+  decisions (`0`, `100%`, `transparent`, `currentColor`) are written literally.
+  Write rules with `t($component, name)` from `src/global/styles/_control.scss`.
+- **Migrating a component**: snapshot its computed styles first (see
+  `src/test/style-snapshot.ts`); add its tokens to ss-design-system, each
+  pointing at a system role or semantic color with the value the stylesheet
+  reads today, and its variables to that repo's
+  `test/fixtures/library-contract.json`; then rewrite the stylesheet until the
+  snapshot passes untouched. Build the design-system branch (`npm run build`
+  there), run `npm run tokens:sync` here (it copies
+  `../ss-design-system/dist/css`), and set the version it will be released
+  as in `test/tokens.config.json`.
+- **A test that injects its own tokens must name the component's.** The input
+  group's seam test set `--ss-radius-base`; the migrated input reads
+  `--ss-input-size-md-radius`, and the corner silently went to 0.
+
 ## Tests and tooling
 
 - **`npx tsc --noEmit` catches what eslint and the build do not.** A required
@@ -145,18 +165,31 @@ instead — the `has` trap is not instrumented.
   puts its setup file first in `setupFilesAfterEnv`, so
   `src/test/jest-setup.ts`, listed in `stencil.config.ts`, runs after it and
   raises the timeout to 90s. Checked both ways with a test that waits 50s: it
-  fails at 45s without the file and passes with it. Worker count and load
-  headroom are both needed; neither alone was enough.
+  fails at 45s without the file and passes with it.
+- **"App did not load" was hidden pages, not slow ones — e2e runs one
+  worker.** Every worker opens its pages in the one Chrome Stencil launches,
+  and a page opened by one worker can leave another worker's page hidden. A
+  hidden page gets no `requestAnimationFrame`, so Stencil never finishes its
+  first render, `window.stencilAppLoaded` stays false, and Stencil's own wait
+  (which also polls on animation frames) gives up. Instrumented on a failure:
+  `visibilityState` hidden, `stencilAppLoaded` false, every element already
+  defined, rAF not firing, four pages open. Measured on the full e2e suite: 3
+  workers created 9 of 239 pages hidden and failed one test; 1 worker created
+  none, failed none, and took 237s against 194s. Raising the load wait only
+  hid this (a hidden page can stay hidden past any wait); `bringToFront()` did
+  not help, since the next page another worker opens takes the front again.
+  `scripts/test-config.test.mjs` keeps the script at one worker.
 - **Pass `page.evaluate` a string in shared helpers.** `npm test` runs with
   `--coverage`, which instruments every function in `src/`, including one
   handed to `page.evaluate`; in the page its counters do not exist and it
   throws `ReferenceError: cov_… is not defined`. A test run alone without
   coverage passes, so the break shows only in the full run. `useTokens` sets
   `data-theme` with a string expression for this reason.
-- **The e2e tokens are the released design system.** `useTokens` loads
-  ss-design-system at the version pinned in `test/tokens.config.json`, from
-  the CDN, through a cache in `.cache/design-system/`. Without network or
-  cache it fails naming the URL.
+- **Tests never touch the network, nor a real brand's values.** `useTokens`
+  loads the committed ss-design-system copy in `test/tokens/design-system/`
+  (structure; refresh with `npm run tokens:sync`, never by hand), then the
+  generic `test/brands/test-base/`, which overrides every brand-level value.
+  Expected colors in tests are test-base's. See `test/brands/README.md`.
 - **`setContent` declares no charset.** Non-ASCII in test markup arrives
   mis-decoded; write it as an HTML entity.
 - **Measure the box the reader sees, not the host.** A component's host is a

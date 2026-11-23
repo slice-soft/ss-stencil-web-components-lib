@@ -49,7 +49,7 @@
   "scripts": {
     "build": "stencil build",
     "start": "stencil build --dev --watch --serve",
-    "test": "stencil test --spec --e2e --coverage --max-workers=3",
+    "test": "stencil test --spec --e2e --coverage --max-workers=1",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
     "eslint": "eslint . --ext .ts,.tsx,.js,.jsx",
@@ -59,7 +59,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "npm run eslint && npm run prettier && npm run typecheck && npm run test:scripts && npm run lint:tokens",
     "test:scripts": "node --test \"scripts/*.test.mjs\"",
-    "lint:tokens": "node scripts/check-token-layers.mjs"
+    "lint:tokens": "node scripts/check-token-layers.mjs",
+    "tokens:sync": "node scripts/sync-tokens.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.27.0",

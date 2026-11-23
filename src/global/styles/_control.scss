@@ -1,0 +1,80 @@
+// Mixins for components that read only their own tokens (--ss-<component>-*).
+// Every design value comes from a token the design system defines for that
+// component; see scripts/check-token-layers.mjs for the rule. Literal values
+// here are CSS keywords, not design decisions (0, 100%, transparent, …).
+@use 'sass:list';
+
+$sizes: xs, sm, md, lg, xl, 2xl, 3xl;
+
+$variants: default, brand, primary, secondary, tertiary, quaternary, success, warning, error, destructive, info;
+
+// var(--ss-<component>-<name>)
+@function t($component, $name) {
+  @return var(--ss-#{$component}-#{$name});
+}
+
+// A focus ring drawn as a translucent spread of $color.
+@function ring($component, $color) {
+  @return 0 0 0 t($component, focus-ring-width) color-mix(in srgb, #{$color} calc(#{t($component, focus-ring-opacity)} * 100%), transparent);
+}
+
+// The shell shared by text-like controls: font, colors, border, focus,
+// disabled and read-only. $selector-focus lets a wrapper put focus on an
+// inner element.
+@mixin control-base($c) {
+  box-sizing: border-box;
+  width: auto;
+  min-width: 0;
+  font-family: t($c, font-family);
+  font-size: t($c, font-size);
+  color: t($c, foreground);
+  background: t($c, background);
+  border: t($c, border-width) solid t($c, border-color);
+  border-radius: t($c, radius);
+  transition:
+    border-color t($c, transition-duration) t($c, transition-easing),
+    background-color t($c, transition-duration) t($c, transition-easing),
+    box-shadow t($c, transition-duration) t($c, transition-easing);
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    border-color: t($c, focus-border-color);
+    box-shadow: ring($c, t($c, focus-ring-color));
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    background: t($c, disabled-background);
+    color: t($c, disabled-foreground);
+    cursor: not-allowed;
+  }
+
+  &[readonly] {
+    background: t($c, readonly-background);
+  }
+}
+
+// .<block>--<size> { padding; font-size; border-radius; [gap] } from
+// --ss-<c>-size-<size>-*.
+@mixin control-sizes($block, $c, $inner: '', $gap: true) {
+  @each $size in $sizes {
+    .#{$block}--#{$size}#{$inner} {
+      padding: t($c, size-#{$size}-padding-y) t($c, size-#{$size}-padding-x);
+      font-size: t($c, size-#{$size}-font-size);
+      border-radius: t($c, size-#{$size}-radius);
+      @if $gap {
+        gap: t($c, size-#{$size}-gap);
+      }
+    }
+  }
+}
+
+// --atom-accent per variant, from --ss-<c>-<variant>-accent.
+@mixin accent-variants($block, $c) {
+  @each $variant in $variants {
+    .#{$block}--#{$variant} {
+      --atom-accent: #{t($c, #{$variant}-accent)};
+    }
+  }
+}

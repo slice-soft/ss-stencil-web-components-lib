@@ -1,0 +1,64 @@
+/**
+ * Test brand "test-base": generic, not a real brand. It replaces every
+ * brand-level value of the design-system copy (test/tokens/design-system), so
+ * no real brand's values reach a test. The other test brands load on top.
+ */
+
+:root,
+[data-theme="light"] {
+  --ss-brand-secondary-dark: #111827;
+  --ss-brand-surface: #111827;
+  --ss-brand-surface-alt: #1f2937;
+  --ss-brand-text-primary: #f9fafb;
+  --ss-brand-text-secondary: #9ca3af;
+  --ss-division-hardware: #111827;
+  --ss-brand-primary: #1d4ed8;
+  --ss-brand-primary-hover: #1e40af;
+  --ss-division-core: #1d4ed8;
+  --ss-division-products: #0369a1;
+  --ss-division-labs: #0e7490;
+  --ss-division-academy: #b45309;
+  --ss-division-entertainment: #6d28d9;
+  --ss-color-background: #ffffff;
+  --ss-color-foreground: #111827;
+  --ss-color-primary: #1d4ed8;
+  --ss-color-primary-foreground: #ffffff;
+  --ss-color-primary-hover: #1e40af;
+  --ss-color-primary-text: #1d4ed8;
+  --ss-color-secondary: #f3f4f6;
+  --ss-color-secondary-foreground: #111827;
+  --ss-color-tertiary: #6d28d9;
+  --ss-color-tertiary-foreground: #ffffff;
+  --ss-color-tertiary-text: #6d28d9;
+  --ss-color-quaternary: #e5e7eb;
+  --ss-color-quaternary-foreground: #111827;
+  --ss-color-muted: #f3f4f6;
+  --ss-color-muted-foreground: #4b5563;
+  --ss-color-border: #d1d5db;
+  --ss-color-input: #d1d5db;
+  --ss-color-ring: #1d4ed8;
+  --ss-color-card: #ffffff;
+  --ss-color-card-foreground: #111827;
+  --ss-color-surface: #f9fafb;
+  --ss-color-surface-alt: #f3f4f6;
+  --ss-color-destructive: #b91c1c;
+  --ss-color-destructive-foreground: #ffffff;
+  --ss-color-destructive-hover: #991b1b;
+  --ss-color-destructive-text: #b91c1c;
+  --ss-color-success: #15803d;
+  --ss-color-success-foreground: #ffffff;
+  --ss-color-success-hover: #166534;
+  --ss-color-success-text: #15803d;
+  --ss-color-warning: #b45309;
+  --ss-color-warning-foreground: #ffffff;
+  --ss-color-warning-hover: #92400e;
+  --ss-color-warning-text: #b45309;
+  --ss-color-error: #b91c1c;
+  --ss-color-error-foreground: #ffffff;
+  --ss-color-error-hover: #991b1b;
+  --ss-color-error-text: #b91c1c;
+  --ss-color-info: #0369a1;
+  --ss-color-info-foreground: #ffffff;
+  --ss-color-info-hover: #075985;
+  --ss-color-info-text: #0369a1;
+}

@@ -1,50 +1,32 @@
-@use 'sass:map';
-@use '../../../global/styles/mixins' as mx;
-
-$sizes: (
-  'xs': (padding: var(--ss-dimensions-1) var(--ss-dimensions-2), font-size: var(--ss-text-sizes-xs), border-radius: var(--ss-radius-sm)),
-  'sm': (padding: var(--ss-dimensions-1) var(--ss-dimensions-2), font-size: var(--ss-text-sizes-xs), border-radius: var(--ss-radius-sm)),
-  'md': (padding: var(--ss-dimensions-2) var(--ss-dimensions-3), font-size: var(--ss-text-sizes-sm), border-radius: var(--ss-radius-base)),
-  'lg': (padding: var(--ss-dimensions-3) var(--ss-dimensions-4), font-size: var(--ss-text-sizes-base), border-radius: var(--ss-radius-lg)),
-  'xl': (padding: var(--ss-dimensions-4) var(--ss-dimensions-6), font-size: var(--ss-text-sizes-lg), border-radius: var(--ss-radius-xl)),
-  '2xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-8), font-size: var(--ss-text-sizes-xl), border-radius: var(--ss-radius-2xl)),
-  '3xl': (padding: var(--ss-dimensions-8) var(--ss-dimensions-10), font-size: var(--ss-text-sizes-2xl), border-radius: var(--ss-radius-2xl)),
-);
+@use '../../../global/styles/control' as c;
 
 .ss-combobox {
   display: inline-block;
   width: auto;
-  max-width: var(--ss-sizing-full);
+  max-width: 100%;
 }
 
 .ss-combobox__input {
-  @include mx.atom-control-base;
-  max-width: var(--ss-sizing-full);
+  @include c.control-base(combobox);
+  max-width: 100%;
 }
 
 .ss-combobox--full-width,
 .ss-combobox--full-width .ss-combobox__input {
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
-@include mx.atom-accent-variants('ss-combobox');
-
-@each $size, $values in $sizes {
-  .ss-combobox--#{$size} .ss-combobox__input {
-    padding: map.get($values, 'padding');
-    font-size: map.get($values, 'font-size');
-    border-radius: map.get($values, 'border-radius');
-  }
-}
+@include c.accent-variants('ss-combobox', combobox);
+@include c.control-sizes('ss-combobox', combobox, ' .ss-combobox__input', $gap: false);
 
 .ss-combobox--outline .ss-combobox__input {
-  background: var(--ss-colors-transparent);
+  background: transparent;
 }
 
 .ss-combobox--underline .ss-combobox__input {
-  background: var(--ss-colors-transparent);
-  border-width: var(--ss-borders-width-none) var(--ss-borders-width-none) var(--ss-borders-width-base);
-  border-radius: var(--ss-radius-none);
+  background: transparent;
+  border-width: 0 0 c.t(combobox, border-width);
+  border-radius: 0;
 }
 
 .ss-combobox--success .ss-combobox__input,
@@ -56,5 +38,5 @@ $sizes: (
 }
 
 .ss-combobox--invalid .ss-combobox__input {
-  border-color: var(--ss-color-error);
+  border-color: c.t(combobox, invalid-border-color);
 }
