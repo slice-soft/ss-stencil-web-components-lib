@@ -8,8 +8,8 @@ Los componentes consumen tokens CSS de `@slice-soft/ss-design-system` **2.8.0 o
 superior**: cada componente migrado lee solo sus propios tokens
 (`--ss-<componente>-*`), que existen desde esa versión. Con una versión anterior
 esos componentes se ven sin estilo. Carga `_variables.css` antes de usar la
-librería y `_dark.css` después si necesitas modo oscuro; el tema oscuro se activa
-con `data-theme="dark"` en `<html>`.
+librería y `_dark.css` después si necesitas modo oscuro; el tema se cambia
+con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.
 
 ```html
 <link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/ss-design-system-v2.8.0/css/_variables.css">

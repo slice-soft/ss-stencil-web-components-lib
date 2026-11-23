@@ -53,4 +53,25 @@ describe('wave 1 component tokens', () => {
     await useTokens(p, 'light', 'neon-purple');
     expect((await computedStyles(p)).t.color).toBe('rgb(219, 39, 119)');
   });
+
+  it('follows data-theme on a container, not only on <html>', async () => {
+    // A dark card on a light page, and a light card on a dark page: the
+    // components inside take the card's theme.
+    const p = await newTestPage();
+    await p.setContent(
+      '<ss-button data-case="page" label="P"></ss-button>' +
+        '<div data-theme="dark"><ss-button data-case="dark-card" x-style="outline" label="D"></ss-button></div>' +
+        '<div data-theme="light"><ss-button data-case="light-card" x-style="outline" label="L"></ss-button></div>',
+    );
+    await useTokens(p);
+    let styles = await computedStyles(p);
+    expect(styles['dark-card'].color).toBe('rgb(249, 115, 22)');
+    expect(styles['light-card'].color).toBe('rgb(194, 65, 12)');
+
+    await p.evaluate(`document.documentElement.setAttribute('data-theme', 'dark')`);
+    await p.waitForChanges();
+    styles = await computedStyles(p);
+    expect(styles['dark-card'].color).toBe('rgb(249, 115, 22)');
+    expect(styles['light-card'].color).toBe('rgb(194, 65, 12)');
+  });
 });

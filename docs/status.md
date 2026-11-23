@@ -49,6 +49,7 @@ variant.
 | 5 | Token layer lint | `npm run lint` counts, per component, every `var(--ss-*)` outside its own tokens. Components listed as migrated in `scripts/token-layers.config.json` fail on any. Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
 | 5 | Playground is local only | `src/index.html` is a bare page (CDN tokens + build scripts). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
 | 6 | Wave 1 on component tokens | `ss-button`, `ss-input`, `ss-textarea`, `ss-select`, `ss-combobox` read only `--ss-<component>-*`, defined in ss-design-system 2.8.0 (`tokens/components/`, with new `control.*`, `field.size.*` and `motion.duration.spin` roles). A computed-style snapshot taken before the move (`src/test/wave-1.styles.e2e.ts`, every size, variant, style, rest/hover/focus, both themes) is unchanged except the intended fix: outline and ghost button text now uses `--ss-color-*-text` (dark; tertiary and destructive have their own roles since 2.8.0) and `*-foreground` for default/secondary/quaternary, which were illegible (1.10:1 on white). `wave-1.tokens.e2e.ts` proves a component token moves only its component. `ss-input` still honors `--ss-input-border`, `-border-radius` and `-border-focus`; `ss-textarea`, `ss-select` and `ss-combobox` no longer read `--ss-input-*` overrides (they have their own tokens) |
+| 6 | Theming by container | ss-design-system 2.8.0 re-declares component tokens under `[data-theme]` and the light semantic colors under `[data-theme="light"]`, so `data-theme` on any container (a dark card on a light page, or the reverse) reaches the components inside it. `wave-1.tokens.e2e.ts` checks both directions |
 
 ## Playground and release readiness
 
@@ -118,9 +119,6 @@ browser coverage for interactive behavior.
 
 ## Known limits
 
-- **Dark applies from `<html>` only.** Component tokens resolve on `:root`, so
-  `data-theme="dark"` on a container changes semantic colors inside it but not
-  components (ss-design-system `docs/web.md`).
 - **Overlay widths are arithmetic.** There is no width token above 128px, so the
   overlays use multiples of `--ss-dimensions-32`. Recorded in
   `docs/pending-token-proposals.md`.
