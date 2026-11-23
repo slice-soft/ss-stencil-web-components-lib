@@ -1,56 +1,57 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-slider {
   display: inline-flex;
   align-items: center;
-  gap: var(--ss-dimensions-3);
+  gap: c.t(slider, gap);
   width: auto;
-  font-family: var(--ss-text-fonts-sans);
-  color: var(--ss-color-foreground);
+  font-family: c.t(slider, font-family);
+  color: c.t(slider, foreground);
 }
 
-@include mx.atom-accent-variants('ss-slider');
+@include c.accent-variants('ss-slider', slider);
 
 .ss-slider__input {
-  width: var(--ss-dimensions-32);
-  min-width: var(--ss-dimensions-20);
-  accent-color: var(--atom-accent, var(--ss-color-primary));
+  width: c.t(slider, track-width);
+  min-width: c.t(slider, track-min-width);
+  accent-color: var(--atom-accent, #{c.t(slider, accent)});
   cursor: pointer;
 }
 
 .ss-slider__input:focus-visible {
-  @include mx.focus-ring(var(--atom-accent, var(--ss-color-ring)));
+  @include c.focus-outline(slider, var(--atom-accent, #{c.t(slider, focus-ring-color)}));
 }
 
 .ss-slider__value {
-  min-width: var(--ss-dimensions-8);
-  font-size: var(--ss-text-sizes-sm);
-  font-weight: var(--ss-text-weights-medium);
-  color: var(--ss-color-muted-foreground);
+  min-width: c.t(slider, value-min-width);
+  font-size: c.t(slider, value-font-size);
+  font-weight: c.t(slider, value-font-weight);
+  color: c.t(slider, value-color);
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
 .ss-slider--xs .ss-slider__input,
 .ss-slider--sm .ss-slider__input {
-  width: var(--ss-dimensions-20);
+  width: c.t(slider, track-width-compact);
 }
 
 .ss-slider--lg .ss-slider__input,
 .ss-slider--xl .ss-slider__input,
 .ss-slider--2xl .ss-slider__input,
 .ss-slider--3xl .ss-slider__input {
-  width: calc(var(--ss-dimensions-32) + var(--ss-dimensions-12));
+  width: c.t(slider, track-width-wide);
 }
 
 .ss-slider--full-width,
 .ss-slider--full-width .ss-slider__input {
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
 .ss-slider--disabled,
 .ss-slider--readonly {
-  @include mx.atom-disabled;
+  color: c.t(slider, disabled-foreground);
+  cursor: not-allowed;
 }
 
 .ss-slider--disabled .ss-slider__input {
@@ -62,5 +63,5 @@
 }
 
 .ss-slider--invalid .ss-slider__input {
-  accent-color: var(--ss-color-error);
+  accent-color: c.t(slider, invalid-accent);
 }

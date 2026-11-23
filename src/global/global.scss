@@ -1,12 +1,6 @@
 @import './reset.css';
 
-// Design system tokens must be loaded by the consumer before using this library.
-//
-// CDN (recommended):
-//   <link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_variables.css">
-//
-// npm package:
-//   @import "@slice-soft/ss-design-system/dist/css/_variables.css";
-//
-// For dark mode, also load:
-//   <link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/latest/css/_dark.css">
+// The consumer loads ss-design-system's tokens before using this library:
+// _variables.css, and _dark.css for dark mode (version 2.9.0 or later). Where
+// they come from is up to the consumer; the library depends on the variable
+// schema, not on a URL.

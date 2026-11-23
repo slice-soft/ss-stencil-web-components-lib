@@ -1,3 +1,14 @@
 {
-  "migrated": ["ss-button", "ss-input", "ss-textarea", "ss-select", "ss-combobox"]
+  "migrated": [
+    "ss-button",
+    "ss-input",
+    "ss-textarea",
+    "ss-select",
+    "ss-combobox",
+    "ss-checkbox",
+    "ss-radio",
+    "ss-switch",
+    "ss-slider",
+    "ss-label"
+  ]
 }

@@ -1,28 +1,23 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-label {
   display: inline-flex;
   align-items: center;
-  gap: var(--ss-dimensions-1);
+  gap: c.t(label, gap);
   width: fit-content;
-  font-family: var(--ss-text-fonts-sans);
-  font-weight: var(--ss-text-weights-medium);
-  line-height: var(--ss-text-line-heights-normal);
-  color: var(--ss-color-foreground);
+  font-family: c.t(label, font-family);
+  font-weight: c.t(label, font-weight);
+  line-height: c.t(label, line-height);
+  color: c.t(label, foreground);
 }
 
-.ss-label--xs { font-size: var(--ss-text-sizes-xs); }
-.ss-label--sm { font-size: var(--ss-text-sizes-sm); }
-.ss-label--md { font-size: var(--ss-text-sizes-base); }
-.ss-label--lg { font-size: var(--ss-text-sizes-lg); }
-.ss-label--xl,
-.ss-label--2xl,
-.ss-label--3xl { font-size: var(--ss-text-sizes-xl); }
+@include c.label-sizes('ss-label', label, $gap: false);
 
 .ss-label--disabled {
-  @include mx.atom-disabled;
+  color: c.t(label, disabled-foreground);
+  cursor: not-allowed;
 }
 
 .ss-label__required {
-  color: var(--ss-color-error);
+  color: c.t(label, required-color);
 }

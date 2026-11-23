@@ -1,20 +1,20 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-radio {
   display: inline-flex;
   align-items: center;
-  gap: var(--ss-dimensions-2);
+  gap: c.t(radio, gap);
   width: fit-content;
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-base);
-  line-height: var(--ss-text-line-heights-normal);
-  color: var(--ss-color-foreground);
+  font-family: c.t(radio, font-family);
+  font-size: c.t(radio, font-size);
+  line-height: c.t(radio, line-height);
+  color: c.t(radio, foreground);
   cursor: pointer;
 }
 
 .ss-radio__input {
   position: absolute;
-  opacity: var(--ss-opacity-hidden);
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -23,48 +23,43 @@
   align-items: center;
   justify-content: center;
   flex: none;
-  width: var(--ss-sizing-icon);
-  height: var(--ss-sizing-icon);
-  background: var(--ss-input-background, var(--ss-color-background));
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
-  border-radius: var(--ss-radius-full);
+  width: c.t(radio, control-size);
+  height: c.t(radio, control-size);
+  background: c.t(radio, control-background);
+  border: c.t(radio, border-width) solid c.t(radio, border-color);
+  border-radius: c.t(radio, radius);
 }
 
 .ss-radio__mark {
-  width: var(--ss-sizing-half);
-  height: var(--ss-sizing-half);
-  background: var(--ss-color-primary);
-  border-radius: var(--ss-radius-full);
-  opacity: var(--ss-opacity-hidden);
+  width: 50%;
+  height: 50%;
+  background: c.t(radio, mark-color);
+  border-radius: c.t(radio, radius);
+  opacity: 0;
 }
 
 .ss-radio__input:focus-visible + .ss-radio__control {
-  @include mx.focus-ring(var(--ss-color-ring));
+  @include c.focus-outline(radio, c.t(radio, focus-ring-color));
 }
 
 .ss-radio--checked .ss-radio__control {
-  border-color: var(--ss-color-primary);
+  border-color: c.t(radio, checked-border-color);
 }
 
 .ss-radio--checked .ss-radio__mark {
-  opacity: var(--ss-opacity-visible);
+  opacity: 1;
 }
 
-.ss-radio--xs { font-size: var(--ss-text-sizes-xs); gap: var(--ss-dimensions-1); }
-.ss-radio--sm { font-size: var(--ss-text-sizes-sm); gap: var(--ss-dimensions-1); }
-.ss-radio--md { font-size: var(--ss-text-sizes-base); }
-.ss-radio--lg { font-size: var(--ss-text-sizes-lg); }
-.ss-radio--xl,
-.ss-radio--2xl,
-.ss-radio--3xl { font-size: var(--ss-text-sizes-xl); }
+@include c.label-sizes('ss-radio', radio);
 
 .ss-radio--disabled {
-  @include mx.atom-disabled;
+  color: c.t(radio, disabled-foreground);
+  cursor: not-allowed;
 }
 
 .ss-radio--disabled .ss-radio__control {
-  background: var(--ss-color-muted);
-  border-color: var(--ss-color-border);
+  background: c.t(radio, disabled-control-background);
+  border-color: c.t(radio, disabled-border-color);
 }
 
 .ss-radio--readonly {
@@ -72,5 +67,5 @@
 }
 
 .ss-radio--invalid .ss-radio__control {
-  border-color: var(--ss-color-error);
+  border-color: c.t(radio, invalid-border-color);
 }

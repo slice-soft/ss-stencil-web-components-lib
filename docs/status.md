@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-11-23 · 79 test suites, 652 tests.
+Last updated: 2026-11-23 · 81 test suites, 667 tests.
 
 ## What exists
 
@@ -47,10 +47,11 @@ variant.
 | 4 | e2e harness at full size | At 74 files the load flake returned and the toast's clock tests failed most full runs. jest's timeout, recorded as a fixed 45s, is raised to 90s by a setup file that runs after Stencil's, and the app-load wait to 80s. The toast tests were measuring the harness — a test's page is often a background tab, hidden and without window focus — and now pin visibility and emulate focus |
 | 5 | Tests on the released design tokens | Tests and the local playground use a committed copy of ss-design-system (`test/tokens/design-system/`) for the structure, refreshed by `npm run tokens:sync`, which copies a local design-system build (`../ss-design-system/dist/css`) — nothing is downloaded; `test/tokens.config.json` records its version. No test touches the network. On top of it, `test/brands/test-base/` replaces every brand-level value with generic ones, so no real brand's values reach a test (`brands.spec.ts` enforces it); `neon-purple` and `organic-emerald` are variations on top of test-base, checked for button contrast in both themes |
 | 5 | Token layer lint | `npm run lint` counts, per component, every `var(--ss-*)` outside its own tokens. Components listed as migrated in `scripts/token-layers.config.json` fail on any. Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
-| 5 | Playground is local only | `src/index.html` is a bare page (the CDN tokens a consumer loads + build scripts). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
+| 5 | Playground is local only | `src/index.html` is a bare page: the committed token copy (`/test-tokens/design-system/`) + build scripts, no external URL (`brands.spec.ts` checks). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
 | 6 | Wave 1 on component tokens | `ss-button`, `ss-input`, `ss-textarea`, `ss-select`, `ss-combobox` read only `--ss-<component>-*`, defined in ss-design-system 2.8.0 (`tokens/components/`, with new `control.*`, `field.size.*` and `motion.duration.spin` roles). A computed-style snapshot taken before the move (`src/test/wave-1.styles.e2e.ts`, every size, variant, style, rest/hover/focus, both themes) is unchanged except the intended fix: outline and ghost button text now uses `--ss-color-*-text` (dark; tertiary and destructive have their own roles since 2.8.0) and `*-foreground` for default/secondary/quaternary, which were illegible (1.10:1 on white). `wave-1.tokens.e2e.ts` proves a component token moves only its component. `ss-input` still honors `--ss-input-border`, `-border-radius` and `-border-focus`; `ss-textarea`, `ss-select` and `ss-combobox` no longer read `--ss-input-*` overrides (they have their own tokens) |
 | 6 | Theming by container | ss-design-system 2.8.0 re-declares component tokens under `[data-theme]` and the light semantic colors under `[data-theme="light"]`, so `data-theme` on any container (a dark card on a light page, or the reverse) reaches the components inside it. `wave-1.tokens.e2e.ts` checks both directions |
 | 6 | The "App did not load" flake, root-caused | Pages from parallel workers share one Chrome; one worker's new page could hide another's, and a hidden page runs no animation frames, so Stencil never finished loading it. Measured 9 of 239 pages hidden with 3 workers, none with 1. `npm test` runs one worker (~250s for the full suite, 2 clean runs of 654). Details in `docs/conventions.md` |
+| 7 | Wave 2 on component tokens | `ss-checkbox`, `ss-radio`, `ss-switch`, `ss-slider`, `ss-label` read only `--ss-<component>-*` (ss-design-system 2.9.0: `tokens/components/{checkbox,radio,switch,slider,label}.json`, new `choice.*` system roles, `shape.radius.subtle`, slider track roles in `control.*`). The computed-style snapshot taken before (`wave-2.styles.e2e.ts`: every size and state, rest and focused, both themes) is unchanged, value for value. `wave-2.tokens.e2e.ts`: a component token moves one component; `--ss-color-primary` reaches the three choice controls; `choice.size.md.font-size` reaches all four |
 
 ## Playground and release readiness
 
@@ -73,8 +74,9 @@ browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed
 
-- **37 components still read primitives.** See the `lint:tokens` count. Next is
-  wave 2: checkbox, radio, switch, slider, label. Same pattern as wave 1: style
+- **32 components still read primitives.** See the `lint:tokens` count. Next is
+  wave 3: the remaining atoms (avatar, badge, divider, icon, link, spinner,
+  tooltip, typography). Same pattern as wave 1: style
   snapshot first, then the component tokens in ss-design-system (and the
   variables in `test/fixtures/library-contract.json` there), then the
   stylesheet. Every control's sized radius follows `control.size.*.radius`
