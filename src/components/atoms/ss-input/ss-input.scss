@@ -1,197 +1,177 @@
-@use 'sass:map';
-@use '../../../global/styles/mixins' as mx;
-
-$sizes: (
-  'xs':  (padding: var(--ss-dimensions-1) var(--ss-dimensions-2),  font-size: var(--ss-text-sizes-xs),   border-radius: var(--ss-radius-sm)),
-  'sm':  (padding: var(--ss-dimensions-1) var(--ss-dimensions-2),  font-size: var(--ss-text-sizes-xs),   border-radius: var(--ss-radius-sm)),
-  'md':  (padding: var(--ss-dimensions-2) var(--ss-dimensions-3),  font-size: var(--ss-text-sizes-sm),   border-radius: var(--ss-radius-base)),
-  'lg':  (padding: var(--ss-dimensions-3) var(--ss-dimensions-4),  font-size: var(--ss-text-sizes-base), border-radius: var(--ss-radius-lg)),
-  'xl':  (padding: var(--ss-dimensions-4) var(--ss-dimensions-6),  font-size: var(--ss-text-sizes-lg),   border-radius: var(--ss-radius-xl)),
-  '2xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-8),  font-size: var(--ss-text-sizes-xl),   border-radius: var(--ss-radius-2xl)),
-  '3xl': (padding: var(--ss-dimensions-8) var(--ss-dimensions-10), font-size: var(--ss-text-sizes-2xl),  border-radius: var(--ss-radius-2xl)),
-);
+@use '../../../global/styles/control' as c;
 
 // Base
 .ss-input {
   display:       inline-block;
   box-sizing:    border-box;
   width:         auto;
-  max-width: var(--ss-sizing-full);
-  font-family:   var(--ss-input-font-family, var(--ss-text-fonts-sans));
-  font-size:     var(--ss-input-font-size, var(--ss-text-sizes-sm));
-  color:         var(--ss-input-foreground, var(--ss-color-foreground));
-  border:        var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-input-border, var(--ss-color-input));
-  border-radius: var(--ss-input-border-radius, var(--ss-radius-base));
+  max-width:     100%;
+  font-family:   c.t(input, font-family);
+  font-size:     c.t(input, font-size);
+  color:         c.t(input, foreground);
+  border:        c.t(input, border-width) solid c.t(input, border-color);
+  border-radius: c.t(input, radius);
   transition:
-    border-color       var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    background-color   var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    box-shadow         var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+    border-color       c.t(input, transition-duration) c.t(input, transition-easing),
+    background-color   c.t(input, transition-duration) c.t(input, transition-easing),
+    box-shadow         c.t(input, transition-duration) c.t(input, transition-easing);
 
   &:focus {
     outline:      none;
-    border-color: var(--ss-input-border-focus, var(--ss-color-ring));
-    box-shadow:
-      var(--ss-sizing-none)
-      var(--ss-sizing-none)
-      var(--ss-sizing-none)
-      var(--ss-borders-width-base)
-      color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    border-color: c.t(input, focus-border-color);
+    box-shadow:   c.ring(input, c.t(input, focus-ring-color));
   }
 
   &[readonly] {
-    background: var(--ss-color-surface);
+    background: c.t(input, readonly-background);
   }
 }
 
-// Sizes
-@each $size, $values in $sizes {
-  .ss-input--#{$size} {
-    padding:       map.get($values, 'padding');
-    font-size:     map.get($values, 'font-size');
-    border-radius: map.get($values, 'border-radius');
+@include c.control-sizes('ss-input', input, $gap: false);
+
+@mixin disabled($with-background: false, $with-opacity: false) {
+  &[disabled] {
+    @if $with-background { background: c.t(input, disabled-background); }
+    color: c.t(input, disabled-foreground);
+    cursor: not-allowed;
+    @if $with-opacity { opacity: c.t(input, disabled-opacity); }
   }
 }
 
-// Primary — uses dedicated semantic input tokens
+// Primary — the input's own background and border
 .ss-input--primary {
   &.ss-input--solid {
-    background:   var(--ss-input-background, var(--ss-color-background));
-    color:        var(--ss-input-foreground, var(--ss-color-foreground));
-    border-color: var(--ss-input-border, var(--ss-color-input));
+    background:   c.t(input, background);
+    color:        c.t(input, foreground);
+    border-color: c.t(input, border-color);
 
-    &:hover:not([disabled]) { background: var(--ss-color-surface); }
-    &:focus {
-      border-color: var(--ss-color-ring);
-      box-shadow:
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-borders-width-base)
-        color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-    }
-    &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+    &:hover:not([disabled]) { background: c.t(input, primary-hover-background); }
+    &:focus { border-color: c.t(input, primary-focus-color); box-shadow: c.ring(input, c.t(input, primary-focus-color)); }
+    @include disabled($with-background: true);
   }
 
   &.ss-input--outline {
-    background:   var(--ss-colors-transparent);
-    color:        var(--ss-color-foreground);
-    border-color: var(--ss-color-border);
+    background:   transparent;
+    color:        c.t(input, foreground);
+    border-color: c.t(input, neutral-border-color);
 
-    &:hover:not([disabled]) { background: var(--ss-color-surface); }
-    &:focus {
-      border-color: var(--ss-color-ring);
-      box-shadow:
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-borders-width-base)
-        color-mix(in srgb, var(--ss-color-ring) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-    }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
+    &:hover:not([disabled]) { background: c.t(input, primary-hover-background); }
+    &:focus { border-color: c.t(input, primary-focus-color); box-shadow: c.ring(input, c.t(input, primary-focus-color)); }
+    @include disabled($with-opacity: true);
   }
 
   &.ss-input--underline {
-    background:          var(--ss-colors-transparent);
-    color:               var(--ss-color-foreground);
-    border-bottom-color: var(--ss-color-border);
-    border-radius:       var(--ss-radius-none);
+    background:          transparent;
+    color:               c.t(input, foreground);
+    border-bottom-color: c.t(input, neutral-border-color);
+    border-radius:       0;
 
-    &:hover:not([disabled]) { border-bottom-color: var(--ss-color-primary); }
-    &:focus { border-bottom-color: var(--ss-color-ring); box-shadow: none; }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+    &:hover:not([disabled]) { border-bottom-color: c.t(input, primary-underline-hover-border-color); }
+    &:focus { border-bottom-color: c.t(input, primary-focus-color); box-shadow: none; }
+    @include disabled;
   }
 }
 
-// Secondary — neutral (no color accent), uses border token
+// Secondary — neutral: no accent, focus in the text color
 .ss-input--secondary {
-  &.ss-input--solid {
-    background:   var(--ss-color-surface);
-    color:        var(--ss-color-foreground);
-    border-color: var(--ss-color-border);
+  $ring: 0 0 0 c.t(input, focus-ring-width) color-mix(in srgb, #{c.t(input, secondary-focus-color)} calc(#{c.t(input, secondary-focus-ring-opacity)} * 100%), transparent);
 
-    &:hover:not([disabled]) { background: var(--ss-color-surface-alt); }
-    &:focus {
-      border-color: var(--ss-color-foreground);
-      box-shadow:
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-borders-width-base)
-        color-mix(in srgb, var(--ss-color-foreground) calc(var(--ss-opacity-focus-ring-muted) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-    }
-    &[disabled] { background: var(--ss-color-muted); color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+  &.ss-input--solid {
+    background:   c.t(input, surface-background);
+    color:        c.t(input, foreground);
+    border-color: c.t(input, neutral-border-color);
+
+    &:hover:not([disabled]) { background: c.t(input, surface-hover-background); }
+    &:focus { border-color: c.t(input, secondary-focus-color); box-shadow: $ring; }
+    @include disabled($with-background: true);
   }
 
   &.ss-input--outline {
-    background:   var(--ss-colors-transparent);
-    color:        var(--ss-color-foreground);
-    border-color: var(--ss-color-border);
+    background:   transparent;
+    color:        c.t(input, foreground);
+    border-color: c.t(input, neutral-border-color);
 
-    &:hover:not([disabled]) { background: var(--ss-color-surface); }
-    &:focus {
-      border-color: var(--ss-color-foreground);
-      box-shadow:
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-sizing-none)
-        var(--ss-borders-width-base)
-        color-mix(in srgb, var(--ss-color-foreground) calc(var(--ss-opacity-focus-ring-muted) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-    }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; opacity: var(--ss-opacity-muted); }
+    &:hover:not([disabled]) { background: c.t(input, surface-background); }
+    &:focus { border-color: c.t(input, secondary-focus-color); box-shadow: $ring; }
+    @include disabled($with-opacity: true);
   }
 
   &.ss-input--underline {
-    background:          var(--ss-colors-transparent);
-    color:               var(--ss-color-foreground);
-    border-bottom-color: var(--ss-color-border);
-    border-radius:       var(--ss-radius-none);
+    background:          transparent;
+    color:               c.t(input, foreground);
+    border-bottom-color: c.t(input, neutral-border-color);
+    border-radius:       0;
 
-    &:hover:not([disabled]) { border-bottom-color: var(--ss-color-foreground); }
-    &:focus { border-bottom-color: var(--ss-color-foreground); box-shadow: none; }
-    &[disabled] { color: var(--ss-color-muted-foreground); cursor: not-allowed; }
+    &:hover:not([disabled]) { border-bottom-color: c.t(input, secondary-focus-color); }
+    &:focus { border-bottom-color: c.t(input, secondary-focus-color); box-shadow: none; }
+    @include disabled;
   }
 }
 
-// Status / semantic variants — use input-variant mixin (accent-colored)
-.ss-input--default { @include mx.input-variant('secondary'); }
-.ss-input--brand { @include mx.input-variant('primary'); }
-.ss-input--tertiary   { @include mx.input-variant('tertiary', 'primary'); }
-.ss-input--quaternary { @include mx.input-variant('quaternary', 'secondary'); }
-.ss-input--success { @include mx.input-variant('success'); }
-.ss-input--warning { @include mx.input-variant('warning'); }
-.ss-input--error   { @include mx.input-variant('error'); }
-.ss-input--destructive { @include mx.input-variant('destructive'); }
-.ss-input--info    { @include mx.input-variant('info'); }
+// Accent variants — the variant's color draws the border and the focus ring
+@mixin accent-variant($variant) {
+  $accent: c.t(input, #{$variant}-accent);
+
+  &.ss-input--solid {
+    background:   c.t(input, surface-background);
+    color:        c.t(input, foreground);
+    border-color: color-mix(in srgb, #{$accent} calc(#{c.t(input, accent-border-opacity)} * 100%), #{c.t(input, neutral-border-color)});
+
+    &:hover:not([disabled]) { background: c.t(input, surface-hover-background); }
+    &:focus { border-color: $accent; box-shadow: c.ring(input, $accent); }
+    @include disabled($with-background: true);
+  }
+
+  &.ss-input--outline {
+    background:   transparent;
+    color:        c.t(input, foreground);
+    border-color: $accent;
+
+    &:hover:not([disabled]) { background: color-mix(in srgb, #{$accent} calc(#{c.t(input, outline-hover-opacity)} * 100%), transparent); }
+    &:focus { border-color: $accent; box-shadow: c.ring(input, $accent); }
+    @include disabled($with-opacity: true);
+  }
+
+  &.ss-input--underline {
+    background:          transparent;
+    color:               c.t(input, foreground);
+    border-bottom-color: $accent;
+    border-radius:       0;
+
+    &:hover:not([disabled]) { filter: brightness(c.t(input, underline-hover-brightness)); }
+    &:focus { border-bottom-color: $accent; box-shadow: none; }
+    @include disabled($with-opacity: true);
+  }
+}
+
+@each $variant in default, brand, tertiary, quaternary, success, warning, error, destructive, info {
+  .ss-input--#{$variant} { @include accent-variant($variant); }
+}
 
 // Full width
-.ss-input--full-width { width: var(--ss-sizing-full); }
+.ss-input--full-width { width: 100%; }
 
 .ss-input--invalid {
-  border-color: var(--ss-color-error);
+  border-color: c.t(input, invalid-border-color);
 
   &:focus {
-    border-color: var(--ss-color-error);
-    box-shadow:
-      var(--ss-sizing-none)
-      var(--ss-sizing-none)
-      var(--ss-sizing-none)
-      var(--ss-borders-width-base)
-      color-mix(in srgb, var(--ss-color-error) calc(var(--ss-opacity-focus-ring) * var(--ss-sizing-full)), var(--ss-colors-transparent));
+    border-color: c.t(input, invalid-border-color);
+    box-shadow:   c.ring(input, c.t(input, invalid-border-color));
   }
 }
 
 /* Joined into a segmented group: the corners meeting a neighbour go flat.
    Logical properties, so the flattening follows the writing direction. */
 .ss-input--join-start {
-  border-start-start-radius: var(--ss-radius-none);
-  border-end-start-radius: var(--ss-radius-none);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
 }
 
 .ss-input--join-end {
-  border-start-end-radius: var(--ss-radius-none);
-  border-end-end-radius: var(--ss-radius-none);
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
 }
 
 .ss-input--join-both {
-  border-radius: var(--ss-radius-none);
+  border-radius: 0;
 }

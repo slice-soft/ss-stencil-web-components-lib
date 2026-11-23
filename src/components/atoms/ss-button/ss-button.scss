@@ -1,15 +1,4 @@
-@use 'sass:map';
-@use '../../../global/styles/mixins' as mx;
-
-$sizes: (
-  'xs': (padding: var(--ss-dimensions-1) var(--ss-dimensions-2),  font-size: var(--ss-text-sizes-xs)),
-  'sm': (padding: var(--ss-dimensions-1) var(--ss-dimensions-3),  font-size: var(--ss-text-sizes-sm)),
-  'md': (padding: var(--ss-dimensions-2) var(--ss-dimensions-4),  font-size: var(--ss-text-sizes-base)),
-  'lg': (padding: var(--ss-dimensions-3) var(--ss-dimensions-6),  font-size: var(--ss-text-sizes-lg)),
-  'xl': (padding: var(--ss-dimensions-4) var(--ss-dimensions-8),  font-size: var(--ss-text-sizes-xl)),
-  '2xl': (padding: var(--ss-dimensions-5) var(--ss-dimensions-10), font-size: var(--ss-text-sizes-2xl)),
-  '3xl': (padding: var(--ss-dimensions-6) var(--ss-dimensions-12), font-size: var(--ss-text-sizes-3xl)),
-);
+@use '../../../global/styles/control' as c;
 
 // Base
 .ss-button {
@@ -19,57 +8,76 @@ $sizes: (
   text-align:     center;
   text-transform: capitalize;
   width:          fit-content;
-  border:         var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-colors-transparent);
+  border:         c.t(button, border-width) solid transparent;
   cursor:         pointer;
-  font-family:    var(--ss-button-font-family, var(--ss-text-fonts-sans));
-  font-size:      var(--ss-button-font-size, var(--ss-text-sizes-sm));
-  gap:            var(--ss-button-gap, var(--ss-dimensions-2));
-  padding:        var(--ss-button-padding-y, var(--ss-dimensions-2)) var(--ss-button-padding-x, var(--ss-dimensions-4));
-  transition:     all var(--ss-transitions-durations-medium) var(--ss-transitions-easing-functions-decelerate);
+  font-family:    c.t(button, font-family);
+  font-size:      c.t(button, font-size);
+  gap:            c.t(button, gap);
+  padding:        c.t(button, padding-y) c.t(button, padding-x);
+  transition:     all c.t(button, transition-duration) c.t(button, transition-easing);
 
   &:focus      { outline: none; }
   &[disabled]  { cursor: not-allowed; }
 }
 
 // Sizes
-@each $size, $values in $sizes {
+@each $size in c.$sizes {
   .ss-button--#{$size} {
-    padding:   map.get($values, 'padding');
-    font-size: map.get($values, 'font-size');
+    padding:   c.t(button, size-#{$size}-padding-y) c.t(button, size-#{$size}-padding-x);
+    font-size: c.t(button, size-#{$size}-font-size);
   }
 }
 
-// Variants — semantic tokens → dark mode automatic
-.ss-button--default { @include mx.btn-variant('secondary'); }
-.ss-button--brand { @include mx.btn-variant('primary'); }
+// Variants. Solid: the fill under its foreground. Outline and ghost: the
+// variant's text color on the page, a border in the fill color, and a tint of
+// it on hover.
+@mixin variant($v) {
+  $focus-ring: c.t(button, focus-ring-width) solid c.t(button, #{$v}-ring);
 
-.ss-button--primary {
-  @include mx.btn-variant('primary');
+  &.ss-button--solid {
+    background:   c.t(button, #{$v}-background);
+    color:        c.t(button, #{$v}-foreground);
+    border-color: transparent;
 
-  // Override brightness with the explicit hover token
-  &.ss-button--solid:hover:not([disabled]) {
-    filter:     none;
-    background: var(--ss-color-primary-hover);
+    &:hover:not([disabled])  { filter: brightness(c.t(button, hover-brightness)); }
+    &:active:not([disabled]) { transform: scale(c.t(button, active-scale)); }
+    &:focus-visible          { outline: $focus-ring; outline-offset: c.t(button, focus-ring-offset); }
+    &[disabled]              { opacity: c.t(button, disabled-opacity); }
   }
+
+  &.ss-button--outline,
+  &.ss-button--ghost {
+    background:   transparent;
+    color:        c.t(button, #{$v}-text);
+
+    &:hover:not([disabled])  { background: color-mix(in srgb, #{c.t(button, #{$v}-border)} calc(#{c.t(button, hover-tint-opacity)} * 100%), transparent); }
+    &:active:not([disabled]) { transform: scale(c.t(button, active-scale)); }
+    &:focus-visible          { outline: $focus-ring; outline-offset: c.t(button, focus-ring-offset); }
+    &[disabled]              { opacity: c.t(button, disabled-opacity); }
+  }
+
+  &.ss-button--outline { border-color: c.t(button, #{$v}-border); }
+  &.ss-button--ghost   { border-color: transparent; }
 }
 
-.ss-button--secondary  { @include mx.btn-variant('secondary'); }
-.ss-button--tertiary   { @include mx.btn-variant('tertiary', 'primary'); }
-.ss-button--quaternary { @include mx.btn-variant('quaternary', 'secondary'); }
-.ss-button--success    { @include mx.btn-variant('success'); }
-.ss-button--warning    { @include mx.btn-variant('warning'); }
-.ss-button--error      { @include mx.btn-variant('error'); }
-.ss-button--destructive { @include mx.btn-variant('destructive'); }
-.ss-button--info       { @include mx.btn-variant('info'); }
+@each $v in c.$variants {
+  .ss-button--#{$v} { @include variant($v); }
+}
+
+// Primary has its own hover fill instead of the brightness filter.
+.ss-button--primary.ss-button--solid:hover:not([disabled]) {
+  filter:     none;
+  background: c.t(button, primary-background-hover);
+}
 
 // Shapes
-.ss-button--rounded { border-radius: var(--ss-button-border-radius, var(--ss-radius-base)); }
-.ss-button--pill    { border-radius: var(--ss-radius-full); }
-.ss-button--circle  { border-radius: var(--ss-radius-full); padding: var(--ss-sizing-none); aspect-ratio: var(--ss-ratios-square); width: var(--ss-sizing-button-icon-only); height: var(--ss-sizing-button-icon-only); }
-.ss-button--square  { border-radius: var(--ss-radius-none); }
+.ss-button--rounded { border-radius: c.t(button, border-radius); }
+.ss-button--pill    { border-radius: c.t(button, pill-radius); }
+.ss-button--circle  { border-radius: c.t(button, pill-radius); padding: 0; aspect-ratio: 1; width: c.t(button, icon-only-size); height: c.t(button, icon-only-size); }
+.ss-button--square  { border-radius: 0; }
 
 // Full width
-.ss-button--full-width { width: var(--ss-sizing-full); }
+.ss-button--full-width { width: 100%; }
 
 // Loading state
 .ss-button--status-loading {
@@ -77,28 +85,28 @@ $sizes: (
   cursor:   wait;
 
   .ss-button__label,
-  .ss-button__icon { opacity: var(--ss-opacity-hidden); }
+  .ss-button__icon { opacity: 0; }
 
   &::after {
     content:       '';
     position:      absolute;
-    width:         var(--ss-sizing-icon);
-    height:        var(--ss-sizing-icon);
-    border:        var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-keywords-current);
-    border-right-color: var(--ss-colors-transparent);
-    border-radius: var(--ss-radius-full);
-    animation:     ss-button-spin var(--ss-transitions-durations-spin) var(--ss-transitions-easing-keywords-linear) var(--ss-animation-iteration-counts-infinite);
+    width:         c.t(button, spinner-size);
+    height:        c.t(button, spinner-size);
+    border:        c.t(button, border-width) solid currentColor;
+    border-right-color: transparent;
+    border-radius: c.t(button, pill-radius);
+    animation:     ss-button-spin c.t(button, spinner-duration) linear infinite;
   }
 }
 
 @keyframes ss-button-spin {
-  from { transform: rotate(var(--ss-angles-none)); }
-  to   { transform: rotate(var(--ss-angles-full)); }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ss-button {
-    transition-duration: var(--ss-transitions-durations-instant);
+    transition-duration: 0ms;
   }
 
   .ss-button--status-loading::after {
@@ -113,15 +121,15 @@ $sizes: (
 /* Joined into a segmented group: the corners meeting a neighbour go flat.
    Logical properties, so the flattening follows the writing direction. */
 .ss-button--join-start {
-  border-start-start-radius: var(--ss-radius-none);
-  border-end-start-radius: var(--ss-radius-none);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
 }
 
 .ss-button--join-end {
-  border-start-end-radius: var(--ss-radius-none);
-  border-end-end-radius: var(--ss-radius-none);
+  border-start-end-radius: 0;
+  border-end-end-radius: 0;
 }
 
 .ss-button--join-both {
-  border-radius: var(--ss-radius-none);
+  border-radius: 0;
 }

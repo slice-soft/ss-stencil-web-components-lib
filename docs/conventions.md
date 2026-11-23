@@ -129,6 +129,25 @@ instead — the `has` trap is not instrumented.
   the element directly avoids a re-render per scroll frame; ask for a render only
   when something that appears in the markup changes, such as the resolved side.
 
+## Component tokens
+
+- **A migrated component reads only `--ss-<component>-*`.** Listed in
+  `scripts/token-layers.config.json`; `npm run lint` fails on any other
+  `--ss-*`, semantic colors included. CSS keywords that are not design
+  decisions (`0`, `100%`, `transparent`, `currentColor`) are written literally.
+  Write rules with `t($component, name)` from `src/global/styles/_control.scss`.
+- **Migrating a component**: snapshot its computed styles first (see
+  `src/test/style-snapshot.ts`); add its tokens to ss-design-system, each
+  pointing at a system role or semantic color with the value the stylesheet
+  reads today, and its variables to that repo's
+  `test/fixtures/library-contract.json`; then rewrite the stylesheet until the
+  snapshot passes untouched. To test before the design system is released, put
+  its local `dist/css/_variables.css` and `_dark.css` in
+  `.cache/design-system/<next version>/` and pin that version.
+- **A test that injects its own tokens must name the component's.** The input
+  group's seam test set `--ss-radius-base`; the migrated input reads
+  `--ss-input-size-md-radius`, and the corner silently went to 0.
+
 ## Tests and tooling
 
 - **`npx tsc --noEmit` catches what eslint and the build do not.** A required

@@ -1,4 +1,4 @@
-import { newTestPage, useTokens } from './utils';
+import { emulateFocus, newTestPage, useTokens } from './utils';
 import { computedStyles, focusedStyles, hoveredStyles } from './style-snapshot';
 
 /**
@@ -70,6 +70,9 @@ for (const component of COMPONENTS) {
             .join(''),
         );
         await useTokens(page, theme);
+        // Under the full suite the page is often a background tab; without
+        // this, focus() leaves :focus unmatched (docs/conventions.md).
+        await emulateFocus(page);
 
         const rest = await computedStyles(page);
         // A snapshot taken without tokens compares empty values and passes
