@@ -12,9 +12,13 @@ librería y `_dark.css` después si necesitas modo oscuro; el tema se cambia
 con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.
 
 ```html
-<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/ss-design-system-v2.9.0/css/_variables.css">
-<link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/ss-design-system-v2.9.0/css/_dark.css">
+<link rel="stylesheet" href="<ruta a ss-design-system>/css/_variables.css">
+<link rel="stylesheet" href="<ruta a ss-design-system>/css/_dark.css">
 ```
+
+La librería no depende de dónde vengan esos archivos: tu build, el paquete o
+cualquier servidor, siempre que respeten el esquema de variables de
+ss-design-system.
 
 La versión con la que se prueba la librería está en `test/tokens.config.json`.
 Los tests no usan la red ni los valores de ninguna marca real: leen una copia

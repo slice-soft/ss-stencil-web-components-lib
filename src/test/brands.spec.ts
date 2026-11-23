@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'fs';
 import { join } from 'path';
-import { brandOverrides, designSystemCss, DESIGN_SYSTEM_VERSION, TEST_BRANDS } from './tokens';
+import { brandOverrides, designSystemCss, TEST_BRANDS } from './tokens';
 
 const declared = (css: string) => [...css.matchAll(/(--ss-[\w-]+)\s*:/g)].map(m => m[1]);
 // Brand-level: semantic colors, brand and division. --ss-color-keywords-* is a
@@ -56,9 +56,10 @@ describe('test brands', () => {
     expect(css).toContain(ownFile('neon-purple', '_variables.css'));
   });
 
-  it('the bare index pins the same design system version', () => {
+  it('the bare index loads the committed token copy, never a CDN', () => {
     const html = readFileSync(join(process.cwd(), 'src/index.html'), 'utf8');
-    expect(html).toContain(`ss-design-system-v${DESIGN_SYSTEM_VERSION}/css/`);
-    expect([...html.matchAll(/ss-design-system-v([\d.]+)\//g)].map(m => m[1]).filter(v => v !== DESIGN_SYSTEM_VERSION)).toEqual([]);
+    expect(html).toContain('href="/test-tokens/design-system/_variables.css"');
+    expect(html).toContain('href="/test-tokens/design-system/_dark.css"');
+    expect(html).not.toMatch(/https?:\/\//);
   });
 });
