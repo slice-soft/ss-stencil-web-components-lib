@@ -1,0 +1,49 @@
+/**
+ * Test brand "neon-purple", not a client. Overrides on top of ss-design-system
+ * v2.7.0: everything not declared here falls back to slicesoft.
+ * Values come from the example brand reviewed in ss-design-system PR #25
+ * (contrast-corrected). See test/brands/README.md.
+ */
+
+[data-theme="dark"] {
+  --ss-color-background: #0d0d1a;
+  --ss-color-foreground: #ede9fe;
+  --ss-color-primary: #a78bfa;
+  --ss-color-primary-foreground: #1e1b4b;
+  --ss-color-primary-hover: #c4b5fd;
+  --ss-color-primary-text: #a78bfa;
+  --ss-color-secondary: #1e1b4b;
+  --ss-color-secondary-foreground: #ede9fe;
+  --ss-color-tertiary: #f472b6;
+  --ss-color-tertiary-foreground: #020617;
+  --ss-color-quaternary: #1e293b;
+  --ss-color-quaternary-foreground: #f1f5f9;
+  --ss-color-muted: #130f2e;
+  --ss-color-muted-foreground: #a78bfa;
+  --ss-color-border: #2d2867;
+  --ss-color-input: #2d2867;
+  --ss-color-ring: #a78bfa;
+  --ss-color-card: #130f2e;
+  --ss-color-card-foreground: #ede9fe;
+  --ss-color-surface: #1a1635;
+  --ss-color-surface-alt: #1e1b4b;
+  --ss-color-destructive: #dc2626;
+  --ss-color-destructive-foreground: #ffffff;
+  --ss-color-destructive-hover: #b91c1c;
+  --ss-color-success: #22d3ee;
+  --ss-color-success-foreground: #0e1117;
+  --ss-color-success-hover: #67e8f9;
+  --ss-color-success-text: #22d3ee;
+  --ss-color-warning: #f472b6;
+  --ss-color-warning-foreground: #1e1b4b;
+  --ss-color-warning-hover: #f9a8d4;
+  --ss-color-warning-text: #f472b6;
+  --ss-color-error: #dc2626;
+  --ss-color-error-foreground: #ffffff;
+  --ss-color-error-hover: #b91c1c;
+  --ss-color-error-text: #ef4444;
+  --ss-color-info: #a78bfa;
+  --ss-color-info-foreground: #1e1b4b;
+  --ss-color-info-hover: #c4b5fd;
+  --ss-color-info-text: #a78bfa;
+}

@@ -30,13 +30,9 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null,
-      // DEV ONLY — copy test token sets to www/test-tokens/ for local visual testing.
-      // These are NOT included in dist/loader outputs.
-      // Add more sets: { src: '../test/token-set-NN', dest: 'test-tokens/token-set-NN' }
-      copy: [
-        { src: '../test/token-set-01', dest: 'test-tokens/token-set-01' },
-        { src: '../test/token-set-02', dest: 'test-tokens/token-set-02' },
-      ],
+      // DEV ONLY — test brands (test/brands/<brand>/_variables.css, _dark.css),
+      // loaded by the playground on top of the CDN design tokens. Not in dist/loader.
+      copy: [{ src: '../test/brands', dest: 'test-brands' }],
     },
     {
       type: 'docs-vscode',

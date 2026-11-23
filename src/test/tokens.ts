@@ -43,3 +43,17 @@ export async function slicesoftCss(file: TokenFile, cacheDir = join(process.cwd(
   writeFileSync(cached, css);
   return css;
 }
+
+/**
+ * Brands the library is tested with. slicesoft is the real one; the others are
+ * test brands, not clients: small override files in test/brands/<brand>/, named
+ * like the CDN files and loaded on top of slicesoft. Whatever a test brand does
+ * not declare falls back to slicesoft, so no variable is ever undefined.
+ */
+export const TEST_BRANDS = ['slicesoft', 'neon-purple', 'organic-emerald'] as const;
+export type TestBrand = (typeof TEST_BRANDS)[number];
+
+export function brandOverrides(brand: TestBrand, file: TokenFile): string {
+  if (brand === 'slicesoft') return '';
+  return readFileSync(join(process.cwd(), 'test/brands', brand, file), 'utf8');
+}

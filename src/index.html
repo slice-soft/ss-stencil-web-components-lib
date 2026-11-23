@@ -8,18 +8,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
 
-    <!-- Active token set — href injected by the inline script below -->
-    <link id="token-set-link" rel="stylesheet" />
+    <!-- Design tokens: ss-design-system at the version pinned in
+         test/tokens.config.json (brands.spec.ts checks they match), then the
+         active test brand's overrides, injected by the script below. -->
+    <link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/ss-design-system-v2.7.0/css/_variables.css" />
+    <link rel="stylesheet" href="https://cdn.slicesoft.dev/design-system/ss-design-system-v2.7.0/css/_dark.css" />
+    <link id="brand-link" rel="stylesheet" />
+    <link id="brand-dark-link" rel="stylesheet" />
 
     <script>
-      var TOKEN_SETS = {
-        'token-set-01': { label: 'Set 01 — Neon Purple',     path: '/test-tokens/token-set-01/tokens.css' },
-        'token-set-02': { label: 'Set 02 — Organic Emerald', path: '/test-tokens/token-set-02/tokens.css' },
+      var BRANDS = {
+        'slicesoft':       { label: 'SliceSoft (ss-design-system v2.7.0)', path: null },
+        'neon-purple':     { label: 'Neon Purple (test brand)',     path: '/test-brands/neon-purple/' },
+        'organic-emerald': { label: 'Organic Emerald (test brand)', path: '/test-brands/organic-emerald/' },
       };
-      var activeSet = localStorage.getItem('ss-token-set');
-      if (!Object.hasOwn(TOKEN_SETS, activeSet)) activeSet = 'token-set-01';
+      var activeBrand = localStorage.getItem('ss-test-brand');
+      if (!Object.hasOwn(BRANDS, activeBrand)) activeBrand = 'slicesoft';
       document.documentElement.dataset.theme = localStorage.getItem('ss-playground-theme') === 'dark' ? 'dark' : 'light';
-      document.getElementById('token-set-link').href = TOKEN_SETS[activeSet].path;
+      function brandHref(key, file) {
+        return BRANDS[key].path ? BRANDS[key].path + file : '';
+      }
+      document.getElementById('brand-link').href = brandHref(activeBrand, '_variables.css');
+      document.getElementById('brand-dark-link').href = brandHref(activeBrand, '_dark.css');
     </script>
 
     <script type="module" src="/build/ss-stencil-web-components-lib.esm.js"></script>
@@ -240,26 +250,28 @@
     <script>
       (function () {
         var select  = document.getElementById('token-set-select');
-        var link    = document.getElementById('token-set-link');
+        var link    = document.getElementById('brand-link');
+        var darkLink = document.getElementById('brand-dark-link');
         var toggle  = document.getElementById('theme-toggle');
         var html    = document.documentElement;
 
-        Object.keys(TOKEN_SETS).forEach(function (key) {
+        Object.keys(BRANDS).forEach(function (key) {
           var opt         = document.createElement('option');
           opt.value       = key;
-          opt.textContent = TOKEN_SETS[key].label;
-          if (key === activeSet) opt.selected = true;
+          opt.textContent = BRANDS[key].label;
+          if (key === activeBrand) opt.selected = true;
           select.appendChild(opt);
         });
 
-        function applySet(key) {
-          activeSet           = key;
-          link.href           = TOKEN_SETS[key].path;
-          localStorage.setItem('ss-token-set', key);
+        function applyBrand(key) {
+          activeBrand   = key;
+          link.href     = brandHref(key, '_variables.css');
+          darkLink.href = brandHref(key, '_dark.css');
+          localStorage.setItem('ss-test-brand', key);
         }
 
-        applySet(activeSet);
-        select.addEventListener('change', function () { applySet(select.value); });
+        applyBrand(activeBrand);
+        select.addEventListener('change', function () { applyBrand(select.value); });
 
         var isDark = function () { return html.dataset.theme === 'dark'; };
         toggle.setAttribute('aria-pressed', String(isDark()));
@@ -281,7 +293,7 @@
       <main id="playground-main" tabindex="-1">
         <header class="intro">
           <h1>Component playground</h1>
-          <p>Explore live examples and compare how they render across themes and token sets.</p>
+          <p>Explore live examples and compare how they render across themes and brands.</p>
         </header>
 
     <!-- ===================== ss-button ===================== -->

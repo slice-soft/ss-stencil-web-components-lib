@@ -1,0 +1,49 @@
+/**
+ * Test brand "organic-emerald", not a client. Overrides on top of ss-design-system
+ * v2.7.0: everything not declared here falls back to slicesoft.
+ * Values come from the example brand reviewed in ss-design-system PR #25
+ * (contrast-corrected). See test/brands/README.md.
+ */
+
+[data-theme="dark"] {
+  --ss-color-background: #071a10;
+  --ss-color-foreground: #d1fae5;
+  --ss-color-primary: #34d399;
+  --ss-color-primary-foreground: #052e16;
+  --ss-color-primary-hover: #10b981;
+  --ss-color-primary-text: #34d399;
+  --ss-color-secondary: #064e3b;
+  --ss-color-secondary-foreground: #d1fae5;
+  --ss-color-tertiary: #fbbf24;
+  --ss-color-tertiary-foreground: #020617;
+  --ss-color-quaternary: #1e293b;
+  --ss-color-quaternary-foreground: #f1f5f9;
+  --ss-color-muted: #052e16;
+  --ss-color-muted-foreground: #6ee7b7;
+  --ss-color-border: #065f46;
+  --ss-color-input: #065f46;
+  --ss-color-ring: #34d399;
+  --ss-color-card: #052e16;
+  --ss-color-card-foreground: #d1fae5;
+  --ss-color-surface: #064e3b;
+  --ss-color-surface-alt: #065f46;
+  --ss-color-destructive: #dc2626;
+  --ss-color-destructive-foreground: #ffffff;
+  --ss-color-destructive-hover: #b91c1c;
+  --ss-color-success: #34d399;
+  --ss-color-success-foreground: #052e16;
+  --ss-color-success-hover: #6ee7b7;
+  --ss-color-success-text: #34d399;
+  --ss-color-warning: #fbbf24;
+  --ss-color-warning-foreground: #1c1917;
+  --ss-color-warning-hover: #fcd34d;
+  --ss-color-warning-text: #fbbf24;
+  --ss-color-error: #dc2626;
+  --ss-color-error-foreground: #ffffff;
+  --ss-color-error-hover: #b91c1c;
+  --ss-color-error-text: #f87171;
+  --ss-color-info: #38bdf8;
+  --ss-color-info-foreground: #0c1a2e;
+  --ss-color-info-hover: #7dd3fc;
+  --ss-color-info-text: #38bdf8;
+}
