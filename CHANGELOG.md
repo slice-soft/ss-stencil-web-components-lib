@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.5...ss-stencil-web-components-lib-v0.3.0) (2026-11-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **atoms:** ss-button, ss-input, ss-textarea, ss-select and ss-combobox need ss-design-system 2.8.0 or later. ss-textarea, ss-select and ss-combobox no longer read --ss-input-* overrides; they read their own --ss-<component>-* tokens. ss-input still honors --ss-input-border, --ss-input-border-radius and --ss-input-border-focus.
+
+### Features
+
+* **atoms:** read wave 1 controls from component tokens ([#53](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/53)) ([e82f401](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/e82f401b39f3c299bb608491b82322573b6eaf0d))
+
 ## [0.2.5](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.2.4...ss-stencil-web-components-lib-v0.2.5) (2026-11-22)
 
 
