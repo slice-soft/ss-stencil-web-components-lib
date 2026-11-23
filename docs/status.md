@@ -79,6 +79,12 @@ browser coverage for interactive behavior.
   | Organic Emerald | Light | Primary 2.54, Success 2.54, Warning 2.15, Error 3.76, Info 2.77 |
   | Organic Emerald | Dark | Error 2.77 |
 
+  These two sets mirror the design system's structure, not its values. Measured
+  on the real `ss-design-system` palette, it is worse: white on `primary`
+  #f97316 is 2.80, on `warning` 2.15 and on `success` 2.28, and the focus `ring`
+  fails 3:1. The full audit against six component-library criteria, with
+  priorities, is in `docs/component-library-audit-2026-11-21.md`. It is blocked
+  on a brand decision: whether the primary may change shade.
 
 - **The suite has three consecutive clean runs, not ten.** The last flake fix
   was held to ten. Since the timeout ceiling was raised there has been no load
