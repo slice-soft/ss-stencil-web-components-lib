@@ -46,4 +46,6 @@
   --ss-color-info-foreground: #1e1b4b;
   --ss-color-info-hover: #c4b5fd;
   --ss-color-info-text: #a78bfa;
+  --ss-color-tertiary-text: #f472b6;
+  --ss-color-destructive-text: #ef4444;
 }

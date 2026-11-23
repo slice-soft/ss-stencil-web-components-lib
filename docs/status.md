@@ -48,7 +48,7 @@ variant.
 | 5 | Tests on the released design tokens | e2e and the playground load ss-design-system from its CDN at the version pinned in `test/tokens.config.json` (2.7.0), through a disk cache. The hand-copied token sets are gone; `test/brands/` holds two test brands (not clients) as override files on top of slicesoft, checked against the pinned tokens and for button contrast in both themes |
 | 5 | Token layer lint | `npm run lint` counts, per component, every `var(--ss-*)` outside its own tokens. Components listed as migrated in `scripts/token-layers.config.json` fail on any. Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
 | 5 | Playground is local only | `src/index.html` is a bare page (CDN tokens + build scripts). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
-| 6 | Wave 1 on component tokens | `ss-button`, `ss-input`, `ss-textarea`, `ss-select`, `ss-combobox` read only `--ss-<component>-*`, defined in ss-design-system 2.8.0 (`tokens/components/`, with new `control.*`, `field.size.*` and `motion.duration.spin` roles). A computed-style snapshot taken before the move (`src/test/wave-1.styles.e2e.ts`, every size, variant, style, rest/hover/focus, both themes) is unchanged except the intended fix: outline and ghost button text now uses `--ss-color-*-text` (dark) and `*-foreground` for default/secondary/quaternary, which were illegible (1.10:1 on white). `wave-1.tokens.e2e.ts` proves a component token moves only its component |
+| 6 | Wave 1 on component tokens | `ss-button`, `ss-input`, `ss-textarea`, `ss-select`, `ss-combobox` read only `--ss-<component>-*`, defined in ss-design-system 2.8.0 (`tokens/components/`, with new `control.*`, `field.size.*` and `motion.duration.spin` roles). A computed-style snapshot taken before the move (`src/test/wave-1.styles.e2e.ts`, every size, variant, style, rest/hover/focus, both themes) is unchanged except the intended fix: outline and ghost button text now uses `--ss-color-*-text` (dark; tertiary and destructive have their own roles since 2.8.0) and `*-foreground` for default/secondary/quaternary, which were illegible (1.10:1 on white). `wave-1.tokens.e2e.ts` proves a component token moves only its component. `ss-input` still honors `--ss-input-border`, `-border-radius` and `-border-focus`; `ss-textarea`, `ss-select` and `ss-combobox` no longer read `--ss-input-*` overrides (they have their own tokens) |
 
 ## Playground and release readiness
 
@@ -75,9 +75,9 @@ browser coverage for interactive behavior.
   wave 2: checkbox, radio, switch, slider, label. Same pattern as wave 1: style
   snapshot first, then the component tokens in ss-design-system (and the
   variables in `test/fixtures/library-contract.json` there), then the
-  stylesheet. Text fields (`ss-input`, `ss-combobox`) size their radius from
-  `field.size.*`, not from `shape.radius.control`, so a brand's control radius
-  reaches buttons but not sized text fields yet.
+  stylesheet. Every control's sized radius follows `control.size.*.radius`
+  (`field.size.*.radius` points at it), so a brand that overrides those roles
+  moves all five.
 
 - **The suite has three consecutive clean runs, not ten.** The last flake fix
   was held to ten. Since the timeout ceiling was raised there has been no load

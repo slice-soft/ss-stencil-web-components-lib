@@ -68,4 +68,6 @@
   --ss-control-size-xl-radius: 2px;
   --ss-control-size-2xl-radius: 2px;
   --ss-control-size-3xl-radius: 2px;
+  --ss-color-tertiary-text: #db2777;
+  --ss-color-destructive-text: #dc2626;
 }

@@ -44,4 +44,13 @@ describe('wave 1 component tokens', () => {
     const { after } = await page(':root { --ss-shape-radius-control: 3px; }');
     expect(after.button['border-top-left-radius']).toBe('3px');
   });
+
+  it('a test brand with its own tertiary keeps it in outline text', async () => {
+    // Pointing tertiary text at primary-text matched in slicesoft only; in
+    // neon-purple it turned the pink outline's text purple.
+    const p = await newTestPage();
+    await p.setContent('<ss-button data-case="t" variant="tertiary" x-style="outline" label="T"></ss-button>');
+    await useTokens(p, 'light', 'neon-purple');
+    expect((await computedStyles(p)).t.color).toBe('rgb(219, 39, 119)');
+  });
 });
