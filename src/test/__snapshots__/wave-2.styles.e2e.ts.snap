@@ -91,7 +91,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-md/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -181,7 +180,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
   },
   "rest": {
@@ -273,7 +271,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled-checked/control": {
       "background-color": "rgb(31, 31, 31)",
@@ -363,7 +360,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled/control": {
       "background-color": "rgb(31, 31, 31)",
@@ -453,7 +449,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "indeterminate/control": {
       "background-color": "rgb(29, 78, 216)",
@@ -543,7 +538,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid-checked/control": {
       "background-color": "rgb(29, 78, 216)",
@@ -633,7 +627,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -723,7 +716,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "readonly/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -813,7 +805,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-2xl/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -903,7 +894,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-3xl/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -993,7 +983,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-lg/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -1083,7 +1072,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "71.4062px",
     },
     "size-md/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -1173,7 +1161,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-sm/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -1263,7 +1250,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "53.3125px",
     },
     "size-xl/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -1353,7 +1339,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-xs/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -1443,7 +1428,6 @@ exports[`ss-checkbox computed styles (test-base dark) match the snapshot at rest
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "46.2656px",
     },
   },
 }
@@ -1540,7 +1524,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-md/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -1630,7 +1613,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
   },
   "rest": {
@@ -1722,7 +1704,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled-checked/control": {
       "background-color": "rgb(243, 244, 246)",
@@ -1812,7 +1793,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled/control": {
       "background-color": "rgb(243, 244, 246)",
@@ -1902,7 +1882,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "indeterminate/control": {
       "background-color": "rgb(29, 78, 216)",
@@ -1992,7 +1971,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid-checked/control": {
       "background-color": "rgb(29, 78, 216)",
@@ -2082,7 +2060,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2172,7 +2149,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "readonly/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2262,7 +2238,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-2xl/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2352,7 +2327,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-3xl/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2442,7 +2416,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-lg/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2532,7 +2505,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "71.4062px",
     },
     "size-md/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2622,7 +2594,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-sm/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2712,7 +2683,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "53.3125px",
     },
     "size-xl/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2802,7 +2772,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-xs/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -2892,7 +2861,6 @@ exports[`ss-checkbox computed styles (test-base light) match the snapshot at res
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "46.2656px",
     },
   },
 }
@@ -2930,7 +2898,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "45.9062px",
     },
     "required/required": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -2960,7 +2927,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "8.78125px",
     },
     "required/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -2990,7 +2956,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "58.6875px",
     },
     "size-2xl/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3020,7 +2985,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "57.3906px",
     },
     "size-3xl/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3050,7 +3014,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "57.3906px",
     },
     "size-lg/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3080,7 +3043,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "51.6562px",
     },
     "size-md/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3110,7 +3072,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "45.9062px",
     },
     "size-sm/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3140,7 +3101,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "40.1719px",
     },
     "size-xl/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3170,7 +3130,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "57.3906px",
     },
     "size-xs/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3200,7 +3159,6 @@ exports[`ss-label computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "34.4375px",
     },
   },
 }
@@ -3238,7 +3196,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "45.9062px",
     },
     "required/required": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3268,7 +3225,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "8.78125px",
     },
     "required/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3298,7 +3254,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "58.6875px",
     },
     "size-2xl/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3328,7 +3283,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "57.3906px",
     },
     "size-3xl/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3358,7 +3312,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "57.3906px",
     },
     "size-lg/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3388,7 +3341,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "51.6562px",
     },
     "size-md/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3418,7 +3370,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "45.9062px",
     },
     "size-sm/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3448,7 +3399,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "40.1719px",
     },
     "size-xl/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3478,7 +3428,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "57.3906px",
     },
     "size-xs/root": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -3508,7 +3457,6 @@ exports[`ss-label computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "34.4375px",
     },
   },
 }
@@ -3605,7 +3553,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-md/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -3695,7 +3642,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
   },
   "rest": {
@@ -3787,7 +3733,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled-checked/control": {
       "background-color": "rgb(31, 31, 31)",
@@ -3877,7 +3822,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled/control": {
       "background-color": "rgb(31, 31, 31)",
@@ -3967,7 +3911,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid-checked/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4057,7 +4000,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4147,7 +4089,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "readonly/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4237,7 +4178,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-2xl/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4327,7 +4267,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-3xl/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4417,7 +4356,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-lg/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4507,7 +4445,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "71.4062px",
     },
     "size-md/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4597,7 +4534,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-sm/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4687,7 +4623,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "53.3125px",
     },
     "size-xl/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4777,7 +4712,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-xs/control": {
       "background-color": "rgb(17, 17, 17)",
@@ -4867,7 +4801,6 @@ exports[`ss-radio computed styles (test-base dark) match the snapshot at rest an
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "46.2656px",
     },
   },
 }
@@ -4964,7 +4897,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-md/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5054,7 +4986,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
   },
   "rest": {
@@ -5146,7 +5077,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled-checked/control": {
       "background-color": "rgb(243, 244, 246)",
@@ -5236,7 +5166,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "disabled/control": {
       "background-color": "rgb(243, 244, 246)",
@@ -5326,7 +5255,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid-checked/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5416,7 +5344,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "invalid/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5506,7 +5433,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "readonly/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5596,7 +5522,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-2xl/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5686,7 +5611,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-3xl/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5776,7 +5700,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-lg/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5866,7 +5789,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "71.4062px",
     },
     "size-md/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -5956,7 +5878,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "64.3594px",
     },
     "size-sm/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -6046,7 +5967,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "53.3125px",
     },
     "size-xl/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -6136,7 +6056,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "78.4531px",
     },
     "size-xs/control": {
       "background-color": "rgb(255, 255, 255)",
@@ -6226,7 +6145,6 @@ exports[`ss-radio computed styles (test-base light) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "46.2656px",
     },
   },
 }
@@ -6293,7 +6211,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-primary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6323,7 +6240,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-md/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -6383,7 +6299,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "size-md/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6413,7 +6328,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
   },
   "rest": {
@@ -6475,7 +6389,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-brand/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6505,7 +6418,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-default/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -6565,7 +6477,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-default/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6595,7 +6506,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-destructive/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -6655,7 +6565,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-destructive/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6685,7 +6594,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-error/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -6745,7 +6653,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-error/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6775,7 +6682,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-info/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -6835,7 +6741,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-info/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6865,7 +6770,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-primary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -6925,7 +6829,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-primary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -6955,7 +6858,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-quaternary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7015,7 +6917,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-quaternary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7045,7 +6946,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-secondary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7105,7 +7005,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-secondary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7135,7 +7034,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-success/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7195,7 +7093,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-success/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7225,7 +7122,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-tertiary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7285,7 +7181,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-tertiary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7315,7 +7210,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-warning/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7375,7 +7269,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-warning/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7405,7 +7298,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "disabled/input": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7465,7 +7357,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "disabled/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7495,7 +7386,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "full-width/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7555,7 +7445,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "800px",
     },
     "full-width/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7585,7 +7474,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "invalid/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7645,7 +7533,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "invalid/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7675,7 +7562,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "readonly/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7735,7 +7621,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "readonly/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7765,7 +7650,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-2xl/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7825,7 +7709,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-2xl/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7855,7 +7738,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-3xl/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -7915,7 +7797,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-3xl/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -7945,7 +7826,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-lg/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8005,7 +7885,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-lg/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8035,7 +7914,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-md/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8095,7 +7973,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "size-md/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8125,7 +8002,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-sm/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8185,7 +8061,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "128px",
     },
     "size-sm/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8215,7 +8090,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-xl/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8275,7 +8149,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-xl/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8305,7 +8178,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-xs/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8365,7 +8237,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "128px",
     },
     "size-xs/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8395,7 +8266,6 @@ exports[`ss-slider computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
   },
 }
@@ -8462,7 +8332,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-primary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8492,7 +8361,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-md/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8552,7 +8420,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "size-md/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8582,7 +8449,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
   },
   "rest": {
@@ -8644,7 +8510,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-brand/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8674,7 +8539,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-default/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8734,7 +8598,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-default/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8764,7 +8627,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-destructive/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8824,7 +8686,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-destructive/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8854,7 +8715,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-error/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -8914,7 +8774,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-error/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -8944,7 +8803,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-info/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9004,7 +8862,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-info/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9034,7 +8891,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-primary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9094,7 +8950,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-primary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9124,7 +8979,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-quaternary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9184,7 +9038,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-quaternary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9214,7 +9067,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-secondary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9274,7 +9126,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-secondary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9304,7 +9155,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-success/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9364,7 +9214,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-success/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9394,7 +9243,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-tertiary/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9454,7 +9302,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-tertiary/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9484,7 +9331,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "color-warning/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9544,7 +9390,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "color-warning/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9574,7 +9419,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "disabled/input": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9634,7 +9478,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "disabled/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9664,7 +9507,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "full-width/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9724,7 +9566,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "800px",
     },
     "full-width/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9754,7 +9595,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "invalid/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9814,7 +9654,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "invalid/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9844,7 +9683,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "readonly/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9904,7 +9742,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "readonly/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -9934,7 +9771,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-2xl/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -9994,7 +9830,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-2xl/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -10024,7 +9859,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-3xl/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -10084,7 +9918,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-3xl/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -10114,7 +9947,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-lg/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -10174,7 +10006,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-lg/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -10204,7 +10035,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-md/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -10264,7 +10094,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "176px",
     },
     "size-md/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -10294,7 +10123,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-sm/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -10354,7 +10182,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "128px",
     },
     "size-sm/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -10384,7 +10211,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-xl/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -10444,7 +10270,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "224px",
     },
     "size-xl/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -10474,7 +10299,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
     "size-xs/input": {
       "background-color": "rgb(255, 255, 255)",
@@ -10534,7 +10358,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "128px",
     },
     "size-xs/value": {
       "background-color": "rgba(0, 0, 0, 0)",
@@ -10564,7 +10387,6 @@ exports[`ss-slider computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "32px",
     },
   },
 }
@@ -10601,7 +10423,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "checked/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -10691,7 +10512,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "size-md/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -10783,7 +10603,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "checked/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -10873,7 +10692,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "disabled-checked/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -10963,7 +10781,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "disabled/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11053,7 +10870,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "invalid-checked/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11143,7 +10959,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "invalid/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11233,7 +11048,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "label-start/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11323,7 +11137,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "readonly/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11413,7 +11226,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "98.4531px",
     },
     "size-2xl/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11503,7 +11315,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "98.4531px",
     },
     "size-3xl/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11593,7 +11404,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "89.4062px",
     },
     "size-lg/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11683,7 +11493,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "size-md/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11773,7 +11582,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "67.3125px",
     },
     "size-sm/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11863,7 +11671,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "98.4531px",
     },
     "size-xl/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -11953,7 +11760,6 @@ exports[`ss-switch computed styles (test-base dark) match the snapshot at rest a
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "58.2656px",
     },
     "size-xs/thumb": {
       "background-color": "rgb(17, 17, 17)",
@@ -12050,7 +11856,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "checked/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12140,7 +11945,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "size-md/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12232,7 +12036,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "checked/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12322,7 +12125,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "disabled-checked/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12412,7 +12214,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "disabled/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12502,7 +12303,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "invalid-checked/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12592,7 +12392,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "invalid/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12682,7 +12481,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "label-start/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12772,7 +12570,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "readonly/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12862,7 +12659,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "98.4531px",
     },
     "size-2xl/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -12952,7 +12748,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "98.4531px",
     },
     "size-3xl/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -13042,7 +12837,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "89.4062px",
     },
     "size-lg/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -13132,7 +12926,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "80.3594px",
     },
     "size-md/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -13222,7 +13015,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "67.3125px",
     },
     "size-sm/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -13312,7 +13104,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "98.4531px",
     },
     "size-xl/thumb": {
       "background-color": "rgb(255, 255, 255)",
@@ -13402,7 +13193,6 @@ exports[`ss-switch computed styles (test-base light) match the snapshot at rest 
       "padding-right": "0px",
       "padding-top": "0px",
       "transform": "none",
-      "width": "58.2656px",
     },
     "size-xs/thumb": {
       "background-color": "rgb(255, 255, 255)",

@@ -78,7 +78,9 @@ for (const component of COMPONENTS) {
 
         // ':host > *' is the scoped component's own wrapper element.
         const parts = Object.fromEntries(Object.entries(component.parts).map(([n, s]) => [n, s.replace(':host > *', `.${component.tag}`)]));
-        const rest = await computedParts(page, parts);
+        // Parts whose width the stylesheet sets; text-wrapping parts depend on the font.
+        const sized = ['control', 'mark', 'track', 'thumb', 'input'];
+        const rest = await computedParts(page, parts, undefined, sized);
         // A snapshot taken without tokens compares empty values: make sure
         // tokens reached the component.
         expect(Object.values(rest).some(styles => styles['font-family'].includes('Sora'))).toBe(true);
@@ -87,7 +89,7 @@ for (const component of COMPONENTS) {
         const focused: Record<string, Record<string, string>> = {};
         if (component.tag !== 'ss-label') {
           for (const key of ['size-md', 'checked', 'color-primary'].filter(k => k in component.cases)) {
-            Object.assign(focused, await focusedParts(page, key, parts));
+            Object.assign(focused, await focusedParts(page, key, parts, sized));
           }
         }
 
