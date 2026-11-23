@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-11-18 · 74 test suites, 615 tests.
+Last updated: 2026-11-23 · 77 test suites, 633 tests.
 
 ## What exists
 
@@ -45,6 +45,8 @@ variant.
 | 4 | nav, nav-item | A named `nav` landmark over a list of real links, the current one marked `aria-current="page"` on the link itself. No menu roles: site navigation keeps open-in-new-tab and plain Tab. `ssChange` is cancelable, so a client-side router calls `preventDefault()` and routes; a modified click is left to the browser |
 | 4 | table | Data-driven — `columns` and `rows` as properties — because a scoped component cannot style slotted cells. A real `<table>` named by its caption; sortable headers are buttons, with `aria-sort` on the cell; natural sort, empty cells last, on a copy; `manual-sort` for rows sorted elsewhere. The scroll area becomes a focusable region only while it overflows. Optional sticky header |
 | 4 | e2e harness at full size | At 74 files the load flake returned and the toast's clock tests failed most full runs. jest's timeout, recorded as a fixed 45s, is raised to 90s by a setup file that runs after Stencil's, and the app-load wait to 80s. The toast tests were measuring the harness — a test's page is often a background tab, hidden and without window focus — and now pin visibility and emulate focus |
+| 5 | Tests on the released design tokens | e2e and the playground load ss-design-system from its CDN at the version pinned in `test/tokens.config.json` (2.7.0), through a disk cache. The hand-copied token sets are gone; `test/brands/` holds two test brands (not clients) as override files on top of slicesoft, checked against the pinned tokens and for button contrast in both themes |
+| 5 | Token layer lint | `npm run lint` counts, per component, every `var(--ss-*)` outside its own tokens. Components listed as migrated in `scripts/token-layers.config.json` fail on any. Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
 
 ## Playground and release readiness
 
@@ -67,24 +69,12 @@ browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed
 
-- **Contrast in the token sets.** Chromium measurements of the default-size solid
-  buttons found these ratios below 4.5:1. The test token sets mirror
-  `ss-design-system`. Coordinate corrections at the token source before syncing
-  these fixtures and retesting other component states.
-
-  | Set | Theme | Variants below 4.5:1 |
-  | --- | --- | --- |
-  | Neon Purple | Light | Primary 4.23, Tertiary 3.53, Success 3.68, Warning 3.53, Info 4.23 |
-  | Neon Purple | Dark | Error 3.76 |
-  | Organic Emerald | Light | Primary 2.54, Success 2.54, Warning 2.15, Error 3.76, Info 2.77 |
-  | Organic Emerald | Dark | Error 2.77 |
-
-  These two sets mirror the design system's structure, not its values. Measured
-  on the real `ss-design-system` palette, it is worse: white on `primary`
-  #f97316 is 2.80, on `warning` 2.15 and on `success` 2.28, and the focus `ring`
-  fails 3:1. The full audit against six component-library criteria, with
-  priorities, is in `docs/component-library-audit-2026-11-21.md`. It is blocked
-  on a brand decision: whether the primary may change shade.
+- **Components read primitives, not their own tokens.** All 42 do (see the
+  `lint:tokens` count). The plan migrates them in waves, each paired with a
+  design-system release that adds the component's tokens; wave 1 is button,
+  input, textarea, select and combobox. Outline and ghost buttons use the fill
+  as text, which fails contrast in dark (orange-700 on the page is 3.71); wave 1
+  moves them to `--ss-color-*-text`.
 
 - **The suite has three consecutive clean runs, not ten.** The last flake fix
   was held to ten. Since the timeout ceiling was raised there has been no load
@@ -125,9 +115,9 @@ browser coverage for interactive behavior.
 
 ## Known limits
 
-- **The dev token sets are synced by hand.** `test/token-set-0*/tokens.css`
-  mirror `ss-design-system`. A token added there has to be copied here or the
-  harness renders with it undefined, silently.
+- **Dark applies from `<html>` only.** Component tokens resolve on `:root`, so
+  `data-theme="dark"` on a container changes semantic colors inside it but not
+  components (ss-design-system `docs/web.md`).
 - **Overlay widths are arithmetic.** There is no width token above 128px, so the
   overlays use multiples of `--ss-dimensions-32`. Recorded in
   `docs/pending-token-proposals.md`.
