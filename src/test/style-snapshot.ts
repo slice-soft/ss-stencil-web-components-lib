@@ -9,7 +9,9 @@ import type { E2EPage } from '@stencil/core/testing';
  * The drawn element is the first `button`, `input`, `textarea` or `select` in
  * the host's shadow root, or in the host itself for a scoped component.
  * Strings, not functions, go to `evaluate`: see docs/conventions.md on
- * coverage.
+ * coverage. No `height`: it depends on the installed font's metrics (CI has no
+ * Sora and measured 36px where a workstation measures 39px); padding and
+ * font-size already pin a control's size.
  */
 export const STYLE_PROPS = [
   'padding-top',
@@ -20,7 +22,6 @@ export const STYLE_PROPS = [
   'font-family',
   'font-weight',
   'line-height',
-  'height',
   'gap',
   'border-top-width',
   'border-bottom-width',

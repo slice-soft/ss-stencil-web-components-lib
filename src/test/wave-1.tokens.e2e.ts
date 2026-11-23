@@ -46,7 +46,7 @@ describe('wave 1 component tokens', () => {
   });
 
   it('a test brand with its own tertiary keeps it in outline text', async () => {
-    // Pointing tertiary text at primary-text matched in slicesoft only; in
+    // Pointing tertiary text at primary-text matched only where tertiary equals primary; in
     // neon-purple it turned the pink outline's text purple.
     const p = await newTestPage();
     await p.setContent('<ss-button data-case="t" variant="tertiary" x-style="outline" label="T"></ss-button>');
@@ -65,13 +65,13 @@ describe('wave 1 component tokens', () => {
     );
     await useTokens(p);
     let styles = await computedStyles(p);
-    expect(styles['dark-card'].color).toBe('rgb(249, 115, 22)');
-    expect(styles['light-card'].color).toBe('rgb(194, 65, 12)');
+    expect(styles['dark-card'].color).toBe('rgb(96, 165, 250)');
+    expect(styles['light-card'].color).toBe('rgb(29, 78, 216)');
 
     await p.evaluate(`document.documentElement.setAttribute('data-theme', 'dark')`);
     await p.waitForChanges();
     styles = await computedStyles(p);
-    expect(styles['dark-card'].color).toBe('rgb(249, 115, 22)');
-    expect(styles['light-card'].color).toBe('rgb(194, 65, 12)');
+    expect(styles['dark-card'].color).toBe('rgb(96, 165, 250)');
+    expect(styles['light-card'].color).toBe('rgb(29, 78, 216)');
   });
 });

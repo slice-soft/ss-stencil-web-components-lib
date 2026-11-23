@@ -1,0 +1,50 @@
+/**
+ * Test brand "test-base": generic, not a real brand. It replaces every
+ * brand-level value of the design-system copy (test/tokens/design-system), so
+ * no real brand's values reach a test. The other test brands load on top.
+ */
+
+[data-theme="dark"] {
+  --ss-color-background: #111111;
+  --ss-color-foreground: #f5f5f5;
+  --ss-color-primary: #1d4ed8;
+  --ss-color-primary-foreground: #ffffff;
+  --ss-color-primary-hover: #1e40af;
+  --ss-color-primary-text: #60a5fa;
+  --ss-color-secondary: #262626;
+  --ss-color-secondary-foreground: #f5f5f5;
+  --ss-color-tertiary: #6d28d9;
+  --ss-color-tertiary-foreground: #ffffff;
+  --ss-color-tertiary-text: #a78bfa;
+  --ss-color-quaternary: #262626;
+  --ss-color-quaternary-foreground: #f5f5f5;
+  --ss-color-muted: #1f1f1f;
+  --ss-color-muted-foreground: #a3a3a3;
+  --ss-color-border: #333333;
+  --ss-color-input: #333333;
+  --ss-color-ring: #60a5fa;
+  --ss-color-card: #171717;
+  --ss-color-card-foreground: #f5f5f5;
+  --ss-color-surface: #171717;
+  --ss-color-surface-alt: #262626;
+  --ss-color-destructive: #b91c1c;
+  --ss-color-destructive-foreground: #ffffff;
+  --ss-color-destructive-hover: #991b1b;
+  --ss-color-destructive-text: #f87171;
+  --ss-color-success: #15803d;
+  --ss-color-success-foreground: #ffffff;
+  --ss-color-success-hover: #166534;
+  --ss-color-success-text: #4ade80;
+  --ss-color-warning: #b45309;
+  --ss-color-warning-foreground: #ffffff;
+  --ss-color-warning-hover: #92400e;
+  --ss-color-warning-text: #fbbf24;
+  --ss-color-error: #b91c1c;
+  --ss-color-error-foreground: #ffffff;
+  --ss-color-error-hover: #991b1b;
+  --ss-color-error-text: #f87171;
+  --ss-color-info: #0369a1;
+  --ss-color-info-foreground: #ffffff;
+  --ss-color-info-hover: #075985;
+  --ss-color-info-text: #38bdf8;
+}

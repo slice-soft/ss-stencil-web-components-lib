@@ -14,7 +14,7 @@ function repo(version = '2.8.0') {
   return root;
 }
 
-const vendored = (root, file) => join(root, 'test/tokens/slicesoft', file);
+const vendored = (root, file) => join(root, 'test/tokens/design-system', file);
 
 test('builds the CDN url of a release', () => {
   assert.equal(cdnUrl('2.8.0', '_dark.css'), 'https://cdn.slicesoft.dev/design-system/ss-design-system-v2.8.0/css/_dark.css');

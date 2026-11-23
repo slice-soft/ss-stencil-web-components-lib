@@ -173,10 +173,11 @@ instead — the `has` trap is not instrumented.
   throws `ReferenceError: cov_… is not defined`. A test run alone without
   coverage passes, so the break shows only in the full run. `useTokens` sets
   `data-theme` with a string expression for this reason.
-- **Tests never touch the network.** `useTokens` loads the committed copy of
-  ss-design-system in `test/tokens/slicesoft/`, the release named in
-  `test/tokens.config.json`. Refresh it with `npm run tokens:sync`, never by
-  hand; `brands.spec.ts` checks the test brands against it.
+- **Tests never touch the network, nor a real brand's values.** `useTokens`
+  loads the committed ss-design-system copy in `test/tokens/design-system/`
+  (structure; refresh with `npm run tokens:sync`, never by hand), then the
+  generic `test/brands/test-base/`, which overrides every brand-level value.
+  Expected colors in tests are test-base's. See `test/brands/README.md`.
 - **`setContent` declares no charset.** Non-ASCII in test markup arrives
   mis-decoded; write it as an HTML entity.
 - **Measure the box the reader sees, not the host.** A component's host is a

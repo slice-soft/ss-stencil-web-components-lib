@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Refreshes the design tokens the library is tested with:
-// test/tokens/slicesoft/_variables.css and _dark.css, committed, so tests and
+// test/tokens/design-system/_variables.css and _dark.css, committed, so tests and
 // CI never touch the network.
 //
 //   npm run tokens:sync                      # the release pinned in test/tokens.config.json, from the CDN
@@ -43,7 +43,7 @@ export async function syncTokens({ root = process.cwd(), from, fetch: fetchImpl 
     if (!css.includes('--ss-')) throw new Error(`${source} is not a design-token stylesheet`);
     sheets.push([file, css, source]);
   }
-  const dir = join(root, 'test/tokens/slicesoft');
+  const dir = join(root, 'test/tokens/design-system');
   mkdirSync(dir, { recursive: true });
   for (const [file, css, source] of sheets) {
     writeFileSync(join(dir, file), css);

@@ -1,6 +1,6 @@
 import { newE2EPage } from '@stencil/core/testing';
 import type { E2EPage, SpecPage } from '@stencil/core/testing';
-import { brandOverrides, slicesoftCss } from './tokens';
+import { brandOverrides, designSystemCss } from './tokens';
 import type { TestBrand } from './tokens';
 
 export function getRoot(page: SpecPage): HTMLElement {
@@ -150,8 +150,14 @@ const APP_LOAD_TIMEOUT = 80_000;
  * centring transform was itself invalid without tokens, so the harm it did to
  * fixed descendants could not show up.
  */
-export async function useTokens(page: E2EPage, theme: 'light' | 'dark' = 'light', brand: TestBrand = 'slicesoft'): Promise<void> {
-  const css = [await slicesoftCss('_variables.css'), await slicesoftCss('_dark.css'), brandOverrides(brand, '_variables.css'), brandOverrides(brand, '_dark.css'), NO_TRANSITIONS];
+export async function useTokens(page: E2EPage, theme: 'light' | 'dark' = 'light', brand: TestBrand = 'test-base'): Promise<void> {
+  const css = [
+    await designSystemCss('_variables.css'),
+    await designSystemCss('_dark.css'),
+    brandOverrides(brand, '_variables.css'),
+    brandOverrides(brand, '_dark.css'),
+    NO_TRANSITIONS,
+  ];
   await page.addStyleTag({ content: css.join('\n') });
   // Dark only applies from <html>: component tokens resolve on :root. A string,
   // not a function: --coverage instruments functions passed to evaluate, and

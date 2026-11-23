@@ -2,7 +2,7 @@ import { emulateFocus, newTestPage, useTokens } from './utils';
 import { computedStyles, focusedStyles, hoveredStyles } from './style-snapshot';
 
 /**
- * What the wave 1 controls look like with slicesoft, taken before they move to
+ * What the wave 1 controls look like with the test-base brand, taken before they move to
  * their own component tokens. The migration must leave every value here as it
  * is; the only intended changes are recorded in the plan and updated by hand.
  */
@@ -60,7 +60,7 @@ function cases(component: Component): Record<string, string> {
 
 for (const component of COMPONENTS) {
   for (const theme of ['light', 'dark'] as const) {
-    describe(`${component.tag} computed styles (slicesoft ${theme})`, () => {
+    describe(`${component.tag} computed styles (test-base ${theme})`, () => {
       it('match the snapshot at rest, hovered and focused', async () => {
         const all = cases(component);
         const page = await newTestPage();
