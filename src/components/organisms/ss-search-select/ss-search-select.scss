@@ -1,0 +1,194 @@
+@use '../../../global/styles/control' as c;
+
+:host {
+  display: inline-block;
+  max-width: 100%;
+}
+
+:host([full-width]) {
+  display: block;
+}
+
+.ss-search-select {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
+}
+
+.ss-search-select--full-width,
+.ss-search-select--full-width .ss-search-select__field {
+  width: 100%;
+}
+
+/* The field draws the control: the input inside it is bare, so chips (with
+   `multiple`), the clear button and the indicator sit inside one border. */
+.ss-search-select__field {
+  @include c.control-base(search-select);
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: c.t(search-select, chip-gap);
+  max-width: 100%;
+  cursor: text;
+
+  &:focus-within {
+    border-color: c.t(search-select, focus-border-color);
+    box-shadow: c.ring(search-select, c.t(search-select, focus-ring-color));
+  }
+}
+
+@include c.accent-variants('ss-search-select', search-select);
+@include c.control-sizes('ss-search-select', search-select, ' .ss-search-select__field', $gap: false);
+
+.ss-search-select--outline .ss-search-select__field {
+  background: transparent;
+}
+
+.ss-search-select--underline .ss-search-select__field {
+  background: transparent;
+  border-width: 0 0 c.t(search-select, border-width);
+  border-radius: 0;
+}
+
+.ss-search-select--success,
+.ss-search-select--warning,
+.ss-search-select--error,
+.ss-search-select--destructive,
+.ss-search-select--info {
+  .ss-search-select__field {
+    border-color: var(--atom-accent);
+  }
+}
+
+.ss-search-select--invalid .ss-search-select__field {
+  border-color: c.t(search-select, invalid-border-color);
+}
+
+.ss-search-select--disabled .ss-search-select__field {
+  background: c.t(search-select, disabled-background);
+  color: c.t(search-select, disabled-foreground);
+  cursor: not-allowed;
+}
+
+.ss-search-select__input {
+  flex: 1 1 4ch;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.ss-search-select__clear,
+.ss-search-select__indicator {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: c.t(search-select, status-foreground);
+
+  svg {
+    width: c.t(search-select, indicator-size);
+    height: c.t(search-select, indicator-size);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.ss-search-select__clear {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    color: c.t(search-select, foreground);
+  }
+}
+
+.ss-search-select__indicator {
+  pointer-events: none;
+  transition: transform c.t(search-select, enter-duration) c.t(search-select, enter-easing);
+}
+
+.ss-search-select--open .ss-search-select__indicator {
+  transform: rotate(180deg);
+}
+
+/* Fixed, with coordinates written by the component (see `anchorTo` in
+   utils/position), like ss-dropdown's menu. */
+.ss-search-select__popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: c.t(search-select, list-z-index);
+  box-sizing: border-box;
+  min-width: c.t(search-select, list-min-width);
+  max-width: calc(100% - #{c.t(search-select, list-max-width-offset)});
+  max-height: c.t(search-select, list-max-height);
+  overflow-y: auto;
+  padding: c.t(search-select, list-padding);
+  border: c.t(search-select, list-border-width) solid c.t(search-select, list-border-color);
+  border-radius: c.t(search-select, list-radius);
+  background: c.t(search-select, list-background);
+  color: c.t(search-select, list-foreground);
+  box-shadow: c.t(search-select, list-shadow);
+  font-family: c.t(search-select, font-family);
+  font-size: c.t(search-select, font-size);
+  backdrop-filter: c.t(search-select, list-backdrop-filter);
+  transform-origin: top center;
+  @include c.enter-scale(search-select);
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.ss-search-select__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ss-search-select__option {
+  padding: c.t(search-select, option-padding-y) c.t(search-select, option-padding-x);
+  border-radius: c.t(search-select, option-radius);
+  cursor: pointer;
+}
+
+.ss-search-select__option--active {
+  background: c.t(search-select, option-active-background);
+}
+
+.ss-search-select__option--selected {
+  color: c.t(search-select, option-selected-foreground);
+}
+
+.ss-search-select__option--disabled {
+  cursor: not-allowed;
+  opacity: c.t(search-select, option-disabled-opacity);
+}
+
+.ss-search-select__status {
+  padding: c.t(search-select, option-padding-y) c.t(search-select, option-padding-x);
+  color: c.t(search-select, status-foreground);
+}
+
+/* Read by screen readers, invisible on screen. */
+.ss-search-select__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

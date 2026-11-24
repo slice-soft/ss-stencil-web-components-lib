@@ -471,6 +471,7 @@
   --ss-search-select-shadow: var(--ss-control-shadow);
   --ss-search-select-list-min-width: var(--ss-layout-overlay-menu-min-width);
   --ss-search-select-list-max-height: var(--ss-layout-overlay-list-max-height);
+  --ss-search-select-list-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-select-shadow: var(--ss-control-shadow);
   --ss-slider-track-width-wide: var(--ss-control-track-width-wide);
   --ss-textarea-shadow: var(--ss-control-shadow);
@@ -1242,6 +1243,8 @@
   --ss-search-select-enter-duration: var(--ss-motion-duration-menu);
   --ss-search-select-enter-easing: var(--ss-motion-easing-enter);
   --ss-search-select-enter-scale: var(--ss-motion-scale-menu);
+  --ss-search-select-list-z-index: var(--ss-layout-layer-dropdown);
+  --ss-search-select-list-max-width-offset: var(--ss-space-4);
   --ss-select-font-family: var(--ss-control-font-family);
   --ss-select-font-size: var(--ss-control-size-sm-font-size);
   --ss-select-foreground: var(--ss-color-foreground);
@@ -1706,6 +1709,7 @@
   --ss-search-select-shadow: var(--ss-control-shadow);
   --ss-search-select-list-min-width: var(--ss-layout-overlay-menu-min-width);
   --ss-search-select-list-max-height: var(--ss-layout-overlay-list-max-height);
+  --ss-search-select-list-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-select-shadow: var(--ss-control-shadow);
   --ss-slider-track-width-wide: var(--ss-control-track-width-wide);
   --ss-textarea-shadow: var(--ss-control-shadow);
@@ -2415,6 +2419,8 @@
   --ss-search-select-enter-duration: var(--ss-motion-duration-menu);
   --ss-search-select-enter-easing: var(--ss-motion-easing-enter);
   --ss-search-select-enter-scale: var(--ss-motion-scale-menu);
+  --ss-search-select-list-z-index: var(--ss-layout-layer-dropdown);
+  --ss-search-select-list-max-width-offset: var(--ss-space-4);
   --ss-select-font-family: var(--ss-control-font-family);
   --ss-select-font-size: var(--ss-control-size-sm-font-size);
   --ss-select-foreground: var(--ss-color-foreground);

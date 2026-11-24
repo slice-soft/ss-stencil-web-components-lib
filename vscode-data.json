@@ -2525,6 +2525,180 @@
       ]
     },
     {
+      "name": "ss-search-select",
+      "description": {
+        "kind": "markdown",
+        "value": "A select you type into to filter: a WAI-ARIA combobox over a listbox.\n\nIt only shows. The options come from `ss-option` children or from the\n`options` property (which wins when set), wherever the caller got them. By\ndefault it filters what it holds, ignoring case and accents; with\n`filter=\"none\"` it shows `options` exactly as given, for a host that searches\nelsewhere. It reports every change the person makes to the text as\n`ssSearch`, never debounced — waiting, fetching, cancelling and errors are\nthe host's — and shows `loading` when told to.\n\nThe list is drawn here from that data rather than slotted, so the field and\nthe active option share a tree and `aria-activedescendant` resolves. Every\nselected option's label is remembered, so replacing `options` with new\nsearch results never turns the field's text into a bare value.\n\nKeyboard: ArrowDown/ArrowUp open the list and move through it, skipping\ndisabled options; Enter chooses; Escape closes, and a second Escape clears\nthe text; Tab closes and moves on. Leaving the field restores the selected\nlabel, or clears the selection when the text was emptied."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name of the field and its list."
+        },
+        {
+          "name": "clear-label",
+          "description": "Accessible name of the clear button."
+        },
+        {
+          "name": "clearable",
+          "description": "Shows a button that empties the text and the selection."
+        },
+        {
+          "name": "color",
+          "description": "Color variant of the field.",
+          "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "described-by",
+          "description": "Ids of elements, in the host's tree, that describe the field."
+        },
+        {
+          "name": "disabled",
+          "description": "Disables the field."
+        },
+        {
+          "name": "empty-label",
+          "description": "Text shown and announced when no option matches."
+        },
+        {
+          "name": "filter",
+          "description": "Whether the list is filtered by the typed text here (contains) or shown as given (none).",
+          "values": [
+            {
+              "name": "contains"
+            },
+            {
+              "name": "none"
+            }
+          ]
+        },
+        {
+          "name": "full-width",
+          "description": "Expands the field to the full width of its container."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the field."
+        },
+        {
+          "name": "invalid",
+          "description": "Marks the field as invalid."
+        },
+        {
+          "name": "loading",
+          "description": "Shows the loading text in the list, while the host fetches options."
+        },
+        {
+          "name": "loading-label",
+          "description": "Text shown and announced while `loading`."
+        },
+        {
+          "name": "multiple",
+          "description": "Allows choosing several options, shown as removable chips."
+        },
+        {
+          "name": "name",
+          "description": "Name submitted with the surrounding form."
+        },
+        {
+          "name": "options",
+          "description": "The options, as data. When set, it wins over `ss-option` children."
+        },
+        {
+          "name": "placeholder",
+          "description": "Placeholder shown while the field is empty."
+        },
+        {
+          "name": "required",
+          "description": "Requires a selection before the form submits."
+        },
+        {
+          "name": "size",
+          "description": "Size of the field.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "The selected value. Updated on interaction."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the field's input; also included in event details."
+        },
+        {
+          "name": "x-style",
+          "description": "Visual style of the field.",
+          "values": [
+            {
+              "name": "outline"
+            },
+            {
+              "name": "solid"
+            },
+            {
+              "name": "underline"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "ss-select",
       "description": {
         "kind": "markdown",
