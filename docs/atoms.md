@@ -18,6 +18,7 @@ This library keeps atoms as small, generic Web Components that map directly to t
 | `ss-link`       | `ss-link`       | Anchor with variant, underline, and disabled state                       |
 | `ss-radio`      | `ss-radio`      | Native radio button                                                      |
 | `ss-select`     | `ss-select`     | Native select with style variants                                        |
+| `ss-skeleton`   | `ss-skeleton`   | Pulsing placeholder (text lines, block, circle) while content loads      |
 | `ss-slider`     | `ss-slider`     | Native range input with optional value output                            |
 | `ss-spinner`    | `ss-spinner`    | Loading indicator                                                        |
 | `ss-switch`     | `ss-switch`     | Toggle switch (checkbox role)                                            |

@@ -1,0 +1,55 @@
+@use '../../../global/styles/control' as c;
+
+:host {
+  display: block;
+}
+
+:host([shape='circle']) {
+  display: inline-block;
+}
+
+// Whatever takes the muted color pulses: the block itself, or each text line.
+%pulse {
+  background: c.t(skeleton, background);
+  animation: ss-skeleton-pulse c.t(skeleton, pulse-duration) c.t(skeleton, pulse-easing) infinite alternate;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+.ss-skeleton--text {
+  display: flex;
+  flex-direction: column;
+  gap: c.t(skeleton, line-gap);
+}
+
+.ss-skeleton__line {
+  @extend %pulse;
+  display: block;
+  height: c.t(skeleton, text-height);
+  border-radius: c.t(skeleton, radius);
+}
+
+.ss-skeleton__line:last-child:not(:first-child) {
+  width: c.t(skeleton, last-line-width);
+}
+
+.ss-skeleton--rect {
+  @extend %pulse;
+  height: c.t(skeleton, rect-height);
+  border-radius: c.t(skeleton, radius);
+}
+
+.ss-skeleton--circle {
+  @extend %pulse;
+  width: c.t(skeleton, circle-size);
+  aspect-ratio: 1;
+  border-radius: c.t(skeleton, circle-radius);
+}
+
+@keyframes ss-skeleton-pulse {
+  to {
+    opacity: c.t(skeleton, pulse-opacity);
+  }
+}

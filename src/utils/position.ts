@@ -183,6 +183,9 @@ export function anchorTo(anchor: Element, floating: HTMLElement, options: Anchor
  * element is watched as well: content that grows can push it past the edge it
  * was clamped against.
  *
+ * It watches the border box: the default, the content box, misses a change of
+ * padding or border, which moves an edge all the same.
+ *
  * Returns a function that stops watching. Where ResizeObserver does not exist,
  * as in the spec DOM, it watches nothing.
  */
@@ -190,6 +193,6 @@ export function onResize(elements: (Element | null | undefined)[], callback: () 
   if (typeof ResizeObserver === 'undefined') return () => undefined;
 
   const observer = new ResizeObserver(() => callback());
-  elements.forEach(element => element && observer.observe(element));
+  elements.forEach(element => element && observer.observe(element, { box: 'border-box' }));
   return () => observer.disconnect();
 }

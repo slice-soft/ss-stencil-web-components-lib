@@ -204,6 +204,7 @@ const COMPONENTS: Component[] = [
       tab: '.ss-tabs__tab:not(.ss-tabs__tab--selected):not(:disabled)',
       disabled: '.ss-tabs__tab:disabled',
       panels: '.ss-tabs__panels',
+      indicator: '.ss-tabs__indicator',
       panel: 'ss-tab[value="one"] .ss-tab',
       hidden: 'ss-tab[value="two"] .ss-tab',
     },

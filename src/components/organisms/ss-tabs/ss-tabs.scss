@@ -11,6 +11,7 @@
 }
 
 .ss-tabs__list {
+  position: relative;
   display: flex;
   gap: c.t(tabs, list-gap);
   border-bottom: c.t(tabs, border-width) solid c.t(tabs, border-color);
@@ -22,8 +23,9 @@
   border-right: c.t(tabs, border-width) solid c.t(tabs, border-color);
 }
 
-/* The tab overlaps the list's border by its own width, so the selected tab's
-   indicator replaces that stretch of the line instead of sitting beside it. */
+/* The tab overlaps the list's border by its own width, so the indicator under
+   the selected tab replaces that stretch of the line instead of sitting beside
+   it. */
 .ss-tabs__tab {
   margin-bottom: calc(#{c.t(tabs, border-width)} * -1);
   padding: c.t(tabs, tab-padding-y) c.t(tabs, tab-padding-x);
@@ -56,7 +58,6 @@
 
 .ss-tabs__tab--selected {
   color: c.t(tabs, selected-foreground);
-  border-bottom-color: c.t(tabs, indicator-color);
 }
 
 .ss-tabs--vertical .ss-tabs__tab {
@@ -67,8 +68,40 @@
   text-align: start;
 }
 
-.ss-tabs--vertical .ss-tabs__tab--selected {
-  border-right-color: c.t(tabs, indicator-color);
+/* One indicator for the set, measured under the selected tab by the
+   component (--_offset, --_size), so a new selection slides it there. It sits
+   on the list's border, where the selected tab's own border would be. Before
+   its first measurement it has no size; it gets its transition only after. */
+.ss-tabs__indicator {
+  position: absolute;
+  bottom: calc(#{c.t(tabs, border-width)} * -1);
+  left: 0;
+  width: var(--_size, 0);
+  height: c.t(tabs, border-width);
+  background: c.t(tabs, indicator-color);
+  transform: translateX(var(--_offset, 0));
+  pointer-events: none;
+}
+
+.ss-tabs__indicator--placed {
+  transition:
+    transform c.t(tabs, indicator-duration) c.t(tabs, indicator-easing),
+    width c.t(tabs, indicator-duration) c.t(tabs, indicator-easing),
+    height c.t(tabs, indicator-duration) c.t(tabs, indicator-easing);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.ss-tabs--vertical .ss-tabs__indicator {
+  top: 0;
+  right: calc(#{c.t(tabs, border-width)} * -1);
+  bottom: auto;
+  left: auto;
+  width: c.t(tabs, border-width);
+  height: var(--_size, 0);
+  transform: translateY(var(--_offset, 0));
 }
 
 .ss-tabs__panels {

@@ -36,6 +36,7 @@ import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss
 import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+import { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
@@ -78,6 +79,7 @@ export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss
 export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
+export { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
@@ -1667,6 +1669,36 @@ export namespace Components {
          */
         "xStyle": SelectStyle;
     }
+    /**
+     * A placeholder that holds the place of content still loading, in roughly its
+     * shape, and pulses slowly while it waits.
+     * It is hidden from assistive technology: a placeholder has nothing to say.
+     * Mark the region that is loading with `aria-busy="true"` instead, and remove
+     * it when the content arrives.
+     * The size comes from the layout around it or from `inlineStyles` (`width`,
+     * `height`). Text lines are one line of the surrounding font tall, and the
+     * last of several is shorter, as a paragraph's last line is.
+     */
+    interface SsSkeleton {
+        /**
+          * Inline CSS styles applied to the root element; `width` and `height` size it.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Number of text lines. Only for the text shape.
+          * @default 1
+         */
+        "lines": number;
+        /**
+          * Shape of the content it stands for: lines of text, a block (an image, a card), or a circle (an avatar).
+          * @default 'text'
+         */
+        "shape": SkeletonShape;
+        /**
+          * Id applied to the root element.
+         */
+        "xId"?: string;
+    }
     interface SsSlider {
         /**
           * Accessible label for screen readers.
@@ -2981,6 +3013,22 @@ declare global {
         prototype: HTMLSsSelectElement;
         new (): HTMLSsSelectElement;
     };
+    /**
+     * A placeholder that holds the place of content still loading, in roughly its
+     * shape, and pulses slowly while it waits.
+     * It is hidden from assistive technology: a placeholder has nothing to say.
+     * Mark the region that is loading with `aria-busy="true"` instead, and remove
+     * it when the content arrives.
+     * The size comes from the layout around it or from `inlineStyles` (`width`,
+     * `height`). Text lines are one line of the surrounding font tall, and the
+     * last of several is shorter, as a paragraph's last line is.
+     */
+    interface HTMLSsSkeletonElement extends Components.SsSkeleton, HTMLStencilElement {
+    }
+    var HTMLSsSkeletonElement: {
+        prototype: HTMLSsSkeletonElement;
+        new (): HTMLSsSkeletonElement;
+    };
     interface HTMLSsSliderElementEventMap {
         "ssInput": SsSliderValueEvent;
         "ssChange": SsSliderValueEvent;
@@ -3243,6 +3291,7 @@ declare global {
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-select": HTMLSsSelectElement;
+        "ss-skeleton": HTMLSsSkeletonElement;
         "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
         "ss-switch": HTMLSsSwitchElement;
@@ -4990,6 +5039,36 @@ declare namespace LocalJSX {
          */
         "xStyle"?: SelectStyle;
     }
+    /**
+     * A placeholder that holds the place of content still loading, in roughly its
+     * shape, and pulses slowly while it waits.
+     * It is hidden from assistive technology: a placeholder has nothing to say.
+     * Mark the region that is loading with `aria-busy="true"` instead, and remove
+     * it when the content arrives.
+     * The size comes from the layout around it or from `inlineStyles` (`width`,
+     * `height`). Text lines are one line of the surrounding font tall, and the
+     * last of several is shorter, as a paragraph's last line is.
+     */
+    interface SsSkeleton {
+        /**
+          * Inline CSS styles applied to the root element; `width` and `height` size it.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Number of text lines. Only for the text shape.
+          * @default 1
+         */
+        "lines"?: number;
+        /**
+          * Shape of the content it stands for: lines of text, a block (an image, a card), or a circle (an avatar).
+          * @default 'text'
+         */
+        "shape"?: SkeletonShape;
+        /**
+          * Id applied to the root element.
+         */
+        "xId"?: string;
+    }
     interface SsSlider {
         /**
           * Accessible label for screen readers.
@@ -5713,6 +5792,7 @@ declare namespace LocalJSX {
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
         "ss-select": SsSelect;
+        "ss-skeleton": SsSkeleton;
         "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
         "ss-switch": SsSwitch;
@@ -5949,6 +6029,17 @@ declare module "@stencil/core" {
              */
             "ss-radio-group": LocalJSX.SsRadioGroup & JSXBase.HTMLAttributes<HTMLSsRadioGroupElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
+            /**
+             * A placeholder that holds the place of content still loading, in roughly its
+             * shape, and pulses slowly while it waits.
+             * It is hidden from assistive technology: a placeholder has nothing to say.
+             * Mark the region that is loading with `aria-busy="true"` instead, and remove
+             * it when the content arrives.
+             * The size comes from the layout around it or from `inlineStyles` (`width`,
+             * `height`). Text lines are one line of the surrounding font tall, and the
+             * last of several is shorter, as a paragraph's last line is.
+             */
+            "ss-skeleton": LocalJSX.SsSkeleton & JSXBase.HTMLAttributes<HTMLSsSkeletonElement>;
             "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
