@@ -2,25 +2,25 @@
 
 // Base
 .ss-input {
-  display:       inline-block;
-  box-sizing:    border-box;
-  width:         auto;
-  max-width:     100%;
-  font-family:   c.t(input, font-family);
-  font-size:     c.t(input, font-size);
-  color:         c.t(input, foreground);
-  border:        c.t(input, border-width) solid c.t(input, border-color);
+  display: inline-block;
+  box-sizing: border-box;
+  width: auto;
+  max-width: 100%;
+  font-family: c.t(input, font-family);
+  font-size: c.t(input, font-size);
+  color: c.t(input, foreground);
+  border: c.t(input, border-width) solid c.t(input, border-color);
   border-radius: c.t(input, radius);
-  box-shadow:    c.t(input, shadow);
+  box-shadow: c.t(input, shadow);
   transition:
-    border-color       c.t(input, transition-duration) c.t(input, transition-easing),
-    background-color   c.t(input, transition-duration) c.t(input, transition-easing),
-    box-shadow         c.t(input, transition-duration) c.t(input, transition-easing);
+    border-color c.t(input, transition-duration) c.t(input, transition-easing),
+    background-color c.t(input, transition-duration) c.t(input, transition-easing),
+    box-shadow c.t(input, transition-duration) c.t(input, transition-easing);
 
   &:focus {
-    outline:      none;
+    outline: none;
     border-color: c.t(input, focus-border-color);
-    box-shadow:   c.ring(input, c.t(input, focus-ring-color));
+    box-shadow: c.ring(input, c.t(input, focus-ring-color));
   }
 
   &[readonly] {
@@ -30,45 +30,117 @@
 
 @include c.control-sizes('ss-input', input, $gap: false);
 
+/* The field: a positioning box around the input, drawing nothing itself, so
+   every visual property stays on the input. The start and end slots sit inside
+   the input's edges, after its border and padding, and let a press through to
+   it. Their size is measured (--_start, --_end) and the input's padding grows
+   by it only while a slot holds something. */
+.ss-input__field {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.ss-input__field--full-width {
+  display: block;
+  width: 100%;
+}
+
+.ss-input__start,
+.ss-input__end {
+  position: absolute;
+  inset-block: 0;
+  display: flex;
+  align-items: center;
+  color: c.t(input, icon-color);
+  pointer-events: none;
+}
+
+@each $size in c.$sizes {
+  .ss-input__field--#{$size} {
+    .ss-input__start {
+      inset-inline-start: calc(#{c.t(input, border-width)} + #{c.t(input, size-#{$size}-padding-x)});
+      font-size: c.t(input, size-#{$size}-font-size);
+    }
+
+    .ss-input__end {
+      inset-inline-end: calc(#{c.t(input, border-width)} + #{c.t(input, size-#{$size}-padding-x)});
+      font-size: c.t(input, size-#{$size}-font-size);
+    }
+  }
+
+  .ss-input--#{$size}.ss-input--has-start {
+    padding-inline-start: calc(#{c.t(input, size-#{$size}-padding-x)} + var(--_start, 0px) + #{c.t(input, icon-gap)});
+  }
+
+  .ss-input--#{$size}.ss-input--has-end {
+    padding-inline-end: calc(#{c.t(input, size-#{$size}-padding-x)} + var(--_end, 0px) + #{c.t(input, icon-gap)});
+  }
+}
+
+::slotted(*) {
+  flex: none;
+}
+
 @mixin disabled($with-background: false, $with-opacity: false) {
   &[disabled] {
-    @if $with-background { background: c.t(input, disabled-background); }
+    @if $with-background {
+      background: c.t(input, disabled-background);
+    }
     color: c.t(input, disabled-foreground);
     cursor: not-allowed;
-    @if $with-opacity { opacity: c.t(input, disabled-opacity); }
+    @if $with-opacity {
+      opacity: c.t(input, disabled-opacity);
+    }
   }
 }
 
 // Primary — the input's own background and border
 .ss-input--primary {
   &.ss-input--solid {
-    background:   c.t(input, background);
-    color:        c.t(input, foreground);
+    background: c.t(input, background);
+    color: c.t(input, foreground);
     border-color: c.t(input, border-color);
 
-    &:hover:not([disabled]) { background: c.t(input, primary-hover-background); }
-    &:focus { border-color: c.t(input, primary-focus-color); box-shadow: c.ring(input, c.t(input, primary-focus-color)); }
+    &:hover:not([disabled]) {
+      background: c.t(input, primary-hover-background);
+    }
+    &:focus {
+      border-color: c.t(input, primary-focus-color);
+      box-shadow: c.ring(input, c.t(input, primary-focus-color));
+    }
     @include disabled($with-background: true);
   }
 
   &.ss-input--outline {
-    background:   transparent;
-    color:        c.t(input, foreground);
+    background: transparent;
+    color: c.t(input, foreground);
     border-color: c.t(input, neutral-border-color);
 
-    &:hover:not([disabled]) { background: c.t(input, primary-hover-background); }
-    &:focus { border-color: c.t(input, primary-focus-color); box-shadow: c.ring(input, c.t(input, primary-focus-color)); }
+    &:hover:not([disabled]) {
+      background: c.t(input, primary-hover-background);
+    }
+    &:focus {
+      border-color: c.t(input, primary-focus-color);
+      box-shadow: c.ring(input, c.t(input, primary-focus-color));
+    }
     @include disabled($with-opacity: true);
   }
 
   &.ss-input--underline {
-    background:          transparent;
-    color:               c.t(input, foreground);
+    background: transparent;
+    color: c.t(input, foreground);
     border-bottom-color: c.t(input, neutral-border-color);
-    border-radius:       0;
+    border-radius: 0;
 
-    &:hover:not([disabled]) { border-bottom-color: c.t(input, primary-underline-hover-border-color); }
-    &:focus { border-bottom-color: c.t(input, primary-focus-color); box-shadow: none; }
+    &:hover:not([disabled]) {
+      border-bottom-color: c.t(input, primary-underline-hover-border-color);
+    }
+    &:focus {
+      border-bottom-color: c.t(input, primary-focus-color);
+      box-shadow: none;
+    }
     @include disabled;
   }
 }
@@ -78,33 +150,48 @@
   $ring: 0 0 0 c.t(input, focus-ring-width) color-mix(in srgb, #{c.t(input, secondary-focus-color)} calc(#{c.t(input, secondary-focus-ring-opacity)} * 100%), transparent);
 
   &.ss-input--solid {
-    background:   c.t(input, surface-background);
-    color:        c.t(input, foreground);
+    background: c.t(input, surface-background);
+    color: c.t(input, foreground);
     border-color: c.t(input, neutral-border-color);
 
-    &:hover:not([disabled]) { background: c.t(input, surface-hover-background); }
-    &:focus { border-color: c.t(input, secondary-focus-color); box-shadow: $ring; }
+    &:hover:not([disabled]) {
+      background: c.t(input, surface-hover-background);
+    }
+    &:focus {
+      border-color: c.t(input, secondary-focus-color);
+      box-shadow: $ring;
+    }
     @include disabled($with-background: true);
   }
 
   &.ss-input--outline {
-    background:   transparent;
-    color:        c.t(input, foreground);
+    background: transparent;
+    color: c.t(input, foreground);
     border-color: c.t(input, neutral-border-color);
 
-    &:hover:not([disabled]) { background: c.t(input, surface-background); }
-    &:focus { border-color: c.t(input, secondary-focus-color); box-shadow: $ring; }
+    &:hover:not([disabled]) {
+      background: c.t(input, surface-background);
+    }
+    &:focus {
+      border-color: c.t(input, secondary-focus-color);
+      box-shadow: $ring;
+    }
     @include disabled($with-opacity: true);
   }
 
   &.ss-input--underline {
-    background:          transparent;
-    color:               c.t(input, foreground);
+    background: transparent;
+    color: c.t(input, foreground);
     border-bottom-color: c.t(input, neutral-border-color);
-    border-radius:       0;
+    border-radius: 0;
 
-    &:hover:not([disabled]) { border-bottom-color: c.t(input, secondary-focus-color); }
-    &:focus { border-bottom-color: c.t(input, secondary-focus-color); box-shadow: none; }
+    &:hover:not([disabled]) {
+      border-bottom-color: c.t(input, secondary-focus-color);
+    }
+    &:focus {
+      border-bottom-color: c.t(input, secondary-focus-color);
+      box-shadow: none;
+    }
     @include disabled;
   }
 }
@@ -114,50 +201,69 @@
   $accent: c.t(input, #{$variant}-accent);
 
   &.ss-input--solid {
-    background:   c.t(input, surface-background);
-    color:        c.t(input, foreground);
+    background: c.t(input, surface-background);
+    color: c.t(input, foreground);
     border-color: color-mix(in srgb, #{$accent} calc(#{c.t(input, accent-border-opacity)} * 100%), #{c.t(input, neutral-border-color)});
 
-    &:hover:not([disabled]) { background: c.t(input, surface-hover-background); }
-    &:focus { border-color: $accent; box-shadow: c.ring(input, $accent); }
+    &:hover:not([disabled]) {
+      background: c.t(input, surface-hover-background);
+    }
+    &:focus {
+      border-color: $accent;
+      box-shadow: c.ring(input, $accent);
+    }
     @include disabled($with-background: true);
   }
 
   &.ss-input--outline {
-    background:   transparent;
-    color:        c.t(input, foreground);
+    background: transparent;
+    color: c.t(input, foreground);
     border-color: $accent;
 
-    &:hover:not([disabled]) { background: color-mix(in srgb, #{$accent} calc(#{c.t(input, outline-hover-opacity)} * 100%), transparent); }
-    &:focus { border-color: $accent; box-shadow: c.ring(input, $accent); }
+    &:hover:not([disabled]) {
+      background: color-mix(in srgb, #{$accent} calc(#{c.t(input, outline-hover-opacity)} * 100%), transparent);
+    }
+    &:focus {
+      border-color: $accent;
+      box-shadow: c.ring(input, $accent);
+    }
     @include disabled($with-opacity: true);
   }
 
   &.ss-input--underline {
-    background:          transparent;
-    color:               c.t(input, foreground);
+    background: transparent;
+    color: c.t(input, foreground);
     border-bottom-color: $accent;
-    border-radius:       0;
+    border-radius: 0;
 
-    &:hover:not([disabled]) { filter: brightness(c.t(input, underline-hover-brightness)); }
-    &:focus { border-bottom-color: $accent; box-shadow: none; }
+    &:hover:not([disabled]) {
+      filter: brightness(c.t(input, underline-hover-brightness));
+    }
+    &:focus {
+      border-bottom-color: $accent;
+      box-shadow: none;
+    }
     @include disabled($with-opacity: true);
   }
 }
 
 @each $variant in default, brand, tertiary, quaternary, success, warning, error, destructive, info {
-  .ss-input--#{$variant} { @include accent-variant($variant); }
+  .ss-input--#{$variant} {
+    @include accent-variant($variant);
+  }
 }
 
 // Full width
-.ss-input--full-width { width: 100%; }
+.ss-input--full-width {
+  width: 100%;
+}
 
 .ss-input--invalid {
   border-color: c.t(input, invalid-border-color);
 
   &:focus {
     border-color: c.t(input, invalid-border-color);
-    box-shadow:   c.ring(input, c.t(input, invalid-border-color));
+    box-shadow: c.ring(input, c.t(input, invalid-border-color));
   }
 }
 

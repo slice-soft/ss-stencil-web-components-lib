@@ -1,5 +1,7 @@
 import { AttachInternals, Component, Element, h, Prop, State, Event, EventEmitter } from '@stencil/core';
 import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
+import { onResize } from '../../../utils/position';
+import { slotHasContent } from '../../../utils/slot';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 import { JoinSide } from '../../../types/join';
 import { Size } from '../../../types/size';
@@ -28,6 +30,13 @@ export class SsInput {
 
   /** Set by an ancestor fieldset through formDisabledCallback. */
   @State() ancestorDisabled: boolean = false;
+
+  /** Which of the start and end slots hold content. */
+  @State() filled = { start: false, end: false };
+
+  private startEl?: HTMLElement;
+  private endEl?: HTMLElement;
+  private stopMeasuring?: () => void;
 
   /** Id applied to the native input; also included in event details. */
   @Prop() xId?: string;
@@ -98,15 +107,55 @@ export class SsInput {
   }
 
   componentDidLoad() {
+    this.stopMeasuring = onResize([this.startEl, this.endEl], () => this.measureSlots());
+    this.measureSlots();
     this.syncFormState();
     applyLabelledBy(this.el, this.input, this.labelledBy);
     applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
   componentDidUpdate() {
+    this.measureSlots();
     this.syncFormState();
     applyLabelledBy(this.el, this.input, this.labelledBy);
     applyDescribedBy(this.el, this.input, this.describedBy);
+  }
+
+  disconnectedCallback() {
+    this.stopMeasuring?.();
+    this.stopMeasuring = undefined;
+  }
+
+  connectedCallback() {
+    // Moved in the document: disconnecting stopped the measuring.
+    if (!this.stopMeasuring && this.startEl) this.stopMeasuring = onResize([this.startEl, this.endEl], () => this.measureSlots());
+  }
+
+  /**
+   * The input makes room for what sits inside its edges: its inline padding
+   * grows by each filled slot's measured width (read by the stylesheet as
+   * --_start and --_end), so a unit or a domain wider than an icon never covers
+   * the text. Written straight onto the input, outside the render cycle, as the
+   * width can change without a render (a font loading, the slotted text
+   * changing).
+   */
+  private measureSlots() {
+    if (!this.input) return;
+    for (const [name, el] of [
+      ['--_start', this.startEl],
+      ['--_end', this.endEl],
+    ] as const) {
+      const width = el?.offsetWidth ?? 0;
+      if (width) this.input.style.setProperty(name, `${width}px`);
+      else this.input.style.removeProperty(name);
+    }
+  }
+
+  private trackSlot(name: 'start' | 'end') {
+    return (event: Event) => {
+      const has = slotHasContent(event);
+      if (this.filled[name] !== has) this.filled = { ...this.filled, [name]: has };
+    };
   }
 
   /** Restores the value the input was rendered with, as a native input does. */
@@ -148,6 +197,8 @@ export class SsInput {
       [`${b}--disabled`]: this.isDisabled,
       [`${b}--readonly`]: this.readonly,
       [`${b}--invalid`]: this.invalid,
+      [`${b}--has-start`]: this.filled.start,
+      [`${b}--has-end`]: this.filled.end,
     };
   }
 
@@ -167,34 +218,42 @@ export class SsInput {
 
   render() {
     return (
-      <input
-        ref={el => (this.input = el)}
-        id={this.xId}
-        name={this.name}
-        type={this.type}
-        class={this.getClasses()}
-        style={resolveInlineStyles(this.inlineStyles)}
-        disabled={this.isDisabled}
-        readOnly={this.readonly}
-        required={this.required}
-        aria-invalid={this.invalid ? 'true' : undefined}
-        aria-label={this.accessibilityLabel}
-        aria-labelledby={this.labelledBy}
-        aria-describedby={this.describedBy}
-        autoComplete={this.autocomplete}
-        min={this.min}
-        max={this.max}
-        step={this.step}
-        minLength={this.minLength}
-        maxLength={this.maxLength}
-        placeholder={this.placeholder}
-        value={this.value}
-        onInput={this.handleInput}
-        onChange={this.handleChange}
-        onInvalid={ev => this.ssInvalid.emit(this.emitValue(ev))}
-        onFocus={ev => this.ssFocus.emit(ev)}
-        onBlur={ev => this.ssBlur.emit(ev)}
-      />
+      <div class={{ 'ss-input__field': true, [`ss-input__field--${this.size}`]: true, 'ss-input__field--full-width': this.fullWidth }}>
+        <span class="ss-input__start" ref={el => (this.startEl = el)}>
+          <slot name="start" onSlotchange={this.trackSlot('start')} />
+        </span>
+        <input
+          ref={el => (this.input = el)}
+          id={this.xId}
+          name={this.name}
+          type={this.type}
+          class={this.getClasses()}
+          style={resolveInlineStyles(this.inlineStyles)}
+          disabled={this.isDisabled}
+          readOnly={this.readonly}
+          required={this.required}
+          aria-invalid={this.invalid ? 'true' : undefined}
+          aria-label={this.accessibilityLabel}
+          aria-labelledby={this.labelledBy}
+          aria-describedby={this.describedBy}
+          autoComplete={this.autocomplete}
+          min={this.min}
+          max={this.max}
+          step={this.step}
+          minLength={this.minLength}
+          maxLength={this.maxLength}
+          placeholder={this.placeholder}
+          value={this.value}
+          onInput={this.handleInput}
+          onChange={this.handleChange}
+          onInvalid={ev => this.ssInvalid.emit(this.emitValue(ev))}
+          onFocus={ev => this.ssFocus.emit(ev)}
+          onBlur={ev => this.ssBlur.emit(ev)}
+        />
+        <span class="ss-input__end" ref={el => (this.endEl = el)}>
+          <slot name="end" onSlotchange={this.trackSlot('end')} />
+        </span>
+      </div>
     );
   }
 }

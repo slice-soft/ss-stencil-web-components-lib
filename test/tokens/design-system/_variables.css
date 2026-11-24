@@ -802,6 +802,12 @@
   --ss-card-padding-sm: var(--ss-space-2);
   --ss-card-padding-md: var(--ss-space-4);
   --ss-card-padding-lg: var(--ss-space-6);
+  --ss-card-interactive-hover-border-color: var(--ss-color-ring);
+  --ss-card-focus-ring-width: var(--ss-control-focus-ring-width);
+  --ss-card-focus-ring-offset: var(--ss-control-focus-ring-offset);
+  --ss-card-focus-ring-color: var(--ss-color-ring);
+  --ss-card-transition-duration: var(--ss-motion-duration-fast);
+  --ss-card-transition-easing: var(--ss-motion-easing-standard);
   --ss-checkbox-group-gap: var(--ss-space-1);
   --ss-checkbox-group-choices-gap: var(--ss-space-2);
   --ss-checkbox-group-horizontal-column-gap: var(--ss-space-4);
@@ -1024,6 +1030,12 @@
   --ss-input-error-accent: var(--ss-color-error);
   --ss-input-destructive-accent: var(--ss-color-destructive);
   --ss-input-info-accent: var(--ss-color-info);
+  --ss-input-icon-size: var(--ss-control-icon-size);
+  --ss-input-icon-color: var(--ss-color-muted-foreground);
+  --ss-input-icon-gap: var(--ss-space-2);
+  --ss-input-clear-color: var(--ss-color-muted-foreground);
+  --ss-input-clear-hover-color: var(--ss-color-foreground);
+  --ss-input-clear-size: var(--ss-control-icon-size);
   --ss-label-font-family: var(--ss-control-font-family);
   --ss-label-font-size: var(--ss-choice-size-md-font-size);
   --ss-label-line-height: var(--ss-control-line-height);
@@ -1511,6 +1523,7 @@
   --ss-card-background: var(--ss-material-surface);
   --ss-card-elevated-shadow: var(--ss-elevation-card);
   --ss-card-border-color: var(--ss-material-border-color);
+  --ss-card-interactive-hover-shadow: var(--ss-elevation-lg);
   --ss-combobox-size-xs-radius: var(--ss-field-size-xs-radius);
   --ss-combobox-size-sm-radius: var(--ss-field-size-sm-radius);
   --ss-combobox-size-md-radius: var(--ss-field-size-md-radius);
@@ -1878,6 +1891,12 @@
   --ss-card-padding-sm: var(--ss-space-2);
   --ss-card-padding-md: var(--ss-space-4);
   --ss-card-padding-lg: var(--ss-space-6);
+  --ss-card-interactive-hover-border-color: var(--ss-color-ring);
+  --ss-card-focus-ring-width: var(--ss-control-focus-ring-width);
+  --ss-card-focus-ring-offset: var(--ss-control-focus-ring-offset);
+  --ss-card-focus-ring-color: var(--ss-color-ring);
+  --ss-card-transition-duration: var(--ss-motion-duration-fast);
+  --ss-card-transition-easing: var(--ss-motion-easing-standard);
   --ss-checkbox-group-gap: var(--ss-space-1);
   --ss-checkbox-group-choices-gap: var(--ss-space-2);
   --ss-checkbox-group-horizontal-column-gap: var(--ss-space-4);
@@ -2100,6 +2119,12 @@
   --ss-input-error-accent: var(--ss-color-error);
   --ss-input-destructive-accent: var(--ss-color-destructive);
   --ss-input-info-accent: var(--ss-color-info);
+  --ss-input-icon-size: var(--ss-control-icon-size);
+  --ss-input-icon-color: var(--ss-color-muted-foreground);
+  --ss-input-icon-gap: var(--ss-space-2);
+  --ss-input-clear-color: var(--ss-color-muted-foreground);
+  --ss-input-clear-hover-color: var(--ss-color-foreground);
+  --ss-input-clear-size: var(--ss-control-icon-size);
   --ss-label-font-family: var(--ss-control-font-family);
   --ss-label-font-size: var(--ss-choice-size-md-font-size);
   --ss-label-line-height: var(--ss-control-line-height);
@@ -2587,6 +2612,7 @@
   --ss-card-background: var(--ss-material-surface);
   --ss-card-elevated-shadow: var(--ss-elevation-card);
   --ss-card-border-color: var(--ss-material-border-color);
+  --ss-card-interactive-hover-shadow: var(--ss-elevation-lg);
   --ss-combobox-size-xs-radius: var(--ss-field-size-xs-radius);
   --ss-combobox-size-sm-radius: var(--ss-field-size-sm-radius);
   --ss-combobox-size-md-radius: var(--ss-field-size-md-radius);

@@ -11,7 +11,11 @@ describe('ss-input', () => {
     expect(getRoot(page)).toEqualHtml(`
       <ss-input>
         <mock:shadow-root>
-          <input class="ss-input ss-input--md ss-input--primary ss-input--solid" type="text">
+          <div class="ss-input__field ss-input__field--md">
+            <span class="ss-input__start"><slot name="start"></slot></span>
+            <input class="ss-input ss-input--md ss-input--primary ss-input--solid" type="text">
+            <span class="ss-input__end"><slot name="end"></slot></span>
+          </div>
         </mock:shadow-root>
       </ss-input>
     `);
@@ -33,7 +37,9 @@ describe('ss-input', () => {
     expect(getRoot(page)).toEqualHtml(`
       <ss-input type="email" placeholder="test placeholder" value="initial" disabled full-width x-style="underline" inline-styles="background-color: red;">
         <mock:shadow-root>
-          <input
+          <div class="ss-input__field ss-input__field--md ss-input__field--full-width">
+            <span class="ss-input__start"><slot name="start"></slot></span>
+            <input
             type="email"
             placeholder="test placeholder"
             value="initial"
@@ -41,6 +47,8 @@ describe('ss-input', () => {
             class="ss-input ss-input--primary ss-input--underline ss-input--md ss-input--full-width ss-input--disabled"
             style="background-color: red;"
           />
+            <span class="ss-input__end"><slot name="end"></slot></span>
+          </div>
         </mock:shadow-root>
       </ss-input>
     `);
@@ -54,7 +62,11 @@ describe('ss-input', () => {
     expect(getRoot(page)).toEqualHtml(`
       <ss-input x-id="my-id" color="secondary" size="lg" x-style="outline">
         <mock:shadow-root>
-          <input id="my-id" class="ss-input ss-input--secondary ss-input--outline ss-input--lg" type="text">
+          <div class="ss-input__field ss-input__field--lg">
+            <span class="ss-input__start"><slot name="start"></slot></span>
+            <input id="my-id" class="ss-input ss-input--secondary ss-input--outline ss-input--lg" type="text">
+            <span class="ss-input__end"><slot name="end"></slot></span>
+          </div>
         </mock:shadow-root>
       </ss-input>
     `);
@@ -136,5 +148,16 @@ describe('ss-input', () => {
 
     expect(focusSpy).toHaveBeenCalled();
     expect(blurSpy).toHaveBeenCalled();
+  });
+});
+
+describe('ss-input slots', () => {
+  it('renders start and end slots inside the field', async () => {
+    const page = await newSpecPage({ components: [SsInput], html: `<ss-input></ss-input>` });
+    const shadow = getShadowRoot(getRoot(page));
+    const field = getElement(shadow, '.ss-input__field');
+    expect(field.querySelector('.ss-input__start slot[name="start"]')).not.toBeNull();
+    expect(field.querySelector('.ss-input__end slot[name="end"]')).not.toBeNull();
+    expect(field.querySelector('input.ss-input')).not.toBeNull();
   });
 });
