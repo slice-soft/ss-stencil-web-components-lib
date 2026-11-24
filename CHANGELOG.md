@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.2](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.1...ss-stencil-web-components-lib-v0.7.2) (2026-11-24)
+
+
+### Features
+
+* **motion:** overlays, toasts and sections enter and leave ([#65](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/65)) ([3900081](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/3900081fb15a5670a8a5442673e03cdbdee98924))
+
 ## [0.7.1](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.0...ss-stencil-web-components-lib-v0.7.1) (2026-11-24)
 
 
