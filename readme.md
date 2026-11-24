@@ -4,9 +4,9 @@ Libreria de Web Components reutilizables desarrollados con StencilJS para SliceS
 
 ## Uso
 
-Los componentes consumen tokens CSS de `@slice-soft/ss-design-system` **2.11.0 o
+Los componentes consumen tokens CSS de `@slice-soft/ss-design-system` **2.12.0 o
 superior**: cada componente migrado lee solo sus propios tokens
-(`--ss-<componente>-*`), que existen desde esa versión (los de checkbox, radio, switch, slider y label desde la 2.9.0; los del resto de los átomos desde la 2.10.0; los de las moléculas desde la 2.11.0). Con una versión anterior
+(`--ss-<componente>-*`), que existen desde esa versión (los de checkbox, radio, switch, slider y label desde la 2.9.0; los del resto de los átomos desde la 2.10.0; los de las moléculas desde la 2.11.0; los de los organismos desde la 2.12.0). Con una versión anterior
 esos componentes se ven sin estilo. Carga `_variables.css` antes de usar la
 librería y `_dark.css` después si necesitas modo oscuro; el tema se cambia
 con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.

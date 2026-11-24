@@ -55,27 +55,30 @@ test('violations report their line', () => {
   assert.deepEqual(violations('a {\n  gap: var(--ss-dimensions-2);\n}', 'ss-button', TAGS), [{ line: 2, variable: '--ss-dimensions-2' }]);
 });
 
-function fixture(migrated, scss) {
+function fixture(scss) {
   const root = mkdtempSync(join(tmpdir(), 'ss-layers-'));
   mkdirSync(join(root, 'src/components/atoms/ss-button'), { recursive: true });
   writeFileSync(join(root, 'src/components/atoms/ss-button/ss-button.scss'), scss);
-  mkdirSync(join(root, 'scripts'));
-  writeFileSync(join(root, 'scripts/token-layers.config.json'), JSON.stringify({ migrated }));
   return root;
 }
 
 const cli = cwd => spawnSync(process.execPath, [join(import.meta.dirname, 'check-token-layers.mjs')], { cwd, encoding: 'utf8' });
 
 test('the CLI lints what the stylesheet compiles to, mixins included', () => {
-  const run = cli(fixture(['ss-button'], '@mixin ring { outline-color: var(--ss-color-ring); }\na { @include ring; }'));
+  const run = cli(fixture('@mixin ring { outline-color: var(--ss-color-ring); }\na { @include ring; }'));
   assert.equal(run.status, 1);
   assert.match(run.stderr, /ss-button reads --ss-color-ring/);
 });
 
-test('the CLI only reports components not yet migrated', () => {
-  const run = cli(fixture([], 'a { gap: var(--ss-dimensions-2); }'));
-  assert.equal(run.status, 0);
-  assert.match(run.stdout, /ss-button: 1 reference outside its own tokens \(not migrated\)/);
+test('the CLI holds every component to the rule, with no list of exceptions', () => {
+  const run = cli(fixture('a { gap: var(--ss-dimensions-2); }'));
+  assert.equal(run.status, 1);
+  assert.match(run.stderr, /ss-button reads --ss-dimensions-2; it may only read --ss-button-\*/);
+});
+
+test('the CLI passes a component that reads only its own tokens', () => {
+  const run = cli(fixture('a { gap: var(--ss-button-gap); }'));
+  assert.equal(run.status, 0, run.stderr);
 });
 
 test('the module can be imported without a script path', () => {

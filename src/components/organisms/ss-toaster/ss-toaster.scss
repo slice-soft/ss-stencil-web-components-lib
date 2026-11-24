@@ -1,42 +1,43 @@
-/* Width is a multiple of the largest dimension step until the design system
-   has overlay widths (docs/pending-token-proposals.md), and never wider than
-   the viewport minus a margin each side. */
+@use '../../../global/styles/control' as c;
+
+/* Never wider than the viewport minus the width offset; the offset places the
+   stack that far from the edges it sits against. */
 .ss-toaster {
   position: fixed;
-  z-index: var(--ss-z-index-toast);
+  z-index: c.t(toaster, z-index);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--ss-dimensions-2);
-  width: min(calc(var(--ss-dimensions-32) * 2.75), calc(var(--ss-sizing-full) - var(--ss-dimensions-8)));
+  gap: c.t(toaster, gap);
+  width: min(#{c.t(toaster, width)}, calc(100% - #{c.t(toaster, width-offset)}));
   pointer-events: none;
 }
 
 .ss-toaster--top-start,
 .ss-toaster--top-center,
 .ss-toaster--top-end {
-  top: var(--ss-dimensions-4);
+  top: c.t(toaster, offset);
 }
 
 .ss-toaster--bottom-start,
 .ss-toaster--bottom-center,
 .ss-toaster--bottom-end {
-  bottom: var(--ss-dimensions-4);
+  bottom: c.t(toaster, offset);
 }
 
 .ss-toaster--top-start,
 .ss-toaster--bottom-start {
-  left: var(--ss-dimensions-4);
+  left: c.t(toaster, offset);
 }
 
 .ss-toaster--top-end,
 .ss-toaster--bottom-end {
-  right: var(--ss-dimensions-4);
+  right: c.t(toaster, offset);
 }
 
 .ss-toaster--top-center,
 .ss-toaster--bottom-center {
-  left: var(--ss-sizing-none);
-  right: var(--ss-sizing-none);
+  left: 0;
+  right: 0;
   margin-inline: auto;
 }

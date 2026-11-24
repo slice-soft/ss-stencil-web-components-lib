@@ -1,3 +1,5 @@
+@use '../../../global/styles/control' as c;
+
 .ss-dropdown {
   position: relative;
   display: inline-flex;
@@ -10,33 +12,34 @@
 
 /* Fixed, with coordinates written by the component: see `anchorTo` in
    utils/position. Inside a dialog or a sticky bar the menu stacks within that
-   ancestor's own context, so the lower z-index role does not put it behind. */
+   ancestor's own context, so the lower z-index role does not put it behind.
+   The offsets keep the menu that much clear of the viewport's size. */
 .ss-dropdown__menu {
   position: fixed;
-  top: var(--ss-sizing-none);
-  left: var(--ss-sizing-none);
-  z-index: var(--ss-z-index-dropdown);
+  top: 0;
+  left: 0;
+  z-index: c.t(dropdown, z-index);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--ss-dimensions-0);
-  min-width: calc(var(--ss-dimensions-32) * 1.25);
-  max-width: calc(var(--ss-sizing-full) - var(--ss-dimensions-4));
-  max-height: calc(var(--ss-sizing-full) - var(--ss-dimensions-8));
+  gap: 0;
+  min-width: c.t(dropdown, min-width);
+  max-width: calc(100% - #{c.t(dropdown, max-width-offset)});
+  max-height: calc(100% - #{c.t(dropdown, max-height-offset)});
   overflow-y: auto;
-  padding: var(--ss-dimensions-1);
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
-  border-radius: var(--ss-radius-md);
-  background: var(--ss-color-card);
-  color: var(--ss-color-card-foreground);
-  box-shadow: var(--ss-shadows-md);
-  font-family: var(--ss-text-fonts-sans);
+  padding: c.t(dropdown, padding);
+  border: c.t(dropdown, border-width) solid c.t(dropdown, border-color);
+  border-radius: c.t(dropdown, radius);
+  background: c.t(dropdown, background);
+  color: c.t(dropdown, foreground);
+  box-shadow: c.t(dropdown, shadow);
+  font-family: c.t(dropdown, font-family);
 
   &[hidden] {
     display: none;
   }
 
   &:focus-visible {
-    outline: var(--ss-borders-width-none);
+    outline: 0;
   }
 }

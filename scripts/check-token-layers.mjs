@@ -8,10 +8,10 @@
 // It lints the compiled CSS, not the source: a mixin or a helper such as
 // t(other-component, …) produces variables the source never spells out.
 //
-// Components listed in scripts/token-layers.config.json ("migrated") fail the
-// lint on any other --ss-* reference. The rest are counted, so the size of the
-// remaining migration stays visible.
-import { readFileSync, readdirSync } from 'node:fs';
+// Every component is held to it: the migration to component tokens finished
+// with wave 5, so there is no list of exceptions. A new component starts with
+// its own tokens in ss-design-system.
+import { readdirSync } from 'node:fs';
 import { basename, join, relative } from 'node:path';
 import process from 'node:process';
 import { pathToFileURL } from 'node:url';
@@ -54,24 +54,17 @@ function stylesheets(dir) {
 }
 
 function main(root = process.cwd()) {
-  const { migrated } = JSON.parse(readFileSync(join(root, 'scripts/token-layers.config.json'), 'utf8'));
   const files = stylesheets(join(root, 'src/components')).sort();
   const tags = files.map(file => basename(file, '.scss'));
   let failed = false;
-  const pending = [];
   for (const file of files) {
     const tag = basename(file, '.scss');
     const found = violations(compile(file).css, tag, tags);
     if (found.length === 0) continue;
-    if (migrated.includes(tag)) {
-      failed = true;
-      const variables = [...new Set(found.map(v => v.variable))];
-      console.error(`${relative(root, file)}: ${tag} reads ${variables.join(', ')}; it may only read ${ownPrefix(tag)}*`);
-    } else {
-      pending.push(`${tag}: ${found.length} reference${found.length === 1 ? '' : 's'} outside its own tokens (not migrated)`);
-    }
+    failed = true;
+    const variables = [...new Set(found.map(v => v.variable))];
+    console.error(`${relative(root, file)}: ${tag} reads ${variables.join(', ')}; it may only read ${ownPrefix(tag)}*`);
   }
-  if (pending.length) console.log(`Token layers — ${pending.length} components not migrated yet:\n  ${pending.join('\n  ')}`);
   process.exitCode = failed ? 1 : 0;
 }
 

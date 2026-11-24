@@ -46,7 +46,7 @@ variant.
 | 4 | table | Data-driven — `columns` and `rows` as properties — because a scoped component cannot style slotted cells. A real `<table>` named by its caption; sortable headers are buttons, with `aria-sort` on the cell; natural sort, empty cells last, on a copy; `manual-sort` for rows sorted elsewhere. The scroll area becomes a focusable region only while it overflows. Optional sticky header |
 | 4 | e2e harness at full size | At 74 files the load flake returned and the toast's clock tests failed most full runs. jest's timeout, recorded as a fixed 45s, is raised to 90s by a setup file that runs after Stencil's, and the app-load wait to 80s. The toast tests were measuring the harness — a test's page is often a background tab, hidden and without window focus — and now pin visibility and emulate focus |
 | 5 | Tests on the released design tokens | Tests and the local playground use a committed copy of ss-design-system (`test/tokens/design-system/`) for the structure, refreshed by `npm run tokens:sync`, which copies a local design-system build (`../ss-design-system/dist/css`) — nothing is downloaded; `test/tokens.config.json` records its version. No test touches the network. On top of it, `test/brands/test-base/` replaces every brand-level value with generic ones, so no real brand's values reach a test (`brands.spec.ts` enforces it); `neon-purple` and `organic-emerald` are variations on top of test-base, checked for button contrast in both themes |
-| 5 | Token layer lint | `npm run lint` counts, per component, every `var(--ss-*)` outside its own tokens. Components listed as migrated in `scripts/token-layers.config.json` fail on any. Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
+| 5 | Token layer lint | `npm run lint` fails on any `var(--ss-*)` a component reads outside its own tokens. Since wave 5 it holds every component, with no list of exceptions (`scripts/token-layers.config.json` is gone). Plan: `docs/superpowers/plans/2026-11-23-lib-tokens-foundation-wave1.md` |
 | 5 | Playground is local only | `src/index.html` is a bare page: the committed token copy (`/test-tokens/design-system/`) + build scripts, no external URL (`brands.spec.ts` checks). The playground moved to `src/playground.html`, git-ignored; `stencil.config.ts` serves it when present and it reads the token version from `test/tokens.config.json`. It was never published (the release ships `dist/` and `loader/` only); its last tracked copy is `6268ae5:src/index.html` |
 | 6 | Wave 1 on component tokens | `ss-button`, `ss-input`, `ss-textarea`, `ss-select`, `ss-combobox` read only `--ss-<component>-*`, defined in ss-design-system 2.8.0 (`tokens/components/`, with new `control.*`, `field.size.*` and `motion.duration.spin` roles). A computed-style snapshot taken before the move (`src/test/wave-1.styles.e2e.ts`, every size, variant, style, rest/hover/focus, both themes) is unchanged except the intended fix: outline and ghost button text now uses `--ss-color-*-text` (dark; tertiary and destructive have their own roles since 2.8.0) and `*-foreground` for default/secondary/quaternary, which were illegible (1.10:1 on white). `wave-1.tokens.e2e.ts` proves a component token moves only its component. `ss-input` still honors `--ss-input-border`, `-border-radius` and `-border-focus`; `ss-textarea`, `ss-select` and `ss-combobox` no longer read `--ss-input-*` overrides (they have their own tokens) |
 | 6 | Theming by container | ss-design-system 2.8.0 re-declares component tokens under `[data-theme]` and the light semantic colors under `[data-theme="light"]`, so `data-theme` on any container (a dark card on a light page, or the reverse) reaches the components inside it. `wave-1.tokens.e2e.ts` checks both directions |
@@ -54,6 +54,7 @@ variant.
 | 7 | Wave 2 on component tokens | `ss-checkbox`, `ss-radio`, `ss-switch`, `ss-slider`, `ss-label` read only `--ss-<component>-*` (ss-design-system 2.9.0: `tokens/components/{checkbox,radio,switch,slider,label}.json`, new `choice.*` system roles, `shape.radius.subtle`, slider track roles in `control.*`). The computed-style snapshot taken before (`wave-2.styles.e2e.ts`: every size and state, rest and focused, both themes) is unchanged, value for value. `wave-2.tokens.e2e.ts`: a component token moves one component; `--ss-color-primary` reaches the three choice controls; `choice.size.md.font-size` reaches all four |
 | 8 | Wave 3 on component tokens | `ss-avatar`, `ss-badge`, `ss-divider`, `ss-icon`, `ss-link`, `ss-spinner`, `ss-tooltip`, `ss-typography` read only their own tokens (ss-design-system 2.10.0). New system roles a brand can move as a whole: `type.*` (families, sizes, weights, line heights, letter spacing, ink), `space.*` (the spacing scale), `elevation.*`, `layout.layer.*`. Snapshot (`wave-3.styles.e2e.ts`) unchanged, value for value. `wave-3.tokens.e2e.ts`: `--ss-type-weight-medium` reaches badge, divider, link, tooltip and typography; `--ss-space-10` the default avatar. Every atom is now migrated |
 | 9 | Wave 4 on component tokens | The molecules — `ss-alert`, `ss-avatar-group`, `ss-breadcrumb`, `ss-breadcrumb-item`, `ss-button-group`, `ss-card`, `ss-checkbox-group`, `ss-field`, `ss-input-group`, `ss-pagination`, `ss-radio-group` — read only their own tokens (ss-design-system 2.11.0; new `layout.overlap` role). Snapshot (`wave-4.styles.e2e.ts`, including the children `::slotted` styles reach) unchanged, value for value. `wave-4.tokens.e2e.ts`: `--ss-space-2` reaches card, button group and breadcrumb; `--ss-color-muted` the input group's addon. `ss-input-group`'s addons no longer read `--ss-input-*` |
+| 10 | Wave 5 on component tokens | The organisms — `ss-accordion`, `ss-accordion-item`, `ss-dropdown`, `ss-dropdown-item`, `ss-modal`, `ss-nav`, `ss-nav-item`, `ss-popover`, `ss-tab`, `ss-table`, `ss-tabs`, `ss-toast`, `ss-toaster` — read only their own tokens (ss-design-system 2.12.0). New system roles: `shape.radius.menu`, `layout.overlay.{menu-min-width,panel-min-width,toast-width,backdrop-opacity}`; modal sizes read `layout.overlay.width.*`, so the `calc(dimensions-32 * n)` widths are gone. Snapshot (`wave-5.styles.e2e.ts`: every size, placement and state, hovered and focused targets, both themes) unchanged, value for value. `wave-5.tokens.e2e.ts`: `shape.radius.surface` reaches modal and popover only; `layout.overlay.width.md` the md dialog. **Every component is migrated**: the lint is strict library-wide and `_mixins.scss` is removed |
 
 ## Playground and release readiness
 
@@ -76,17 +77,13 @@ browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed
 
-- **13 components still read primitives: the organisms.** See the
-  `lint:tokens` count. Every atom and molecule is migrated. Next is wave 5,
-  the last: accordion, accordion-item, dropdown, dropdown-item, modal, nav,
-  nav-item, popover, tab, table, tabs, toast, toaster. When it lands, every
-  component is in `scripts/token-layers.config.json` and the lint is strict
-  for the whole library. Same pattern as wave 1: style
-  snapshot first, then the component tokens in ss-design-system (and the
-  variables in `test/fixtures/library-contract.json` there), then the
-  stylesheet. Every control's sized radius follows `control.size.*.radius`
-  (`field.size.*.radius` points at it), so a brand that overrides those roles
-  moves all five.
+- **Text in the primary or destructive color uses the fill role.** The
+  selected tab (`tabs.selected-foreground`, `indicator-color`) and a
+  destructive dropdown item (`dropdown-item.destructive-foreground`) point at
+  `color.primary` / `color.destructive`, as they did before wave 5. Buttons
+  moved their text to `color.*-text` in wave 1 for contrast; these two could
+  follow, as a visible change of its own, with a contrast pair in the design
+  system's `test/contrast-pairs.json`.
 
 - **Scoped components do not slot children added after they render.** Found
   on `ss-toaster`, now shadow. Any scoped component that slots content is

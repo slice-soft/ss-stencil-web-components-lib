@@ -1,13 +1,15 @@
+@use '../../../global/styles/control' as c;
+
 .ss-nav {
-  font-family: var(--ss-text-fonts-sans);
+  font-family: c.t(nav, font-family);
 }
 
 .ss-nav__list {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--ss-dimensions-1);
-  margin: var(--ss-sizing-none);
-  padding: var(--ss-sizing-none);
+  gap: c.t(nav, gap);
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 

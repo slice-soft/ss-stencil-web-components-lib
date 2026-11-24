@@ -1,4 +1,4 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 :host {
   display: block;
@@ -7,39 +7,40 @@
 .ss-nav-item {
   display: inline-flex;
   align-items: center;
-  gap: var(--ss-dimensions-2);
+  gap: c.t(nav-item, gap);
   box-sizing: border-box;
-  padding: var(--ss-dimensions-2) var(--ss-dimensions-3);
-  border-radius: var(--ss-radius-base);
-  color: var(--ss-color-muted-foreground);
-  font-size: var(--ss-text-sizes-sm);
-  font-weight: var(--ss-text-weights-medium);
+  padding: c.t(nav-item, padding-y) c.t(nav-item, padding-x);
+  border-radius: c.t(nav-item, radius);
+  color: c.t(nav-item, foreground);
+  font-size: c.t(nav-item, font-size);
+  font-weight: c.t(nav-item, font-weight);
   text-decoration: none;
-  transition: background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+  transition: background-color c.t(nav-item, transition-duration) c.t(nav-item, transition-easing);
 
   &:hover:not(.ss-nav-item--disabled) {
-    background: var(--ss-color-muted);
-    color: var(--ss-color-foreground);
+    background: c.t(nav-item, hover-background);
+    color: c.t(nav-item, hover-foreground);
   }
 
   &:focus-visible {
-    @include mx.focus-ring;
+    @include c.focus-outline(nav-item, c.t(nav-item, focus-ring-color));
   }
 }
 
 .ss-nav-item--vertical {
   display: flex;
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
 .ss-nav-item--current {
-  background: var(--ss-color-muted);
-  color: var(--ss-color-foreground);
+  background: c.t(nav-item, current-background);
+  color: c.t(nav-item, current-foreground);
 }
 
 .ss-nav-item--disabled {
-  @include mx.atom-disabled;
-  opacity: var(--ss-opacity-disabled);
+  color: c.t(nav-item, disabled-foreground);
+  cursor: not-allowed;
+  opacity: c.t(nav-item, disabled-opacity);
 }
 
 .ss-nav-item__icon {
