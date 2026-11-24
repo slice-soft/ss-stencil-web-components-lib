@@ -27,9 +27,15 @@ const PARTS = {
   popover: '.ss-popover__panel',
   dropdown: '.ss-dropdown__menu',
 };
-// No outline: each open dropdown moves focus into its menu, so which one holds
-// it (and draws a focus outline) changes from run to run.
-const PROPS = { extra: ['border-left-width', 'backdrop-filter'], skip: ['outline-color', 'outline-style', 'outline-width', 'outline-offset'] };
+const PROPS = {
+  extra: ['border-left-width', 'backdrop-filter'],
+  // No outline: each open dropdown moves focus into its menu, so which one
+  // holds it (and draws a focus outline) changes from run to run. No opacity
+  // or transform: open overlays on one page close each other, and a closed
+  // one is faded and scaled (its exit) — which one stays open is not what
+  // this test is about.
+  skip: ['outline-color', 'outline-style', 'outline-width', 'outline-offset', 'opacity', 'transform'],
+};
 
 /** The part each case draws: a button's button, a card's card, … */
 const OWN_PART: Record<string, string> = {

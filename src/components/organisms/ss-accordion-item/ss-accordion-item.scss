@@ -63,12 +63,43 @@
   transform: rotate(-135deg);
 }
 
+/* Opens to its content's height and closes back to none. Height is the one
+   layout property animated here: there is no transform equivalent for a
+   section that pushes the rows below it. interpolate-size lets height go to
+   auto (Chromium); elsewhere it opens at once and still fades. With reduced
+   motion only the fade remains. */
 .ss-accordion-item__panel {
+  interpolate-size: allow-keywords;
+  overflow: clip;
   padding-bottom: c.t(accordion-item, panel-padding-bottom);
   color: c.t(accordion-item, panel-foreground);
   font-size: c.t(accordion-item, panel-font-size);
+  transition:
+    height c.t(accordion-item, enter-duration) c.t(accordion-item, enter-easing),
+    padding-bottom c.t(accordion-item, enter-duration) c.t(accordion-item, enter-easing),
+    opacity c.t(accordion-item, enter-duration) c.t(accordion-item, enter-easing),
+    display c.t(accordion-item, enter-duration) allow-discrete;
 
   &[hidden] {
     display: none;
+    height: 0;
+    padding-bottom: 0;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition:
+      opacity c.t(accordion-item, enter-duration) c.t(accordion-item, enter-easing),
+      display c.t(accordion-item, enter-duration) allow-discrete;
+  }
+}
+
+/* The class twice: Stencil scopes the panel's own rule (adding a class) but not
+   this one, which would lose to its padding. */
+@starting-style {
+  .ss-accordion-item__panel.ss-accordion-item__panel {
+    height: 0;
+    padding-bottom: 0;
+    opacity: 0;
   }
 }

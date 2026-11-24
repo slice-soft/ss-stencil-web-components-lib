@@ -119,3 +119,45 @@ $variants: default, brand, primary, secondary, tertiary, quaternary, success, wa
     pointer-events: none;
   }
 }
+
+// An overlay that grows into place: opacity and scale on the way in
+// (@starting-style), and back the same way when [hidden] — display waits for
+// the transition to end (allow-discrete), so the exit plays. Duration, curve
+// and starting scale are the component's enter-* tokens, which a visual style
+// moves. With reduced motion only the fade remains.
+@mixin enter-scale($c) {
+  --_enter-scale: #{t($c, enter-scale)};
+  transition:
+    opacity t($c, enter-duration) t($c, enter-easing),
+    transform t($c, enter-duration) t($c, enter-easing),
+    display t($c, enter-duration) allow-discrete;
+
+  &[hidden] {
+    opacity: 0;
+    transform: scale(var(--_enter-scale));
+  }
+
+  // The class twice: Stencil scopes ordinary rules (adding a class) but not
+  // the ones inside @starting-style, which would otherwise lose to them.
+  @at-root {
+    @starting-style {
+      #{&}#{&} {
+        opacity: 0;
+        transform: scale(var(--_enter-scale));
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    --_enter-scale: 1;
+  }
+}
+
+// Where an anchored overlay grows from: the edge facing its trigger, read from
+// the side it was placed on ($block--top … $block--left, set by the component).
+@mixin origin-at-trigger($block, $floating) {
+  .#{$block}--bottom .#{$floating} { transform-origin: top center; }
+  .#{$block}--top .#{$floating} { transform-origin: bottom center; }
+  .#{$block}--right .#{$floating} { transform-origin: center left; }
+  .#{$block}--left .#{$floating} { transform-origin: center right; }
+}

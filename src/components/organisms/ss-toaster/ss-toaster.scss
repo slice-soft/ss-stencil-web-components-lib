@@ -16,6 +16,8 @@
 .ss-toaster--top-start,
 .ss-toaster--top-center,
 .ss-toaster--top-end {
+  /* Toasts enter from, and leave towards, the edge the stack sits on. */
+  --_toast-direction: -1;
   top: c.t(toaster, offset);
 }
 

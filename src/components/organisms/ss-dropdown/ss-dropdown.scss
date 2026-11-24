@@ -37,6 +37,7 @@
   /* On the menu itself, not a layer: the menu scrolls, and a layer would
      scroll away with the items. The menu holds no fixed descendants. */
   backdrop-filter: c.t(dropdown, backdrop-filter);
+  @include c.enter-scale(dropdown);
 
   &[hidden] {
     display: none;
@@ -46,3 +47,5 @@
     outline: 0;
   }
 }
+
+@include c.origin-at-trigger(ss-dropdown, ss-dropdown__menu);
