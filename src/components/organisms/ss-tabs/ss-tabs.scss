@@ -1,9 +1,9 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-tabs {
   display: flex;
   flex-direction: column;
-  font-family: var(--ss-text-fonts-sans);
+  font-family: c.t(tabs, font-family);
 }
 
 .ss-tabs--vertical {
@@ -12,66 +12,67 @@
 
 .ss-tabs__list {
   display: flex;
-  gap: var(--ss-dimensions-1);
-  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  gap: c.t(tabs, list-gap);
+  border-bottom: c.t(tabs, border-width) solid c.t(tabs, border-color);
 }
 
 .ss-tabs--vertical .ss-tabs__list {
   flex-direction: column;
-  border-bottom: var(--ss-borders-width-none);
-  border-right: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border-bottom: 0;
+  border-right: c.t(tabs, border-width) solid c.t(tabs, border-color);
 }
 
 /* The tab overlaps the list's border by its own width, so the selected tab's
    indicator replaces that stretch of the line instead of sitting beside it. */
 .ss-tabs__tab {
-  margin-bottom: calc(var(--ss-borders-width-base) * -1);
-  padding: var(--ss-dimensions-2) var(--ss-dimensions-4);
-  border: var(--ss-borders-width-none);
-  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-colors-transparent);
-  background: var(--ss-colors-transparent);
-  color: var(--ss-color-muted-foreground);
+  margin-bottom: calc(#{c.t(tabs, border-width)} * -1);
+  padding: c.t(tabs, tab-padding-y) c.t(tabs, tab-padding-x);
+  border: 0;
+  border-bottom: c.t(tabs, border-width) solid transparent;
+  background: transparent;
+  color: c.t(tabs, tab-foreground);
   font: inherit;
-  font-size: var(--ss-text-sizes-sm);
-  font-weight: var(--ss-text-weights-medium);
+  font-size: c.t(tabs, tab-font-size);
+  font-weight: c.t(tabs, tab-font-weight);
   cursor: pointer;
 
   &:hover:not(:disabled) {
-    color: var(--ss-color-foreground);
+    color: c.t(tabs, tab-hover-foreground);
   }
 
   &:focus-visible {
-    @include mx.focus-ring;
+    @include c.focus-outline(tabs, c.t(tabs, focus-ring-color));
   }
 
   &:disabled {
-    @include mx.atom-disabled;
-    opacity: var(--ss-opacity-disabled);
+    color: c.t(tabs, disabled-foreground);
+    cursor: not-allowed;
+    opacity: c.t(tabs, disabled-opacity);
   }
 }
 
 .ss-tabs__tab--selected {
-  color: var(--ss-color-primary);
-  border-bottom-color: var(--ss-color-primary);
+  color: c.t(tabs, selected-foreground);
+  border-bottom-color: c.t(tabs, indicator-color);
 }
 
 .ss-tabs--vertical .ss-tabs__tab {
-  margin-bottom: var(--ss-sizing-none);
-  margin-right: calc(var(--ss-borders-width-base) * -1);
-  border-bottom: var(--ss-borders-width-none);
-  border-right: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-colors-transparent);
+  margin-bottom: 0;
+  margin-right: calc(#{c.t(tabs, border-width)} * -1);
+  border-bottom: 0;
+  border-right: c.t(tabs, border-width) solid transparent;
   text-align: start;
 }
 
 .ss-tabs--vertical .ss-tabs__tab--selected {
-  border-right-color: var(--ss-color-primary);
+  border-right-color: c.t(tabs, indicator-color);
 }
 
 .ss-tabs__panels {
   flex: 1;
-  min-width: var(--ss-sizing-none);
+  min-width: 0;
 }
 
 .ss-tabs--vertical .ss-tabs__panels {
-  padding-inline-start: var(--ss-dimensions-4);
+  padding-inline-start: c.t(tabs, panels-padding-start);
 }

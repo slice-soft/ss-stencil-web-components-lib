@@ -131,9 +131,10 @@ instead — the `has` trap is not instrumented.
 
 ## Component tokens
 
-- **A migrated component reads only `--ss-<component>-*`.** Listed in
-  `scripts/token-layers.config.json`; `npm run lint` fails on any other
-  `--ss-*`, semantic colors included. CSS keywords that are not design
+- **A component reads only `--ss-<component>-*`.** Every component, with no
+  list of exceptions: `npm run lint` fails on any other `--ss-*`, semantic
+  colors included. A new component starts by adding its tokens to
+  ss-design-system. CSS keywords that are not design
   decisions (`0`, `100%`, `transparent`, `currentColor`) are written literally.
   Write rules with `t($component, name)` from `src/global/styles/_control.scss`.
 - **Migrating a component**: snapshot its computed styles first (see
@@ -151,6 +152,12 @@ instead — the `has` trap is not instrumented.
   on `ss-field`) each came out a few pixels apart and failed only in CI.
   Padding, font size and the declared tokens already pin a component; record
   `width` only for parts the stylesheet sizes (`sized` in `computedParts`).
+- **A snapshot records only what one run decides.** Several open modals on one
+  page each pull focus into themselves, so which one holds it — and draws the
+  browser's focus outline — changes from run to run; `wave-5.styles.e2e.ts`
+  leaves `outline-*` out of the modal's parts. Hover and focus a named element
+  (`target`), not a whole host: the centre of a nav or a tab list lands on
+  whichever item the installed font puts there.
 - **A test that injects its own tokens must name the component's.** The input
   group's seam test set `--ss-radius-base`; the migrated input reads
   `--ss-input-size-md-radius`, and the corner silently went to 0.

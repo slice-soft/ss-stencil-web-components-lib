@@ -1,12 +1,12 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 :host {
   display: block;
 }
 
 .ss-tab {
-  padding-block: var(--ss-dimensions-4);
-  border-radius: var(--ss-radius-sm);
+  padding-block: c.t(tab, padding-y);
+  border-radius: c.t(tab, radius);
 
   &[hidden] {
     display: none;
@@ -15,6 +15,6 @@
   /* Focusable so a panel with nothing interactive in it is still reached by
      Tab straight after the tab list. */
   &:focus-visible {
-    @include mx.focus-ring;
+    @include c.focus-outline(tab, c.t(tab, focus-ring-color));
   }
 }

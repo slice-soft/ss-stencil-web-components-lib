@@ -1,17 +1,17 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 :host {
   display: block;
 }
 
 .ss-accordion-item {
-  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
-  font-family: var(--ss-text-fonts-sans);
+  border-bottom: c.t(accordion-item, border-width) solid c.t(accordion-item, border-color);
+  font-family: c.t(accordion-item, font-family);
 }
 
 /* A real heading for the page outline, drawn as part of the row. */
 .ss-accordion-item__heading {
-  margin: var(--ss-sizing-none);
+  margin: 0;
   font-size: inherit;
   font-weight: inherit;
 }
@@ -20,15 +20,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--ss-dimensions-3);
-  width: var(--ss-sizing-full);
-  padding: var(--ss-dimensions-3) var(--ss-sizing-none);
-  border: var(--ss-borders-width-none);
-  background: var(--ss-colors-transparent);
-  color: var(--ss-color-foreground);
+  gap: c.t(accordion-item, gap);
+  width: 100%;
+  padding: c.t(accordion-item, padding-y) 0;
+  border: 0;
+  background: transparent;
+  color: c.t(accordion-item, foreground);
   font: inherit;
-  font-size: var(--ss-text-sizes-base);
-  font-weight: var(--ss-text-weights-medium);
+  font-size: c.t(accordion-item, font-size);
+  font-weight: c.t(accordion-item, font-weight);
   text-align: start;
   cursor: pointer;
 
@@ -37,34 +37,36 @@
   }
 
   &:focus-visible {
-    @include mx.focus-ring;
+    @include c.focus-outline(accordion-item, c.t(accordion-item, focus-ring-color));
   }
 
   &:disabled {
-    @include mx.atom-disabled;
-    opacity: var(--ss-opacity-disabled);
+    color: c.t(accordion-item, disabled-foreground);
+    cursor: not-allowed;
+    opacity: c.t(accordion-item, disabled-opacity);
   }
 }
 
-/* A chevron drawn from two borders: pointing down when closed, up when open. */
+/* A chevron drawn from two borders: a box half the icon size, turned 45° to
+   point down when closed and -135° to point up when open. */
 .ss-accordion-item__icon {
   flex: none;
-  width: calc(var(--ss-sizing-icon) / 2);
-  height: calc(var(--ss-sizing-icon) / 2);
-  border-right: var(--ss-borders-width-base) var(--ss-borders-styles-solid) currentColor;
-  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) currentColor;
-  transform: rotate(calc(var(--ss-angles-full) / 8));
-  transition: transform var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+  width: calc(#{c.t(accordion-item, icon-size)} / 2);
+  height: calc(#{c.t(accordion-item, icon-size)} / 2);
+  border-right: c.t(accordion-item, icon-stroke-width) solid currentColor;
+  border-bottom: c.t(accordion-item, icon-stroke-width) solid currentColor;
+  transform: rotate(45deg);
+  transition: transform c.t(accordion-item, transition-duration) c.t(accordion-item, transition-easing);
 }
 
 .ss-accordion-item--open .ss-accordion-item__icon {
-  transform: rotate(calc(var(--ss-angles-full) * -3 / 8));
+  transform: rotate(-135deg);
 }
 
 .ss-accordion-item__panel {
-  padding-bottom: var(--ss-dimensions-4);
-  color: var(--ss-color-foreground);
-  font-size: var(--ss-text-sizes-sm);
+  padding-bottom: c.t(accordion-item, panel-padding-bottom);
+  color: c.t(accordion-item, panel-foreground);
+  font-size: c.t(accordion-item, panel-font-size);
 
   &[hidden] {
     display: none;

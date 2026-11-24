@@ -1,5 +1,7 @@
+@use '../../../global/styles/control' as c;
+
 .ss-accordion {
   display: flex;
   flex-direction: column;
-  border-top: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border-top: c.t(accordion, border-width) solid c.t(accordion, border-color);
 }

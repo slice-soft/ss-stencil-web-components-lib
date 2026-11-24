@@ -1,11 +1,11 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-table {
   display: flex;
   flex-direction: column;
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-sm);
-  color: var(--ss-color-foreground);
+  font-family: c.t(table, font-family);
+  font-size: c.t(table, font-size);
+  color: c.t(table, foreground);
 }
 
 /* Takes the container's max-height, so a max-height on the table makes the rows
@@ -13,52 +13,52 @@
 .ss-table__scroll {
   max-height: inherit;
   overflow: auto;
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
-  border-radius: var(--ss-radius-base);
+  border: c.t(table, border-width) solid c.t(table, border-color);
+  border-radius: c.t(table, radius);
 
   &:focus-visible {
-    @include mx.focus-ring;
+    @include c.focus-outline(table, c.t(table, focus-ring-color));
   }
 }
 
 .ss-table__table {
-  width: var(--ss-sizing-full);
+  width: 100%;
   border-collapse: collapse;
 }
 
 .ss-table__caption {
-  padding: var(--ss-dimensions-2) var(--ss-dimensions-3);
+  padding: c.t(table, caption-padding-y) c.t(table, caption-padding-x);
   caption-side: top;
   text-align: start;
-  font-weight: var(--ss-text-weights-semibold);
+  font-weight: c.t(table, caption-font-weight);
 }
 
-/* Out of view, still read. */
+/* Out of view, still read: the usual visually-hidden box, not a design value. */
 .ss-table__caption--hidden {
   position: absolute;
-  width: var(--ss-borders-width-base);
-  height: var(--ss-borders-width-base);
+  width: 1px;
+  height: 1px;
   overflow: hidden;
-  clip-path: inset(var(--ss-sizing-half));
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
 .ss-table__header,
 .ss-table__cell,
 .ss-table__empty {
-  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border-bottom: c.t(table, border-width) solid c.t(table, border-color);
 }
 
 .ss-table__header {
-  background: var(--ss-color-surface);
-  color: var(--ss-color-muted-foreground);
-  font-weight: var(--ss-text-weights-semibold);
+  background: c.t(table, header-background);
+  color: c.t(table, header-foreground);
+  font-weight: c.t(table, header-font-weight);
   white-space: nowrap;
 }
 
-@each $size, $y, $x in (sm, 1, 2), (md, 2, 3), (lg, 3, 4) {
+@each $size in sm, md, lg {
   .ss-table--#{$size} :is(.ss-table__header, .ss-table__cell, .ss-table__empty) {
-    padding: var(--ss-dimensions-#{$y}) var(--ss-dimensions-#{$x});
+    padding: c.t(table, size-#{$size}-padding-y) c.t(table, size-#{$size}-padding-x);
   }
 }
 
@@ -75,50 +75,50 @@
 }
 
 .ss-table__row:last-child .ss-table__cell {
-  border-bottom: var(--ss-borders-width-none);
+  border-bottom: 0;
 }
 
 .ss-table--striped .ss-table__row:nth-child(even) {
-  background: var(--ss-color-surface);
+  background: c.t(table, striped-background);
 }
 
 .ss-table--sticky-header .ss-table__header {
   position: sticky;
-  top: var(--ss-sizing-none);
-  z-index: var(--ss-z-index-sticky);
+  top: 0;
+  z-index: c.t(table, sticky-z-index);
 }
 
 .ss-table__sort {
   display: inline-flex;
   align-items: center;
-  gap: var(--ss-dimensions-1);
-  padding: var(--ss-sizing-none);
-  border: var(--ss-borders-width-none);
-  background: var(--ss-colors-transparent);
+  gap: c.t(table, sort-gap);
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: inherit;
   font: inherit;
   cursor: pointer;
 
   &:hover {
-    color: var(--ss-color-foreground);
+    color: c.t(table, sort-hover-foreground);
   }
 
   &:focus-visible {
-    @include mx.focus-ring;
+    @include c.focus-outline(table, c.t(table, focus-ring-color));
   }
 }
 
 .ss-table__sort--active {
-  color: var(--ss-color-foreground);
+  color: c.t(table, sort-active-foreground);
 }
 
 .ss-table__sort-icon {
-  font-size: var(--ss-text-sizes-xs);
-  opacity: var(--ss-opacity-muted);
+  font-size: c.t(table, sort-icon-font-size);
+  opacity: c.t(table, sort-icon-opacity);
 }
 
 .ss-table__empty {
-  padding-block: var(--ss-dimensions-6);
-  color: var(--ss-color-muted-foreground);
+  padding-block: c.t(table, empty-padding-y);
+  color: c.t(table, empty-foreground);
   text-align: center;
 }

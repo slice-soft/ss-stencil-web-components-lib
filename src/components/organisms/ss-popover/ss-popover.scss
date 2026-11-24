@@ -1,3 +1,5 @@
+@use '../../../global/styles/control' as c;
+
 .ss-popover {
   position: relative;
   display: inline-flex;
@@ -9,33 +11,32 @@
 }
 
 /* Fixed, with coordinates written by the component: see `anchorTo` in
-   utils/position. The widths are multiples of the largest dimension step until
-   the design system has overlay widths (docs/pending-token-proposals.md). */
+   utils/position. Never wider than the viewport minus the offset. */
 .ss-popover__panel {
   position: fixed;
-  top: var(--ss-sizing-none);
-  left: var(--ss-sizing-none);
-  z-index: var(--ss-z-index-popover);
+  top: 0;
+  left: 0;
+  z-index: c.t(popover, z-index);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: var(--ss-dimensions-2);
-  min-width: calc(var(--ss-dimensions-32) * 1.5);
-  max-width: min(calc(var(--ss-dimensions-32) * 2.5), calc(var(--ss-sizing-full) - var(--ss-dimensions-4)));
-  padding: var(--ss-dimensions-4);
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
-  border-radius: var(--ss-radius-lg);
-  background: var(--ss-color-card);
-  color: var(--ss-color-card-foreground);
-  box-shadow: var(--ss-shadows-lg);
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-sm);
+  gap: c.t(popover, gap);
+  min-width: c.t(popover, min-width);
+  max-width: min(#{c.t(popover, max-width)}, calc(100% - #{c.t(popover, max-width-offset)}));
+  padding: c.t(popover, padding);
+  border: c.t(popover, border-width) solid c.t(popover, border-color);
+  border-radius: c.t(popover, radius);
+  background: c.t(popover, background);
+  color: c.t(popover, foreground);
+  box-shadow: c.t(popover, shadow);
+  font-family: c.t(popover, font-family);
+  font-size: c.t(popover, font-size);
 
   &[hidden] {
     display: none;
   }
 
   &:focus-visible {
-    outline: var(--ss-borders-width-none);
+    outline: 0;
   }
 }

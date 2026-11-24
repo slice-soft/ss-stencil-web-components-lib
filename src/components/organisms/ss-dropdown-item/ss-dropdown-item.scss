@@ -1,8 +1,10 @@
+@use '../../../global/styles/control' as c;
+
 :host {
   display: block;
-  border-radius: var(--ss-radius-sm);
+  border-radius: c.t(dropdown-item, radius);
   cursor: pointer;
-  outline: var(--ss-borders-width-none);
+  outline: 0;
 }
 
 :host([aria-disabled='true']) {
@@ -12,31 +14,31 @@
 .ss-dropdown-item {
   display: flex;
   align-items: center;
-  gap: var(--ss-dimensions-2);
-  padding: var(--ss-dimensions-2) var(--ss-dimensions-3);
-  border-radius: var(--ss-radius-sm);
-  color: var(--ss-color-foreground);
-  font-size: var(--ss-text-sizes-sm);
-  line-height: var(--ss-text-line-heights-normal);
+  gap: c.t(dropdown-item, gap);
+  padding: c.t(dropdown-item, padding-y) c.t(dropdown-item, padding-x);
+  border-radius: c.t(dropdown-item, radius);
+  color: c.t(dropdown-item, foreground);
+  font-size: c.t(dropdown-item, font-size);
+  line-height: c.t(dropdown-item, line-height);
   white-space: nowrap;
 }
 
 /* Focus follows the pointer, so this one rule covers hover as well. */
 :host(:focus) .ss-dropdown-item {
-  background: var(--ss-color-muted);
+  background: c.t(dropdown-item, focus-background);
 }
 
 :host(:focus-visible) .ss-dropdown-item {
-  box-shadow: inset var(--ss-sizing-none) var(--ss-sizing-none) var(--ss-sizing-none) var(--ss-borders-width-base) var(--ss-color-ring);
+  box-shadow: inset 0 0 0 c.t(dropdown-item, focus-ring-width) c.t(dropdown-item, focus-ring-color);
 }
 
 .ss-dropdown-item--destructive {
-  color: var(--ss-color-destructive);
+  color: c.t(dropdown-item, destructive-foreground);
 }
 
 .ss-dropdown-item--disabled {
-  color: var(--ss-color-muted-foreground);
-  opacity: var(--ss-opacity-disabled);
+  color: c.t(dropdown-item, disabled-foreground);
+  opacity: c.t(dropdown-item, disabled-opacity);
 }
 
 .ss-dropdown-item__icon {
