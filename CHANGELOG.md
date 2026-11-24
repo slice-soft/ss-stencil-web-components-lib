@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.0...ss-stencil-web-components-lib-v0.7.1) (2026-11-24)
+
+
+### Features
+
+* follow the design system's visual styles (data-style) ([#63](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/63)) ([cbf200c](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/cbf200c2b0dce5800cb6efddf5a88b8e4335ecf0))
+
 ## [0.7.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.6.0...ss-stencil-web-components-lib-v0.7.0) (2026-11-24)
 
 
