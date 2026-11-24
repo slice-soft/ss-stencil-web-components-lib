@@ -98,7 +98,9 @@ const COMPONENTS: Component[] = [
     parts: { root: '.ss-field', control: '.ss-field__control', helper: '.ss-field__helper' },
     cases: { vertical: '', horizontal: 'orientation="horizontal"', disabled: 'disabled' },
     render: attrs => `<ss-field ${attrs} label="Name" helper-text="Help"><ss-input accessibility-label="x"></ss-input></ss-field>`,
-    options: { extra: [...LAYOUT, 'grid-template-columns'] },
+    // No grid-template-columns: it resolves to the label's width, which depends
+    // on the installed font (CI has no Sora). display and the gaps pin the layout.
+    options: { extra: LAYOUT },
   },
   {
     tag: 'ss-input-group',

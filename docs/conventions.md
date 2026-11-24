@@ -145,6 +145,12 @@ instead — the `has` trap is not instrumented.
   there), run `npm run tokens:sync` here (it copies
   `../ss-design-system/dist/css`), and set the version it will be released
   as in `test/tokens.config.json`.
+- **A style snapshot records nothing the installed font decides.** CI has no
+  Sora, so text sets in a fallback font: `height`, the `width` of anything
+  wrapping text, and a grid track sized to its content (`grid-template-columns`
+  on `ss-field`) each came out a few pixels apart and failed only in CI.
+  Padding, font size and the declared tokens already pin a component; record
+  `width` only for parts the stylesheet sizes (`sized` in `computedParts`).
 - **A test that injects its own tokens must name the component's.** The input
   group's seam test set `--ss-radius-base`; the migrated input reads
   `--ss-input-size-md-radius`, and the corner silently went to 0.
