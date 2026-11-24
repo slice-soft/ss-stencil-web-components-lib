@@ -1,5 +1,5 @@
 import { AttachInternals, Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
-import { applyDescribedBy } from '../../../utils/a11y';
+import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { onDismiss } from '../../../utils/dismiss';
 import { nextId } from '../../../utils/id';
 import { matches, readOptions, type SelectOption } from '../../../utils/options';
@@ -98,6 +98,8 @@ export class SsSearchSelect {
   @Prop() fullWidth: boolean = false;
   /** Accessible name of the field and its list. */
   @Prop() accessibilityLabel?: string;
+  /** Ids of elements, in the host's tree, that name the field — how `ss-field` names it. */
+  @Prop() labelledBy?: string;
   /** Ids of elements, in the host's tree, that describe the field. */
   @Prop() describedBy?: string;
   /** Inline CSS styles applied to the field. */
@@ -108,6 +110,8 @@ export class SsSearchSelect {
   @Prop() loadingLabel: string = 'Loading…';
   /** Text shown and announced when no option matches. */
   @Prop() emptyLabel: string = 'No results';
+  /** First word of each chip's remove name, before the option's label ("Remove Colombia"). */
+  @Prop() removeLabel: string = 'Remove';
 
   /** Emitted on every change the person makes to the text; detail contains xId and the query. */
   @Event() ssSearch: EventEmitter<SsSearchSelectSearchEvent>;
@@ -164,7 +168,16 @@ export class SsSearchSelect {
   }
 
   componentDidLoad() {
+    // Not a JSX handler: Stencil does not bind onBeforeInput.
+    this.input?.addEventListener('beforeinput', this.handleBeforeInput);
     this.syncFormState();
+    this.applyReferences();
+  }
+
+  /** A field and its list are named by the same label, from outside this shadow root. */
+  private applyReferences() {
+    applyLabelledBy(this.el, this.input, this.labelledBy);
+    applyLabelledBy(this.el, this.el.shadowRoot?.getElementById(this.listId), this.labelledBy);
     applyDescribedBy(this.el, this.input, this.describedBy);
   }
 
@@ -182,7 +195,7 @@ export class SsSearchSelect {
 
   componentDidUpdate() {
     this.syncFormState();
-    applyDescribedBy(this.el, this.input, this.describedBy);
+    this.applyReferences();
   }
 
   @Watch('options')
@@ -377,6 +390,15 @@ export class SsSearchSelect {
     if (next !== null) this.activeIndex = next;
   }
 
+  /**
+   * The label of a single selection is not a query: the first text the person
+   * types or pastes over it starts a new search instead of extending the label.
+   */
+  private handleBeforeInput = (event: InputEvent) => {
+    if (this.multiple || this.editing || !this.input || !event.inputType.startsWith('insert')) return;
+    this.input.value = '';
+  };
+
   private handleInput = (event: Event) => {
     this.query = (event.target as HTMLInputElement).value;
     this.editing = true;
@@ -393,6 +415,16 @@ export class SsSearchSelect {
         if (!this.open) this.setOpen(true);
         this.moveActive(event.key);
         return;
+      case 'Home':
+      case 'End': {
+        // Only within an open list; otherwise they move the caret, as in any text field.
+        if (!this.open || this.activeIndex < 0) return;
+        event.preventDefault();
+        const shown = this.shown;
+        const next = rovingIndex(event.key, this.activeIndex, shown.length, { disabled: index => !!shown[index]?.disabled });
+        if (next !== null) this.activeIndex = next;
+        return;
+      }
       case 'Enter':
         if (event.isComposing || !this.open) return;
         event.preventDefault();
@@ -506,7 +538,7 @@ export class SsSearchSelect {
                     <span
                       role="button"
                       class="ss-search-select__chip-remove"
-                      aria-label={`Remove ${this.labelOf(value)}`}
+                      aria-label={`${this.removeLabel} ${this.labelOf(value)}`}
                       onPointerDown={event => {
                         event.stopPropagation();
                         event.preventDefault();

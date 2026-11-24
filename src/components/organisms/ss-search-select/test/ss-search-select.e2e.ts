@@ -261,4 +261,53 @@ describe('ss-search-select, one value', () => {
     await press(page, 'ArrowDown', 'Escape');
     expect(open.events.map(e => e.detail.open)).toEqual([true, false]);
   });
+
+  it('inside ss-field it is named and described by the field', async () => {
+    const page = await setup(`<ss-field label="País" helper-text="Elige uno"><ss-search-select>${COUNTRIES}</ss-search-select></ss-field>`);
+    const node = await axNodeByRole(page, 'combobox');
+    expect(node.name).toBe('País');
+    expect(node.description).toBe('Elige uno');
+  });
+
+  it('Home and End move to the ends of an open list', async () => {
+    const page = await setup(SELECT());
+    await page.focus('ss-search-select');
+    await press(page, 'ArrowDown', 'ArrowDown');
+    expect(await active(page)).toBe('Costa Rica');
+    await press(page, 'End');
+    expect(await active(page)).toBe('Perú');
+    await press(page, 'Home');
+    expect(await active(page)).toBe('Colombia');
+  });
+
+  it('Home and End leave a closed list closed', async () => {
+    const page = await setup(SELECT());
+    await page.focus('ss-search-select');
+    await press(page, 'End');
+    expect(await shown(page)).toEqual([]);
+  });
+
+  it('typing into a field that shows a selection starts a new search', async () => {
+    const page = await setup(SELECT('value="co"'));
+    // A press, not Tab: the browser already selects a field's text on Tab, never on a press.
+    await page.click('ss-search-select >>> input');
+    await press(page, 'Escape');
+    await page.keyboard.type('pe');
+    await page.waitForChanges();
+    expect(await shown(page)).toEqual(['Perú']);
+  });
+
+  it('a press on the list outside an option keeps focus in the field', async () => {
+    // Enough options to scroll: a scrolling list is what the browser can focus.
+    const many = Array.from({ length: 20 }, (_, i) => `<ss-option value="o${i}">Option ${i}</ss-option>`).join('');
+    const page = await setup(SELECT('', many));
+    await page.focus('ss-search-select');
+    await press(page, 'ArrowDown');
+    const corner = (await page.evaluate(
+      `(() => { const r = document.querySelector('ss-search-select').shadowRoot.querySelector('.ss-search-select__popup').getBoundingClientRect(); return { x: r.left + 2, y: r.top + 2 }; })()`,
+    )) as { x: number; y: number };
+    await page.mouse.click(corner.x, corner.y);
+    await page.waitForChanges();
+    expect(await page.evaluate(`document.querySelector('ss-search-select').shadowRoot.activeElement?.tagName`)).toBe('INPUT');
+  });
 });

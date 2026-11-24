@@ -135,6 +135,12 @@
   transform: rotate(180deg);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .ss-search-select__indicator {
+    transition: none;
+  }
+}
+
 /* With `multiple`, each picked option is a chip before the text. */
 .ss-search-select__chip {
   display: inline-flex;

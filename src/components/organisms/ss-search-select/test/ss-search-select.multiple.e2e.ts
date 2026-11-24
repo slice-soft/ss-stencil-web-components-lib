@@ -109,4 +109,11 @@ describe('ss-search-select multiple', () => {
     expect(await page.evaluate(`document.querySelector('ss-search-select').shadowRoot.querySelector('input').value`)).toBe('');
     expect(search).not.toHaveReceivedEvent();
   });
+
+  it('remove-label translates the chip remove name', async () => {
+    const page = await setup(SELECT('remove-label="Quitar"'));
+    await page.$eval('ss-search-select', el => ((el as HTMLSsSearchSelectElement).value = ['co']));
+    await page.waitForChanges();
+    expect(await axNodeNamed(page, 'button', 'Quitar Colombia')).not.toBeNull();
+  });
 });

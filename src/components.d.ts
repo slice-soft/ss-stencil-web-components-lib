@@ -1731,6 +1731,10 @@ export namespace Components {
          */
         "invalid": boolean;
         /**
+          * Ids of elements, in the host's tree, that name the field — how `ss-field` names it.
+         */
+        "labelledBy"?: string;
+        /**
           * Shows the loading text in the list, while the host fetches options.
           * @default false
          */
@@ -1757,6 +1761,11 @@ export namespace Components {
           * Placeholder shown while the field is empty.
          */
         "placeholder"?: string;
+        /**
+          * First word of each chip's remove name, before the option's label ("Remove Colombia").
+          * @default 'Remove'
+         */
+        "removeLabel": string;
         /**
           * Requires a selection before the form submits.
           * @default false
@@ -5366,6 +5375,10 @@ declare namespace LocalJSX {
          */
         "invalid"?: boolean;
         /**
+          * Ids of elements, in the host's tree, that name the field — how `ss-field` names it.
+         */
+        "labelledBy"?: string;
+        /**
           * Shows the loading text in the list, while the host fetches options.
           * @default false
          */
@@ -5412,6 +5425,11 @@ declare namespace LocalJSX {
           * Placeholder shown while the field is empty.
          */
         "placeholder"?: string;
+        /**
+          * First word of each chip's remove name, before the option's label ("Remove Colombia").
+          * @default 'Remove'
+         */
+        "removeLabel"?: string;
         /**
           * Requires a selection before the form submits.
           * @default false

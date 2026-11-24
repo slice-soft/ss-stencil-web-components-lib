@@ -128,6 +128,14 @@ describe('motion', () => {
     expect(scaleOf(list.transform)).toBeLessThan(1);
   });
 
+  it('with reduced motion the search select indicator does not turn', async () => {
+    const page = await motionPage('<ss-search-select accessibility-label="Pick"><ss-option value="a">A</ss-option></ss-search-select>', true);
+    await page.focus('ss-search-select');
+    await page.keyboard.press('ArrowDown');
+    await page.waitForChanges();
+    expect(await page.evaluate(`document.querySelector('ss-search-select').shadowRoot.querySelector('.ss-search-select__indicator').getAnimations().length`)).toBe(0);
+  });
+
   describe('the tabs indicator', () => {
     const TABS = (attrs = '') => `<ss-tabs ${attrs}><ss-tab value="a" label="A">a</ss-tab><ss-tab value="b" label="A much longer tab">b</ss-tab></ss-tabs>`;
 
