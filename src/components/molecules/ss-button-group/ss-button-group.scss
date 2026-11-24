@@ -1,7 +1,9 @@
+@use '../../../global/styles/control' as c;
+
 .ss-button-group {
   display: inline-flex;
   flex-wrap: wrap;
-  gap: var(--ss-dimensions-2);
+  gap: c.t(button-group, gap);
   align-items: center;
 }
 
@@ -12,15 +14,15 @@
 
 .ss-button-group--full-width {
   display: flex;
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
 /* Attached: no gap, and the shared edge is drawn once rather than twice.
    `::slotted` is what reaches the caller's buttons from inside a shadow root. */
 .ss-button-group--attached {
-  gap: var(--ss-sizing-none);
+  gap: 0;
 }
 
 .ss-button-group--attached ::slotted(ss-button:not(:first-child)) {
-  margin-inline-start: calc(var(--ss-borders-width-base) * -1);
+  margin-inline-start: calc(#{c.t(button-group, seam-width)} * -1);
 }

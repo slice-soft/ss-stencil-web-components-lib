@@ -1,10 +1,12 @@
+@use '../../../global/styles/control' as c;
+
 .ss-pagination__list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--ss-dimensions-1);
-  margin: var(--ss-sizing-none);
-  padding: var(--ss-sizing-none);
+  gap: c.t(pagination, gap);
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
@@ -16,11 +18,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--ss-dimensions-8);
-  color: var(--ss-color-muted-foreground);
-  font-family: var(--ss-text-fonts-sans);
+  min-width: c.t(pagination, ellipsis-min-width);
+  color: c.t(pagination, ellipsis-color);
+  font-family: c.t(pagination, font-family);
 }
 
 .ss-pagination--disabled {
-  opacity: var(--ss-opacity-disabled);
+  opacity: c.t(pagination, disabled-opacity);
 }

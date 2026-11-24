@@ -1,16 +1,18 @@
+@use '../../../global/styles/control' as c;
+
 .ss-field {
   display: flex;
   flex-direction: column;
-  gap: var(--ss-dimensions-1);
-  min-width: var(--ss-sizing-none);
+  gap: c.t(field, gap);
+  min-width: 0;
 }
 
 .ss-field--horizontal {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  column-gap: var(--ss-dimensions-3);
-  row-gap: var(--ss-dimensions-1);
+  column-gap: c.t(field, horizontal-column-gap);
+  row-gap: c.t(field, gap);
 
   .ss-field__label {
     grid-column: 1;
@@ -32,9 +34,9 @@
 .ss-field__control {
   display: flex;
   flex-direction: column;
-  min-width: var(--ss-sizing-none);
+  min-width: 0;
 }
 
 .ss-field--disabled .ss-field__helper {
-  opacity: var(--ss-opacity-disabled);
+  opacity: c.t(field, disabled-opacity);
 }

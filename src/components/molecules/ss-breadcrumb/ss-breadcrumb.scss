@@ -1,9 +1,11 @@
+@use '../../../global/styles/control' as c;
+
 .ss-breadcrumb__list {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--ss-dimensions-2);
-  margin: var(--ss-sizing-none);
-  padding: var(--ss-sizing-none);
+  gap: c.t(breadcrumb, gap);
+  margin: 0;
+  padding: 0;
   list-style: none;
 }

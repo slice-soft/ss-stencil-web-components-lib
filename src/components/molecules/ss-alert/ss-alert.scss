@@ -1,4 +1,4 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 :host {
   display: block;
@@ -14,26 +14,26 @@
 .ss-alert {
   box-sizing: border-box;
   display: flex;
-  gap: var(--ss-dimensions-3);
+  gap: c.t(alert, gap);
   align-items: flex-start;
-  padding: var(--ss-dimensions-3) var(--ss-dimensions-4);
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) currentColor;
-  border-radius: var(--ss-radius-base);
-  font-family: var(--ss-text-fonts-sans);
+  padding: c.t(alert, padding-y) c.t(alert, padding-x);
+  border: c.t(alert, border-width) solid currentColor;
+  border-radius: c.t(alert, radius);
+  font-family: c.t(alert, font-family);
 }
 
 .ss-alert--full-width {
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
 /* Severity supplies the accent; the surface is a tint of it so the text keeps
    its contrast against the page rather than against a saturated fill. */
 @each $name in (info, success, warning, error) {
   .ss-alert--#{$name} {
-    $accent: var(--ss-color-#{$name});
+    $accent: c.t(alert, #{$name}-accent);
     color: $accent;
-    border-color: color-mix(in srgb, $accent calc(var(--ss-opacity-accent-border) * var(--ss-sizing-full)), var(--ss-color-border));
-    background: color-mix(in srgb, $accent calc(var(--ss-opacity-hover-quiet) * var(--ss-sizing-full)), var(--ss-color-background));
+    border-color: color-mix(in srgb, #{$accent} calc(#{c.t(alert, border-accent-opacity)} * 100%), #{c.t(alert, border-base)});
+    background: color-mix(in srgb, #{$accent} calc(#{c.t(alert, surface-accent-opacity)} * 100%), #{c.t(alert, surface-base)});
   }
 }
 
@@ -52,33 +52,33 @@
 .ss-alert__body {
   display: flex;
   flex-direction: column;
-  gap: var(--ss-dimensions-1);
-  min-width: var(--ss-sizing-none);
+  gap: c.t(alert, body-gap);
+  min-width: 0;
   flex: 1;
 }
 
 .ss-alert__message {
-  color: var(--ss-color-foreground);
+  color: c.t(alert, message-color);
 }
 
 .ss-alert--has-actions .ss-alert__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--ss-dimensions-2);
-  margin-top: var(--ss-dimensions-1);
+  gap: c.t(alert, actions-gap);
+  margin-top: c.t(alert, actions-margin-top);
 }
 
 .ss-alert__dismiss {
   flex: none;
-  padding: var(--ss-sizing-none);
-  border: var(--ss-borders-width-none);
-  background: var(--ss-colors-transparent);
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: inherit;
   cursor: pointer;
   line-height: 1;
-  font-size: var(--ss-text-sizes-lg);
+  font-size: c.t(alert, dismiss-font-size);
 
   &:focus-visible {
-    @include mx.focus-ring(currentColor);
+    @include c.focus-outline(alert, currentColor);
   }
 }

@@ -1,23 +1,25 @@
+@use '../../../global/styles/control' as c;
+
 .ss-radio-group {
   display: flex;
   flex-direction: column;
-  gap: var(--ss-dimensions-1);
-  min-width: var(--ss-sizing-none);
+  gap: c.t(radio-group, gap);
+  min-width: 0;
 }
 
 .ss-radio-group__choices {
   display: flex;
   flex-direction: column;
-  gap: var(--ss-dimensions-2);
+  gap: c.t(radio-group, choices-gap);
 }
 
 .ss-radio-group--horizontal .ss-radio-group__choices {
   flex-direction: row;
   flex-wrap: wrap;
-  column-gap: var(--ss-dimensions-4);
+  column-gap: c.t(radio-group, horizontal-column-gap);
 }
 
 .ss-radio-group--disabled .ss-radio-group__label,
 .ss-radio-group--disabled .ss-radio-group__helper {
-  opacity: var(--ss-opacity-disabled);
+  opacity: c.t(radio-group, disabled-opacity);
 }
