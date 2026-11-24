@@ -1,4 +1,4 @@
-import { AttachInternals, Component, Element, h, Prop, State, Event, EventEmitter } from '@stencil/core';
+import { AttachInternals, Component, Element, h, Prop, State, Event, EventEmitter, Watch } from '@stencil/core';
 import { applyDescribedBy, applyLabelledBy } from '../../../utils/a11y';
 import { onResize } from '../../../utils/position';
 import { slotHasContent } from '../../../utils/slot';
@@ -30,6 +30,18 @@ export class SsInput {
 
   /** Set by an ancestor fieldset through formDisabledCallback. */
   @State() ancestorDisabled: boolean = false;
+
+  /** The value as typed, so the clear button shows only while there is one. */
+  @State() current: string = '';
+
+  @Watch('value')
+  valueChanged(value?: string) {
+    this.current = value ?? '';
+  }
+
+  componentWillLoad() {
+    this.current = this.value ?? '';
+  }
 
   /** Which of the start and end slots hold content. */
   @State() filled = { start: false, end: false };
@@ -90,6 +102,10 @@ export class SsInput {
   @Prop() join?: JoinSide;
   /** Visual style of the input. */
   @Prop() xStyle: InputStyle = 'solid';
+  /** Shows a button that empties the field while it has a value. It is a pointer affordance, out of the tab order; Escape does not clear. */
+  @Prop() clearable: boolean = false;
+  /** Accessible name of the clear button. */
+  @Prop() clearLabel: string = 'Clear';
 
   /** Emitted on native input events; detail contains xId and value. */
   @Event() ssInput: EventEmitter<SsInputValueEvent>;
@@ -198,7 +214,7 @@ export class SsInput {
       [`${b}--readonly`]: this.readonly,
       [`${b}--invalid`]: this.invalid,
       [`${b}--has-start`]: this.filled.start,
-      [`${b}--has-end`]: this.filled.end,
+      [`${b}--has-end`]: this.filled.end || this.showClear,
     };
   }
 
@@ -206,7 +222,24 @@ export class SsInput {
     return { xId: this.xId, value: (ev.target as HTMLInputElement).value };
   }
 
+  private get showClear() {
+    return this.clearable && !!this.current && !this.isDisabled && !this.readonly;
+  }
+
+  /** Empties the field as typing would, and keeps focus in it. */
+  private clear = () => {
+    if (!this.input) return;
+    this.input.value = '';
+    this.current = '';
+    this.syncFormState();
+    const detail = { xId: this.xId, value: '' };
+    this.ssInput.emit(detail);
+    this.ssChange.emit(detail);
+    this.input.focus();
+  };
+
   private handleInput = (ev: Event) => {
+    this.current = (ev.target as HTMLInputElement).value;
     this.syncFormState();
     this.ssInput.emit(this.emitValue(ev));
   };
@@ -252,6 +285,13 @@ export class SsInput {
         />
         <span class="ss-input__end" ref={el => (this.endEl = el)}>
           <slot name="end" onSlotchange={this.trackSlot('end')} />
+          {this.showClear && (
+            <button type="button" class="ss-input__clear" tabindex={-1} aria-label={this.clearLabel} onPointerDown={ev => ev.preventDefault()} onClick={this.clear}>
+              <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path d="M4 4l8 8M12 4l-8 8" />
+              </svg>
+            </button>
+          )}
         </span>
       </div>
     );

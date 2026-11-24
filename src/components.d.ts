@@ -1004,6 +1004,16 @@ export namespace Components {
          */
         "autocomplete"?: string;
         /**
+          * Accessible name of the clear button.
+          * @default 'Clear'
+         */
+        "clearLabel": string;
+        /**
+          * Shows a button that empties the field while it has a value. It is a pointer affordance, out of the tab order; Escape does not clear.
+          * @default false
+         */
+        "clearable": boolean;
+        /**
           * Color variant of the input.
           * @default 'primary'
          */
@@ -4293,6 +4303,16 @@ declare namespace LocalJSX {
           * Native autocomplete attribute of the input.
          */
         "autocomplete"?: string;
+        /**
+          * Accessible name of the clear button.
+          * @default 'Clear'
+         */
+        "clearLabel"?: string;
+        /**
+          * Shows a button that empties the field while it has a value. It is a pointer affordance, out of the tab order; Escape does not clear.
+          * @default false
+         */
+        "clearable"?: boolean;
         /**
           * Color variant of the input.
           * @default 'primary'

@@ -83,6 +83,38 @@
   flex: none;
 }
 
+.ss-input__end {
+  gap: c.t(input, icon-gap);
+}
+
+/* The one part of the end that takes presses. Its own box, no border or
+   background, so it inherits the field's look under every style. */
+.ss-input__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: c.t(input, clear-color);
+  cursor: pointer;
+  pointer-events: auto;
+  font-size: inherit;
+
+  &:hover {
+    color: c.t(input, clear-hover-color);
+  }
+
+  svg {
+    width: c.t(input, clear-size);
+    height: c.t(input, clear-size);
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}
+
 @mixin disabled($with-background: false, $with-opacity: false) {
   &[disabled] {
     @if $with-background {
