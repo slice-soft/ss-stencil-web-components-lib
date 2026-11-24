@@ -1,10 +1,10 @@
 import { newTestPage, axNodeByRole } from '../../../../test/utils';
 
-/** The overlap is expressed in tokens, which `setContent` does not load. */
+/** The overlap is expressed in tokens, which `setContent` does not load. Each
+    component reads its own: the group's overlap and the avatar's size. */
 const TOKENS = `<style>:root{
-  --ss-sizing-negative-half: -50%;
-  --ss-sizing-none: 0;
-  --ss-dimensions-10: 40px;
+  --ss-avatar-group-overlap: -50%;
+  --ss-avatar-box-size: 40px;
 }</style>`;
 
 const GROUP = `

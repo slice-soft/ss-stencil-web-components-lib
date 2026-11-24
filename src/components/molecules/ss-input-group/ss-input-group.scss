@@ -1,3 +1,5 @@
+@use '../../../global/styles/control' as c;
+
 :host {
   display: inline-block;
 }
@@ -9,17 +11,17 @@
 .ss-input-group {
   display: inline-flex;
   align-items: stretch;
-  min-width: var(--ss-sizing-none);
+  min-width: 0;
 }
 
 .ss-input-group--full-width {
   display: flex;
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
 .ss-input-group__control {
   display: flex;
-  min-width: var(--ss-sizing-none);
+  min-width: 0;
   flex: 1;
 }
 
@@ -28,12 +30,12 @@
 .ss-input-group__addon {
   display: none;
   align-items: center;
-  padding: var(--ss-input-padding-y) var(--ss-input-padding-x);
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-input);
-  background: var(--ss-color-muted);
-  color: var(--ss-color-muted-foreground);
-  font-family: var(--ss-input-font-family);
-  font-size: var(--ss-input-font-size);
+  padding: c.t(input-group, addon-padding-y) c.t(input-group, addon-padding-x);
+  border: c.t(input-group, addon-border-width) solid c.t(input-group, addon-border-color);
+  background: c.t(input-group, addon-background);
+  color: c.t(input-group, addon-foreground);
+  font-family: c.t(input-group, addon-font-family);
+  font-size: c.t(input-group, addon-font-size);
   white-space: nowrap;
 }
 
@@ -45,17 +47,17 @@
 /* The addon rounds only on its outer edge; the seam with the control is flat,
    and the shared border is drawn once. */
 .ss-input-group__addon--start {
-  border-start-start-radius: var(--ss-input-border-radius);
-  border-end-start-radius: var(--ss-input-border-radius);
-  border-inline-end: var(--ss-borders-width-none);
+  border-start-start-radius: c.t(input-group, addon-radius);
+  border-end-start-radius: c.t(input-group, addon-radius);
+  border-inline-end: 0;
 }
 
 .ss-input-group__addon--end {
-  border-start-end-radius: var(--ss-input-border-radius);
-  border-end-end-radius: var(--ss-input-border-radius);
-  border-inline-start: var(--ss-borders-width-none);
+  border-start-end-radius: c.t(input-group, addon-radius);
+  border-end-end-radius: c.t(input-group, addon-radius);
+  border-inline-start: 0;
 }
 
 .ss-input-group--disabled {
-  opacity: var(--ss-opacity-disabled);
+  opacity: c.t(input-group, disabled-opacity);
 }

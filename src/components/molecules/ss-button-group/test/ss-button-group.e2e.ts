@@ -40,7 +40,9 @@ describe('ss-button-group', () => {
 });
 
 describe('ss-button-group attached', () => {
-  const TOKENS = `<style>:root{ --ss-radius-base: 8px; --ss-radius-none: 0px; --ss-button-border-radius: 8px; --ss-borders-width-base: 2px; }</style>`;
+  // Each component reads its own tokens: the button its radius, the group the
+  // width of the seam it overlaps.
+  const TOKENS = `<style>:root{ --ss-button-border-radius: 8px; --ss-button-group-seam-width: 2px; }</style>`;
 
   const THREE = `
     <ss-button-group attached accessibility-label="View">

@@ -1,3 +1,5 @@
+@use '../../../global/styles/control' as c;
+
 :host {
   display: block;
 }
@@ -10,28 +12,28 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--ss-radius-lg);
-  background: var(--ss-color-card);
-  color: var(--ss-color-card-foreground);
-  font-family: var(--ss-text-fonts-sans);
+  border-radius: c.t(card, radius);
+  background: c.t(card, background);
+  color: c.t(card, foreground);
+  font-family: c.t(card, font-family);
 }
 
 .ss-card--full-width {
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
 .ss-card--elevated {
-  border: var(--ss-borders-width-none);
-  box-shadow: var(--ss-shadows-card);
+  border: 0;
+  box-shadow: c.t(card, elevated-shadow);
 }
 
 .ss-card--outlined {
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border: c.t(card, border-width) solid c.t(card, border-color);
 }
 
 .ss-card--filled {
-  border: var(--ss-borders-width-none);
-  background: var(--ss-color-surface);
+  border: 0;
+  background: c.t(card, filled-background);
 }
 
 /* An empty region must not contribute padding or a divider, or an unused header
@@ -54,11 +56,11 @@
 }
 
 .ss-card__header {
-  border-bottom: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border-bottom: c.t(card, border-width) solid c.t(card, border-color);
 }
 
 .ss-card__footer {
-  border-top: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  border-top: c.t(card, border-width) solid c.t(card, border-color);
 }
 
 /* Media is full-bleed: it ignores the padding scale by design. */
@@ -66,16 +68,16 @@
 .ss-card__media ::slotted(picture),
 .ss-card__media ::slotted(video) {
   display: block;
-  width: var(--ss-sizing-full);
+  width: 100%;
   height: auto;
 }
 
-@each $name, $step in (sm: 2, md: 4, lg: 6) {
+@each $name in sm, md, lg {
   .ss-card--padding-#{$name} {
     .ss-card__header,
     .ss-card__content,
     .ss-card__footer {
-      padding: var(--ss-dimensions-#{$step});
+      padding: c.t(card, padding-#{$name});
     }
   }
 }
@@ -84,6 +86,6 @@
   .ss-card__header,
   .ss-card__content,
   .ss-card__footer {
-    padding: var(--ss-sizing-none);
+    padding: 0;
   }
 }

@@ -4,7 +4,7 @@ import { newTestPage } from '../../../../test/utils';
 // addons read --ss-input-border-radius.
 const TOKENS = `<style>:root{
   --ss-input-size-md-radius: 8px;
-  --ss-input-border-radius: 8px;
+  --ss-input-group-addon-radius: 8px;
 }</style>`;
 
 /** The four corner radii of the control the group renders around. */

@@ -17,6 +17,17 @@
     "ss-link",
     "ss-spinner",
     "ss-tooltip",
-    "ss-typography"
+    "ss-typography",
+    "ss-alert",
+    "ss-avatar-group",
+    "ss-breadcrumb",
+    "ss-breadcrumb-item",
+    "ss-button-group",
+    "ss-card",
+    "ss-checkbox-group",
+    "ss-field",
+    "ss-input-group",
+    "ss-pagination",
+    "ss-radio-group"
   ]
 }

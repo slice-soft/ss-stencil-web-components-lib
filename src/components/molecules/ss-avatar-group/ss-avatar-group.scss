@@ -1,3 +1,5 @@
+@use '../../../global/styles/control' as c;
+
 :host {
   display: inline-block;
 }
@@ -14,18 +16,18 @@
 /* Each avatar tucks under the one before it. `::slotted` is what reaches the
    caller's children from inside a shadow root; a descendant selector would not. */
 ::slotted(ss-avatar) {
-  margin-inline-start: var(--ss-sizing-negative-half);
-  border-radius: var(--ss-radius-full);
-  box-shadow: 0 0 0 var(--ss-borders-width-base) var(--ss-color-background);
+  margin-inline-start: c.t(avatar-group, overlap);
+  border-radius: c.t(avatar-group, circle-radius);
+  box-shadow: 0 0 0 c.t(avatar-group, ring-width) c.t(avatar-group, ring-color);
 }
 
 ::slotted(ss-avatar:first-child) {
-  margin-inline-start: var(--ss-sizing-none);
+  margin-inline-start: 0;
 }
 
 .ss-avatar-group--square ::slotted(ss-avatar),
 .ss-avatar-group--rounded ::slotted(ss-avatar) {
-  border-radius: var(--ss-radius-base);
+  border-radius: c.t(avatar-group, rounded-radius);
 }
 
 /* `!important` is load-bearing, not a shortcut. `reset.css` sets
@@ -40,19 +42,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-inline-start: var(--ss-sizing-negative-half);
-  border-radius: var(--ss-radius-full);
-  box-shadow: 0 0 0 var(--ss-borders-width-base) var(--ss-color-background);
-  background: var(--ss-color-muted);
-  color: var(--ss-color-muted-foreground);
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-xs);
+  margin-inline-start: c.t(avatar-group, overlap);
+  border-radius: c.t(avatar-group, circle-radius);
+  box-shadow: 0 0 0 c.t(avatar-group, ring-width) c.t(avatar-group, ring-color);
+  background: c.t(avatar-group, overflow-background);
+  color: c.t(avatar-group, overflow-foreground);
+  font-family: c.t(avatar-group, font-family);
+  font-size: c.t(avatar-group, overflow-font-size);
   line-height: 1;
 }
 
-@each $name, $step in (xs: 6, sm: 8, md: 10, lg: 12, xl: 16, 2xl: 20) {
+@each $name in xs, sm, md, lg, xl, 2xl {
   .ss-avatar-group--#{$name} .ss-avatar-group__overflow {
-    width: var(--ss-dimensions-#{$step});
-    height: var(--ss-dimensions-#{$step});
+    width: c.t(avatar-group, size-#{$name}-size);
+    height: c.t(avatar-group, size-#{$name}-size);
   }
 }
