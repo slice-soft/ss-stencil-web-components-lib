@@ -28,20 +28,30 @@
   background: c.t(tooltip, background);
   border-radius: c.t(tooltip, radius);
   box-shadow: c.t(tooltip, shadow);
+  --_enter-scale: #{c.t(tooltip, enter-scale)};
   opacity: 0;
   pointer-events: none;
   visibility: hidden;
   white-space: normal;
+  transform: scale(var(--_enter-scale));
   transition:
-    opacity c.t(tooltip, transition-duration) c.t(tooltip, transition-easing),
-    visibility c.t(tooltip, transition-duration) c.t(tooltip, transition-easing);
+    opacity c.t(tooltip, enter-duration) c.t(tooltip, enter-easing),
+    transform c.t(tooltip, enter-duration) c.t(tooltip, enter-easing),
+    visibility c.t(tooltip, enter-duration) c.t(tooltip, enter-easing);
+
+  @media (prefers-reduced-motion: reduce) {
+    --_enter-scale: 1;
+  }
 }
 
 .ss-tooltip--open .ss-tooltip__content {
   opacity: 1;
   visibility: visible;
+  transform: none;
 }
 
 /* Which side the tooltip ended up on is a class the component sets from the
    resolved placement, kept for callers styling an arrow against it. The offset
    itself is no longer CSS: it is computed, so it can give way at an edge. */
+
+@include c.origin-at-trigger(ss-tooltip, ss-tooltip__content);

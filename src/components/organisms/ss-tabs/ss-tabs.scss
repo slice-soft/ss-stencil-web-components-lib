@@ -35,6 +35,9 @@
   font-size: c.t(tabs, tab-font-size);
   font-weight: c.t(tabs, tab-font-weight);
   cursor: pointer;
+  transition:
+    color c.t(tabs, transition-duration) c.t(tabs, transition-easing),
+    border-color c.t(tabs, transition-duration) c.t(tabs, transition-easing);
 
   &:hover:not(:disabled) {
     color: c.t(tabs, tab-hover-foreground);

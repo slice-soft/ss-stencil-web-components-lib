@@ -1,8 +1,30 @@
 @use '../../../global/styles/control' as c;
 
+/* The dialog and its backdrop fade and grow in together, and leave the same
+   way: the modal keeps its box until they finish (allow-discrete). Centred,
+   so it grows from its centre, not from a trigger. */
+.ss-modal {
+  --_enter-scale: #{c.t(modal, enter-scale)};
+  transition: display c.t(modal, enter-duration) allow-discrete;
+
+  @media (prefers-reduced-motion: reduce) {
+    --_enter-scale: 1;
+  }
+}
+
 .ss-modal[hidden] {
   display: none;
 }
+
+.ss-modal[hidden] .ss-modal__backdrop {
+  opacity: 0;
+}
+
+.ss-modal[hidden] .ss-modal__dialog {
+  opacity: 0;
+  transform: scale(var(--_enter-scale));
+}
+
 
 .ss-modal__backdrop {
   position: fixed;
@@ -10,6 +32,7 @@
   z-index: c.t(modal, backdrop-z-index);
   background: c.t(modal, backdrop-color);
   opacity: c.t(modal, backdrop-opacity);
+  transition: opacity c.t(modal, enter-duration) c.t(modal, enter-easing);
 }
 
 .ss-modal__dialog {
@@ -34,6 +57,9 @@
   box-shadow: c.t(modal, shadow);
   font-family: c.t(modal, font-family);
   @include c.backdrop-layer(modal);
+  transition:
+    opacity c.t(modal, enter-duration) c.t(modal, enter-easing),
+    transform c.t(modal, enter-duration) c.t(modal, enter-easing);
 
   &:focus-visible {
     outline: 0;
@@ -78,4 +104,18 @@
   cursor: pointer;
   line-height: 1;
   font-size: c.t(modal, dismiss-font-size);
+}
+
+/* A starting style is an ordinary rule in the cascade, and Stencil scopes the
+   rules above (adding its own class) but not those inside @starting-style: the
+   backdrop's own opacity would win. Last, and one class more specific. */
+@starting-style {
+  .ss-modal > .ss-modal__backdrop {
+    opacity: 0;
+  }
+
+  .ss-modal > .ss-modal__dialog {
+    opacity: 0;
+    transform: scale(var(--_enter-scale));
+  }
 }

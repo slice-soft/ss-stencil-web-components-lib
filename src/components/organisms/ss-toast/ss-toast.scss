@@ -3,19 +3,43 @@
 /* A toaster ignores the pointer so its empty area never blocks the page under
    it; the toasts themselves take it back. */
 :host {
+  --_enter-y: calc(var(--_toast-direction, 1) * #{c.t(toast, enter-offset)});
   display: block;
   pointer-events: auto;
+  transition:
+    opacity c.t(toast, enter-duration) c.t(toast, enter-easing),
+    transform c.t(toast, enter-duration) c.t(toast, enter-easing),
+    display c.t(toast, enter-duration) allow-discrete;
 }
 
 /* Closed toasts take no room, so the stack closes up around them instead of
-   leaving a gap per closed toast. */
+   leaving a gap per closed toast. A toast leaves the way it came in, towards
+   the edge its toaster sits on (--_toast-direction: 1 below, -1 above). */
 :host(:not([open])) {
   display: none;
+  opacity: 0;
+  transform: translateY(var(--_enter-y));
 }
 
 .ss-toast {
   border-radius: c.t(toast, radius);
   box-shadow: c.t(toast, shadow);
+  transition:
+    opacity c.t(toast, enter-duration) c.t(toast, enter-easing),
+    transform c.t(toast, enter-duration) c.t(toast, enter-easing);
+}
+
+@starting-style {
+  .ss-toast {
+    opacity: 0;
+    transform: translateY(var(--_enter-y));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    --_enter-y: 0px;
+  }
 }
 
 .ss-toast__alert {

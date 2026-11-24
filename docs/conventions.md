@@ -137,6 +137,19 @@ instead — the `has` trap is not instrumented.
   ss-design-system. CSS keywords that are not design
   decisions (`0`, `100%`, `transparent`, `currentColor`) are written literally.
   Write rules with `t($component, name)` from `src/global/styles/_control.scss`.
+- **A `@starting-style` rule needs one class more than the rule it starts.**
+  Stencil scopes a scoped component's rules by adding a class, but leaves the
+  ones inside `@starting-style` alone, so the component's own rule wins and
+  the entrance starts from the end value: `ss-modal`'s backdrop never faded in.
+  Repeat the class (`.a.a`) or add the parent (`.ss-modal > .a`). Put the
+  starting style last.
+- **Motion comes from the component's `enter-*` tokens** (duration, curve,
+  starting scale), which read `motion.*`, so a visual style brings its own
+  movement. `enter-scale` in `_control.scss` grows an overlay in and back out
+  on `[hidden]` (`display` waits through `allow-discrete`); with reduced motion
+  only the fade remains. Tests zero every duration (`NO_TRANSITIONS` in
+  `src/test/utils.ts`, read from the token copy); `motion.e2e.ts` stretches
+  them to 2s to watch an entrance run.
 - **A visual style never needs a prop or a class.** `data-style` changes
   system roles, and a component follows through its own tokens. A component
   that draws a surface reads `<c>-backdrop-filter` through `backdrop-layer`

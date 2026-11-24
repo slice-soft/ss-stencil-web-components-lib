@@ -32,6 +32,7 @@
   font-family: c.t(popover, font-family);
   font-size: c.t(popover, font-size);
   @include c.backdrop-layer(popover);
+  @include c.enter-scale(popover);
 
   &[hidden] {
     display: none;
@@ -41,3 +42,5 @@
     outline: 0;
   }
 }
+
+@include c.origin-at-trigger(ss-popover, ss-popover__panel);

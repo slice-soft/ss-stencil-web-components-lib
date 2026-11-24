@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import { newE2EPage } from '@stencil/core/testing';
 import type { E2EPage, SpecPage } from '@stencil/core/testing';
 import { brandOverrides, designSystemCss } from './tokens';
@@ -193,5 +195,15 @@ export async function emulateFocus(page: E2EPage): Promise<void> {
   await session.send('Emulation.setFocusEmulationEnabled', { enabled: true });
 }
 
-const NO_TRANSITIONS =
-  ':root { --ss-transitions-durations-instant: 0s; --ss-transitions-durations-short: 0s; --ss-transitions-durations-medium: 0s; --ss-transitions-durations-long: 0s; }';
+/**
+ * Every transition duration of the design system, zeroed — read from the token
+ * copy, so a duration added there (an overlay's entrance) is zeroed too. Spin
+ * stays: it is a looping animation, not a transition, and the spinner's
+ * snapshot records it.
+ */
+const NO_TRANSITIONS = `:root { ${[
+  ...new Set(readFileSync(join(process.cwd(), 'test/tokens/design-system/_variables.css'), 'utf8').match(/--ss-transitions-durations-[\w-]+(?=:)/g) ?? []),
+]
+  .filter(name => name !== '--ss-transitions-durations-spin')
+  .map(name => `${name}: 0s;`)
+  .join(' ')} }`;

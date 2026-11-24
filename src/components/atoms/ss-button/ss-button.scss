@@ -17,7 +17,16 @@
   // A visual style (data-style) may draw buttons with a shadow; none by
   // default, and never on a ghost button, which has no surface to cast it.
   box-shadow:     c.t(button, shadow);
-  transition:     all c.t(button, transition-duration) c.t(button, transition-easing);
+  // The properties a state changes, by name: `all` would also animate a
+  // padding or width the caller sets, and every inherited property.
+  transition:
+    background-color c.t(button, transition-duration) c.t(button, transition-easing),
+    border-color     c.t(button, transition-duration) c.t(button, transition-easing),
+    color            c.t(button, transition-duration) c.t(button, transition-easing),
+    box-shadow       c.t(button, transition-duration) c.t(button, transition-easing),
+    filter           c.t(button, transition-duration) c.t(button, transition-easing),
+    opacity          c.t(button, transition-duration) c.t(button, transition-easing),
+    transform        c.t(button, transition-duration) c.t(button, transition-easing);
 
   &:focus      { outline: none; }
   &[disabled]  { cursor: not-allowed; }
