@@ -35,6 +35,8 @@ import { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
+import { SelectOption } from "./utils/options";
+import { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChangeEvent, SsSearchSelectSearchEvent } from "./components/organisms/ss-search-select/ss-search-select";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
@@ -78,6 +80,8 @@ export { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
+export { SelectOption } from "./utils/options";
+export { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChangeEvent, SsSearchSelectSearchEvent } from "./components/organisms/ss-search-select/ss-search-select";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
@@ -1391,6 +1395,30 @@ export namespace Components {
         "value"?: string;
     }
     /**
+     * One option of an `ss-search-select`, written in HTML. It is data only: it
+     * draws nothing, and the select reads its value, text, `disabled` and
+     * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+     * each `ss-tab`. That keeps every option in the select's own tree, where the
+     * ids tying the field to the active option resolve.
+     * When anything about it changes, it tells the select to read the list again.
+     */
+    interface SsOption {
+        /**
+          * Whether the option can be chosen.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Whether the option starts selected, as on a native option.
+          * @default false
+         */
+        "selected": boolean;
+        /**
+          * Value the select reports when this option is chosen. Defaults to the label.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -1630,6 +1658,137 @@ export namespace Components {
           * Id of the container; also the seed for the generated message ids.
          */
         "xId"?: string;
+    }
+    /**
+     * A select you type into to filter: a WAI-ARIA combobox over a listbox.
+     * It only shows. The options come from `ss-option` children or from the
+     * `options` property (which wins when set), wherever the caller got them. By
+     * default it filters what it holds, ignoring case and accents; with
+     * `filter="none"` it shows `options` exactly as given, for a host that searches
+     * elsewhere. It reports every change the person makes to the text as
+     * `ssSearch`, never debounced — waiting, fetching, cancelling and errors are
+     * the host's — and shows `loading` when told to.
+     * The list is drawn here from that data rather than slotted, so the field and
+     * the active option share a tree and `aria-activedescendant` resolves. Every
+     * selected option's label is remembered, so replacing `options` with new
+     * search results never turns the field's text into a bare value.
+     * Keyboard: ArrowDown/ArrowUp open the list and move through it, skipping
+     * disabled options; Enter chooses; Escape closes, and a second Escape clears
+     * the text; Tab closes and moves on. Leaving the field restores the selected
+     * label, or clears the selection when the text was emptied.
+     */
+    interface SsSearchSelect {
+        /**
+          * Accessible name of the field and its list.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Accessible name of the clear button.
+          * @default 'Clear'
+         */
+        "clearLabel": string;
+        /**
+          * Shows a button that empties the text and the selection.
+          * @default false
+         */
+        "clearable": boolean;
+        /**
+          * Color variant of the field.
+          * @default 'primary'
+         */
+        "color": Variant;
+        /**
+          * Ids of elements, in the host's tree, that describe the field.
+         */
+        "describedBy"?: string;
+        /**
+          * Disables the field.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Text shown and announced when no option matches.
+          * @default 'No results'
+         */
+        "emptyLabel": string;
+        /**
+          * Whether the list is filtered by the typed text here (contains) or shown as given (none).
+          * @default 'contains'
+         */
+        "filter": SearchSelectFilter;
+        /**
+          * Expands the field to the full width of its container.
+          * @default false
+         */
+        "fullWidth": boolean;
+        /**
+          * Inline CSS styles applied to the field.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the field as invalid.
+          * @default false
+         */
+        "invalid": boolean;
+        /**
+          * Ids of elements, in the host's tree, that name the field — how `ss-field` names it.
+         */
+        "labelledBy"?: string;
+        /**
+          * Shows the loading text in the list, while the host fetches options.
+          * @default false
+         */
+        "loading": boolean;
+        /**
+          * Text shown and announced while `loading`.
+          * @default 'Loading…'
+         */
+        "loadingLabel": string;
+        /**
+          * Allows choosing several options, shown as removable chips.
+          * @default false
+         */
+        "multiple": boolean;
+        /**
+          * Name submitted with the surrounding form.
+         */
+        "name"?: string;
+        /**
+          * The options, as data. When set, it wins over `ss-option` children.
+         */
+        "options"?: SelectOption[];
+        /**
+          * Placeholder shown while the field is empty.
+         */
+        "placeholder"?: string;
+        /**
+          * First word of each chip's remove name, before the option's label ("Remove Colombia").
+          * @default 'Remove'
+         */
+        "removeLabel": string;
+        /**
+          * Requires a selection before the form submits.
+          * @default false
+         */
+        "required": boolean;
+        /**
+          * Size of the field.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * The selected value. Updated on interaction.
+         */
+        "value"?: string | string[];
+        /**
+          * Id applied to the field's input; also included in event details.
+         */
+        "xId"?: string;
+        /**
+          * Visual style of the field.
+          * @default 'solid'
+         */
+        "xStyle": InputStyle;
     }
     interface SsSelect {
         /**
@@ -2407,6 +2566,10 @@ export interface SsNavCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsNavElement;
 }
+export interface SsOptionCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsOptionElement;
+}
 export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsPaginationElement;
@@ -2422,6 +2585,10 @@ export interface SsRadioCustomEvent<T> extends CustomEvent<T> {
 export interface SsRadioGroupCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsRadioGroupElement;
+}
+export interface SsSearchSelectCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsSearchSelectElement;
 }
 export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2942,6 +3109,31 @@ declare global {
         prototype: HTMLSsNavItemElement;
         new (): HTMLSsNavItemElement;
     };
+    interface HTMLSsOptionElementEventMap {
+        "ssOptionChange": void;
+    }
+    /**
+     * One option of an `ss-search-select`, written in HTML. It is data only: it
+     * draws nothing, and the select reads its value, text, `disabled` and
+     * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+     * each `ss-tab`. That keeps every option in the select's own tree, where the
+     * ids tying the field to the active option resolve.
+     * When anything about it changes, it tells the select to read the list again.
+     */
+    interface HTMLSsOptionElement extends Components.SsOption, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsOptionElementEventMap>(type: K, listener: (this: HTMLSsOptionElement, ev: SsOptionCustomEvent<HTMLSsOptionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsOptionElementEventMap>(type: K, listener: (this: HTMLSsOptionElement, ev: SsOptionCustomEvent<HTMLSsOptionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsOptionElement: {
+        prototype: HTMLSsOptionElement;
+        new (): HTMLSsOptionElement;
+    };
     interface HTMLSsPaginationElementEventMap {
         "ssChange": SsPaginationChangeEvent;
     }
@@ -3045,6 +3237,45 @@ declare global {
     var HTMLSsRadioGroupElement: {
         prototype: HTMLSsRadioGroupElement;
         new (): HTMLSsRadioGroupElement;
+    };
+    interface HTMLSsSearchSelectElementEventMap {
+        "ssSearch": SsSearchSelectSearchEvent;
+        "ssChange": SsSearchSelectChangeEvent;
+        "ssOpenChange": SsSearchSelectOpenChangeEvent;
+        "ssFocus": FocusEvent;
+        "ssBlur": FocusEvent;
+    }
+    /**
+     * A select you type into to filter: a WAI-ARIA combobox over a listbox.
+     * It only shows. The options come from `ss-option` children or from the
+     * `options` property (which wins when set), wherever the caller got them. By
+     * default it filters what it holds, ignoring case and accents; with
+     * `filter="none"` it shows `options` exactly as given, for a host that searches
+     * elsewhere. It reports every change the person makes to the text as
+     * `ssSearch`, never debounced — waiting, fetching, cancelling and errors are
+     * the host's — and shows `loading` when told to.
+     * The list is drawn here from that data rather than slotted, so the field and
+     * the active option share a tree and `aria-activedescendant` resolves. Every
+     * selected option's label is remembered, so replacing `options` with new
+     * search results never turns the field's text into a bare value.
+     * Keyboard: ArrowDown/ArrowUp open the list and move through it, skipping
+     * disabled options; Enter chooses; Escape closes, and a second Escape clears
+     * the text; Tab closes and moves on. Leaving the field restores the selected
+     * label, or clears the selection when the text was emptied.
+     */
+    interface HTMLSsSearchSelectElement extends Components.SsSearchSelect, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsSearchSelectElementEventMap>(type: K, listener: (this: HTMLSsSearchSelectElement, ev: SsSearchSelectCustomEvent<HTMLSsSearchSelectElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsSearchSelectElementEventMap>(type: K, listener: (this: HTMLSsSearchSelectElement, ev: SsSearchSelectCustomEvent<HTMLSsSearchSelectElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsSearchSelectElement: {
+        prototype: HTMLSsSearchSelectElement;
+        new (): HTMLSsSearchSelectElement;
     };
     interface HTMLSsSelectElementEventMap {
         "ssChange": SsSelectChangeEvent;
@@ -3339,10 +3570,12 @@ declare global {
         "ss-modal": HTMLSsModalElement;
         "ss-nav": HTMLSsNavElement;
         "ss-nav-item": HTMLSsNavItemElement;
+        "ss-option": HTMLSsOptionElement;
         "ss-pagination": HTMLSsPaginationElement;
         "ss-popover": HTMLSsPopoverElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
+        "ss-search-select": HTMLSsSearchSelectElement;
         "ss-select": HTMLSsSelectElement;
         "ss-skeleton": HTMLSsSkeletonElement;
         "ss-slider": HTMLSsSliderElement;
@@ -4770,6 +5003,34 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
+     * One option of an `ss-search-select`, written in HTML. It is data only: it
+     * draws nothing, and the select reads its value, text, `disabled` and
+     * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+     * each `ss-tab`. That keeps every option in the select's own tree, where the
+     * ids tying the field to the active option resolve.
+     * When anything about it changes, it tells the select to read the list again.
+     */
+    interface SsOption {
+        /**
+          * Whether the option can be chosen.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Internal: the option changed and its select should read the list again.
+         */
+        "onSsOptionChange"?: (event: SsOptionCustomEvent<void>) => void;
+        /**
+          * Whether the option starts selected, as on a native option.
+          * @default false
+         */
+        "selected"?: boolean;
+        /**
+          * Value the select reports when this option is chosen. Defaults to the label.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -5041,6 +5302,157 @@ declare namespace LocalJSX {
           * Id of the container; also the seed for the generated message ids.
          */
         "xId"?: string;
+    }
+    /**
+     * A select you type into to filter: a WAI-ARIA combobox over a listbox.
+     * It only shows. The options come from `ss-option` children or from the
+     * `options` property (which wins when set), wherever the caller got them. By
+     * default it filters what it holds, ignoring case and accents; with
+     * `filter="none"` it shows `options` exactly as given, for a host that searches
+     * elsewhere. It reports every change the person makes to the text as
+     * `ssSearch`, never debounced — waiting, fetching, cancelling and errors are
+     * the host's — and shows `loading` when told to.
+     * The list is drawn here from that data rather than slotted, so the field and
+     * the active option share a tree and `aria-activedescendant` resolves. Every
+     * selected option's label is remembered, so replacing `options` with new
+     * search results never turns the field's text into a bare value.
+     * Keyboard: ArrowDown/ArrowUp open the list and move through it, skipping
+     * disabled options; Enter chooses; Escape closes, and a second Escape clears
+     * the text; Tab closes and moves on. Leaving the field restores the selected
+     * label, or clears the selection when the text was emptied.
+     */
+    interface SsSearchSelect {
+        /**
+          * Accessible name of the field and its list.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Accessible name of the clear button.
+          * @default 'Clear'
+         */
+        "clearLabel"?: string;
+        /**
+          * Shows a button that empties the text and the selection.
+          * @default false
+         */
+        "clearable"?: boolean;
+        /**
+          * Color variant of the field.
+          * @default 'primary'
+         */
+        "color"?: Variant;
+        /**
+          * Ids of elements, in the host's tree, that describe the field.
+         */
+        "describedBy"?: string;
+        /**
+          * Disables the field.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Text shown and announced when no option matches.
+          * @default 'No results'
+         */
+        "emptyLabel"?: string;
+        /**
+          * Whether the list is filtered by the typed text here (contains) or shown as given (none).
+          * @default 'contains'
+         */
+        "filter"?: SearchSelectFilter;
+        /**
+          * Expands the field to the full width of its container.
+          * @default false
+         */
+        "fullWidth"?: boolean;
+        /**
+          * Inline CSS styles applied to the field.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Marks the field as invalid.
+          * @default false
+         */
+        "invalid"?: boolean;
+        /**
+          * Ids of elements, in the host's tree, that name the field — how `ss-field` names it.
+         */
+        "labelledBy"?: string;
+        /**
+          * Shows the loading text in the list, while the host fetches options.
+          * @default false
+         */
+        "loading"?: boolean;
+        /**
+          * Text shown and announced while `loading`.
+          * @default 'Loading…'
+         */
+        "loadingLabel"?: string;
+        /**
+          * Allows choosing several options, shown as removable chips.
+          * @default false
+         */
+        "multiple"?: boolean;
+        /**
+          * Name submitted with the surrounding form.
+         */
+        "name"?: string;
+        /**
+          * Emitted when the field loses focus.
+         */
+        "onSsBlur"?: (event: SsSearchSelectCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the selection changes; detail contains xId and the value (an array with `multiple`).
+         */
+        "onSsChange"?: (event: SsSearchSelectCustomEvent<SsSearchSelectChangeEvent>) => void;
+        /**
+          * Emitted when the field gains focus.
+         */
+        "onSsFocus"?: (event: SsSearchSelectCustomEvent<FocusEvent>) => void;
+        /**
+          * Emitted when the list opens or closes; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsSearchSelectCustomEvent<SsSearchSelectOpenChangeEvent>) => void;
+        /**
+          * Emitted on every change the person makes to the text; detail contains xId and the query.
+         */
+        "onSsSearch"?: (event: SsSearchSelectCustomEvent<SsSearchSelectSearchEvent>) => void;
+        /**
+          * The options, as data. When set, it wins over `ss-option` children.
+         */
+        "options"?: SelectOption[];
+        /**
+          * Placeholder shown while the field is empty.
+         */
+        "placeholder"?: string;
+        /**
+          * First word of each chip's remove name, before the option's label ("Remove Colombia").
+          * @default 'Remove'
+         */
+        "removeLabel"?: string;
+        /**
+          * Requires a selection before the form submits.
+          * @default false
+         */
+        "required"?: boolean;
+        /**
+          * Size of the field.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * The selected value. Updated on interaction.
+         */
+        "value"?: string | string[];
+        /**
+          * Id applied to the field's input; also included in event details.
+         */
+        "xId"?: string;
+        /**
+          * Visual style of the field.
+          * @default 'solid'
+         */
+        "xStyle"?: InputStyle;
     }
     interface SsSelect {
         /**
@@ -5876,10 +6288,12 @@ declare namespace LocalJSX {
         "ss-modal": SsModal;
         "ss-nav": SsNav;
         "ss-nav-item": SsNavItem;
+        "ss-option": SsOption;
         "ss-pagination": SsPagination;
         "ss-popover": SsPopover;
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
+        "ss-search-select": SsSearchSelect;
         "ss-select": SsSelect;
         "ss-skeleton": SsSkeleton;
         "ss-slider": SsSlider;
@@ -6088,6 +6502,15 @@ declare module "@stencil/core" {
              */
             "ss-nav-item": LocalJSX.SsNavItem & JSXBase.HTMLAttributes<HTMLSsNavItemElement>;
             /**
+             * One option of an `ss-search-select`, written in HTML. It is data only: it
+             * draws nothing, and the select reads its value, text, `disabled` and
+             * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+             * each `ss-tab`. That keeps every option in the select's own tree, where the
+             * ids tying the field to the active option resolve.
+             * When anything about it changes, it tells the select to read the list again.
+             */
+            "ss-option": LocalJSX.SsOption & JSXBase.HTMLAttributes<HTMLSsOptionElement>;
+            /**
              * Page navigation for a list that does not fit on one screen.
              * Unlike the other molecules this one is driven by props rather than slots: a
              * page range is data, not content, and the pages between the ends are computed
@@ -6123,6 +6546,25 @@ declare module "@stencil/core" {
              * grouping and the messages.
              */
             "ss-radio-group": LocalJSX.SsRadioGroup & JSXBase.HTMLAttributes<HTMLSsRadioGroupElement>;
+            /**
+             * A select you type into to filter: a WAI-ARIA combobox over a listbox.
+             * It only shows. The options come from `ss-option` children or from the
+             * `options` property (which wins when set), wherever the caller got them. By
+             * default it filters what it holds, ignoring case and accents; with
+             * `filter="none"` it shows `options` exactly as given, for a host that searches
+             * elsewhere. It reports every change the person makes to the text as
+             * `ssSearch`, never debounced — waiting, fetching, cancelling and errors are
+             * the host's — and shows `loading` when told to.
+             * The list is drawn here from that data rather than slotted, so the field and
+             * the active option share a tree and `aria-activedescendant` resolves. Every
+             * selected option's label is remembered, so replacing `options` with new
+             * search results never turns the field's text into a bare value.
+             * Keyboard: ArrowDown/ArrowUp open the list and move through it, skipping
+             * disabled options; Enter chooses; Escape closes, and a second Escape clears
+             * the text; Tab closes and moves on. Leaving the field restores the selected
+             * label, or clears the selection when the text was emptied.
+             */
+            "ss-search-select": LocalJSX.SsSearchSelect & JSXBase.HTMLAttributes<HTMLSsSearchSelectElement>;
             "ss-select": LocalJSX.SsSelect & JSXBase.HTMLAttributes<HTMLSsSelectElement>;
             /**
              * A placeholder that holds the place of content still loading, in roughly its

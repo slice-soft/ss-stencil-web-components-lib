@@ -17,6 +17,7 @@ const SET = [
   '<ss-card data-case="card">Body</ss-card>',
   '<ss-card data-case="outlined" x-style="outlined">Body</ss-card>',
   '<ss-popover data-case="popover" open heading="P"><ss-button slot="trigger" label="P"></ss-button><p>Body</p></ss-popover>',
+  '<ss-search-select data-case="search-select" accessibility-label="Pick"><ss-option value="a">A</ss-option></ss-search-select>',
   '<ss-dropdown data-case="dropdown" open><ss-button slot="trigger" label="D"></ss-button><ss-dropdown-item value="a">A</ss-dropdown-item></ss-dropdown>',
 ].join('');
 
@@ -26,6 +27,7 @@ const PARTS = {
   card: '.ss-card',
   popover: '.ss-popover__panel',
   dropdown: '.ss-dropdown__menu',
+  searchField: '.ss-search-select__field',
 };
 const PROPS = {
   extra: ['border-left-width', 'backdrop-filter'],
@@ -39,14 +41,15 @@ const PROPS = {
 
 /** The part each case draws: a button's button, a card's card, … */
 const OWN_PART: Record<string, string> = {
-  button: 'button',
-  outline: 'button',
-  ghost: 'button',
-  input: 'input',
-  card: 'card',
-  outlined: 'card',
-  popover: 'popover',
-  dropdown: 'dropdown',
+  'button': 'button',
+  'outline': 'button',
+  'ghost': 'button',
+  'input': 'input',
+  'card': 'card',
+  'outlined': 'card',
+  'popover': 'popover',
+  'dropdown': 'dropdown',
+  'search-select': 'searchField',
 };
 
 /** Each case's own part, keyed by case (`brutal:card`). */

@@ -115,6 +115,27 @@ describe('motion', () => {
     expect((await running(page, '#maximal .ss-popover__panel')).easing).toContain('cubic-bezier(0.34, 1.56, 0.64, 1)');
   });
 
+  it('a search select list grows from its field and fades in', async () => {
+    const page = await motionPage('<div style="padding: 40px"><ss-search-select accessibility-label="Pick"><ss-option value="a">A</ss-option></ss-search-select></div>');
+    await page.focus('ss-search-select');
+    await page.keyboard.press('ArrowDown');
+    await page.waitForChanges();
+    const list = (await page.evaluate(`(() => {
+      const el = document.querySelector('ss-search-select').shadowRoot.querySelector('.ss-search-select__popup');
+      return { properties: el.getAnimations().map(a => a.transitionProperty).filter(Boolean).sort(), transform: getComputedStyle(el).transform };
+    })()`)) as { properties: string[]; transform: string };
+    expect(list.properties).toEqual(expect.arrayContaining(['opacity', 'transform']));
+    expect(scaleOf(list.transform)).toBeLessThan(1);
+  });
+
+  it('with reduced motion the search select indicator does not turn', async () => {
+    const page = await motionPage('<ss-search-select accessibility-label="Pick"><ss-option value="a">A</ss-option></ss-search-select>', true);
+    await page.focus('ss-search-select');
+    await page.keyboard.press('ArrowDown');
+    await page.waitForChanges();
+    expect(await page.evaluate(`document.querySelector('ss-search-select').shadowRoot.querySelector('.ss-search-select__indicator').getAnimations().length`)).toBe(0);
+  });
+
   describe('the tabs indicator', () => {
     const TABS = (attrs = '') => `<ss-tabs ${attrs}><ss-tab value="a" label="A">a</ss-tab><ss-tab value="b" label="A much longer tab">b</ss-tab></ss-tabs>`;
 

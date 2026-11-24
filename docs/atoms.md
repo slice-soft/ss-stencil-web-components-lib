@@ -16,6 +16,7 @@ This library keeps atoms as small, generic Web Components that map directly to t
 | `ss-input`      | `ss-input`      | Native text input, all types                                             |
 | `ss-label`      | `ss-label`      | Native `<label>` with `for` wiring and required marker                   |
 | `ss-link`       | `ss-link`       | Anchor with variant, underline, and disabled state                       |
+| `ss-option`     | `ss-option`     | Data-only option for `ss-search-select` (value, label, disabled, selected) |
 | `ss-radio`      | `ss-radio`      | Native radio button                                                      |
 | `ss-select`     | `ss-select`     | Native select with style variants                                        |
 | `ss-skeleton`   | `ss-skeleton`   | Pulsing placeholder (text lines, block, circle) while content loads      |

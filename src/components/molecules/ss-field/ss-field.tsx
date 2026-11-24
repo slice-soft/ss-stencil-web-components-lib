@@ -10,7 +10,7 @@ export type FieldOrientation = 'vertical' | 'horizontal';
 type CoordinatedState = 'required' | 'disabled' | 'invalid';
 
 /** Controls this field will wire. Anything else in the default slot is left alone. */
-const CUSTOM_CONTROLS = 'ss-input,ss-textarea,ss-select,ss-combobox,ss-slider,ss-checkbox,ss-switch';
+const CUSTOM_CONTROLS = 'ss-input,ss-textarea,ss-select,ss-combobox,ss-search-select,ss-slider,ss-checkbox,ss-switch';
 const CONTROLS = `${CUSTOM_CONTROLS},input,select,textarea`;
 
 /** Helper and error text sit one step below the label, and never below `xs`. */
