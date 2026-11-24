@@ -35,7 +35,7 @@ const shown = (page: E2EPage, selector = 'ss-search-select') =>
     const root = document.querySelector(${JSON.stringify(selector)}).shadowRoot;
     const list = root.querySelector('[role=listbox]');
     if (!list || list.closest('[hidden]')) return [];
-    return [...list.querySelectorAll('[role=option]')].map(o => o.textContent.trim());
+    return [...list.querySelectorAll('[role=option]')].map(o => o.querySelector('.ss-search-select__option-label').textContent.trim());
   })()`) as Promise<string[]>;
 
 /** What the field shows. */

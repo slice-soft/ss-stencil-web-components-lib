@@ -1230,7 +1230,7 @@
   --ss-search-select-option-padding-x: var(--ss-space-3);
   --ss-search-select-option-radius: var(--ss-shape-radius-subtle);
   --ss-search-select-option-active-background: var(--ss-color-muted);
-  --ss-search-select-option-selected-foreground: var(--ss-color-primary);
+  --ss-search-select-option-selected-foreground: var(--ss-color-primary-text);
   --ss-search-select-option-disabled-opacity: var(--ss-control-disabled-opacity);
   --ss-search-select-status-foreground: var(--ss-color-muted-foreground);
   --ss-search-select-chip-background: var(--ss-color-muted);
@@ -2406,7 +2406,7 @@
   --ss-search-select-option-padding-x: var(--ss-space-3);
   --ss-search-select-option-radius: var(--ss-shape-radius-subtle);
   --ss-search-select-option-active-background: var(--ss-color-muted);
-  --ss-search-select-option-selected-foreground: var(--ss-color-primary);
+  --ss-search-select-option-selected-foreground: var(--ss-color-primary-text);
   --ss-search-select-option-disabled-opacity: var(--ss-control-disabled-opacity);
   --ss-search-select-status-foreground: var(--ss-color-muted-foreground);
   --ss-search-select-chip-background: var(--ss-color-muted);

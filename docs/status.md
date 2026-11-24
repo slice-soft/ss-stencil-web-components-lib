@@ -7,15 +7,15 @@ Last updated: 2026-11-24 · 87 test suites, 709 tests.
 
 ## What exists
 
-**Atoms (19)** — avatar, badge, button, checkbox, combobox, divider, icon, input,
-label, link, radio, select, skeleton, slider, spinner, switch, textarea, tooltip,
-typography.
+**Atoms (20)** — avatar, badge, button, checkbox, combobox, divider, icon, input,
+label, link, option, radio, select, skeleton, slider, spinner, switch, textarea,
+tooltip, typography.
 
 **Molecules (11)** — alert, avatar-group, breadcrumb, breadcrumb-item,
 button-group, card, checkbox-group, field, input-group, pagination, radio-group.
 
-**Organisms (13)** — accordion, accordion-item, dropdown, dropdown-item, modal,
-nav, nav-item, popover, tab, table, tabs, toast, toaster.
+**Organisms (14)** — accordion, accordion-item, dropdown, dropdown-item, modal,
+nav, nav-item, popover, search-select, tab, table, tabs, toast, toaster.
 
 **Shared helpers** — `utils/`: a11y, dismiss, focus, id, popup, position,
 roving, slot, style. `types/`: control-events, join, popup, size, typography,
@@ -59,6 +59,7 @@ variant.
 | 12 | Motion | Overlays grow in from their trigger and fade (popover, dropdown, tooltip; the modal from its centre, with its backdrop) and leave the same way, staying on screen until the exit plays (`@starting-style` + `allow-discrete`). Toasts slide in from the edge their toaster sits on; accordion sections open to their height (`interpolate-size`, Chromium; elsewhere they still fade); tabs fade their color. Everything reads the component's `enter-*` tokens → `motion.*` (ss-design-system 2.14.0), so each visual style moves differently. Reduced motion keeps only the fades. The button names its transitioned properties instead of `all`. Snapshot changes are closed parts only: a hidden panel, toast or section now records its exit state (opacity 0, scaled, no padding). `motion.e2e.ts` watches entrances with durations stretched to 2s |
 | 13 | Tabs indicator, skeleton | One indicator per tab set, measured under the selected tab, slides to the next (`indicator-*` → `motion.duration.slide`, `motion.easing.move`; brutal cuts linear and short, clay and maximal overshoot). It starts in place — the transition is added only after the first position — and follows its tab's size through `onResize`. `onResize` now watches the border box: the content box missed a change of padding, which its own comment promised to catch, in overlays too. `ss-skeleton` (atom, shadow): `shape` text / rect / circle, `lines`; hidden from assistive technology, the loading region carries `aria-busy`; it pulses with `motion.*.pulse` and holds still with reduced motion (ss-design-system 2.15.0). Snapshots: the selected tab no longer draws its own border color |
 | 14 | Input icons and clear, card as a link | Phase 2, wave 1 (spec `docs/superpowers/specs/2026-11-24-component-capacity-design.md`, plan `docs/superpowers/plans/2026-11-24-component-capacity.md`). `ss-input` has `start`/`end` slots drawn inside its border (icons or short text, not controls) and `clearable` + `clear-label`. The border stays on the `<input>`: a `div.ss-input__field` only positions the slots, and the input's inline padding grows by each slot's measured width (`--_start`/`--_end`, through `onResize`), so the wave-1 snapshot is unchanged. The clear button is out of the tab order and Escape does not clear. `ss-card` takes `href` (`target`, `rel`, `accessibility-label`): one real `<a>` whose `::after` covers the card; slotted actions are lifted above it (only direct children: a nested one needs `data-card-action` on its wrapper). Named by the label, else the header, else the content, through `ariaLabelledByElements`. `ssNavigate` is cancelable, like `ss-nav`'s `ssChange`. ss-design-system 2.16.0 |
+| 15 | Search select | Phase 2, wave 2. `ss-search-select` (+ `ss-option`, data only): a WAI-ARIA combobox over a listbox it draws itself from `ss-option` children or the `options` property (which wins), so `aria-activedescendant` resolves in its own tree. It only shows: `ssSearch` on every change the person makes to the text, never debounced; `filter="contains"` (default, case- and accent-insensitive, `utils/options`) or `"none"` (show `options` as given); `loading`, `loading-label`, `empty-label`, announced in a live region. `multiple` draws chips (Backspace removes the last; each chip's remove is a `span role=button`, because `delegatesFocus` would send focus to any focusable element before the input); starting selection in HTML is `selected` on `ss-option`. Every selected label is remembered, so new search results never turn a chip into a bare value. Escape closes, a second Escape clears the text; leaving the field restores the label, or clears a single selection when the text was emptied. Selection is shown by a check mark, not color alone. Form-associated (one entry per value). Snapshot: `search-select.styles.e2e.ts`. ss-design-system 2.17.0. Not yet: option groups, rich options, creating options from text |
 
 ## Playground and release readiness
 

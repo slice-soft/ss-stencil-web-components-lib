@@ -476,7 +476,12 @@ export class SsSearchSelect {
         onClick={() => this.choose(option)}
         onMouseMove={() => !option.disabled && this.activeIndex !== index && (this.activeIndex = index)}
       >
-        {option.label}
+        <span class="ss-search-select__option-label">{option.label}</span>
+        {selected && (
+          <svg class="ss-search-select__check" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M3.5 8.5l3 3 6-7" />
+          </svg>
+        )}
       </li>
     );
   }
@@ -489,53 +494,55 @@ export class SsSearchSelect {
     return (
       <div class={this.getClasses()} onFocusout={this.handleFocusOut}>
         <div class="ss-search-select__field" ref={el => (this.fieldEl = el)} style={resolveInlineStyles(this.inlineStyles)} onPointerDown={this.handleFieldPointerDown}>
-          {this.multiple &&
-            this.values.map(value => (
-              <span class="ss-search-select__chip">
-                <span class="ss-search-select__chip-label">{this.labelOf(value)}</span>
-                {!this.isDisabled && (
-                  // A span, not a button: no element before the input may take focus,
-                  // or delegatesFocus would send focus there instead of the field.
-                  // Backspace removes the last chip from the keyboard.
-                  <span
-                    role="button"
-                    class="ss-search-select__chip-remove"
-                    aria-label={`Remove ${this.labelOf(value)}`}
-                    onPointerDown={event => {
-                      event.stopPropagation();
-                      event.preventDefault();
-                    }}
-                    onClick={() => this.remove(value)}
-                  >
-                    <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                      <path d="M4 4l8 8M12 4l-8 8" />
-                    </svg>
-                  </span>
-                )}
-              </span>
-            ))}
-          <input
-            ref={el => (this.input = el)}
-            id={this.xId}
-            class="ss-search-select__input"
-            type="text"
-            role="combobox"
-            autoComplete="off"
-            aria-autocomplete="list"
-            aria-expanded={String(this.open)}
-            aria-controls={this.listId}
-            aria-activedescendant={this.open && this.activeIndex >= 0 ? this.optionId(this.activeIndex) : undefined}
-            aria-label={this.accessibilityLabel}
-            aria-describedby={this.describedBy}
-            aria-invalid={this.invalid ? 'true' : undefined}
-            aria-required={this.required ? 'true' : undefined}
-            placeholder={this.values.length && this.multiple ? undefined : this.placeholder}
-            disabled={this.isDisabled}
-            value={this.fieldText}
-            onInput={this.handleInput}
-            onKeyDown={this.handleKeyDown}
-            onFocus={event => this.ssFocus.emit(event)}
-          />
+          <div class="ss-search-select__values">
+            {this.multiple &&
+              this.values.map(value => (
+                <span class="ss-search-select__chip">
+                  <span class="ss-search-select__chip-label">{this.labelOf(value)}</span>
+                  {!this.isDisabled && (
+                    // A span, not a button: no element before the input may take focus,
+                    // or delegatesFocus would send focus there instead of the field.
+                    // Backspace removes the last chip from the keyboard.
+                    <span
+                      role="button"
+                      class="ss-search-select__chip-remove"
+                      aria-label={`Remove ${this.labelOf(value)}`}
+                      onPointerDown={event => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                      }}
+                      onClick={() => this.remove(value)}
+                    >
+                      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                        <path d="M4 4l8 8M12 4l-8 8" />
+                      </svg>
+                    </span>
+                  )}
+                </span>
+              ))}
+            <input
+              ref={el => (this.input = el)}
+              id={this.xId}
+              class="ss-search-select__input"
+              type="text"
+              role="combobox"
+              autoComplete="off"
+              aria-autocomplete="list"
+              aria-expanded={String(this.open)}
+              aria-controls={this.listId}
+              aria-activedescendant={this.open && this.activeIndex >= 0 ? this.optionId(this.activeIndex) : undefined}
+              aria-label={this.accessibilityLabel}
+              aria-describedby={this.describedBy}
+              aria-invalid={this.invalid ? 'true' : undefined}
+              aria-required={this.required ? 'true' : undefined}
+              placeholder={this.values.length && this.multiple ? undefined : this.placeholder}
+              disabled={this.isDisabled}
+              value={this.fieldText}
+              onInput={this.handleInput}
+              onKeyDown={this.handleKeyDown}
+              onFocus={event => this.ssFocus.emit(event)}
+            />
+          </div>
           {showClear && (
             <button type="button" class="ss-search-select__clear" tabindex={-1} aria-label={this.clearLabel} onPointerDown={event => event.stopPropagation()} onClick={this.clear}>
               <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">

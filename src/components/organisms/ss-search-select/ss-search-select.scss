@@ -25,7 +25,6 @@
 .ss-search-select__field {
   @include c.control-base(search-select);
   display: inline-flex;
-  flex-wrap: wrap;
   align-items: center;
   gap: c.t(search-select, chip-gap);
   max-width: 100%;
@@ -70,8 +69,20 @@
   cursor: not-allowed;
 }
 
+/* Chips and the text wrap among themselves; the clear button and the
+   indicator stay on the first line, at the end. */
+.ss-search-select__values {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: c.t(search-select, chip-gap);
+  min-width: 0;
+}
+
 .ss-search-select__input {
-  flex: 1 1 4ch;
+  flex: 1 1 2ch;
+  width: 2ch;
   min-width: 0;
   padding: 0;
   border: 0;
@@ -197,6 +208,10 @@
 }
 
 .ss-search-select__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: c.t(search-select, chip-gap);
   padding: c.t(search-select, option-padding-y) c.t(search-select, option-padding-x);
   border-radius: c.t(search-select, option-radius);
   cursor: pointer;
@@ -208,6 +223,18 @@
 
 .ss-search-select__option--selected {
   color: c.t(search-select, option-selected-foreground);
+}
+
+/* Selection is shown by a mark too, never by color alone. */
+.ss-search-select__check {
+  flex: none;
+  width: c.t(search-select, indicator-size);
+  height: c.t(search-select, indicator-size);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .ss-search-select__option--disabled {
