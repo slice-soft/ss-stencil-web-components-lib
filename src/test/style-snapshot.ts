@@ -89,7 +89,8 @@ export async function focusedStyles(page: E2EPage, key: string): Promise<Record<
  * whose drawing is not their form control (a checkbox draws `__control` and
  * `__mark`; its input is hidden). `parts` maps a name to a selector looked up
  * in the shadow root, or in the host for a scoped component; ':host' is the
- * host itself. Keys are `<case>/<part>`.
+ * host itself, and `light:<selector>` one of the host's own children (what
+ * `::slotted` styles). Keys are `<case>/<part>`.
  */
 export interface PartOptions {
   /** Parts whose width the stylesheet sets (a part wrapping text depends on the font). */
@@ -119,7 +120,8 @@ export async function computedParts(
       if (only && !only.includes(key)) continue;
       const root = host.shadowRoot || host;
       for (const [name, selector] of Object.entries(parts)) {
-        const el = selector === ':host' ? host : root.querySelector(selector);
+        // 'light:<selector>' reaches the host's own children (what ::slotted styles).
+        const el = selector === ':host' ? host : selector.startsWith('light:') ? host.querySelector(selector.slice(6)) : root.querySelector(selector);
         if (!el) continue;
         const style = getComputedStyle(el);
         const measured = sized.includes(name) ? props.concat(['width']) : props;
