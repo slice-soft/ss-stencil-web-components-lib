@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Refreshes the design-system copy the library is tested with:
-// test/tokens/design-system/_variables.css and _dark.css, committed, so tests
+// test/tokens/design-system/_variables.css, _dark.css and _styles.css (the
+// visual styles), committed, so tests
 // and CI never touch the network. It copies them from a local ss-design-system
 // build; there is nothing to download.
 //
@@ -15,7 +16,7 @@ import { join, resolve } from 'node:path';
 import process from 'node:process';
 import { pathToFileURL } from 'node:url';
 
-const FILES = ['_variables.css', '_dark.css'];
+const FILES = ['_variables.css', '_dark.css', '_styles.css'];
 
 export const DEFAULT_SOURCE = '../ss-design-system/dist/css';
 

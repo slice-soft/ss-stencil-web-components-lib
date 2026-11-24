@@ -4,9 +4,9 @@ Libreria de Web Components reutilizables desarrollados con StencilJS para SliceS
 
 ## Uso
 
-Los componentes consumen tokens CSS de `@slice-soft/ss-design-system` **2.12.0 o
+Los componentes consumen tokens CSS de `@slice-soft/ss-design-system` **2.13.0 o
 superior**: cada componente migrado lee solo sus propios tokens
-(`--ss-<componente>-*`), que existen desde esa versión (los de checkbox, radio, switch, slider y label desde la 2.9.0; los del resto de los átomos desde la 2.10.0; los de las moléculas desde la 2.11.0; los de los organismos desde la 2.12.0). Con una versión anterior
+(`--ss-<componente>-*`), que existen desde esa versión (los de checkbox, radio, switch, slider y label desde la 2.9.0; los del resto de los átomos desde la 2.10.0; los de las moléculas desde la 2.11.0; los de los organismos desde la 2.12.0; los estilos visuales desde la 2.13.0). Con una versión anterior
 esos componentes se ven sin estilo. Carga `_variables.css` antes de usar la
 librería y `_dark.css` después si necesitas modo oscuro; el tema se cambia
 con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.
@@ -14,6 +14,25 @@ con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.
 ```html
 <link rel="stylesheet" href="<ruta a ss-design-system>/css/_variables.css">
 <link rel="stylesheet" href="<ruta a ss-design-system>/css/_dark.css">
+```
+
+### Estilos visuales
+
+Con `_styles.css` (o un solo estilo, `styles/_<nombre>.css`) cargado después de
+`_variables.css`, `data-style` en `<html>` o en cualquier contenedor cambia cómo
+se dibujan los componentes de adentro: `brutal`, `glass`, `clay`, `minimal` o
+`maximal`; `base` es el look estándar con nombre, para volver a él dentro de una
+zona con estilo. Cada estilo se ajusta con unos pocos parámetros
+(`--ss-style-<estilo>-<parámetro>`, en el mismo elemento del `data-style`), y
+todos sus valores salen de ellos. Se combina y se anida con `data-theme`. Ningún prop depende del
+estilo: los mismos `variant`, `x-style` y `size` funcionan igual en todos.
+
+```html
+<link rel="stylesheet" href="<ruta a ss-design-system>/css/_styles.css">
+
+<body data-style="brutal" style="--ss-style-brutal-offset: 6px">
+  <section data-style="base">…</section>
+</body>
 ```
 
 La librería no depende de dónde vengan esos archivos: tu build, el paquete o

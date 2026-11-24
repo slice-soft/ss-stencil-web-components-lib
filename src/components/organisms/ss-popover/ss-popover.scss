@@ -31,6 +31,7 @@
   box-shadow: c.t(popover, shadow);
   font-family: c.t(popover, font-family);
   font-size: c.t(popover, font-size);
+  @include c.backdrop-layer(popover);
 
   &[hidden] {
     display: none;

@@ -34,6 +34,9 @@
   color: c.t(dropdown, foreground);
   box-shadow: c.t(dropdown, shadow);
   font-family: c.t(dropdown, font-family);
+  /* On the menu itself, not a layer: the menu scrolls, and a layer would
+     scroll away with the items. The menu holds no fixed descendants. */
+  backdrop-filter: c.t(dropdown, backdrop-filter);
 
   &[hidden] {
     display: none;

@@ -220,6 +220,8 @@
   --ss-text-letter-spacings-wide: 0.05em;
   --ss-text-letter-spacings-wider: 0.08em;
   --ss-control-track-width-wide: 176px;
+  --ss-control-shadow: none;
+  --ss-material-backdrop-filter: none;
   --ss-brand-secondary-dark: #0f172a;
   --ss-brand-surface: #111827;
   --ss-brand-surface-alt: #1f2937;
@@ -414,7 +416,12 @@
   --ss-type-letter-spacing-wider: var(--ss-text-letter-spacings-wider);
   --ss-type-ink-black: var(--ss-colors-black);
   --ss-type-ink-white: var(--ss-colors-white);
+  --ss-button-shadow: var(--ss-control-shadow);
+  --ss-card-backdrop-filter: var(--ss-material-backdrop-filter);
+  --ss-combobox-shadow: var(--ss-control-shadow);
   --ss-dropdown-min-width: var(--ss-layout-overlay-menu-min-width);
+  --ss-dropdown-backdrop-filter: var(--ss-material-backdrop-filter);
+  --ss-input-shadow: var(--ss-control-shadow);
   --ss-modal-size-xs-max-width: var(--ss-layout-overlay-width-xs);
   --ss-modal-size-sm-max-width: var(--ss-layout-overlay-width-sm);
   --ss-modal-size-md-max-width: var(--ss-layout-overlay-width-md);
@@ -422,9 +429,13 @@
   --ss-modal-size-xl-max-width: var(--ss-layout-overlay-width-xl);
   --ss-modal-size-2xl-max-width: var(--ss-layout-overlay-width-2xl);
   --ss-modal-size-3xl-max-width: var(--ss-layout-overlay-width-3xl);
+  --ss-modal-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-popover-min-width: var(--ss-layout-overlay-panel-min-width);
   --ss-popover-max-width: var(--ss-layout-overlay-width-xs);
+  --ss-popover-backdrop-filter: var(--ss-material-backdrop-filter);
+  --ss-select-shadow: var(--ss-control-shadow);
   --ss-slider-track-width-wide: var(--ss-control-track-width-wide);
+  --ss-textarea-shadow: var(--ss-control-shadow);
   --ss-toaster-width: var(--ss-layout-overlay-toast-width);
   --ss-brand-primary: var(--ss-colors-orange-500);
   --ss-brand-primary-hover: var(--ss-colors-orange-600);
@@ -491,6 +502,8 @@
   --ss-field-horizontal-column-gap: var(--ss-space-3);
   --ss-field-horizontal-row-gap: var(--ss-space-1);
   --ss-field-disabled-opacity: var(--ss-control-disabled-opacity);
+  --ss-material-surface: var(--ss-color-card);
+  --ss-material-border-color: var(--ss-color-border);
   --ss-accordion-item-border-width: var(--ss-control-border-width);
   --ss-accordion-item-border-color: var(--ss-color-border);
   --ss-accordion-item-font-family: var(--ss-type-family-sans);
@@ -745,11 +758,9 @@
   --ss-button-info-border: var(--ss-color-info);
   --ss-button-info-ring: var(--ss-color-info);
   --ss-card-radius: var(--ss-shape-radius-surface);
-  --ss-card-background: var(--ss-color-card);
   --ss-card-foreground: var(--ss-color-card-foreground);
   --ss-card-font-family: var(--ss-type-family-sans);
   --ss-card-border-width: var(--ss-control-border-width);
-  --ss-card-border-color: var(--ss-color-border);
   --ss-card-filled-background: var(--ss-color-surface);
   --ss-card-padding-sm: var(--ss-space-2);
   --ss-card-padding-md: var(--ss-space-4);
@@ -877,9 +888,7 @@
   --ss-dropdown-max-height-offset: var(--ss-space-8);
   --ss-dropdown-padding: var(--ss-space-1);
   --ss-dropdown-border-width: var(--ss-control-border-width);
-  --ss-dropdown-border-color: var(--ss-color-border);
   --ss-dropdown-radius: var(--ss-shape-radius-menu);
-  --ss-dropdown-background: var(--ss-color-card);
   --ss-dropdown-foreground: var(--ss-color-card-foreground);
   --ss-dropdown-font-family: var(--ss-type-family-sans);
   --ss-icon-box-size: var(--ss-control-icon-size);
@@ -1024,7 +1033,6 @@
   --ss-modal-max-height-offset: var(--ss-space-16);
   --ss-modal-padding: var(--ss-space-5);
   --ss-modal-radius: var(--ss-shape-radius-surface);
-  --ss-modal-background: var(--ss-color-card);
   --ss-modal-foreground: var(--ss-color-card-foreground);
   --ss-modal-font-family: var(--ss-type-family-sans);
   --ss-modal-header-gap: var(--ss-space-3);
@@ -1060,9 +1068,7 @@
   --ss-popover-max-width-offset: var(--ss-space-4);
   --ss-popover-padding: var(--ss-space-4);
   --ss-popover-border-width: var(--ss-control-border-width);
-  --ss-popover-border-color: var(--ss-color-border);
   --ss-popover-radius: var(--ss-shape-radius-surface);
-  --ss-popover-background: var(--ss-color-card);
   --ss-popover-foreground: var(--ss-color-card-foreground);
   --ss-popover-font-family: var(--ss-type-family-sans);
   --ss-popover-font-size: var(--ss-type-size-sm);
@@ -1436,7 +1442,9 @@
   --ss-typography-component-letter-spacing-normal: var(--ss-type-letter-spacing-normal);
   --ss-typography-component-letter-spacing-wide: var(--ss-type-letter-spacing-wide);
   --ss-typography-component-letter-spacing-wider: var(--ss-type-letter-spacing-wider);
+  --ss-card-background: var(--ss-material-surface);
   --ss-card-elevated-shadow: var(--ss-elevation-card);
+  --ss-card-border-color: var(--ss-material-border-color);
   --ss-combobox-size-xs-radius: var(--ss-field-size-xs-radius);
   --ss-combobox-size-sm-radius: var(--ss-field-size-sm-radius);
   --ss-combobox-size-md-radius: var(--ss-field-size-md-radius);
@@ -1444,6 +1452,8 @@
   --ss-combobox-size-xl-radius: var(--ss-field-size-xl-radius);
   --ss-combobox-size-2xl-radius: var(--ss-field-size-2xl-radius);
   --ss-combobox-size-3xl-radius: var(--ss-field-size-3xl-radius);
+  --ss-dropdown-border-color: var(--ss-material-border-color);
+  --ss-dropdown-background: var(--ss-material-surface);
   --ss-dropdown-shadow: var(--ss-elevation-md);
   --ss-input-border-color: var(--ss-input-border);
   --ss-input-radius: var(--ss-input-border-radius);
@@ -1455,7 +1465,10 @@
   --ss-input-size-xl-radius: var(--ss-field-size-xl-radius);
   --ss-input-size-2xl-radius: var(--ss-field-size-2xl-radius);
   --ss-input-size-3xl-radius: var(--ss-field-size-3xl-radius);
+  --ss-modal-background: var(--ss-material-surface);
   --ss-modal-shadow: var(--ss-elevation-xl);
+  --ss-popover-border-color: var(--ss-material-border-color);
+  --ss-popover-background: var(--ss-material-surface);
   --ss-popover-shadow: var(--ss-elevation-lg);
   --ss-toast-shadow: var(--ss-elevation-lg);
   --ss-tooltip-shadow: var(--ss-elevation-md);
@@ -1506,8 +1519,14 @@
   --ss-color-info-text: var(--ss-colors-blue-600);
 }
 
-[data-theme] {
+:where([data-theme], [data-style]) {
+  --ss-material-backdrop-filter: none;
+  --ss-button-shadow: var(--ss-control-shadow);
+  --ss-card-backdrop-filter: var(--ss-material-backdrop-filter);
+  --ss-combobox-shadow: var(--ss-control-shadow);
   --ss-dropdown-min-width: var(--ss-layout-overlay-menu-min-width);
+  --ss-dropdown-backdrop-filter: var(--ss-material-backdrop-filter);
+  --ss-input-shadow: var(--ss-control-shadow);
   --ss-modal-size-xs-max-width: var(--ss-layout-overlay-width-xs);
   --ss-modal-size-sm-max-width: var(--ss-layout-overlay-width-sm);
   --ss-modal-size-md-max-width: var(--ss-layout-overlay-width-md);
@@ -1515,14 +1534,20 @@
   --ss-modal-size-xl-max-width: var(--ss-layout-overlay-width-xl);
   --ss-modal-size-2xl-max-width: var(--ss-layout-overlay-width-2xl);
   --ss-modal-size-3xl-max-width: var(--ss-layout-overlay-width-3xl);
+  --ss-modal-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-popover-min-width: var(--ss-layout-overlay-panel-min-width);
   --ss-popover-max-width: var(--ss-layout-overlay-width-xs);
+  --ss-popover-backdrop-filter: var(--ss-material-backdrop-filter);
+  --ss-select-shadow: var(--ss-control-shadow);
   --ss-slider-track-width-wide: var(--ss-control-track-width-wide);
+  --ss-textarea-shadow: var(--ss-control-shadow);
   --ss-toaster-width: var(--ss-layout-overlay-toast-width);
   --ss-field-gap: var(--ss-space-1);
   --ss-field-horizontal-column-gap: var(--ss-space-3);
   --ss-field-horizontal-row-gap: var(--ss-space-1);
   --ss-field-disabled-opacity: var(--ss-control-disabled-opacity);
+  --ss-material-surface: var(--ss-color-card);
+  --ss-material-border-color: var(--ss-color-border);
   --ss-accordion-item-border-width: var(--ss-control-border-width);
   --ss-accordion-item-border-color: var(--ss-color-border);
   --ss-accordion-item-font-family: var(--ss-type-family-sans);
@@ -1777,11 +1802,9 @@
   --ss-button-info-border: var(--ss-color-info);
   --ss-button-info-ring: var(--ss-color-info);
   --ss-card-radius: var(--ss-shape-radius-surface);
-  --ss-card-background: var(--ss-color-card);
   --ss-card-foreground: var(--ss-color-card-foreground);
   --ss-card-font-family: var(--ss-type-family-sans);
   --ss-card-border-width: var(--ss-control-border-width);
-  --ss-card-border-color: var(--ss-color-border);
   --ss-card-filled-background: var(--ss-color-surface);
   --ss-card-padding-sm: var(--ss-space-2);
   --ss-card-padding-md: var(--ss-space-4);
@@ -1909,9 +1932,7 @@
   --ss-dropdown-max-height-offset: var(--ss-space-8);
   --ss-dropdown-padding: var(--ss-space-1);
   --ss-dropdown-border-width: var(--ss-control-border-width);
-  --ss-dropdown-border-color: var(--ss-color-border);
   --ss-dropdown-radius: var(--ss-shape-radius-menu);
-  --ss-dropdown-background: var(--ss-color-card);
   --ss-dropdown-foreground: var(--ss-color-card-foreground);
   --ss-dropdown-font-family: var(--ss-type-family-sans);
   --ss-icon-box-size: var(--ss-control-icon-size);
@@ -2056,7 +2077,6 @@
   --ss-modal-max-height-offset: var(--ss-space-16);
   --ss-modal-padding: var(--ss-space-5);
   --ss-modal-radius: var(--ss-shape-radius-surface);
-  --ss-modal-background: var(--ss-color-card);
   --ss-modal-foreground: var(--ss-color-card-foreground);
   --ss-modal-font-family: var(--ss-type-family-sans);
   --ss-modal-header-gap: var(--ss-space-3);
@@ -2092,9 +2112,7 @@
   --ss-popover-max-width-offset: var(--ss-space-4);
   --ss-popover-padding: var(--ss-space-4);
   --ss-popover-border-width: var(--ss-control-border-width);
-  --ss-popover-border-color: var(--ss-color-border);
   --ss-popover-radius: var(--ss-shape-radius-surface);
-  --ss-popover-background: var(--ss-color-card);
   --ss-popover-foreground: var(--ss-color-card-foreground);
   --ss-popover-font-family: var(--ss-type-family-sans);
   --ss-popover-font-size: var(--ss-type-size-sm);
@@ -2468,7 +2486,9 @@
   --ss-typography-component-letter-spacing-normal: var(--ss-type-letter-spacing-normal);
   --ss-typography-component-letter-spacing-wide: var(--ss-type-letter-spacing-wide);
   --ss-typography-component-letter-spacing-wider: var(--ss-type-letter-spacing-wider);
+  --ss-card-background: var(--ss-material-surface);
   --ss-card-elevated-shadow: var(--ss-elevation-card);
+  --ss-card-border-color: var(--ss-material-border-color);
   --ss-combobox-size-xs-radius: var(--ss-field-size-xs-radius);
   --ss-combobox-size-sm-radius: var(--ss-field-size-sm-radius);
   --ss-combobox-size-md-radius: var(--ss-field-size-md-radius);
@@ -2476,6 +2496,8 @@
   --ss-combobox-size-xl-radius: var(--ss-field-size-xl-radius);
   --ss-combobox-size-2xl-radius: var(--ss-field-size-2xl-radius);
   --ss-combobox-size-3xl-radius: var(--ss-field-size-3xl-radius);
+  --ss-dropdown-border-color: var(--ss-material-border-color);
+  --ss-dropdown-background: var(--ss-material-surface);
   --ss-dropdown-shadow: var(--ss-elevation-md);
   --ss-input-border-color: var(--ss-input-border);
   --ss-input-radius: var(--ss-input-border-radius);
@@ -2487,7 +2509,10 @@
   --ss-input-size-xl-radius: var(--ss-field-size-xl-radius);
   --ss-input-size-2xl-radius: var(--ss-field-size-2xl-radius);
   --ss-input-size-3xl-radius: var(--ss-field-size-3xl-radius);
+  --ss-modal-background: var(--ss-material-surface);
   --ss-modal-shadow: var(--ss-elevation-xl);
+  --ss-popover-border-color: var(--ss-material-border-color);
+  --ss-popover-background: var(--ss-material-surface);
   --ss-popover-shadow: var(--ss-elevation-lg);
   --ss-toast-shadow: var(--ss-elevation-lg);
   --ss-tooltip-shadow: var(--ss-elevation-md);

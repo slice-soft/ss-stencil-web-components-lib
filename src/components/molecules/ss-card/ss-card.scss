@@ -9,6 +9,7 @@
 }
 
 .ss-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -16,6 +17,7 @@
   background: c.t(card, background);
   color: c.t(card, foreground);
   font-family: c.t(card, font-family);
+  @include c.backdrop-layer(card);
 }
 
 .ss-card--full-width {

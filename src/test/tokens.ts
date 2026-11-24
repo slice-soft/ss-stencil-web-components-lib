@@ -17,7 +17,7 @@ import { join } from 'path';
  *
  * The other test brands are variations loaded on top of test-base.
  */
-export type TokenFile = '_variables.css' | '_dark.css';
+export type TokenFile = '_variables.css' | '_dark.css' | '_styles.css';
 
 const config = JSON.parse(readFileSync(join(process.cwd(), 'test/tokens.config.json'), 'utf8')) as { designSystem: string };
 

@@ -137,6 +137,11 @@ instead — the `has` trap is not instrumented.
   ss-design-system. CSS keywords that are not design
   decisions (`0`, `100%`, `transparent`, `currentColor`) are written literally.
   Write rules with `t($component, name)` from `src/global/styles/_control.scss`.
+- **A visual style never needs a prop or a class.** `data-style` changes
+  system roles, and a component follows through its own tokens. A component
+  that draws a surface reads `<c>-backdrop-filter` through `backdrop-layer`
+  (never on the surface itself: a filter makes it the containing block of its
+  fixed descendants), and a control reads `<c>-shadow` at rest.
 - **Migrating a component**: snapshot its computed styles first (see
   `src/test/style-snapshot.ts`); add its tokens to ss-design-system, each
   pointing at a system role or semantic color with the value the stylesheet

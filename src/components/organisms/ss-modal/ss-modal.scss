@@ -33,6 +33,7 @@
   color: c.t(modal, foreground);
   box-shadow: c.t(modal, shadow);
   font-family: c.t(modal, font-family);
+  @include c.backdrop-layer(modal);
 
   &:focus-visible {
     outline: 0;
