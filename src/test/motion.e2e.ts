@@ -7,7 +7,7 @@ import { newTestPage, useTokens } from './utils';
  * instead, so an animation is surely still running when it is read.
  */
 const SLOW =
-  ':root { --ss-transitions-durations-brief: 2s; --ss-transitions-durations-moderate: 2s; --ss-transitions-durations-deliberate: 2s; --ss-transitions-durations-leisurely: 2s; }';
+  ':root { --ss-transitions-durations-brief: 2s; --ss-transitions-durations-moderate: 2s; --ss-transitions-durations-deliberate: 2s; --ss-transitions-durations-leisurely: 2s; --ss-transitions-durations-ambient: 2s; }';
 
 async function motionPage(html: string, reduce = false) {
   const page = await newTestPage();
@@ -113,5 +113,94 @@ describe('motion', () => {
     );
     expect((await running(page, '#brutal .ss-popover__panel')).easing).toContain('linear');
     expect((await running(page, '#maximal .ss-popover__panel')).easing).toContain('cubic-bezier(0.34, 1.56, 0.64, 1)');
+  });
+
+  describe('the tabs indicator', () => {
+    const TABS = (attrs = '') => `<ss-tabs ${attrs}><ss-tab value="a" label="A">a</ss-tab><ss-tab value="b" label="A much longer tab">b</ss-tab></ss-tabs>`;
+
+    /** The indicator's box, and the selected tab's, in the list's coordinates. */
+    const boxes = (page: E2EPage) =>
+      page.evaluate(`(() => {
+        const box = el => { const r = el.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) }; };
+        return { indicator: box(document.querySelector('.ss-tabs__indicator')), tab: box(document.querySelector('.ss-tabs__tab--selected')) };
+      })()`) as Promise<{ indicator: Record<string, number>; tab: Record<string, number> }>;
+
+    const finish = (page: E2EPage) => page.evaluate(`document.querySelector('.ss-tabs__indicator').getAnimations().forEach(a => a.finish())`);
+
+    it('starts under the selected tab without sliding there', async () => {
+      // Added once the tokens are in, so no late change of size moves it after.
+      const page = await motionPage('');
+      await page.evaluate(`document.body.insertAdjacentHTML('beforeend', ${JSON.stringify(TABS('value="b"'))})`);
+      await page.waitForChanges();
+      expect((await running(page, '.ss-tabs__indicator')).properties).toEqual([]);
+      const { indicator, tab } = await boxes(page);
+      expect([indicator.x, indicator.w]).toEqual([tab.x, tab.w]);
+    });
+
+    it('slides to the newly selected tab and takes its width', async () => {
+      const page = await motionPage(TABS());
+      await page.$eval('ss-tabs', el => ((el as HTMLSsTabsElement).value = 'b'));
+      await page.waitForChanges();
+      expect((await running(page, '.ss-tabs__indicator')).properties).toEqual(expect.arrayContaining(['transform', 'width']));
+      await finish(page);
+      const { indicator, tab } = await boxes(page);
+      expect([indicator.x, indicator.w]).toEqual([tab.x, tab.w]);
+    });
+
+    it('runs down the side of vertical tabs', async () => {
+      const page = await motionPage(TABS('orientation="vertical"'));
+      await page.$eval('ss-tabs', el => ((el as HTMLSsTabsElement).value = 'b'));
+      await page.waitForChanges();
+      await finish(page);
+      const { indicator, tab } = await boxes(page);
+      expect([indicator.y, indicator.h]).toEqual([tab.y, tab.h]);
+    });
+
+    it('follows its tab when the tab changes size without a render', async () => {
+      const page = await motionPage(TABS());
+      const width = `Math.round(document.querySelector('.ss-tabs__tab--selected').getBoundingClientRect().width)`;
+      const before = (await page.evaluate(width)) as number;
+      await page.evaluate(`document.querySelector('ss-tabs').style.setProperty('--ss-tabs-tab-padding-x', '40px')`);
+      await page.waitForFunction(`${width} > ${before}`);
+      await page.waitForFunction(`(() => {
+        document.querySelector('.ss-tabs__indicator').getAnimations().forEach(a => a.finish());
+        return Math.round(document.querySelector('.ss-tabs__indicator').getBoundingClientRect().width) === ${width};
+      })()`);
+    });
+
+    it('jumps with reduced motion', async () => {
+      const page = await motionPage(TABS(), true);
+      await page.$eval('ss-tabs', el => ((el as HTMLSsTabsElement).value = 'b'));
+      await page.waitForChanges();
+      expect((await running(page, '.ss-tabs__indicator')).properties).toEqual([]);
+    });
+
+    it('moves with each visual style', async () => {
+      const page = await motionPage(['brutal', 'maximal'].map(style => `<div data-style="${style}" id="${style}">${TABS()}</div>`).join(''));
+      expect((await running(page, '#brutal .ss-tabs__indicator')).easing).toContain('linear');
+      expect((await running(page, '#maximal .ss-tabs__indicator')).easing).toContain('cubic-bezier(0.34, 1.56, 0.64, 1)');
+    });
+  });
+
+  describe('the skeleton', () => {
+    const pulse = (page: E2EPage) =>
+      page.evaluate(`(() => {
+        const el = document.querySelector('ss-skeleton').shadowRoot.querySelector('.ss-skeleton__line');
+        const style = getComputedStyle(el);
+        return { name: style.animationName, duration: style.animationDuration, running: el.getAnimations().length };
+      })()`) as Promise<{ name: string; duration: string; running: number }>;
+
+    it('pulses slowly while it waits', async () => {
+      const page = await motionPage('<ss-skeleton lines="2"></ss-skeleton>');
+      const { name, duration, running: count } = await pulse(page);
+      expect(name).toMatch(/pulse/);
+      expect(parseFloat(duration)).toBeGreaterThanOrEqual(1);
+      expect(count).toBe(1);
+    });
+
+    it('holds still with reduced motion', async () => {
+      const page = await motionPage('<ss-skeleton></ss-skeleton>', true);
+      expect((await pulse(page)).running).toBe(0);
+    });
   });
 });

@@ -14,8 +14,10 @@
   --ss-motion-duration-menu: var(--ss-transitions-durations-moderate);
   --ss-motion-duration-dialog: var(--ss-transitions-durations-deliberate);
   --ss-motion-duration-toast: var(--ss-transitions-durations-leisurely);
+  --ss-motion-duration-slide: var(--ss-transitions-durations-deliberate);
   --ss-motion-easing-standard: var(--ss-transitions-easing-functions-decelerate);
   --ss-motion-easing-enter: var(--ss-transitions-easing-functions-emphasized-decelerate);
+  --ss-motion-easing-move: var(--ss-transitions-easing-functions-emphasized);
   --ss-motion-scale-menu: var(--ss-effects-scale-enter);
   --ss-motion-scale-tooltip: var(--ss-effects-scale-subtle);
   --ss-motion-scale-dialog: var(--ss-effects-scale-dialog);
@@ -66,8 +68,10 @@
   --ss-motion-duration-menu: var(--ss-transitions-durations-short);
   --ss-motion-duration-dialog: var(--ss-transitions-durations-brief);
   --ss-motion-duration-toast: var(--ss-transitions-durations-moderate);
+  --ss-motion-duration-slide: var(--ss-transitions-durations-short);
   --ss-motion-easing-standard: var(--ss-transitions-easing-keywords-linear);
   --ss-motion-easing-enter: var(--ss-transitions-easing-keywords-linear);
+  --ss-motion-easing-move: var(--ss-transitions-easing-keywords-linear);
   --ss-motion-scale-menu: var(--ss-effects-scale-none);
   --ss-motion-scale-tooltip: var(--ss-effects-scale-none);
   --ss-motion-scale-dialog: var(--ss-effects-scale-none);
@@ -81,7 +85,6 @@
   --ss-style-brutal-ring: var(--ss-borders-width-base); /** Edge drawn in the shadow of borderless surfaces (elevated card, dialog). */
   --ss-control-border-width: var(--ss-style-brutal-border);
   --ss-control-focus-ring-width: var(--ss-style-brutal-border);
-  --ss-style-brutal-ink: var(--ss-color-foreground); /** Color of shadows and surface edges. */
   --ss-elevation-xl: 0 0 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink), calc(var(--ss-style-brutal-offset) * 2.5) calc(var(--ss-style-brutal-offset) * 2.5) 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink);
   --ss-elevation-card: 0 0 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink), calc(var(--ss-style-brutal-offset) * 1.5) calc(var(--ss-style-brutal-offset) * 1.5) 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink);
   --ss-field-size-xs-radius: var(--ss-control-size-xs-radius);
@@ -91,6 +94,7 @@
   --ss-field-size-xl-radius: var(--ss-control-size-xl-radius);
   --ss-field-size-2xl-radius: var(--ss-control-size-2xl-radius);
   --ss-field-size-3xl-radius: var(--ss-control-size-3xl-radius);
+  --ss-style-brutal-ink: var(--ss-color-foreground); /** Color of shadows and surface edges. */
   --ss-material-border-color: var(--ss-style-brutal-ink);
 }
 
@@ -117,6 +121,7 @@
   --ss-elevation-xl: calc(var(--ss-style-clay-depth) * 3.5) calc(var(--ss-style-clay-depth) * 5) calc(var(--ss-style-clay-depth) * 10 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / 0.14), inset calc(var(--ss-style-clay-depth) * -1.75) calc(var(--ss-style-clay-depth) * -2.5) calc(var(--ss-style-clay-depth) * 5.0 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / var(--ss-style-clay-shade)), inset calc(var(--ss-style-clay-depth) * 1.75) calc(var(--ss-style-clay-depth) * 2.5) calc(var(--ss-style-clay-depth) * 5.0 * var(--ss-style-clay-softness)) 0 rgb(255 255 255 / var(--ss-style-clay-highlight));
   --ss-elevation-card: calc(var(--ss-style-clay-depth) * 2) calc(var(--ss-style-clay-depth) * 2.5) calc(var(--ss-style-clay-depth) * 5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / 0.14), inset calc(var(--ss-style-clay-depth) * -1.0) calc(var(--ss-style-clay-depth) * -1.25) calc(var(--ss-style-clay-depth) * 2.5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / var(--ss-style-clay-shade)), inset calc(var(--ss-style-clay-depth) * 1.0) calc(var(--ss-style-clay-depth) * 1.25) calc(var(--ss-style-clay-depth) * 2.5 * var(--ss-style-clay-softness)) 0 rgb(255 255 255 / var(--ss-style-clay-highlight));
   --ss-motion-easing-enter: var(--ss-transitions-easing-functions-overshoot-soft);
+  --ss-motion-easing-move: var(--ss-transitions-easing-functions-overshoot-soft);
   --ss-style-clay-radius: var(--ss-radius-xl); /** Corner radius of controls; surfaces take ×1.5, menus ×0.75. */
   --ss-control-size-xs-radius: calc(var(--ss-style-clay-radius) * 0.5);
   --ss-control-size-sm-radius: calc(var(--ss-style-clay-radius) * 0.75);
@@ -183,6 +188,7 @@
   --ss-elevation-card: 0 calc(var(--ss-style-maximal-depth) * 4) calc(var(--ss-style-maximal-depth) * 9) calc(var(--ss-style-maximal-depth) * -2) rgb(0 0 0 / 0.24);
   --ss-motion-duration-dialog: var(--ss-transitions-durations-medium);
   --ss-motion-easing-enter: var(--ss-transitions-easing-functions-overshoot);
+  --ss-motion-easing-move: var(--ss-transitions-easing-functions-overshoot);
   --ss-motion-scale-dialog: var(--ss-effects-scale-enter);
   --ss-shape-radius-subtle: var(--ss-radius-base);
   --ss-type-weight-medium: var(--ss-text-weights-semibold);

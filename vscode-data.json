@@ -2618,6 +2618,42 @@
       ]
     },
     {
+      "name": "ss-skeleton",
+      "description": {
+        "kind": "markdown",
+        "value": "A placeholder that holds the place of content still loading, in roughly its\nshape, and pulses slowly while it waits.\n\nIt is hidden from assistive technology: a placeholder has nothing to say.\nMark the region that is loading with `aria-busy=\"true\"` instead, and remove\nit when the content arrives.\n\nThe size comes from the layout around it or from `inlineStyles` (`width`,\n`height`). Text lines are one line of the surrounding font tall, and the\nlast of several is shorter, as a paragraph's last line is."
+      },
+      "attributes": [
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the root element; `width` and `height` size it."
+        },
+        {
+          "name": "lines",
+          "description": "Number of text lines. Only for the text shape."
+        },
+        {
+          "name": "shape",
+          "description": "Shape of the content it stands for: lines of text, a block (an image, a card), or a circle (an avatar).",
+          "values": [
+            {
+              "name": "circle"
+            },
+            {
+              "name": "rect"
+            },
+            {
+              "name": "text"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the root element."
+        }
+      ]
+    },
+    {
       "name": "ss-slider",
       "description": {
         "kind": "markdown",

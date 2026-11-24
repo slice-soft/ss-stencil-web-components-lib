@@ -1,5 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Prop } from '@stencil/core';
 import { nextId } from '../../../utils/id';
+import { onResize } from '../../../utils/position';
 import { Orientation, rovingIndex } from '../../../utils/roving';
 import { type InlineStyles, resolveInlineStyles } from '../../../utils/style';
 
@@ -60,12 +61,28 @@ export class SsTabs {
   /** Emitted when an interaction selects a different tab; detail contains xId and the tab's value. */
   @Event() ssChange: EventEmitter<SsTabsChangeEvent>;
 
+  private stopWatching?: () => void;
+  private watched: Element[] = [];
+
   componentDidLoad() {
     this.syncPanels();
+    this.placeIndicator();
   }
 
   componentDidUpdate() {
     this.syncPanels();
+    this.placeIndicator();
+  }
+
+  /** Moved in the document: disconnecting stopped the watch, so start it again. */
+  connectedCallback() {
+    if (this.indicator) this.placeIndicator();
+  }
+
+  disconnectedCallback() {
+    this.stopWatching?.();
+    this.stopWatching = undefined;
+    this.watched = [];
   }
 
   private get tabs(): Tab[] {
@@ -108,6 +125,52 @@ export class SsTabs {
       tab.panelId = this.panelId(index);
       tab.tabId = this.tabId(index);
     });
+  }
+
+  private get indicator(): HTMLElement | null {
+    const indicator = this.el.querySelector<HTMLElement>('.ss-tabs__indicator');
+    return indicator?.closest('ss-tabs') === this.el ? indicator : null;
+  }
+
+  /**
+   * Puts the indicator under the selected tab, measured, so it can slide from
+   * one tab to the next instead of jumping. It watches the list and every tab
+   * for size changes — a font that loads late, a label that changes, a
+   * container that resizes — and follows them.
+   *
+   * The first placement does not slide: the indicator only takes its
+   * transition (the --placed class) once a position has been applied, so a set
+   * that loads, or one revealed from a hidden container, starts in place.
+   */
+  private placeIndicator() {
+    const indicator = this.indicator;
+    const buttons = this.buttons;
+    const button = buttons[this.selectedIndex(this.tabs)];
+
+    this.watch(indicator ? [indicator.parentElement!, ...buttons] : []);
+    if (!indicator || !button) return;
+
+    const vertical = this.orientation === 'vertical';
+    const offset = vertical ? button.offsetTop : button.offsetLeft;
+    const size = vertical ? button.offsetHeight : button.offsetWidth;
+    // Hidden (display: none somewhere above): nothing to measure yet.
+    if (size === 0) return;
+
+    indicator.style.setProperty('--_offset', `${offset}px`);
+    indicator.style.setProperty('--_size', `${size}px`);
+    if (!indicator.classList.contains('ss-tabs__indicator--placed')) {
+      // Apply the first position before the transition exists.
+      void getComputedStyle(indicator).transform;
+      indicator.classList.add('ss-tabs__indicator--placed');
+    }
+  }
+
+  /** Watches these elements for size changes, re-subscribing only when the set changes: observing fires once at once, so re-subscribing on every placement would never settle. */
+  private watch(elements: Element[]) {
+    if (elements.length === this.watched.length && elements.every((element, index) => element === this.watched[index])) return;
+    this.stopWatching?.();
+    this.watched = elements;
+    this.stopWatching = elements.length ? onResize(elements, () => this.placeIndicator()) : undefined;
   }
 
   private select(index: number) {
@@ -156,6 +219,7 @@ export class SsTabs {
               {this.tabLabel(tab, index)}
             </button>
           ))}
+          {selected >= 0 && <span class="ss-tabs__indicator" aria-hidden="true" />}
         </div>
 
         <div class="ss-tabs__panels">
