@@ -91,3 +91,43 @@
     padding: 0;
   }
 }
+
+/* The card as a link (href): one real anchor, with no box of its own, whose
+   ::after covers the card, so a press anywhere follows it. Actions slotted
+   into the card sit above that layer. */
+.ss-card__link {
+  outline: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+  }
+}
+
+.ss-card--interactive {
+  transition:
+    box-shadow c.t(card, transition-duration) c.t(card, transition-easing),
+    border-color c.t(card, transition-duration) c.t(card, transition-easing);
+
+  ::slotted(:is(ss-button, ss-link, ss-dropdown, ss-popover, a, button, [data-card-action])) {
+    position: relative;
+    z-index: 2;
+  }
+
+  &:hover {
+    box-shadow: c.t(card, interactive-hover-shadow);
+    border-color: c.t(card, interactive-hover-border-color);
+  }
+
+  &:has(.ss-card__link:focus-visible) {
+    outline: c.t(card, focus-ring-width) solid c.t(card, focus-ring-color);
+    outline-offset: c.t(card, focus-ring-offset);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
