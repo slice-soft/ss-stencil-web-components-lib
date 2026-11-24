@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.3](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.2...ss-stencil-web-components-lib-v0.7.3) (2026-11-24)
+
+
+### Features
+
+* **tabs,skeleton:** sliding tabs indicator and ss-skeleton ([#67](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/67)) ([45ece88](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/45ece88f5f84a7e58cc3f0a13ca12f1aec984e3b))
+
 ## [0.7.2](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.1...ss-stencil-web-components-lib-v0.7.2) (2026-11-24)
 
 
