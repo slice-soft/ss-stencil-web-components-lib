@@ -829,12 +829,20 @@
       "name": "ss-card",
       "description": {
         "kind": "markdown",
-        "value": "A surface that groups related content, with optional media, header and footer\nregions around it.\n\nIt is layout only: no elevation logic, no click behaviour and no events. A\ncard that should act as a link or a button holds one in its content, so the\naccessible role stays on the element that actually has it; a clickable\ncontainer would have to invent the keyboard and role semantics that\n`ss-button` and `ss-link` already provide.\n\nEach region collapses when nothing is slotted into it, so an unused header\nleaves no gap and draws no divider."
+        "value": "A surface that groups related content, with optional media, header and footer\nregions around it.\n\nIt is layout only, unless it has an `href`: then the whole card is one link.\nThe role stays on a real `<a>`, never on the container: the card renders one\nlink and stretches its hit area over itself, so a press anywhere follows it,\nwhile buttons and links inside (`ss-button`, `ss-link`, `ss-dropdown`,\n`ss-popover`, `a`, `button`, or any element marked `data-card-action`) are\nlifted above it and keep doing their own thing. Only elements slotted\ndirectly can be lifted: an action nested in a slotted wrapper needs\n`data-card-action` on the wrapper.\n\nThe link is named by `accessibility-label`, else by the header, else by the\ncontent. A client-side router listens for `ssNavigate` and calls\n`preventDefault()`; a press with a modifier key is left to the browser.\n\nEach region collapses when nothing is slotted into it, so an unused header\nleaves no gap and draws no divider."
       },
       "attributes": [
         {
+          "name": "accessibility-label",
+          "description": "Accessible name of the link; by default the header names it, or else the content."
+        },
+        {
           "name": "full-width",
           "description": "Expands the card to the full width of its container."
+        },
+        {
+          "name": "href",
+          "description": "Makes the whole card a link to this address."
         },
         {
           "name": "inline-styles",
@@ -857,6 +865,14 @@
               "name": "sm"
             }
           ]
+        },
+        {
+          "name": "rel",
+          "description": "Relationship of the linked page, as on an anchor."
+        },
+        {
+          "name": "target",
+          "description": "Where the link opens, as on an anchor."
         },
         {
           "name": "x-id",
@@ -1558,6 +1574,14 @@
           "description": "Native autocomplete attribute of the input."
         },
         {
+          "name": "clear-label",
+          "description": "Accessible name of the clear button."
+        },
+        {
+          "name": "clearable",
+          "description": "Shows a button that empties the field while it has a value. It is a pointer affordance, out of the tab order; Escape does not clear."
+        },
+        {
           "name": "color",
           "description": "Color variant of the input.",
           "values": [
@@ -2162,6 +2186,27 @@
         {
           "name": "value",
           "description": "Value that identifies the item to `ss-nav`. Defaults to the href."
+        }
+      ]
+    },
+    {
+      "name": "ss-option",
+      "description": {
+        "kind": "markdown",
+        "value": "One option of an `ss-search-select`, written in HTML. It is data only: it\ndraws nothing, and the select reads its value, text, `disabled` and\n`selected` and draws the list itself, the way `ss-tabs` draws its tabs from\neach `ss-tab`. That keeps every option in the select's own tree, where the\nids tying the field to the active option resolve.\n\nWhen anything about it changes, it tells the select to read the list again."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "Whether the option can be chosen."
+        },
+        {
+          "name": "selected",
+          "description": "Whether the option starts selected, as on a native option."
+        },
+        {
+          "name": "value",
+          "description": "Value the select reports when this option is chosen. Defaults to the label."
         }
       ]
     },

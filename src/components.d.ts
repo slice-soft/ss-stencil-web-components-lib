@@ -1391,6 +1391,30 @@ export namespace Components {
         "value"?: string;
     }
     /**
+     * One option of an `ss-search-select`, written in HTML. It is data only: it
+     * draws nothing, and the select reads its value, text, `disabled` and
+     * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+     * each `ss-tab`. That keeps every option in the select's own tree, where the
+     * ids tying the field to the active option resolve.
+     * When anything about it changes, it tells the select to read the list again.
+     */
+    interface SsOption {
+        /**
+          * Whether the option can be chosen.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Whether the option starts selected, as on a native option.
+          * @default false
+         */
+        "selected": boolean;
+        /**
+          * Value the select reports when this option is chosen. Defaults to the label.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -2407,6 +2431,10 @@ export interface SsNavCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsNavElement;
 }
+export interface SsOptionCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsOptionElement;
+}
 export interface SsPaginationCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsPaginationElement;
@@ -2942,6 +2970,31 @@ declare global {
         prototype: HTMLSsNavItemElement;
         new (): HTMLSsNavItemElement;
     };
+    interface HTMLSsOptionElementEventMap {
+        "ssOptionChange": void;
+    }
+    /**
+     * One option of an `ss-search-select`, written in HTML. It is data only: it
+     * draws nothing, and the select reads its value, text, `disabled` and
+     * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+     * each `ss-tab`. That keeps every option in the select's own tree, where the
+     * ids tying the field to the active option resolve.
+     * When anything about it changes, it tells the select to read the list again.
+     */
+    interface HTMLSsOptionElement extends Components.SsOption, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsOptionElementEventMap>(type: K, listener: (this: HTMLSsOptionElement, ev: SsOptionCustomEvent<HTMLSsOptionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsOptionElementEventMap>(type: K, listener: (this: HTMLSsOptionElement, ev: SsOptionCustomEvent<HTMLSsOptionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsOptionElement: {
+        prototype: HTMLSsOptionElement;
+        new (): HTMLSsOptionElement;
+    };
     interface HTMLSsPaginationElementEventMap {
         "ssChange": SsPaginationChangeEvent;
     }
@@ -3339,6 +3392,7 @@ declare global {
         "ss-modal": HTMLSsModalElement;
         "ss-nav": HTMLSsNavElement;
         "ss-nav-item": HTMLSsNavItemElement;
+        "ss-option": HTMLSsOptionElement;
         "ss-pagination": HTMLSsPaginationElement;
         "ss-popover": HTMLSsPopoverElement;
         "ss-radio": HTMLSsRadioElement;
@@ -4770,6 +4824,34 @@ declare namespace LocalJSX {
         "value"?: string;
     }
     /**
+     * One option of an `ss-search-select`, written in HTML. It is data only: it
+     * draws nothing, and the select reads its value, text, `disabled` and
+     * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+     * each `ss-tab`. That keeps every option in the select's own tree, where the
+     * ids tying the field to the active option resolve.
+     * When anything about it changes, it tells the select to read the list again.
+     */
+    interface SsOption {
+        /**
+          * Whether the option can be chosen.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Internal: the option changed and its select should read the list again.
+         */
+        "onSsOptionChange"?: (event: SsOptionCustomEvent<void>) => void;
+        /**
+          * Whether the option starts selected, as on a native option.
+          * @default false
+         */
+        "selected"?: boolean;
+        /**
+          * Value the select reports when this option is chosen. Defaults to the label.
+         */
+        "value"?: string;
+    }
+    /**
      * Page navigation for a list that does not fit on one screen.
      * Unlike the other molecules this one is driven by props rather than slots: a
      * page range is data, not content, and the pages between the ends are computed
@@ -5876,6 +5958,7 @@ declare namespace LocalJSX {
         "ss-modal": SsModal;
         "ss-nav": SsNav;
         "ss-nav-item": SsNavItem;
+        "ss-option": SsOption;
         "ss-pagination": SsPagination;
         "ss-popover": SsPopover;
         "ss-radio": SsRadio;
@@ -6087,6 +6170,15 @@ declare module "@stencil/core" {
              * disabled link.
              */
             "ss-nav-item": LocalJSX.SsNavItem & JSXBase.HTMLAttributes<HTMLSsNavItemElement>;
+            /**
+             * One option of an `ss-search-select`, written in HTML. It is data only: it
+             * draws nothing, and the select reads its value, text, `disabled` and
+             * `selected` and draws the list itself, the way `ss-tabs` draws its tabs from
+             * each `ss-tab`. That keeps every option in the select's own tree, where the
+             * ids tying the field to the active option resolve.
+             * When anything about it changes, it tells the select to read the list again.
+             */
+            "ss-option": LocalJSX.SsOption & JSXBase.HTMLAttributes<HTMLSsOptionElement>;
             /**
              * Page navigation for a list that does not fit on one screen.
              * Unlike the other molecules this one is driven by props rather than slots: a
