@@ -156,6 +156,8 @@ export async function useTokens(page: E2EPage, theme: 'light' | 'dark' = 'light'
     await designSystemCss('_dark.css'),
     brandOverrides(brand, '_variables.css'),
     brandOverrides(brand, '_dark.css'),
+    // Inert until an element sets data-style: see useStyle.
+    await designSystemCss('_styles.css'),
     NO_TRANSITIONS,
   ];
   await page.addStyleTag({ content: css.join('\n') });

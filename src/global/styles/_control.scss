@@ -31,6 +31,8 @@ $variants: default, brand, primary, secondary, tertiary, quaternary, success, wa
   background: t($c, background);
   border: t($c, border-width) solid t($c, border-color);
   border-radius: t($c, radius);
+  // A visual style (data-style) may draw controls with a shadow; none by default.
+  box-shadow: t($c, shadow);
   transition:
     border-color t($c, transition-duration) t($c, transition-easing),
     background-color t($c, transition-duration) t($c, transition-easing),
@@ -95,5 +97,25 @@ $variants: default, brand, primary, secondary, tertiary, quaternary, success, wa
         gap: t($c, size-#{$size}-gap);
       }
     }
+  }
+}
+
+// The backdrop filter a visual style (data-style="glass") gives a surface,
+// drawn on a layer under its content. On the surface itself a filter other
+// than none would make it the containing block of its fixed descendants: a
+// dropdown or popover opened inside would be placed against it, not the
+// viewport. The surface must be positioned; the layer sits above its
+// background and below its content.
+@mixin backdrop-layer($c) {
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    backdrop-filter: t($c, backdrop-filter);
+    pointer-events: none;
   }
 }

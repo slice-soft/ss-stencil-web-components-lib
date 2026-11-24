@@ -14,6 +14,9 @@
   font-size:      c.t(button, font-size);
   gap:            c.t(button, gap);
   padding:        c.t(button, padding-y) c.t(button, padding-x);
+  // A visual style (data-style) may draw buttons with a shadow; none by
+  // default, and never on a ghost button, which has no surface to cast it.
+  box-shadow:     c.t(button, shadow);
   transition:     all c.t(button, transition-duration) c.t(button, transition-easing);
 
   &:focus      { outline: none; }
@@ -57,7 +60,7 @@
   }
 
   &.ss-button--outline { border-color: c.t(button, #{$v}-border); }
-  &.ss-button--ghost   { border-color: transparent; }
+  &.ss-button--ghost   { border-color: transparent; box-shadow: none; }
 }
 
 @each $v in c.$variants {

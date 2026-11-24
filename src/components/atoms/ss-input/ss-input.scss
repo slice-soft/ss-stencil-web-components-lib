@@ -11,6 +11,7 @@
   color:         c.t(input, foreground);
   border:        c.t(input, border-width) solid c.t(input, border-color);
   border-radius: c.t(input, radius);
+  box-shadow:    c.t(input, shadow);
   transition:
     border-color       c.t(input, transition-duration) c.t(input, transition-easing),
     background-color   c.t(input, transition-duration) c.t(input, transition-easing),

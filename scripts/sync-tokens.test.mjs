@@ -10,10 +10,11 @@ const CSS = ':root {\n  --ss-color-primary: #c2410c;\n}\n';
 const repo = () => mkdtempSync(join(tmpdir(), 'ss-sync-'));
 const vendored = (root, file) => join(root, 'test/tokens/design-system', file);
 
-function build(variables = CSS, dark = CSS.replace(':root', '[data-theme="dark"]')) {
+function build(variables = CSS, dark = CSS.replace(':root', '[data-theme="dark"]'), styles = CSS.replace(':root', '[data-style="brutal"]')) {
   const dist = mkdtempSync(join(tmpdir(), 'ss-dist-'));
   writeFileSync(join(dist, '_variables.css'), variables);
   writeFileSync(join(dist, '_dark.css'), dark);
+  writeFileSync(join(dist, '_styles.css'), styles);
   return dist;
 }
 
@@ -26,6 +27,7 @@ test('copies the stylesheets of a design-system build', () => {
   syncTokens({ root, from: build() });
   assert.equal(readFileSync(vendored(root, '_variables.css'), 'utf8'), CSS);
   assert.match(readFileSync(vendored(root, '_dark.css'), 'utf8'), /data-theme="dark"/);
+  assert.match(readFileSync(vendored(root, '_styles.css'), 'utf8'), /data-style="brutal"/);
 });
 
 test('resolves the default source from the repository root', () => {
@@ -36,6 +38,7 @@ test('resolves the default source from the repository root', () => {
   mkdirSync(dist, { recursive: true });
   writeFileSync(join(dist, '_variables.css'), CSS);
   writeFileSync(join(dist, '_dark.css'), CSS);
+  writeFileSync(join(dist, '_styles.css'), CSS);
   syncTokens({ root });
   assert.equal(readFileSync(vendored(root, '_variables.css'), 'utf8'), CSS);
 });
