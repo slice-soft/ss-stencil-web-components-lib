@@ -18,7 +18,7 @@ import { JoinSide } from "./types/join";
 import { PopupKind } from "./types/popup";
 import { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 import { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
-import { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
+import { CardPadding, CardStyle, SsCardNavigateEvent } from "./components/molecules/ss-card/ss-card";
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
@@ -61,7 +61,7 @@ export { JoinSide } from "./types/join";
 export { PopupKind } from "./types/popup";
 export { ButtonShape, ButtonStatus, ButtonStyle, ButtonType, IconPosition } from "./components/atoms/ss-button/ss-button";
 export { ButtonGroupOrientation } from "./components/molecules/ss-button-group/ss-button-group";
-export { CardPadding, CardStyle } from "./components/molecules/ss-card/ss-card";
+export { CardPadding, CardStyle, SsCardNavigateEvent } from "./components/molecules/ss-card/ss-card";
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
@@ -556,20 +556,34 @@ export namespace Components {
     /**
      * A surface that groups related content, with optional media, header and footer
      * regions around it.
-     * It is layout only: no elevation logic, no click behaviour and no events. A
-     * card that should act as a link or a button holds one in its content, so the
-     * accessible role stays on the element that actually has it; a clickable
-     * container would have to invent the keyboard and role semantics that
-     * `ss-button` and `ss-link` already provide.
+     * It is layout only, unless it has an `href`: then the whole card is one link.
+     * The role stays on a real `<a>`, never on the container: the card renders one
+     * link and stretches its hit area over itself, so a press anywhere follows it,
+     * while buttons and links inside (`ss-button`, `ss-link`, `ss-dropdown`,
+     * `ss-popover`, `a`, `button`, or any element marked `data-card-action`) are
+     * lifted above it and keep doing their own thing. Only elements slotted
+     * directly can be lifted: an action nested in a slotted wrapper needs
+     * `data-card-action` on the wrapper.
+     * The link is named by `accessibility-label`, else by the header, else by the
+     * content. A client-side router listens for `ssNavigate` and calls
+     * `preventDefault()`; a press with a modifier key is left to the browser.
      * Each region collapses when nothing is slotted into it, so an unused header
      * leaves no gap and draws no divider.
      */
     interface SsCard {
         /**
+          * Accessible name of the link; by default the header names it, or else the content.
+         */
+        "accessibilityLabel"?: string;
+        /**
           * Expands the card to the full width of its container.
           * @default false
          */
         "fullWidth": boolean;
+        /**
+          * Makes the whole card a link to this address.
+         */
+        "href"?: string;
         /**
           * Inline CSS styles applied to the container.
          */
@@ -579,6 +593,14 @@ export namespace Components {
           * @default 'md'
          */
         "padding": CardPadding;
+        /**
+          * Relationship of the linked page, as on an anchor.
+         */
+        "rel"?: string;
+        /**
+          * Where the link opens, as on an anchor.
+         */
+        "target"?: string;
         /**
           * Id applied to the rendered container.
          */
@@ -1003,6 +1025,16 @@ export namespace Components {
           * Native autocomplete attribute of the input.
          */
         "autocomplete"?: string;
+        /**
+          * Accessible name of the clear button.
+          * @default 'Clear'
+         */
+        "clearLabel": string;
+        /**
+          * Shows a button that empties the field while it has a value. It is a pointer affordance, out of the tab order; Escape does not clear.
+          * @default false
+         */
+        "clearable": boolean;
         /**
           * Color variant of the input.
           * @default 'primary'
@@ -2339,6 +2371,10 @@ export interface SsButtonCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsButtonElement;
 }
+export interface SsCardCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsCardElement;
+}
 export interface SsCheckboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsCheckboxElement;
@@ -2602,18 +2638,35 @@ declare global {
         prototype: HTMLSsButtonGroupElement;
         new (): HTMLSsButtonGroupElement;
     };
+    interface HTMLSsCardElementEventMap {
+        "ssNavigate": SsCardNavigateEvent;
+    }
     /**
      * A surface that groups related content, with optional media, header and footer
      * regions around it.
-     * It is layout only: no elevation logic, no click behaviour and no events. A
-     * card that should act as a link or a button holds one in its content, so the
-     * accessible role stays on the element that actually has it; a clickable
-     * container would have to invent the keyboard and role semantics that
-     * `ss-button` and `ss-link` already provide.
+     * It is layout only, unless it has an `href`: then the whole card is one link.
+     * The role stays on a real `<a>`, never on the container: the card renders one
+     * link and stretches its hit area over itself, so a press anywhere follows it,
+     * while buttons and links inside (`ss-button`, `ss-link`, `ss-dropdown`,
+     * `ss-popover`, `a`, `button`, or any element marked `data-card-action`) are
+     * lifted above it and keep doing their own thing. Only elements slotted
+     * directly can be lifted: an action nested in a slotted wrapper needs
+     * `data-card-action` on the wrapper.
+     * The link is named by `accessibility-label`, else by the header, else by the
+     * content. A client-side router listens for `ssNavigate` and calls
+     * `preventDefault()`; a press with a modifier key is left to the browser.
      * Each region collapses when nothing is slotted into it, so an unused header
      * leaves no gap and draws no divider.
      */
     interface HTMLSsCardElement extends Components.SsCard, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsCardElementEventMap>(type: K, listener: (this: HTMLSsCardElement, ev: SsCardCustomEvent<HTMLSsCardElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsCardElementEventMap>(type: K, listener: (this: HTMLSsCardElement, ev: SsCardCustomEvent<HTMLSsCardElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLSsCardElement: {
         prototype: HTMLSsCardElement;
@@ -3794,29 +3847,55 @@ declare namespace LocalJSX {
     /**
      * A surface that groups related content, with optional media, header and footer
      * regions around it.
-     * It is layout only: no elevation logic, no click behaviour and no events. A
-     * card that should act as a link or a button holds one in its content, so the
-     * accessible role stays on the element that actually has it; a clickable
-     * container would have to invent the keyboard and role semantics that
-     * `ss-button` and `ss-link` already provide.
+     * It is layout only, unless it has an `href`: then the whole card is one link.
+     * The role stays on a real `<a>`, never on the container: the card renders one
+     * link and stretches its hit area over itself, so a press anywhere follows it,
+     * while buttons and links inside (`ss-button`, `ss-link`, `ss-dropdown`,
+     * `ss-popover`, `a`, `button`, or any element marked `data-card-action`) are
+     * lifted above it and keep doing their own thing. Only elements slotted
+     * directly can be lifted: an action nested in a slotted wrapper needs
+     * `data-card-action` on the wrapper.
+     * The link is named by `accessibility-label`, else by the header, else by the
+     * content. A client-side router listens for `ssNavigate` and calls
+     * `preventDefault()`; a press with a modifier key is left to the browser.
      * Each region collapses when nothing is slotted into it, so an unused header
      * leaves no gap and draws no divider.
      */
     interface SsCard {
+        /**
+          * Accessible name of the link; by default the header names it, or else the content.
+         */
+        "accessibilityLabel"?: string;
         /**
           * Expands the card to the full width of its container.
           * @default false
          */
         "fullWidth"?: boolean;
         /**
+          * Makes the whole card a link to this address.
+         */
+        "href"?: string;
+        /**
           * Inline CSS styles applied to the container.
          */
         "inlineStyles"?: InlineStyles;
+        /**
+          * Emitted on a plain press of a card with an `href`; cancelable — `preventDefault()` keeps the browser from following the link.
+         */
+        "onSsNavigate"?: (event: SsCardCustomEvent<SsCardNavigateEvent>) => void;
         /**
           * Inner spacing applied to the header, content and footer regions.
           * @default 'md'
          */
         "padding"?: CardPadding;
+        /**
+          * Relationship of the linked page, as on an anchor.
+         */
+        "rel"?: string;
+        /**
+          * Where the link opens, as on an anchor.
+         */
+        "target"?: string;
         /**
           * Id applied to the rendered container.
          */
@@ -4293,6 +4372,16 @@ declare namespace LocalJSX {
           * Native autocomplete attribute of the input.
          */
         "autocomplete"?: string;
+        /**
+          * Accessible name of the clear button.
+          * @default 'Clear'
+         */
+        "clearLabel"?: string;
+        /**
+          * Shows a button that empties the field while it has a value. It is a pointer affordance, out of the tab order; Escape does not clear.
+          * @default false
+         */
+        "clearable"?: boolean;
         /**
           * Color variant of the input.
           * @default 'primary'
@@ -5889,11 +5978,17 @@ declare module "@stencil/core" {
             /**
              * A surface that groups related content, with optional media, header and footer
              * regions around it.
-             * It is layout only: no elevation logic, no click behaviour and no events. A
-             * card that should act as a link or a button holds one in its content, so the
-             * accessible role stays on the element that actually has it; a clickable
-             * container would have to invent the keyboard and role semantics that
-             * `ss-button` and `ss-link` already provide.
+             * It is layout only, unless it has an `href`: then the whole card is one link.
+             * The role stays on a real `<a>`, never on the container: the card renders one
+             * link and stretches its hit area over itself, so a press anywhere follows it,
+             * while buttons and links inside (`ss-button`, `ss-link`, `ss-dropdown`,
+             * `ss-popover`, `a`, `button`, or any element marked `data-card-action`) are
+             * lifted above it and keep doing their own thing. Only elements slotted
+             * directly can be lifted: an action nested in a slotted wrapper needs
+             * `data-card-action` on the wrapper.
+             * The link is named by `accessibility-label`, else by the header, else by the
+             * content. A client-side router listens for `ssNavigate` and calls
+             * `preventDefault()`; a press with a modifier key is left to the browser.
              * Each region collapses when nothing is slotted into it, so an unused header
              * leaves no gap and draws no divider.
              */
