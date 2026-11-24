@@ -177,6 +177,7 @@ export class SsInput {
   /** Restores the value the input was rendered with, as a native input does. */
   formResetCallback() {
     if (this.input) this.input.value = this.value ?? '';
+    this.current = this.value ?? '';
     this.syncFormState();
   }
 

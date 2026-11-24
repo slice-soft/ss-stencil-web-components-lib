@@ -92,3 +92,14 @@ describe('ss-input clearable', () => {
     expect(radii[1]).toBe(radii[0]);
   });
 });
+
+describe('ss-input clearable and form reset', () => {
+  it('after a reset the clear button follows the restored value', async () => {
+    const page = await setup('<form><ss-input clearable name="q"></ss-input></form>');
+    await typeInto(page, 'shoes');
+    expect(await clearButton(page)).not.toBeNull();
+    await page.evaluate(`document.querySelector('form').reset()`);
+    await page.waitForChanges();
+    expect(await clearButton(page)).toBeNull();
+  });
+});

@@ -77,3 +77,19 @@ describe('ss-input start and end slots', () => {
     expect(await padding(page, 'Left')).toBe(await padding(page, 'Right'));
   });
 });
+
+describe('ss-input in a line of text', () => {
+  it('sits on the text baseline, like a native input', async () => {
+    const page = await setup('<p style="font-size: 24px; line-height: 3"><span>Name</span> <ss-input value="x"></ss-input> <input id="native" value="x"></p>');
+    // Give the native input the inner input's box and font, so only alignment differs.
+    await page.evaluate(`(() => {
+      const inner = getComputedStyle(document.querySelector('ss-input').shadowRoot.querySelector('input'));
+      const native = document.getElementById('native');
+      for (const p of ['font-family', 'font-size', 'line-height', 'padding-top', 'padding-bottom', 'border-top-width', 'border-bottom-width', 'border-style', 'box-sizing', 'height']) native.style.setProperty(p, inner.getPropertyValue(p));
+    })()`);
+    const [inner, native] = (await page.evaluate(
+      `[document.querySelector('ss-input').shadowRoot.querySelector('input'), document.getElementById('native')].map(el => Math.round(el.getBoundingClientRect().bottom))`,
+    )) as number[];
+    expect(inner).toBe(native);
+  });
+});

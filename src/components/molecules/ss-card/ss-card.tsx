@@ -90,18 +90,33 @@ export class SsCard {
    */
   private nameLink() {
     const link = this.link as (HTMLAnchorElement & { ariaLabelledByElements?: Element[] | null }) | undefined;
-    if (!link || !('ariaLabelledByElements' in link)) return;
+    if (!link) return;
+    const reflects = 'ariaLabelledByElements' in link;
     if (this.accessibilityLabel) {
-      link.ariaLabelledByElements = null;
+      if (reflects) link.ariaLabelledByElements = null;
       return;
     }
     const assigned = (name?: string) => {
       const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>(name ? `slot[name="${name}"]` : 'slot:not([name])');
-      return (slot?.assignedNodes({ flatten: true }) ?? []).filter((node): node is HTMLElement => node instanceof HTMLElement && !!node.textContent?.trim());
+      return (slot?.assignedNodes({ flatten: true }) ?? []).filter(node => !!node.textContent?.trim());
     };
     const header = assigned('header');
     const names = header.length ? header : assigned();
-    link.ariaLabelledByElements = names.length ? names : null;
+    const elements = names.filter((node): node is HTMLElement => node instanceof HTMLElement);
+    // Element references when every naming node is an element and the browser
+    // reflects them; otherwise (bare text, or no reflection) the text itself.
+    if (reflects && elements.length && elements.length === names.length) {
+      link.removeAttribute('aria-label');
+      link.ariaLabelledByElements = elements;
+      return;
+    }
+    if (reflects) link.ariaLabelledByElements = null;
+    const text = names
+      .map(node => node.textContent!.trim())
+      .join(' ')
+      .replace(/\s+/g, ' ');
+    if (text) link.setAttribute('aria-label', text);
+    else link.removeAttribute('aria-label');
   }
 
   private handleClick = (event: MouseEvent) => {

@@ -93,3 +93,11 @@ describe('ss-card as a link', () => {
     expect(await page.evaluate(`document.querySelector('ss-card').shadowRoot.querySelector('a')`)).toBeNull();
   });
 });
+
+describe('ss-card link name, edge cases', () => {
+  it('bare text content names the link', async () => {
+    const page = await newTestPage();
+    await page.setContent('<ss-card href="#x">Zapatos rojos</ss-card>');
+    expect(await axNodeNamed(page, 'link', 'Zapatos rojos')).not.toBeNull();
+  });
+});
