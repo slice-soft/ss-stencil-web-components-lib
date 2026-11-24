@@ -332,8 +332,19 @@ export class SsSearchSelect {
     this.labels.set(option.value, option.label);
     this.editing = false;
     this.query = '';
-    this.commitValue(option.value);
-    this.setOpen(false);
+    if (!this.multiple) {
+      this.commitValue(option.value);
+      this.setOpen(false);
+      return;
+    }
+    // Several: a pick toggles the option, and the list stays open for the next.
+    const values = this.values;
+    this.commitValue(values.includes(option.value) ? values.filter(value => value !== option.value) : [...values, option.value]);
+  }
+
+  private remove(value: string) {
+    this.commitValue(this.values.filter(selected => selected !== value));
+    this.input?.focus();
   }
 
   /** Leaving the field: an emptied text clears the selection; any other text gives way to the selected label. */
@@ -343,7 +354,8 @@ export class SsSearchSelect {
     const emptied = !this.query.trim();
     this.editing = false;
     this.query = '';
-    if (emptied && this.values.length) this.commitValue(this.multiple ? [] : '');
+    // With several, the text is only a filter: emptying it removes nothing.
+    if (emptied && !this.multiple && this.values.length) this.commitValue('');
   }
 
   private clear = () => {
@@ -385,6 +397,12 @@ export class SsSearchSelect {
         if (event.isComposing || !this.open) return;
         event.preventDefault();
         this.choose(this.shown[this.activeIndex]);
+        return;
+      case 'Backspace':
+        if (this.multiple && !this.input?.value && this.values.length) {
+          event.preventDefault();
+          this.remove(this.values[this.values.length - 1]);
+        }
         return;
       case 'Escape':
         if (this.open) {
@@ -471,6 +489,31 @@ export class SsSearchSelect {
     return (
       <div class={this.getClasses()} onFocusout={this.handleFocusOut}>
         <div class="ss-search-select__field" ref={el => (this.fieldEl = el)} style={resolveInlineStyles(this.inlineStyles)} onPointerDown={this.handleFieldPointerDown}>
+          {this.multiple &&
+            this.values.map(value => (
+              <span class="ss-search-select__chip">
+                <span class="ss-search-select__chip-label">{this.labelOf(value)}</span>
+                {!this.isDisabled && (
+                  // A span, not a button: no element before the input may take focus,
+                  // or delegatesFocus would send focus there instead of the field.
+                  // Backspace removes the last chip from the keyboard.
+                  <span
+                    role="button"
+                    class="ss-search-select__chip-remove"
+                    aria-label={`Remove ${this.labelOf(value)}`}
+                    onPointerDown={event => {
+                      event.stopPropagation();
+                      event.preventDefault();
+                    }}
+                    onClick={() => this.remove(value)}
+                  >
+                    <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                      <path d="M4 4l8 8M12 4l-8 8" />
+                    </svg>
+                  </span>
+                )}
+              </span>
+            ))}
           <input
             ref={el => (this.input = el)}
             id={this.xId}

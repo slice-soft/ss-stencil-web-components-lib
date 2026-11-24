@@ -124,6 +124,43 @@
   transform: rotate(180deg);
 }
 
+/* With `multiple`, each picked option is a chip before the text. */
+.ss-search-select__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: c.t(search-select, chip-gap);
+  max-width: 100%;
+  padding-inline: c.t(search-select, chip-padding-x);
+  border-radius: c.t(search-select, chip-radius);
+  background: c.t(search-select, chip-background);
+  color: c.t(search-select, chip-foreground);
+  font-size: c.t(search-select, chip-font-size);
+}
+
+.ss-search-select__chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ss-search-select__chip-remove {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  svg {
+    width: 1em;
+    height: 1em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}
+
 /* Fixed, with coordinates written by the component (see `anchorTo` in
    utils/position), like ss-dropdown's menu. */
 .ss-search-select__popup {
