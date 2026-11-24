@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.7.4](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.3...ss-stencil-web-components-lib-v0.7.4) (2026-11-24)
+
+
+### Features
+
+* **input,card:** icons, clear and the card as a link ([#69](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/69)) ([66936d5](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/66936d598bc1cb1345038706bfaaf51edad4f9c5))
+* **search-select:** ss-search-select and ss-option ([#70](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/70)) ([37f75d3](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/37f75d317f85af17c971a051a1e425184fe576aa))
+
 ## [0.7.3](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.2...ss-stencil-web-components-lib-v0.7.3) (2026-11-24)
 
 
