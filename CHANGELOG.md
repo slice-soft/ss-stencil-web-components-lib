@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.5.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.4.0...ss-stencil-web-components-lib-v0.5.0) (2026-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **atoms:** read wave 3 atoms from component tokens ([#57](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/57))
+
+### Features
+
+* **atoms:** read wave 3 atoms from component tokens ([#57](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/57)) ([db5fa0f](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/db5fa0f861dc45f3da685a87f28a3795e4aedd56))
+
 ## [0.4.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.3.0...ss-stencil-web-components-lib-v0.4.0) (2026-11-23)
 
 
