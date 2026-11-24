@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.7.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.6.0...ss-stencil-web-components-lib-v0.7.0) (2026-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **organisms:** read wave 5 organisms from component tokens ([#61](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/61))
+
+### Features
+
+* **organisms:** read wave 5 organisms from component tokens ([#61](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/61)) ([ada548c](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/ada548c52e905d56f1d9b67361ff7e70a1f08034))
+
 ## [0.6.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.5.0...ss-stencil-web-components-lib-v0.6.0) (2026-11-24)
 
 
