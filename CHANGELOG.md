@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.5.0...ss-stencil-web-components-lib-v0.6.0) (2026-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **molecules:** read wave 4 molecules from component tokens ([#59](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/59))
+
+### Features
+
+* **molecules:** read wave 4 molecules from component tokens ([#59](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/59)) ([2b5a7d5](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/2b5a7d5618c1a5367cabe11870f02de15b8e3989))
+
 ## [0.5.0](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.4.0...ss-stencil-web-components-lib-v0.5.0) (2026-11-24)
 
 
