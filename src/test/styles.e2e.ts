@@ -132,6 +132,34 @@ describe('visual styles', () => {
     expect(s['glass:card']['background-color']).toMatch(/^color\(srgb .* \/ 0\.62\)$/);
   });
 
+  it('base, by name, brings a region inside a styled page back to the stock look', async () => {
+    const page = await newTestPage();
+    await page.setContent(styled(null) + `<div data-style="brutal">${styled('base')}</div>` + `<div data-style="glass">${styled('base').replace(/base:/g, 'base2:')}</div>`);
+    await useTokens(page);
+    const s = await measure(page);
+    for (const c of Object.keys(OWN_PART)) {
+      expect(s[`base:${c}`]).toEqual(s[`stock:${c}`]);
+      expect(s[`base2:${c}`]).toEqual(s[`stock:${c}`]);
+    }
+  });
+
+  it('a parameter tunes every role built on it, coherently', async () => {
+    const page = await newTestPage();
+    await page.setContent(
+      styled('brutal') +
+        styled('brutal')
+          .replace('data-style="brutal"', 'data-style="brutal" style="--ss-style-brutal-offset: 8px; --ss-style-brutal-radius: 6px"')
+          .replace(/brutal:/g, 'tuned:'),
+    );
+    await useTokens(page);
+    const s = await measure(page);
+    // Controls take ×0.75 of the offset, popovers (elevation.lg) ×1.5.
+    expect(s['brutal:button']['box-shadow']).toBe('rgb(17, 24, 39) 3px 3px 0px 0px');
+    expect(s['tuned:button']['box-shadow']).toBe('rgb(17, 24, 39) 6px 6px 0px 0px');
+    expect(s['tuned:popover']['box-shadow']).toBe('rgb(17, 24, 39) 12px 12px 0px 0px');
+    for (const c of ['button', 'input', 'card', 'popover', 'dropdown']) expect(s[`tuned:${c}`]['border-top-left-radius']).toBe('6px');
+  });
+
   for (const theme of ['light', 'dark'] as const) {
     it(`each style's look (test-base ${theme})`, async () => {
       const page = await newTestPage();

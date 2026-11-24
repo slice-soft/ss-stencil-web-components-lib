@@ -21,13 +21,18 @@ con `data-theme="dark"` (o `"light"`) en `<html>` o en cualquier contenedor.
 Con `_styles.css` (o un solo estilo, `styles/_<nombre>.css`) cargado después de
 `_variables.css`, `data-style` en `<html>` o en cualquier contenedor cambia cómo
 se dibujan los componentes de adentro: `brutal`, `glass`, `clay`, `minimal` o
-`maximal`. Se combina y se anida con `data-theme`. Ningún prop depende del
+`maximal`; `base` es el look estándar con nombre, para volver a él dentro de una
+zona con estilo. Cada estilo se ajusta con unos pocos parámetros
+(`--ss-style-<estilo>-<parámetro>`, en el mismo elemento del `data-style`), y
+todos sus valores salen de ellos. Se combina y se anida con `data-theme`. Ningún prop depende del
 estilo: los mismos `variant`, `x-style` y `size` funcionan igual en todos.
 
 ```html
 <link rel="stylesheet" href="<ruta a ss-design-system>/css/_styles.css">
 
-<body data-style="brutal">…</body>
+<body data-style="brutal" style="--ss-style-brutal-offset: 6px">
+  <section data-style="base">…</section>
+</body>
 ```
 
 La librería no depende de dónde vengan esos archivos: tu build, el paquete o

@@ -1,18 +1,29 @@
-[data-style="brutal"] {
-  --ss-control-size-xs-radius: 0px;
-  --ss-control-size-sm-radius: 0px;
-  --ss-control-size-md-radius: 0px;
-  --ss-control-size-lg-radius: 0px;
-  --ss-control-size-xl-radius: 0px;
-  --ss-control-size-2xl-radius: 0px;
-  --ss-control-size-3xl-radius: 0px;
-  --ss-shape-radius-control: 0px;
-  --ss-shape-radius-surface: 0px;
-  --ss-shape-radius-subtle: 0px;
-  --ss-shape-radius-menu: 0px;
-  --ss-control-border-width: var(--ss-borders-width-strong);
-  --ss-control-focus-ring-width: var(--ss-borders-width-strong);
+[data-style="base"] {
+  --ss-control-shadow: none;
+  --ss-material-backdrop-filter: none;
+  --ss-control-size-xs-radius: var(--ss-radius-sm);
+  --ss-control-size-sm-radius: var(--ss-radius-sm);
+  --ss-control-size-md-radius: var(--ss-radius-base);
+  --ss-control-size-lg-radius: var(--ss-radius-lg);
+  --ss-control-size-xl-radius: var(--ss-radius-xl);
+  --ss-control-size-2xl-radius: var(--ss-radius-2xl);
+  --ss-control-size-3xl-radius: var(--ss-radius-2xl);
+  --ss-control-border-width: var(--ss-borders-width-base);
+  --ss-control-focus-ring-width: var(--ss-borders-width-base);
   --ss-control-focus-ring-offset: var(--ss-borders-width-base);
+  --ss-motion-easing-standard: var(--ss-transitions-easing-functions-decelerate);
+  --ss-shape-radius-control: var(--ss-radius-base);
+  --ss-shape-radius-surface: var(--ss-radius-lg);
+  --ss-shape-radius-subtle: var(--ss-radius-sm);
+  --ss-shape-radius-menu: var(--ss-radius-md);
+  --ss-type-weight-medium: var(--ss-text-weights-medium);
+  --ss-type-weight-semibold: var(--ss-text-weights-semibold);
+  --ss-type-weight-bold: var(--ss-text-weights-bold);
+  --ss-elevation-sm: var(--ss-shadows-sm);
+  --ss-elevation-md: var(--ss-shadows-md);
+  --ss-elevation-lg: var(--ss-shadows-lg);
+  --ss-elevation-xl: var(--ss-shadows-xl);
+  --ss-elevation-card: var(--ss-shadows-card);
   --ss-field-size-xs-radius: var(--ss-control-size-xs-radius);
   --ss-field-size-sm-radius: var(--ss-control-size-sm-radius);
   --ss-field-size-md-radius: var(--ss-control-size-md-radius);
@@ -20,46 +31,89 @@
   --ss-field-size-xl-radius: var(--ss-control-size-xl-radius);
   --ss-field-size-2xl-radius: var(--ss-control-size-2xl-radius);
   --ss-field-size-3xl-radius: var(--ss-control-size-3xl-radius);
-  --ss-motion-easing-standard: var(--ss-transitions-easing-keywords-linear);
-  --ss-type-weight-medium: var(--ss-text-weights-bold);
-  --ss-type-weight-semibold: var(--ss-text-weights-extrabold);
-  --ss-control-shadow: 3px 3px 0 0 var(--ss-color-foreground);
-  --ss-elevation-sm: 2px 2px 0 0 var(--ss-color-foreground);
-  --ss-elevation-md: 4px 4px 0 0 var(--ss-color-foreground);
-  --ss-elevation-lg: 6px 6px 0 0 var(--ss-color-foreground);
-  --ss-elevation-xl: 0 0 0 2px var(--ss-color-foreground), 10px 10px 0 2px var(--ss-color-foreground);
-  --ss-elevation-card: 0 0 0 2px var(--ss-color-foreground), 6px 6px 0 2px var(--ss-color-foreground);
-  --ss-material-border-color: var(--ss-color-foreground);
+  --ss-material-surface: var(--ss-color-card);
+  --ss-material-border-color: var(--ss-color-border);
 }
 
-[data-style="brutal"] [data-theme] {
-  --ss-control-shadow: 3px 3px 0 0 var(--ss-color-foreground);
-  --ss-elevation-sm: 2px 2px 0 0 var(--ss-color-foreground);
-  --ss-elevation-md: 4px 4px 0 0 var(--ss-color-foreground);
-  --ss-elevation-lg: 6px 6px 0 0 var(--ss-color-foreground);
-  --ss-elevation-xl: 0 0 0 2px var(--ss-color-foreground), 10px 10px 0 2px var(--ss-color-foreground);
-  --ss-elevation-card: 0 0 0 2px var(--ss-color-foreground), 6px 6px 0 2px var(--ss-color-foreground);
-  --ss-material-border-color: var(--ss-color-foreground);
+[data-style="base"] [data-theme]:not([data-style]) {
+  --ss-material-backdrop-filter: none;
+  --ss-material-surface: var(--ss-color-card);
+  --ss-material-border-color: var(--ss-color-border);
+}
+
+[data-style="brutal"] {
+  --ss-style-brutal-offset: 4px; /** Distance of the hard shadow; the shadow scale is ×0.5, ×0.75 (controls), ×1, ×1.5, ×2.5. */
+  --ss-style-brutal-radius: 0px; /** Corner radius of everything. */
+  --ss-control-size-xs-radius: var(--ss-style-brutal-radius);
+  --ss-control-size-sm-radius: var(--ss-style-brutal-radius);
+  --ss-control-size-md-radius: var(--ss-style-brutal-radius);
+  --ss-control-size-lg-radius: var(--ss-style-brutal-radius);
+  --ss-control-size-xl-radius: var(--ss-style-brutal-radius);
+  --ss-control-size-2xl-radius: var(--ss-style-brutal-radius);
+  --ss-control-size-3xl-radius: var(--ss-style-brutal-radius);
+  --ss-control-focus-ring-offset: var(--ss-borders-width-base);
+  --ss-control-shadow: calc(var(--ss-style-brutal-offset) * 0.75) calc(var(--ss-style-brutal-offset) * 0.75) 0 0 var(--ss-style-brutal-ink);
+  --ss-elevation-sm: calc(var(--ss-style-brutal-offset) * 0.5) calc(var(--ss-style-brutal-offset) * 0.5) 0 0 var(--ss-style-brutal-ink);
+  --ss-elevation-md: var(--ss-style-brutal-offset) var(--ss-style-brutal-offset) 0 0 var(--ss-style-brutal-ink);
+  --ss-elevation-lg: calc(var(--ss-style-brutal-offset) * 1.5) calc(var(--ss-style-brutal-offset) * 1.5) 0 0 var(--ss-style-brutal-ink);
+  --ss-motion-easing-standard: var(--ss-transitions-easing-keywords-linear);
+  --ss-shape-radius-control: var(--ss-style-brutal-radius);
+  --ss-shape-radius-surface: var(--ss-style-brutal-radius);
+  --ss-shape-radius-subtle: var(--ss-style-brutal-radius);
+  --ss-shape-radius-menu: var(--ss-style-brutal-radius);
+  --ss-type-weight-medium: var(--ss-text-weights-bold);
+  --ss-type-weight-semibold: var(--ss-text-weights-extrabold);
+  --ss-style-brutal-border: var(--ss-borders-width-strong); /** Border width of controls and outlined surfaces. */
+  --ss-style-brutal-ring: var(--ss-borders-width-base); /** Edge drawn in the shadow of borderless surfaces (elevated card, dialog). */
+  --ss-control-border-width: var(--ss-style-brutal-border);
+  --ss-control-focus-ring-width: var(--ss-style-brutal-border);
+  --ss-elevation-xl: 0 0 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink), calc(var(--ss-style-brutal-offset) * 2.5) calc(var(--ss-style-brutal-offset) * 2.5) 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink);
+  --ss-elevation-card: 0 0 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink), calc(var(--ss-style-brutal-offset) * 1.5) calc(var(--ss-style-brutal-offset) * 1.5) 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink);
+  --ss-field-size-xs-radius: var(--ss-control-size-xs-radius);
+  --ss-field-size-sm-radius: var(--ss-control-size-sm-radius);
+  --ss-field-size-md-radius: var(--ss-control-size-md-radius);
+  --ss-field-size-lg-radius: var(--ss-control-size-lg-radius);
+  --ss-field-size-xl-radius: var(--ss-control-size-xl-radius);
+  --ss-field-size-2xl-radius: var(--ss-control-size-2xl-radius);
+  --ss-field-size-3xl-radius: var(--ss-control-size-3xl-radius);
+  --ss-style-brutal-ink: var(--ss-color-foreground); /** Color of shadows and surface edges. */
+  --ss-material-border-color: var(--ss-style-brutal-ink);
+}
+
+[data-style="brutal"] [data-theme]:not([data-style]) {
+  --ss-style-brutal-ink: var(--ss-color-foreground); /** Color of shadows and surface edges. */
+  --ss-control-shadow: calc(var(--ss-style-brutal-offset) * 0.75) calc(var(--ss-style-brutal-offset) * 0.75) 0 0 var(--ss-style-brutal-ink);
+  --ss-elevation-sm: calc(var(--ss-style-brutal-offset) * 0.5) calc(var(--ss-style-brutal-offset) * 0.5) 0 0 var(--ss-style-brutal-ink);
+  --ss-elevation-md: var(--ss-style-brutal-offset) var(--ss-style-brutal-offset) 0 0 var(--ss-style-brutal-ink);
+  --ss-elevation-lg: calc(var(--ss-style-brutal-offset) * 1.5) calc(var(--ss-style-brutal-offset) * 1.5) 0 0 var(--ss-style-brutal-ink);
+  --ss-elevation-xl: 0 0 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink), calc(var(--ss-style-brutal-offset) * 2.5) calc(var(--ss-style-brutal-offset) * 2.5) 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink);
+  --ss-elevation-card: 0 0 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink), calc(var(--ss-style-brutal-offset) * 1.5) calc(var(--ss-style-brutal-offset) * 1.5) 0 var(--ss-style-brutal-ring) var(--ss-style-brutal-ink);
+  --ss-material-border-color: var(--ss-style-brutal-ink);
 }
 
 [data-style="clay"] {
-  --ss-control-shadow: 4px 6px 12px 0 rgb(0 0 0 / 0.14), inset -2px -3px 6px 0 rgb(0 0 0 / 0.10), inset 2px 3px 6px 0 rgb(255 255 255 / 0.45);
-  --ss-elevation-md: 8px 10px 20px 0 rgb(0 0 0 / 0.14), inset -4px -4px 10px 0 rgb(0 0 0 / 0.06), inset 4px 4px 10px 0 rgb(255 255 255 / 0.55);
-  --ss-elevation-lg: 10px 14px 28px 0 rgb(0 0 0 / 0.16), inset -5px -5px 12px 0 rgb(0 0 0 / 0.06), inset 5px 5px 12px 0 rgb(255 255 255 / 0.55);
-  --ss-elevation-xl: 14px 20px 40px 0 rgb(0 0 0 / 0.18), inset -6px -6px 14px 0 rgb(0 0 0 / 0.06), inset 6px 6px 14px 0 rgb(255 255 255 / 0.55);
-  --ss-elevation-card: 8px 10px 20px 0 rgb(0 0 0 / 0.14), inset -4px -4px 10px 0 rgb(0 0 0 / 0.06), inset 4px 4px 10px 0 rgb(255 255 255 / 0.55);
   --ss-material-border-color: transparent;
-  --ss-control-size-xs-radius: var(--ss-radius-base);
-  --ss-control-size-sm-radius: var(--ss-radius-lg);
-  --ss-control-size-md-radius: var(--ss-radius-xl);
-  --ss-control-size-lg-radius: var(--ss-radius-xl);
-  --ss-control-size-xl-radius: var(--ss-radius-2xl);
-  --ss-control-size-2xl-radius: var(--ss-radius-2xl);
-  --ss-control-size-3xl-radius: var(--ss-radius-2xl);
-  --ss-shape-radius-control: var(--ss-radius-xl);
-  --ss-shape-radius-surface: var(--ss-radius-2xl);
-  --ss-shape-radius-subtle: var(--ss-radius-base);
-  --ss-shape-radius-menu: var(--ss-radius-lg);
+  --ss-style-clay-depth: 4px; /** How far shapes stand out; every shadow scales with it. */
+  --ss-style-clay-softness: 1; /** Blur of every shadow, as a multiple. */
+  --ss-style-clay-highlight: 0.5; /** Strength of the inner light edge. */
+  --ss-style-clay-shade: 0.08; /** Strength of the inner dark edge. */
+  --ss-control-shadow: calc(var(--ss-style-clay-depth) * 1) calc(var(--ss-style-clay-depth) * 1.5) calc(var(--ss-style-clay-depth) * 3 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / 0.14), inset calc(var(--ss-style-clay-depth) * -0.5) calc(var(--ss-style-clay-depth) * -0.75) calc(var(--ss-style-clay-depth) * 1.5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / var(--ss-style-clay-shade)), inset calc(var(--ss-style-clay-depth) * 0.5) calc(var(--ss-style-clay-depth) * 0.75) calc(var(--ss-style-clay-depth) * 1.5 * var(--ss-style-clay-softness)) 0 rgb(255 255 255 / var(--ss-style-clay-highlight));
+  --ss-elevation-md: calc(var(--ss-style-clay-depth) * 2) calc(var(--ss-style-clay-depth) * 2.5) calc(var(--ss-style-clay-depth) * 5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / 0.14), inset calc(var(--ss-style-clay-depth) * -1.0) calc(var(--ss-style-clay-depth) * -1.25) calc(var(--ss-style-clay-depth) * 2.5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / var(--ss-style-clay-shade)), inset calc(var(--ss-style-clay-depth) * 1.0) calc(var(--ss-style-clay-depth) * 1.25) calc(var(--ss-style-clay-depth) * 2.5 * var(--ss-style-clay-softness)) 0 rgb(255 255 255 / var(--ss-style-clay-highlight));
+  --ss-elevation-lg: calc(var(--ss-style-clay-depth) * 2.5) calc(var(--ss-style-clay-depth) * 3.5) calc(var(--ss-style-clay-depth) * 7 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / 0.14), inset calc(var(--ss-style-clay-depth) * -1.25) calc(var(--ss-style-clay-depth) * -1.75) calc(var(--ss-style-clay-depth) * 3.5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / var(--ss-style-clay-shade)), inset calc(var(--ss-style-clay-depth) * 1.25) calc(var(--ss-style-clay-depth) * 1.75) calc(var(--ss-style-clay-depth) * 3.5 * var(--ss-style-clay-softness)) 0 rgb(255 255 255 / var(--ss-style-clay-highlight));
+  --ss-elevation-xl: calc(var(--ss-style-clay-depth) * 3.5) calc(var(--ss-style-clay-depth) * 5) calc(var(--ss-style-clay-depth) * 10 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / 0.14), inset calc(var(--ss-style-clay-depth) * -1.75) calc(var(--ss-style-clay-depth) * -2.5) calc(var(--ss-style-clay-depth) * 5.0 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / var(--ss-style-clay-shade)), inset calc(var(--ss-style-clay-depth) * 1.75) calc(var(--ss-style-clay-depth) * 2.5) calc(var(--ss-style-clay-depth) * 5.0 * var(--ss-style-clay-softness)) 0 rgb(255 255 255 / var(--ss-style-clay-highlight));
+  --ss-elevation-card: calc(var(--ss-style-clay-depth) * 2) calc(var(--ss-style-clay-depth) * 2.5) calc(var(--ss-style-clay-depth) * 5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / 0.14), inset calc(var(--ss-style-clay-depth) * -1.0) calc(var(--ss-style-clay-depth) * -1.25) calc(var(--ss-style-clay-depth) * 2.5 * var(--ss-style-clay-softness)) 0 rgb(0 0 0 / var(--ss-style-clay-shade)), inset calc(var(--ss-style-clay-depth) * 1.0) calc(var(--ss-style-clay-depth) * 1.25) calc(var(--ss-style-clay-depth) * 2.5 * var(--ss-style-clay-softness)) 0 rgb(255 255 255 / var(--ss-style-clay-highlight));
+  --ss-style-clay-radius: var(--ss-radius-xl); /** Corner radius of controls; surfaces take ×1.5, menus ×0.75. */
+  --ss-control-size-xs-radius: calc(var(--ss-style-clay-radius) * 0.5);
+  --ss-control-size-sm-radius: calc(var(--ss-style-clay-radius) * 0.75);
+  --ss-control-size-md-radius: var(--ss-style-clay-radius);
+  --ss-control-size-lg-radius: var(--ss-style-clay-radius);
+  --ss-control-size-xl-radius: calc(var(--ss-style-clay-radius) * 1.5);
+  --ss-control-size-2xl-radius: calc(var(--ss-style-clay-radius) * 1.5);
+  --ss-control-size-3xl-radius: calc(var(--ss-style-clay-radius) * 1.5);
+  --ss-shape-radius-control: var(--ss-style-clay-radius);
+  --ss-shape-radius-surface: calc(var(--ss-style-clay-radius) * 1.5);
+  --ss-shape-radius-subtle: calc(var(--ss-style-clay-radius) * 0.5);
+  --ss-shape-radius-menu: calc(var(--ss-style-clay-radius) * 0.75);
   --ss-field-size-xs-radius: var(--ss-control-size-xs-radius);
   --ss-field-size-sm-radius: var(--ss-control-size-sm-radius);
   --ss-field-size-md-radius: var(--ss-control-size-md-radius);
@@ -69,33 +123,37 @@
   --ss-field-size-3xl-radius: var(--ss-control-size-3xl-radius);
 }
 
-[data-style="clay"] [data-theme] {
+[data-style="clay"] [data-theme]:not([data-style]) {
   --ss-material-border-color: transparent;
 }
 
 [data-style="glass"] {
-  --ss-elevation-md: 0 8px 24px 0 rgb(0 0 0 / 0.10);
-  --ss-elevation-lg: 0 12px 32px 0 rgb(0 0 0 / 0.12);
-  --ss-elevation-xl: 0 24px 48px 0 rgb(0 0 0 / 0.16);
-  --ss-elevation-card: 0 8px 32px 0 rgb(0 0 0 / 0.10);
-  --ss-material-backdrop-filter: blur(16px) saturate(1.4);
-  --ss-shape-radius-surface: var(--ss-radius-xl);
-  --ss-shape-radius-menu: var(--ss-radius-lg);
-  --ss-material-surface: color-mix(in srgb, var(--ss-color-card) 62%, transparent);
-  --ss-material-border-color: color-mix(in srgb, var(--ss-color-background) 45%, transparent);
+  --ss-style-glass-blur: 16px; /** Blur of what shows through a surface. */
+  --ss-style-glass-saturation: 1.4; /** Color boost of what shows through. */
+  --ss-style-glass-opacity: 62%; /** How much of the card color a surface keeps. */
+  --ss-style-glass-rim: 45%; /** How much of the background color the surface edge keeps. */
+  --ss-style-glass-shadow: 0.1; /** Shadow strength; the scale is ×1, ×1.2 and ×1.6. */
+  --ss-elevation-md: 0 8px 24px 0 rgb(0 0 0 / calc(var(--ss-style-glass-shadow) * 1));
+  --ss-elevation-lg: 0 12px 32px 0 rgb(0 0 0 / calc(var(--ss-style-glass-shadow) * 1.2));
+  --ss-elevation-xl: 0 24px 48px 0 rgb(0 0 0 / calc(var(--ss-style-glass-shadow) * 1.6));
+  --ss-elevation-card: 0 8px 32px 0 rgb(0 0 0 / calc(var(--ss-style-glass-shadow) * 1));
+  --ss-material-backdrop-filter: blur(var(--ss-style-glass-blur)) saturate(var(--ss-style-glass-saturation));
+  --ss-style-glass-radius: var(--ss-radius-xl); /** Corner radius of surfaces; menus take ×0.75. */
+  --ss-material-surface: color-mix(in srgb, var(--ss-color-card) var(--ss-style-glass-opacity), transparent);
+  --ss-material-border-color: color-mix(in srgb, var(--ss-color-background) var(--ss-style-glass-rim), transparent);
+  --ss-shape-radius-surface: var(--ss-style-glass-radius);
+  --ss-shape-radius-menu: calc(var(--ss-style-glass-radius) * 0.75);
 }
 
-[data-style="glass"] [data-theme] {
-  --ss-material-backdrop-filter: blur(16px) saturate(1.4);
-  --ss-material-surface: color-mix(in srgb, var(--ss-color-card) 62%, transparent);
-  --ss-material-border-color: color-mix(in srgb, var(--ss-color-background) 45%, transparent);
+[data-style="glass"] [data-theme]:not([data-style]) {
+  --ss-material-backdrop-filter: blur(var(--ss-style-glass-blur)) saturate(var(--ss-style-glass-saturation));
+  --ss-material-surface: color-mix(in srgb, var(--ss-color-card) var(--ss-style-glass-opacity), transparent);
+  --ss-material-border-color: color-mix(in srgb, var(--ss-color-background) var(--ss-style-glass-rim), transparent);
 }
 
 [data-style="maximal"] {
-  --ss-elevation-md: 0 12px 28px -6px rgb(0 0 0 / 0.22);
-  --ss-elevation-lg: 0 20px 40px -8px rgb(0 0 0 / 0.26);
-  --ss-elevation-xl: 0 32px 64px -12px rgb(0 0 0 / 0.32);
-  --ss-elevation-card: 0 16px 36px -8px rgb(0 0 0 / 0.24);
+  --ss-style-maximal-depth: 4px; /** How deep shadows fall; every shadow scales with it. */
+  --ss-style-maximal-glow: 55%; /** Strength of the primary glow under controls. */
   --ss-control-size-xs-radius: var(--ss-radius-full);
   --ss-control-size-sm-radius: var(--ss-radius-full);
   --ss-control-size-md-radius: var(--ss-radius-full);
@@ -103,15 +161,18 @@
   --ss-control-size-xl-radius: var(--ss-radius-full);
   --ss-control-size-2xl-radius: var(--ss-radius-full);
   --ss-control-size-3xl-radius: var(--ss-radius-full);
-  --ss-control-border-width: var(--ss-borders-width-strong);
-  --ss-shape-radius-control: var(--ss-radius-xl);
-  --ss-shape-radius-surface: var(--ss-radius-2xl);
+  --ss-control-shadow: 0 calc(var(--ss-style-maximal-depth) * 1.5) calc(var(--ss-style-maximal-depth) * 4) calc(var(--ss-style-maximal-depth) * -1) color-mix(in srgb, var(--ss-color-primary) var(--ss-style-maximal-glow), transparent);
+  --ss-elevation-md: 0 calc(var(--ss-style-maximal-depth) * 3) calc(var(--ss-style-maximal-depth) * 7) calc(var(--ss-style-maximal-depth) * -1.5) rgb(0 0 0 / 0.22);
+  --ss-elevation-lg: 0 calc(var(--ss-style-maximal-depth) * 5) calc(var(--ss-style-maximal-depth) * 10) calc(var(--ss-style-maximal-depth) * -2) rgb(0 0 0 / 0.26);
+  --ss-elevation-xl: 0 calc(var(--ss-style-maximal-depth) * 8) calc(var(--ss-style-maximal-depth) * 16) calc(var(--ss-style-maximal-depth) * -3) rgb(0 0 0 / 0.32);
+  --ss-elevation-card: 0 calc(var(--ss-style-maximal-depth) * 4) calc(var(--ss-style-maximal-depth) * 9) calc(var(--ss-style-maximal-depth) * -2) rgb(0 0 0 / 0.24);
   --ss-shape-radius-subtle: var(--ss-radius-base);
-  --ss-shape-radius-menu: var(--ss-radius-xl);
   --ss-type-weight-medium: var(--ss-text-weights-semibold);
   --ss-type-weight-semibold: var(--ss-text-weights-bold);
   --ss-type-weight-bold: var(--ss-text-weights-extrabold);
-  --ss-control-shadow: 0 6px 16px -4px color-mix(in srgb, var(--ss-color-primary) 55%, transparent);
+  --ss-style-maximal-border: var(--ss-borders-width-strong); /** Border width of controls and outlined surfaces. */
+  --ss-style-maximal-radius: var(--ss-radius-2xl); /** Corner radius of surfaces; alerts and other control-shaped surfaces take ×2/3. Controls are pills. */
+  --ss-control-border-width: var(--ss-style-maximal-border);
   --ss-field-size-xs-radius: var(--ss-control-size-xs-radius);
   --ss-field-size-sm-radius: var(--ss-control-size-sm-radius);
   --ss-field-size-md-radius: var(--ss-control-size-md-radius);
@@ -119,31 +180,37 @@
   --ss-field-size-xl-radius: var(--ss-control-size-xl-radius);
   --ss-field-size-2xl-radius: var(--ss-control-size-2xl-radius);
   --ss-field-size-3xl-radius: var(--ss-control-size-3xl-radius);
+  --ss-shape-radius-control: calc(var(--ss-style-maximal-radius) * 2 / 3);
+  --ss-shape-radius-surface: var(--ss-style-maximal-radius);
+  --ss-shape-radius-menu: calc(var(--ss-style-maximal-radius) * 2 / 3);
 }
 
-[data-style="maximal"] [data-theme] {
-  --ss-control-shadow: 0 6px 16px -4px color-mix(in srgb, var(--ss-color-primary) 55%, transparent);
+[data-style="maximal"] [data-theme]:not([data-style]) {
+  --ss-control-shadow: 0 calc(var(--ss-style-maximal-depth) * 1.5) calc(var(--ss-style-maximal-depth) * 4) calc(var(--ss-style-maximal-depth) * -1) color-mix(in srgb, var(--ss-color-primary) var(--ss-style-maximal-glow), transparent);
 }
 
 [data-style="minimal"] {
   --ss-elevation-sm: none;
   --ss-elevation-md: none;
   --ss-elevation-lg: none;
-  --ss-control-size-xs-radius: var(--ss-radius-sm);
-  --ss-control-size-sm-radius: var(--ss-radius-sm);
-  --ss-control-size-md-radius: var(--ss-radius-sm);
-  --ss-control-size-lg-radius: var(--ss-radius-sm);
-  --ss-control-size-xl-radius: var(--ss-radius-sm);
-  --ss-control-size-2xl-radius: var(--ss-radius-sm);
-  --ss-control-size-3xl-radius: var(--ss-radius-sm);
-  --ss-control-border-width: var(--ss-borders-width-hairline);
-  --ss-shape-radius-control: var(--ss-radius-sm);
-  --ss-shape-radius-surface: var(--ss-radius-base);
-  --ss-shape-radius-subtle: var(--ss-radius-sm);
-  --ss-shape-radius-menu: var(--ss-radius-sm);
   --ss-type-weight-semibold: var(--ss-text-weights-medium);
-  --ss-elevation-xl: 0 0 0 1px var(--ss-color-border);
-  --ss-elevation-card: 0 0 0 1px var(--ss-color-border);
+  --ss-style-minimal-border: var(--ss-borders-width-hairline); /** Border width of controls and outlined surfaces. */
+  --ss-style-minimal-radius: var(--ss-radius-sm); /** Corner radius of controls; surfaces take ×2. */
+  --ss-control-size-xs-radius: var(--ss-style-minimal-radius);
+  --ss-control-size-sm-radius: var(--ss-style-minimal-radius);
+  --ss-control-size-md-radius: var(--ss-style-minimal-radius);
+  --ss-control-size-lg-radius: var(--ss-style-minimal-radius);
+  --ss-control-size-xl-radius: var(--ss-style-minimal-radius);
+  --ss-control-size-2xl-radius: var(--ss-style-minimal-radius);
+  --ss-control-size-3xl-radius: var(--ss-style-minimal-radius);
+  --ss-control-border-width: var(--ss-style-minimal-border);
+  --ss-elevation-xl: 0 0 0 var(--ss-style-minimal-border) var(--ss-style-minimal-edge);
+  --ss-elevation-card: 0 0 0 var(--ss-style-minimal-border) var(--ss-style-minimal-edge);
+  --ss-shape-radius-control: var(--ss-style-minimal-radius);
+  --ss-shape-radius-surface: calc(var(--ss-style-minimal-radius) * 2);
+  --ss-shape-radius-subtle: var(--ss-style-minimal-radius);
+  --ss-shape-radius-menu: var(--ss-style-minimal-radius);
+  --ss-style-minimal-edge: var(--ss-color-border); /** Edge color of borderless surfaces (elevated card, dialog). */
   --ss-field-size-xs-radius: var(--ss-control-size-xs-radius);
   --ss-field-size-sm-radius: var(--ss-control-size-sm-radius);
   --ss-field-size-md-radius: var(--ss-control-size-md-radius);
@@ -153,7 +220,8 @@
   --ss-field-size-3xl-radius: var(--ss-control-size-3xl-radius);
 }
 
-[data-style="minimal"] [data-theme] {
-  --ss-elevation-xl: 0 0 0 1px var(--ss-color-border);
-  --ss-elevation-card: 0 0 0 1px var(--ss-color-border);
+[data-style="minimal"] [data-theme]:not([data-style]) {
+  --ss-style-minimal-edge: var(--ss-color-border); /** Edge color of borderless surfaces (elevated card, dialog). */
+  --ss-elevation-xl: 0 0 0 var(--ss-style-minimal-border) var(--ss-style-minimal-edge);
+  --ss-elevation-card: 0 0 0 var(--ss-style-minimal-border) var(--ss-style-minimal-edge);
 }
