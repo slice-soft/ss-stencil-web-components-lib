@@ -3,7 +3,7 @@
 Where the component layers stand. Update this when you finish a piece of work;
 it is what a session with no memory of the last one reads first.
 
-Last updated: 2026-11-23 · 81 test suites, 667 tests.
+Last updated: 2026-11-23 · 85 test suites, 686 tests.
 
 ## What exists
 
@@ -52,6 +52,7 @@ variant.
 | 6 | Theming by container | ss-design-system 2.8.0 re-declares component tokens under `[data-theme]` and the light semantic colors under `[data-theme="light"]`, so `data-theme` on any container (a dark card on a light page, or the reverse) reaches the components inside it. `wave-1.tokens.e2e.ts` checks both directions |
 | 6 | The "App did not load" flake, root-caused | Pages from parallel workers share one Chrome; one worker's new page could hide another's, and a hidden page runs no animation frames, so Stencil never finished loading it. Measured 9 of 239 pages hidden with 3 workers, none with 1. `npm test` runs one worker (~250s for the full suite, 2 clean runs of 654). Details in `docs/conventions.md` |
 | 7 | Wave 2 on component tokens | `ss-checkbox`, `ss-radio`, `ss-switch`, `ss-slider`, `ss-label` read only `--ss-<component>-*` (ss-design-system 2.9.0: `tokens/components/{checkbox,radio,switch,slider,label}.json`, new `choice.*` system roles, `shape.radius.subtle`, slider track roles in `control.*`). The computed-style snapshot taken before (`wave-2.styles.e2e.ts`: every size and state, rest and focused, both themes) is unchanged, value for value. `wave-2.tokens.e2e.ts`: a component token moves one component; `--ss-color-primary` reaches the three choice controls; `choice.size.md.font-size` reaches all four |
+| 8 | Wave 3 on component tokens | `ss-avatar`, `ss-badge`, `ss-divider`, `ss-icon`, `ss-link`, `ss-spinner`, `ss-tooltip`, `ss-typography` read only their own tokens (ss-design-system 2.10.0). New system roles a brand can move as a whole: `type.*` (families, sizes, weights, line heights, letter spacing, ink), `space.*` (the spacing scale), `elevation.*`, `layout.layer.*`. Snapshot (`wave-3.styles.e2e.ts`) unchanged, value for value. `wave-3.tokens.e2e.ts`: `--ss-type-weight-medium` reaches badge, divider, link, tooltip and typography; `--ss-space-10` the default avatar. Every atom is now migrated |
 
 ## Playground and release readiness
 
@@ -74,9 +75,10 @@ browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed
 
-- **32 components still read primitives.** See the `lint:tokens` count. Next is
-  wave 3: the remaining atoms (avatar, badge, divider, icon, link, spinner,
-  tooltip, typography). Same pattern as wave 1: style
+- **24 components still read primitives: the molecules and organisms.** See
+  the `lint:tokens` count. Every atom is migrated. Next is wave 4, the
+  molecules (alert, avatar-group, breadcrumb, button-group, card,
+  checkbox-group, field, input-group, pagination, radio-group). Same pattern as wave 1: style
   snapshot first, then the component tokens in ss-design-system (and the
   variables in `test/fixtures/library-contract.json` there), then the
   stylesheet. Every control's sized radius follows `control.size.*.radius`

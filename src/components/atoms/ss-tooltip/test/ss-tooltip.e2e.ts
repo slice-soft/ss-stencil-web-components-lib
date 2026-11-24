@@ -1,6 +1,7 @@
 import { axNodeByRole, newTestPage } from '../../../../test/utils';
 
-const TOKENS = `<style>:root { --ss-z-index-tooltip: 1500; }</style>`;
+// ss-tooltip reads its own layer token (ss-design-system 2.10.0).
+const TOKENS = `<style>:root { --ss-tooltip-z-index: 1500; }</style>`;
 
 describe('ss-tooltip browser behavior', () => {
   it('stacks its content on the tooltip layer token', async () => {

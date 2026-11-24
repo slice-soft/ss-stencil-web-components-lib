@@ -1,49 +1,49 @@
+@use '../../../global/styles/control' as c;
+
 .ss-divider {
   display: flex;
   align-items: center;
-  color: var(--ss-color-muted-foreground);
+  color: c.t(divider, label-color);
 }
 
 .ss-divider__line {
   flex: 1;
-  border-color: var(--ss-color-border);
+  border-color: c.t(divider, line-color);
   border-style: solid;
 }
 
 .ss-divider--horizontal {
-  width: var(--ss-sizing-full);
+  width: 100%;
 }
 
 .ss-divider--horizontal .ss-divider__line {
-  border-width: var(--ss-borders-width-base) var(--ss-borders-width-none) var(--ss-borders-width-none);
+  border-width: c.t(divider, line-width) 0 0;
 }
 
 .ss-divider--vertical {
   display: inline-flex;
   flex-direction: column;
   align-self: stretch;
-  min-height: var(--ss-dimensions-6);
+  min-height: c.t(divider, vertical-min-height);
   width: fit-content;
 }
 
 .ss-divider--vertical .ss-divider__line {
-  border-width: var(--ss-borders-width-none) var(--ss-borders-width-none) var(--ss-borders-width-none) var(--ss-borders-width-base);
+  border-width: 0 0 0 c.t(divider, line-width);
 }
 
-.ss-divider--spacing-none { margin: var(--ss-sizing-none); }
-.ss-divider--spacing-sm { margin: var(--ss-dimensions-2) var(--ss-sizing-none); }
-.ss-divider--spacing-md { margin: var(--ss-dimensions-4) var(--ss-sizing-none); }
-.ss-divider--spacing-lg { margin: var(--ss-dimensions-6) var(--ss-sizing-none); }
+.ss-divider--spacing-none { margin: 0; }
 
-.ss-divider--vertical.ss-divider--spacing-sm { margin: var(--ss-sizing-none) var(--ss-dimensions-2); }
-.ss-divider--vertical.ss-divider--spacing-md { margin: var(--ss-sizing-none) var(--ss-dimensions-4); }
-.ss-divider--vertical.ss-divider--spacing-lg { margin: var(--ss-sizing-none) var(--ss-dimensions-6); }
+@each $spacing in sm, md, lg {
+  .ss-divider--spacing-#{$spacing} { margin: c.t(divider, spacing-#{$spacing}) 0; }
+  .ss-divider--vertical.ss-divider--spacing-#{$spacing} { margin: 0 c.t(divider, spacing-#{$spacing}); }
+}
 
 .ss-divider__label {
-  padding: var(--ss-sizing-none) var(--ss-dimensions-2);
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-xs);
-  font-weight: var(--ss-text-weights-medium);
-  line-height: var(--ss-text-line-heights-normal);
+  padding: 0 c.t(divider, label-padding-x);
+  font-family: c.t(divider, font-family);
+  font-size: c.t(divider, font-size);
+  font-weight: c.t(divider, font-weight);
+  line-height: c.t(divider, line-height);
   white-space: nowrap;
 }

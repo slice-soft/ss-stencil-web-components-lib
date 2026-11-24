@@ -1,33 +1,33 @@
-@use '../../../global/styles/mixins' as mx;
+@use '../../../global/styles/control' as c;
 
 .ss-link {
   display: inline-flex;
   align-items: center;
   width: fit-content;
-  font-family: var(--ss-text-fonts-sans);
-  font-weight: var(--ss-text-weights-medium);
-  line-height: var(--ss-text-line-heights-normal);
+  font-family: c.t(link, font-family);
+  font-weight: c.t(link, font-weight);
+  line-height: c.t(link, line-height);
   color: var(--atom-accent);
   cursor: pointer;
-  text-underline-offset: var(--ss-dimensions-1);
+  text-underline-offset: c.t(link, underline-offset);
   transition:
-    color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    background-color var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+    color c.t(link, transition-duration) c.t(link, transition-easing),
+    background-color c.t(link, transition-duration) c.t(link, transition-easing);
 
   &:focus-visible {
-    @include mx.focus-ring(var(--atom-accent));
+    @include c.focus-outline(link, var(--atom-accent));
   }
 
   &:hover:not(.ss-link--disabled) {
-    color: color-mix(in srgb, var(--atom-accent) calc(var(--ss-opacity-link-hover) * var(--ss-sizing-full)), var(--ss-color-foreground));
+    color: color-mix(in srgb, var(--atom-accent) calc(#{c.t(link, hover-accent-opacity)} * 100%), #{c.t(link, hover-mix-color)});
   }
 }
 
-@include mx.atom-accent-variants('ss-link');
+@include c.accent-variants('ss-link', link);
 
-.ss-link--sm { font-size: var(--ss-text-sizes-sm); }
-.ss-link--md { font-size: var(--ss-text-sizes-base); }
-.ss-link--lg { font-size: var(--ss-text-sizes-lg); }
+@each $size in sm, md, lg {
+  .ss-link--#{$size} { font-size: c.t(link, size-#{$size}-font-size); }
+}
 
 .ss-link--underline-none { text-decoration: none; }
 .ss-link--underline-hover { text-decoration: none; }
@@ -35,6 +35,7 @@
 .ss-link--underline-always { text-decoration: underline; }
 
 .ss-link--disabled {
-  @include mx.atom-disabled;
+  color: c.t(link, disabled-foreground);
+  cursor: not-allowed;
   text-decoration: none;
 }

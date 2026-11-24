@@ -1,34 +1,37 @@
+@use '../../../global/styles/control' as c;
+
 .ss-avatar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: none;
   overflow: hidden;
-  width: var(--ss-dimensions-10);
-  height: var(--ss-dimensions-10);
-  font-family: var(--ss-text-fonts-sans);
-  font-weight: var(--ss-text-weights-semibold);
-  line-height: var(--ss-text-line-heights-none);
-  color: var(--ss-color-secondary-foreground);
-  background: var(--ss-color-secondary);
-  border: var(--ss-borders-width-base) var(--ss-borders-styles-solid) var(--ss-color-border);
+  width: c.t(avatar, box-size);
+  height: c.t(avatar, box-size);
+  font-family: c.t(avatar, font-family);
+  font-weight: c.t(avatar, font-weight);
+  line-height: c.t(avatar, line-height);
+  color: c.t(avatar, foreground);
+  background: c.t(avatar, background);
+  border: c.t(avatar, border-width) solid c.t(avatar, border-color);
 }
 
-.ss-avatar--xs { width: var(--ss-dimensions-6); height: var(--ss-dimensions-6); font-size: var(--ss-text-sizes-xs); }
-.ss-avatar--sm { width: var(--ss-dimensions-8); height: var(--ss-dimensions-8); font-size: var(--ss-text-sizes-sm); }
-.ss-avatar--md { width: var(--ss-dimensions-10); height: var(--ss-dimensions-10); font-size: var(--ss-text-sizes-base); }
-.ss-avatar--lg { width: var(--ss-dimensions-12); height: var(--ss-dimensions-12); font-size: var(--ss-text-sizes-lg); }
-.ss-avatar--xl { width: var(--ss-dimensions-16); height: var(--ss-dimensions-16); font-size: var(--ss-text-sizes-xl); }
-.ss-avatar--2xl { width: var(--ss-dimensions-20); height: var(--ss-dimensions-20); font-size: var(--ss-text-sizes-2xl); }
+@each $size in xs, sm, md, lg, xl, 2xl {
+  .ss-avatar--#{$size} {
+    width: c.t(avatar, size-#{$size}-size);
+    height: c.t(avatar, size-#{$size}-size);
+    font-size: c.t(avatar, size-#{$size}-font-size);
+  }
+}
 
-.ss-avatar--circle { border-radius: var(--ss-radius-full); }
-.ss-avatar--rounded { border-radius: var(--ss-radius-lg); }
-.ss-avatar--square { border-radius: var(--ss-radius-sm); }
+.ss-avatar--circle { border-radius: c.t(avatar, circle-radius); }
+.ss-avatar--rounded { border-radius: c.t(avatar, rounded-radius); }
+.ss-avatar--square { border-radius: c.t(avatar, square-radius); }
 
 .ss-avatar__image {
   display: block;
-  width: var(--ss-sizing-full);
-  height: var(--ss-sizing-full);
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -36,7 +39,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--ss-sizing-full);
-  height: var(--ss-sizing-full);
+  width: 100%;
+  height: 100%;
   text-transform: uppercase;
 }

@@ -43,7 +43,7 @@ export const STYLE_PROPS = [
   'cursor',
 ];
 
-const DRAWN = 'button, input, textarea, select';
+const DRAWN = 'button, input, textarea, select, a';
 
 export async function computedStyles(page: E2EPage, cases?: string[]): Promise<Record<string, Record<string, string>>> {
   const filter = cases ? JSON.stringify(cases) : 'null';
@@ -91,13 +91,28 @@ export async function focusedStyles(page: E2EPage, key: string): Promise<Record<
  * in the shadow root, or in the host for a scoped component; ':host' is the
  * host itself. Keys are `<case>/<part>`.
  */
-export async function computedParts(page: E2EPage, parts: Record<string, string>, cases?: string[], sizedParts: string[] = []): Promise<Record<string, Record<string, string>>> {
+export interface PartOptions {
+  /** Parts whose width the stylesheet sets (a part wrapping text depends on the font). */
+  sized?: string[];
+  /** Properties recorded on top of STYLE_PROPS, for every part. */
+  extra?: string[];
+  /** Properties left out, e.g. a transform an animation changes every frame. */
+  skip?: string[];
+}
+
+export async function computedParts(
+  page: E2EPage,
+  parts: Record<string, string>,
+  cases?: string[],
+  { sized = [], extra = [], skip = [] }: PartOptions = {},
+): Promise<Record<string, Record<string, string>>> {
   const filter = cases ? JSON.stringify(cases) : 'null';
+  const props = STYLE_PROPS.concat(extra).filter(p => !skip.includes(p));
   return (await page.evaluate(`(() => {
     const only = ${filter};
     const parts = ${JSON.stringify(parts)};
-    const props = ${JSON.stringify(STYLE_PROPS)};
-    const sized = ${JSON.stringify(sizedParts)};
+    const props = ${JSON.stringify(props)};
+    const sized = ${JSON.stringify(sized)};
     const out = {};
     for (const host of document.querySelectorAll('[data-case]')) {
       const key = host.getAttribute('data-case');
@@ -115,15 +130,24 @@ export async function computedParts(page: E2EPage, parts: Record<string, string>
   })()`)) as Record<string, Record<string, string>>;
 }
 
+/** Hovers a host and returns its parts' styles. */
+export async function hoveredParts(page: E2EPage, key: string, parts: Record<string, string>, options: PartOptions = {}): Promise<Record<string, Record<string, string>>> {
+  await page.hover(`[data-case="${key}"]`);
+  await page.waitForChanges();
+  const styles = await computedParts(page, parts, [key], options);
+  await page.mouse.move(0, 0);
+  return styles;
+}
+
 /** Focuses a host's form control from the keyboard and returns its parts' styles. */
-export async function focusedParts(page: E2EPage, key: string, parts: Record<string, string>, sizedParts: string[] = []): Promise<Record<string, Record<string, string>>> {
+export async function focusedParts(page: E2EPage, key: string, parts: Record<string, string>, options: PartOptions = {}): Promise<Record<string, Record<string, string>>> {
   await page.evaluate(`(() => {
     const host = document.querySelector('[data-case="${key}"]');
     const drawn = (host.shadowRoot && host.shadowRoot.querySelector('${DRAWN}')) || host.querySelector('${DRAWN}');
     drawn.focus({ focusVisible: true });
   })()`);
   await page.waitForChanges();
-  const styles = await computedParts(page, parts, [key], sizedParts);
+  const styles = await computedParts(page, parts, [key], options);
   await page.evaluate(`document.activeElement && document.activeElement.blur()`);
   return styles;
 }

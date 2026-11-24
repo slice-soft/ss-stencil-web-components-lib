@@ -1,3 +1,5 @@
+@use '../../../global/styles/control' as c;
+
 .ss-tooltip {
   position: relative;
   display: inline-flex;
@@ -12,31 +14,31 @@
    coordinates, and a fixed element is not clipped by an ancestor's overflow. */
 .ss-tooltip__content {
   position: fixed;
-  top: var(--ss-sizing-none);
-  left: var(--ss-sizing-none);
-  z-index: var(--ss-z-index-tooltip);
+  top: 0;
+  left: 0;
+  z-index: c.t(tooltip, z-index);
   display: block;
-  max-width: var(--ss-dimensions-32);
-  padding: var(--ss-dimensions-2) var(--ss-dimensions-3);
-  font-family: var(--ss-text-fonts-sans);
-  font-size: var(--ss-text-sizes-xs);
-  font-weight: var(--ss-text-weights-medium);
-  line-height: var(--ss-text-line-heights-normal);
-  color: var(--ss-color-primary-foreground);
-  background: var(--ss-color-foreground);
-  border-radius: var(--ss-radius-base);
-  box-shadow: var(--ss-shadows-md);
-  opacity: var(--ss-opacity-hidden);
+  max-width: c.t(tooltip, max-width);
+  padding: c.t(tooltip, padding-y) c.t(tooltip, padding-x);
+  font-family: c.t(tooltip, font-family);
+  font-size: c.t(tooltip, font-size);
+  font-weight: c.t(tooltip, font-weight);
+  line-height: c.t(tooltip, line-height);
+  color: c.t(tooltip, foreground);
+  background: c.t(tooltip, background);
+  border-radius: c.t(tooltip, radius);
+  box-shadow: c.t(tooltip, shadow);
+  opacity: 0;
   pointer-events: none;
   visibility: hidden;
   white-space: normal;
   transition:
-    opacity var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate),
-    visibility var(--ss-transitions-durations-short) var(--ss-transitions-easing-functions-decelerate);
+    opacity c.t(tooltip, transition-duration) c.t(tooltip, transition-easing),
+    visibility c.t(tooltip, transition-duration) c.t(tooltip, transition-easing);
 }
 
 .ss-tooltip--open .ss-tooltip__content {
-  opacity: var(--ss-opacity-visible);
+  opacity: 1;
   visibility: visible;
 }
 
