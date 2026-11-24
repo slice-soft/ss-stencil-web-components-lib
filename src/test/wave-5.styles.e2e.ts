@@ -125,8 +125,14 @@ const COMPONENTS: Component[] = [
     render: attrs => `<ss-modal ${attrs} heading="Delete file"><p>Body</p><ss-button slot="footer" label="Ok"></ss-button></ss-modal>`,
     // The dialog's width is the viewport's minus a margin, capped by max-width: no font in it.
     // No outline: each open modal moves focus into itself, so which one holds it
-    // (and draws the browser's focus outline) changes from run to run.
-    options: { sized: ['dialog'], extra: [...OVERLAY, 'opacity', 'line-height'], skip: ['outline-color', 'outline-style', 'outline-width', 'outline-offset'] },
+    // (and draws the browser's focus outline) changes from run to run. No
+    // vertical margins: `margin: auto` centres a dialog as tall as its content,
+    // and that height depends on the installed font (CI has no Sora).
+    options: {
+      sized: ['dialog'],
+      extra: [...OVERLAY.filter(p => p !== 'margin-top' && p !== 'margin-bottom'), 'opacity', 'line-height'],
+      skip: ['outline-color', 'outline-style', 'outline-width', 'outline-offset'],
+    },
   },
   {
     tag: 'ss-nav',

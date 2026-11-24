@@ -149,7 +149,9 @@ instead — the `has` trap is not instrumented.
 - **A style snapshot records nothing the installed font decides.** CI has no
   Sora, so text sets in a fallback font: `height`, the `width` of anything
   wrapping text, and a grid track sized to its content (`grid-template-columns`
-  on `ss-field`) each came out a few pixels apart and failed only in CI.
+  on `ss-field`), and the `auto` vertical margins that centre `ss-modal`'s
+  dialog (as tall as its content) each came out a few pixels apart and failed
+  only in CI.
   Padding, font size and the declared tokens already pin a component; record
   `width` only for parts the stylesheet sizes (`sized` in `computedParts`).
 - **A snapshot records only what one run decides.** Several open modals on one
