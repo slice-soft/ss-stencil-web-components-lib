@@ -1,9 +1,14 @@
-@use 'sass:map';
+@use '../../../global/styles/control' as c;
+
+// ss-typography's tokens predate the naming rule: --ss-typography-component-*.
+@function tt($name) {
+  @return c.t(typography-component, $name);
+}
 
 .ss-typography {
-  margin:      var(--ss-sizing-none);
-  font-family: var(--ss-typography-component-font-family, var(--ss-text-fonts-sans));
-  color:       var(--ss-typography-component-color-default, var(--ss-color-foreground));
+  margin:      0;
+  font-family: tt(font-family);
+  color:       tt(color-default);
 
   &--truncate {
     overflow:      hidden;
@@ -13,90 +18,43 @@
 }
 
 // Font family variants
-.ss-typography--family-display {
-  font-family: var(--ss-text-fonts-display);
-}
+.ss-typography--family-display { font-family: tt(font-family-display); }
+.ss-typography--family-mono    { font-family: tt(font-family-mono); }
 
-.ss-typography--family-mono {
-  font-family: var(--ss-typography-component-font-family-mono, var(--ss-text-fonts-mono));
-}
+// Color variants
+.ss-typography--inherit { color: inherit; }
 
-// Color variants — semantic tokens → dark mode automatic
-.ss-typography--foreground  { color: var(--ss-color-foreground); }
-.ss-typography--inherit     { color: inherit; }
-.ss-typography--muted       { color: var(--ss-typography-component-color-muted, var(--ss-color-muted-foreground)); }
-.ss-typography--default     { color: var(--ss-typography-component-color-secondary, var(--ss-color-secondary-foreground)); }
-.ss-typography--brand       { color: var(--ss-typography-component-color-primary, var(--ss-color-primary)); }
-.ss-typography--primary     { color: var(--ss-typography-component-color-primary, var(--ss-color-primary)); }
-.ss-typography--secondary   { color: var(--ss-typography-component-color-secondary, var(--ss-color-secondary-foreground)); }
-.ss-typography--tertiary    { color: var(--ss-typography-component-color-tertiary, var(--ss-color-tertiary, var(--ss-color-primary))); }
-.ss-typography--quaternary  { color: var(--ss-typography-component-color-quaternary, var(--ss-color-quaternary, var(--ss-color-secondary-foreground))); }
-.ss-typography--success     { color: var(--ss-typography-component-color-success, var(--ss-color-success)); }
-.ss-typography--warning     { color: var(--ss-typography-component-color-warning, var(--ss-color-warning)); }
-.ss-typography--error       { color: var(--ss-typography-component-color-error, var(--ss-color-error)); }
-.ss-typography--destructive { color: var(--ss-color-destructive); }
-.ss-typography--info        { color: var(--ss-typography-component-color-info, var(--ss-color-info)); }
-.ss-typography--black       { color: var(--ss-colors-black); }
-.ss-typography--white       { color: var(--ss-colors-white); }
+// Class → token. `default` reads the secondary token and `brand` the primary
+// one, as they always have; `color-default` is the base color above.
+$colors: (
+  foreground: foreground, muted: muted, default: secondary, brand: primary, primary: primary,
+  secondary: secondary, tertiary: tertiary, quaternary: quaternary, success: success,
+  warning: warning, error: error, destructive: destructive, info: info, black: black, white: white,
+);
+
+@each $class, $token in $colors {
+  .ss-typography--#{$class} { color: tt(color-#{$token}); }
+}
 
 // Text alignment
 @each $align in left, center, right, justify {
   .ss-typography--align-#{$align} { text-align: #{$align}; }
 }
 
-// Font sizes — 'md' maps to the design token 'base' scale step
-$font-sizes: (
-  'xs':   var(--ss-text-sizes-xs),
-  'sm':   var(--ss-text-sizes-sm),
-  'md':   var(--ss-text-sizes-base),
-  'base': var(--ss-text-sizes-base),
-  'lg':   var(--ss-text-sizes-lg),
-  'xl':   var(--ss-text-sizes-xl),
-  '2xl':  var(--ss-text-sizes-2xl),
-  '3xl':  var(--ss-text-sizes-3xl),
-  '4xl':  var(--ss-text-sizes-4xl),
-);
-
-@each $key, $value in $font-sizes {
-  .ss-typography--font-size-#{$key} { font-size: #{$value}; }
+@each $size in xs, sm, md, base, lg, xl, 2xl, 3xl, 4xl {
+  .ss-typography--font-size-#{$size} { font-size: tt(font-size-#{$size}); }
 }
 
-// Font weights — 'regular' maps to the design token 'normal' weight
-$font-weights: (
-  'light':     var(--ss-text-weights-light),
-  'regular':  var(--ss-text-weights-normal),
-  'medium':   var(--ss-text-weights-medium),
-  'semibold': var(--ss-text-weights-semibold),
-  'bold':     var(--ss-text-weights-bold),
-);
-
-@each $key, $value in $font-weights {
-  .ss-typography--font-weight-#{$key} { font-weight: #{$value}; }
+@each $weight in light, regular, medium, semibold, bold {
+  .ss-typography--font-weight-#{$weight} { font-weight: tt(font-weight-#{$weight}); }
 }
 
-// Line heights
-$line-heights: (
-  'tight':   var(--ss-text-line-heights-tight),
-  'snug':    var(--ss-text-line-heights-snug),
-  'normal':  var(--ss-text-line-heights-normal),
-  'relaxed': var(--ss-text-line-heights-relaxed),
-  'loose':   var(--ss-text-line-heights-loose),
-);
-
-@each $key, $value in $line-heights {
-  .ss-typography--line-height-#{$key} { line-height: #{$value}; }
+@each $line in tight, snug, normal, relaxed, loose {
+  .ss-typography--line-height-#{$line} { line-height: tt(line-height-#{$line}); }
 }
 
-// Letter spacing
-$letter-spacings: (
-  'tight':  var(--ss-text-letter-spacings-tight),
-  'normal': var(--ss-text-letter-spacings-normal),
-  'wide':   var(--ss-text-letter-spacings-wide),
-  'wider':  var(--ss-text-letter-spacings-wider),
-);
-
-@each $key, $value in $letter-spacings {
-  .ss-typography--letter-spacing-#{$key} { letter-spacing: #{$value}; }
+@each $spacing in tight, normal, wide, wider {
+  .ss-typography--letter-spacing-#{$spacing} { letter-spacing: tt(letter-spacing-#{$spacing}); }
 }
 
 // Text transform

@@ -9,6 +9,14 @@
     "ss-radio",
     "ss-switch",
     "ss-slider",
-    "ss-label"
+    "ss-label",
+    "ss-avatar",
+    "ss-badge",
+    "ss-divider",
+    "ss-icon",
+    "ss-link",
+    "ss-spinner",
+    "ss-tooltip",
+    "ss-typography"
   ]
 }

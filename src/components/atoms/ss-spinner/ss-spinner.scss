@@ -1,45 +1,35 @@
+@use 'sass:list';
+@use '../../../global/styles/control' as c;
+
 .ss-spinner {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ss-color-primary);
+  color: c.t(spinner, color);
 }
 
 .ss-spinner__track {
   display: inline-block;
-  width: var(--ss-sizing-icon);
-  height: var(--ss-sizing-icon);
-  border: var(--ss-dimensions-1) var(--ss-borders-styles-solid) color-mix(in srgb, var(--ss-color-keywords-current) calc(var(--ss-opacity-spinner-track) * var(--ss-sizing-full)), var(--ss-colors-transparent));
-  border-top-color: var(--ss-color-keywords-current);
-  border-radius: var(--ss-radius-full);
-  animation: ss-spinner-rotate var(--ss-transitions-durations-long) var(--ss-transitions-easing-keywords-linear) var(--ss-animation-iteration-counts-infinite);
+  width: c.t(spinner, box-size);
+  height: c.t(spinner, box-size);
+  border: c.t(spinner, track-width) solid color-mix(in srgb, currentColor calc(#{c.t(spinner, track-opacity)} * 100%), transparent);
+  border-top-color: currentColor;
+  border-radius: c.t(spinner, radius);
+  animation: ss-spinner-rotate c.t(spinner, duration) linear infinite;
 }
 
-.ss-spinner--xs { font-size: var(--ss-text-sizes-xs); }
-.ss-spinner--sm { font-size: var(--ss-text-sizes-sm); }
-.ss-spinner--md { font-size: var(--ss-text-sizes-xl); }
-.ss-spinner--lg { font-size: var(--ss-text-sizes-2xl); }
-.ss-spinner--xl { font-size: var(--ss-text-sizes-3xl); }
-.ss-spinner--2xl,
-.ss-spinner--3xl { font-size: var(--ss-text-sizes-4xl); }
+@each $size in c.$sizes {
+  .ss-spinner--#{$size} { font-size: c.t(spinner, size-#{$size}-font-size); }
+}
 
-.ss-spinner--current { color: var(--ss-color-keywords-current); }
-.ss-spinner--foreground { color: var(--ss-color-foreground); }
-.ss-spinner--muted { color: var(--ss-color-muted-foreground); }
-.ss-spinner--default { color: var(--ss-color-secondary-foreground); }
-.ss-spinner--brand { color: var(--ss-color-primary); }
-.ss-spinner--primary { color: var(--ss-color-primary); }
-.ss-spinner--secondary { color: var(--ss-color-secondary-foreground); }
-.ss-spinner--tertiary { color: var(--ss-color-primary); }
-.ss-spinner--quaternary { color: var(--ss-color-secondary-foreground); }
-.ss-spinner--success { color: var(--ss-color-success); }
-.ss-spinner--warning { color: var(--ss-color-warning); }
-.ss-spinner--error { color: var(--ss-color-error); }
-.ss-spinner--destructive { color: var(--ss-color-destructive); }
-.ss-spinner--info { color: var(--ss-color-info); }
+.ss-spinner--current { color: currentColor; }
+
+@each $color in list.join((foreground, muted), c.$variants) {
+  .ss-spinner--#{$color} { color: c.t(spinner, #{$color}-color); }
+}
 
 @keyframes ss-spinner-rotate {
-  to { transform: rotate(var(--ss-angles-full)); }
+  to { transform: rotate(360deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
