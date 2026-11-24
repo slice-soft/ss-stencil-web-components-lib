@@ -311,3 +311,29 @@ describe('ss-search-select, one value', () => {
     expect(await page.evaluate(`document.querySelector('ss-search-select').shadowRoot.activeElement?.tagName`)).toBe('INPUT');
   });
 });
+
+describe('ss-search-select list width', () => {
+  it('is as wide as the field, and never narrower than a menu', async () => {
+    const page = await newTestPage();
+    await page.setContent(
+      '<meta charset="utf-8"><ss-search-select id="narrow" accessibility-label="A" style="width:80px"><ss-option value="a">A</ss-option></ss-search-select>' +
+        '<div style="height:200px"></div><ss-search-select id="wide" accessibility-label="B" full-width><ss-option value="b">B</ss-option></ss-search-select>',
+    );
+    await useTokens(page);
+    const width = async (id: string) => {
+      await page.focus(`#${id}`);
+      await page.keyboard.press('ArrowDown');
+      await page.waitForChanges();
+      return (await page.evaluate(`(() => {
+        const root = document.getElementById('${id}').shadowRoot;
+        return [root.querySelector('.ss-search-select__field').offsetWidth, root.querySelector('.ss-search-select__popup').offsetWidth, parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--ss-layout-overlay-menu-min-width'))];
+      })()`)) as number[];
+    };
+    const [narrowField, narrowList, menuMin] = await width('narrow');
+    expect(narrowField).toBeLessThan(menuMin);
+    expect(narrowList).toBeGreaterThanOrEqual(menuMin);
+    await page.keyboard.press('Escape');
+    const [wideField, wideList] = await width('wide');
+    expect(wideList).toBeGreaterThanOrEqual(wideField);
+  });
+});

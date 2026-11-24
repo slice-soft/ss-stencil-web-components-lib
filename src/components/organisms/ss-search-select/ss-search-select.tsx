@@ -302,7 +302,8 @@ export class SsSearchSelect {
 
   private reposition() {
     if (!this.open || !this.fieldEl || !this.listEl) return;
-    this.listEl.style.minWidth = `${this.fieldEl.offsetWidth}px`;
+    // The stylesheet keeps the larger of this and the menu minimum.
+    this.listEl.style.setProperty('--_field-width', `${this.fieldEl.offsetWidth}px`);
     anchorTo(this.fieldEl, this.listEl, { placement: 'bottom', align: 'start', offset: OFFSET, padding: EDGE_PADDING });
   }
 

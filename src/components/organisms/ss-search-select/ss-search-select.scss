@@ -186,7 +186,7 @@
   left: 0;
   z-index: c.t(search-select, list-z-index);
   box-sizing: border-box;
-  min-width: c.t(search-select, list-min-width);
+  min-width: max(#{c.t(search-select, list-min-width)}, var(--_field-width, 0px));
   max-width: calc(100% - #{c.t(search-select, list-max-width-offset)});
   max-height: c.t(search-select, list-max-height);
   overflow-y: auto;

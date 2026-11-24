@@ -35,7 +35,8 @@ const PARTS = {
   disabled: '.ss-search-select__option--disabled',
 };
 
-const LAYOUT = ['display', 'flex-wrap', 'align-items', 'column-gap', 'row-gap', 'z-index', 'min-width', 'max-height', 'overflow-y', 'border-bottom-width'];
+// No min-width: the list's is the field's width, which follows the installed font (CI has no Sora). A behaviour test covers it.
+const LAYOUT = ['display', 'flex-wrap', 'align-items', 'column-gap', 'row-gap', 'z-index', 'max-height', 'overflow-y', 'border-bottom-width'];
 
 for (const theme of ['light', 'dark'] as const) {
   describe(`ss-search-select computed styles (test-base ${theme})`, () => {
