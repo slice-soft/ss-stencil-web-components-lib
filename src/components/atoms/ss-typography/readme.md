@@ -37,6 +37,7 @@
 
  - [ss-alert](../../molecules/ss-alert)
  - [ss-checkbox-group](../../molecules/ss-checkbox-group)
+ - [ss-drawer](../../organisms/ss-drawer)
  - [ss-field](../../molecules/ss-field)
  - [ss-modal](../../organisms/ss-modal)
  - [ss-popover](../../organisms/ss-popover)
@@ -47,6 +48,7 @@
 graph TD;
   ss-alert --> ss-typography
   ss-checkbox-group --> ss-typography
+  ss-drawer --> ss-typography
   ss-field --> ss-typography
   ss-modal --> ss-typography
   ss-popover --> ss-typography

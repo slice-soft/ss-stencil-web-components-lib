@@ -1,5 +1,6 @@
 import { newSpecPage } from '@stencil/core/testing';
-import { normalize, SsProgress } from '../ss-progress';
+import { normalize } from '../../../../utils/range';
+import { SsProgress } from '../ss-progress';
 
 describe('normalize', () => {
   it.each([
