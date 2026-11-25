@@ -1,15 +1,20 @@
 export interface DismissOptions {
   /** Called when the reader asks to close, with what they did. */
   onDismiss: (reason: 'escape' | 'outside') => void;
-  /** Escape closes it. */
-  escape?: boolean;
+  /**
+   * Escape closes it. `'focus-within'` closes it only when Escape is pressed
+   * inside the layer, and otherwise passes Escape to the layer beneath: for a
+   * panel that leaves the page usable, where Escape typed in the page is not
+   * meant for it.
+   */
+  escape?: boolean | 'focus-within';
   /** A press outside closes the layer. Use 'ignore' to let another layer handle the press. */
   outside?: boolean | 'ignore';
 }
 
 interface Layer {
   container: HTMLElement;
-  escape: boolean;
+  escape: boolean | 'focus-within';
   outside: boolean | 'ignore';
   dismiss: DismissOptions['onDismiss'];
 }
@@ -27,12 +32,13 @@ interface Layer {
  */
 const layers: Layer[] = [];
 
-const top = () => layers[layers.length - 1];
-
 function handleKeyDown(event: KeyboardEvent) {
   if (event.key !== 'Escape') return;
 
-  const layer = top();
+  const path = event.composedPath();
+  let index = layers.length - 1;
+  while (layers[index]?.escape === 'focus-within' && !path.includes(layers[index].container)) index -= 1;
+  const layer = layers[index];
   if (layer?.escape) layer.dismiss('escape');
 }
 

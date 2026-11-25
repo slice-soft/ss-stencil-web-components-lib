@@ -7,7 +7,7 @@ import { newTestPage, useTokens } from './utils';
  * instead, so an animation is surely still running when it is read.
  */
 const SLOW =
-  ':root { --ss-transitions-durations-brief: 2s; --ss-transitions-durations-moderate: 2s; --ss-transitions-durations-deliberate: 2s; --ss-transitions-durations-leisurely: 2s; --ss-transitions-durations-ambient: 2s; }';
+  ':root { --ss-transitions-durations-brief: 2s; --ss-transitions-durations-moderate: 2s; --ss-transitions-durations-deliberate: 2s; --ss-transitions-durations-leisurely: 2s; --ss-transitions-durations-ambient: 2s; --ss-transitions-durations-medium: 2s; }';
 
 async function motionPage(html: string, reduce = false) {
   const page = await newTestPage();
@@ -134,6 +134,36 @@ describe('motion', () => {
     await page.keyboard.press('ArrowDown');
     await page.waitForChanges();
     expect(await page.evaluate(`document.querySelector('ss-search-select').shadowRoot.querySelector('.ss-search-select__indicator').getAnimations().length`)).toBe(0);
+  });
+
+  it('a drawer slides in from its edge, with its backdrop', async () => {
+    const page = await motionPage('<ss-drawer heading="D" placement="end"><p>Body</p></ss-drawer>');
+    await page.evaluate(`document.querySelector('ss-drawer').open = true`);
+    await page.waitForChanges();
+    const panel = (await page.evaluate(`(() => {
+      const el = document.querySelector('.ss-drawer__panel');
+      return { properties: el.getAnimations().map(a => a.transitionProperty).filter(Boolean).sort(), translate: getComputedStyle(el).translate };
+    })()`)) as { properties: string[]; translate: string };
+    expect(panel.properties).toEqual(expect.arrayContaining(['opacity', 'translate']));
+    // On its way in from the right: still pushed out to the right.
+    expect(parseFloat(panel.translate)).toBeGreaterThan(0);
+    expect((await running(page, '.ss-drawer__backdrop')).properties).toContain('opacity');
+  });
+
+  it('with reduced motion a drawer only fades', async () => {
+    const page = await motionPage('<ss-drawer heading="D" placement="start"><p>Body</p></ss-drawer>', true);
+    await page.evaluate(`document.querySelector('ss-drawer').open = true`);
+    await page.waitForChanges();
+    expect(await page.evaluate(`getComputedStyle(document.querySelector('.ss-drawer__panel')).translate`)).toBe('none');
+    expect((await running(page, '.ss-drawer__panel')).properties).toContain('opacity');
+  });
+
+  it('a progress fill moves to its new value', async () => {
+    const page = await motionPage('<ss-progress value="0"></ss-progress>');
+    await page.evaluate(`document.querySelector('ss-progress').value = 80`);
+    await page.waitForChanges();
+    const props = await page.evaluate(`document.querySelector('ss-progress').shadowRoot.querySelector('.ss-progress__fill').getAnimations().map(a => a.transitionProperty)`);
+    expect(props).toContain('width');
   });
 
   describe('the tabs indicator', () => {

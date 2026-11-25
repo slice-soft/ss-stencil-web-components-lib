@@ -400,6 +400,52 @@
       ]
     },
     {
+      "name": "ss-bento",
+      "description": {
+        "kind": "markdown",
+        "value": "A grid of tiles of different sizes (`ss-bento-item`), for a landing page or\na dashboard alike.\n\nColumns follow the bento's own width, not the viewport's: it uses as many\nas fit at `min-item-width`, up to `columns`. A tile never spans more\ncolumns than are in use, so the grid never overflows; at one column every\ntile is a single cell. The count is measured, since a container query cannot\nread a custom property."
+      },
+      "attributes": [
+        {
+          "name": "columns",
+          "description": "The most columns it will use."
+        },
+        {
+          "name": "dense",
+          "description": "Later small tiles fill the holes large ones leave. Visual order then differs from reading order."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the grid."
+        },
+        {
+          "name": "min-item-width",
+          "description": "The narrowest a one-column tile may be (a CSS length). Defaults to `--ss-bento-min-item-width`."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the grid."
+        }
+      ]
+    },
+    {
+      "name": "ss-bento-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One tile of an `ss-bento`: a cell that spans columns and rows. It draws\nnothing of its own; what is inside (an `ss-card`, a chart, an image) does,\nand is stretched to fill the cell."
+      },
+      "attributes": [
+        {
+          "name": "col-span",
+          "description": "Columns the tile spans, at most the columns in use."
+        },
+        {
+          "name": "row-span",
+          "description": "Rows the tile spans; one when the bento is a single column."
+        }
+      ]
+    },
+    {
       "name": "ss-breadcrumb",
       "description": {
         "kind": "markdown",
@@ -1277,6 +1323,100 @@
         {
           "name": "x-id",
           "description": "Id applied to the root element."
+        }
+      ]
+    },
+    {
+      "name": "ss-drawer",
+      "description": {
+        "kind": "markdown",
+        "value": "A panel that enters from an edge of the viewport.\n\nModal by default, like `ss-modal`: focus is trapped, the page behind is\ncovered and stops scrolling. With `modal=\"false\"` it is a side panel that\nleaves the page usable: no backdrop, no trap, and Escape closes it only when\npressed inside it.\n\nRendered scoped rather than shadow, for the reason `ss-modal` is: the focus\ntrap has to see the caller's controls."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name, for a drawer with no visible heading."
+        },
+        {
+          "name": "close-on-backdrop",
+          "description": "Pressing the backdrop closes a modal drawer."
+        },
+        {
+          "name": "close-on-escape",
+          "description": "Escape closes the drawer (non-modal: only when pressed inside it)."
+        },
+        {
+          "name": "dismiss-label",
+          "description": "Accessible name of the close button. Translate it."
+        },
+        {
+          "name": "dismissible",
+          "description": "Shows a close button in the header."
+        },
+        {
+          "name": "heading",
+          "description": "Heading text."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the panel element."
+        },
+        {
+          "name": "modal",
+          "description": "Takes over the page (backdrop, focus trap). `false` leaves the page usable."
+        },
+        {
+          "name": "open",
+          "description": "Whether the drawer is showing. Updated when it is dismissed, and reflected."
+        },
+        {
+          "name": "placement",
+          "description": "The edge it enters from. `start` and `end` follow the writing direction.",
+          "values": [
+            {
+              "name": "bottom"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "start"
+            },
+            {
+              "name": "top"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": "Width (start, end) or height (top, bottom) of the panel.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the panel element."
         }
       ]
     },
@@ -2357,6 +2497,131 @@
       ]
     },
     {
+      "name": "ss-progress",
+      "description": {
+        "kind": "markdown",
+        "value": "How far along something is: a bar or a circle, with a value, or\nindeterminate when the value is not known.\n\nIt only shows. Whoever hosts it owns the number and when it changes."
+      },
+      "attributes": [
+        {
+          "name": "color",
+          "description": "Color of the fill.",
+          "values": [
+            {
+              "name": "brand"
+            },
+            {
+              "name": "default"
+            },
+            {
+              "name": "destructive"
+            },
+            {
+              "name": "error"
+            },
+            {
+              "name": "foreground"
+            },
+            {
+              "name": "info"
+            },
+            {
+              "name": "muted"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "quaternary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "tertiary"
+            },
+            {
+              "name": "warning"
+            }
+          ]
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the root element."
+        },
+        {
+          "name": "label",
+          "description": "Accessible name. Translate it."
+        },
+        {
+          "name": "labelled-by",
+          "description": "Id of an element in the page that names it; wins over `label`."
+        },
+        {
+          "name": "max",
+          "description": "The value that means done. Non-positive values fall back to 100."
+        },
+        {
+          "name": "shape",
+          "description": "A horizontal bar or a circle.",
+          "values": [
+            {
+              "name": "bar"
+            },
+            {
+              "name": "circle"
+            }
+          ]
+        },
+        {
+          "name": "show-value",
+          "description": "Draws the rounded percentage (or `value-text`) next to the bar, or inside the circle."
+        },
+        {
+          "name": "size",
+          "description": "Thickness of the bar, or diameter of the circle.",
+          "values": [
+            {
+              "name": "2xl"
+            },
+            {
+              "name": "3xl"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "xs"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Current value, from 0 to `max`. Absent: indeterminate."
+        },
+        {
+          "name": "value-text",
+          "description": "Read instead of the percentage, such as \"3 of 10 files\"."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the progressbar element."
+        }
+      ]
+    },
+    {
       "name": "ss-radio",
       "description": {
         "kind": "markdown",
@@ -2619,6 +2884,10 @@
           "description": "Marks the field as invalid."
         },
         {
+          "name": "labelled-by",
+          "description": "Ids of elements, in the host's tree, that name the field — how `ss-field` names it."
+        },
+        {
           "name": "loading",
           "description": "Shows the loading text in the list, while the host fetches options."
         },
@@ -2641,6 +2910,10 @@
         {
           "name": "placeholder",
           "description": "Placeholder shown while the field is empty."
+        },
+        {
+          "name": "remove-label",
+          "description": "First word of each chip's remove name, before the option's label (\"Remove Colombia\")."
         },
         {
           "name": "required",
@@ -3104,6 +3377,92 @@
         {
           "name": "x-id",
           "description": "Id applied to the root element."
+        }
+      ]
+    },
+    {
+      "name": "ss-step",
+      "description": {
+        "kind": "markdown",
+        "value": "One step of an `ss-stepper`: its marker, label and description, and the\nline to the next step.\n\nIt holds no content of its own: the stepper only says where the reader is,\nand the page shows the current step's content. Its position, derived state\nand whether it can be pressed are set by `ss-stepper`."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "The step cannot be pressed."
+        },
+        {
+          "name": "label",
+          "description": "Text of the step."
+        },
+        {
+          "name": "status",
+          "description": "Set by the page: `complete` marks it done wherever it is; `error` shows a problem.",
+          "values": [
+            {
+              "name": "complete"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Identifies the step; the stepper selects by it and reports it. Defaults to its position."
+        }
+      ]
+    },
+    {
+      "name": "ss-stepper",
+      "description": {
+        "kind": "markdown",
+        "value": "Where the reader is in a sequence of steps.\n\nIt only shows: the page decides which step is current, which are done or\nin error, and whether a step may be entered. Interactive, it reports a press\nwith a cancelable `ssStepChange`; the page that must check first prevents it\nand sets `value` itself when ready.\n\nA horizontal stepper narrower than `--ss-stepper-compact-max-width` shows\nonly the current step and \"Step 2 of 5\". The width is measured, since a\ncontainer query cannot read a custom property: an invisible probe as wide\nas the token is observed with the host, so the threshold is right even when\nthe tokens arrive after the stepper renders."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name of the list. Translate it."
+        },
+        {
+          "name": "complete-label",
+          "description": "Read after a completed step's label. Translate it."
+        },
+        {
+          "name": "error-label",
+          "description": "Read after the label of a step in error. Translate it."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the root element."
+        },
+        {
+          "name": "interactive",
+          "description": "Steps are buttons that ask to become current. Off: a read-only indicator."
+        },
+        {
+          "name": "orientation",
+          "description": "Lays the steps out in a row or a column.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "summary-label",
+          "description": "The compact form's text; `{current}` and `{total}` are filled in."
+        },
+        {
+          "name": "value",
+          "description": "The current step's value. Absent: the first step."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the list."
         }
       ]
     },

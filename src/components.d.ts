@@ -22,6 +22,7 @@ import { CardPadding, CardStyle, SsCardNavigateEvent } from "./components/molecu
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { DrawerPlacement, SsDrawerOpenChangeEvent } from "./components/organisms/ss-drawer/ss-drawer";
 import { Align, Placement } from "./utils/position";
 import { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
 import { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
@@ -34,12 +35,15 @@ import { Orientation } from "./utils/roving";
 import { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
+import { ProgressShape } from "./components/atoms/ss-progress/ss-progress";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectOption } from "./utils/options";
 import { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChangeEvent, SsSearchSelectSearchEvent } from "./components/organisms/ss-search-select/ss-search-select";
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
+import { StepState, StepStatus } from "./components/molecules/ss-step/ss-step";
+import { SsStepChangeEvent } from "./components/molecules/ss-stepper/ss-stepper";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
 import { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
@@ -67,6 +71,7 @@ export { CardPadding, CardStyle, SsCardNavigateEvent } from "./components/molecu
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { DrawerPlacement, SsDrawerOpenChangeEvent } from "./components/organisms/ss-drawer/ss-drawer";
 export { Align, Placement } from "./utils/position";
 export { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
 export { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
@@ -79,12 +84,15 @@ export { Orientation } from "./utils/roving";
 export { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
+export { ProgressShape } from "./components/atoms/ss-progress/ss-progress";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectOption } from "./utils/options";
 export { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChangeEvent, SsSearchSelectSearchEvent } from "./components/organisms/ss-search-select/ss-search-select";
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
+export { StepState, StepStatus } from "./components/molecules/ss-step/ss-step";
+export { SsStepChangeEvent } from "./components/molecules/ss-stepper/ss-stepper";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
 export { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
@@ -336,6 +344,61 @@ export namespace Components {
           * @default 'subtle'
          */
         "xStyle": BadgeStyle;
+    }
+    /**
+     * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+     * a dashboard alike.
+     * Columns follow the bento's own width, not the viewport's: it uses as many
+     * as fit at `min-item-width`, up to `columns`. A tile never spans more
+     * columns than are in use, so the grid never overflows; at one column every
+     * tile is a single cell. The count is measured, since a container query cannot
+     * read a custom property.
+     */
+    interface SsBento {
+        /**
+          * The most columns it will use.
+          * @default 4
+         */
+        "columns": number;
+        /**
+          * Later small tiles fill the holes large ones leave. Visual order then differs from reading order.
+          * @default false
+         */
+        "dense": boolean;
+        /**
+          * Inline CSS styles applied to the grid.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * The narrowest a one-column tile may be (a CSS length). Defaults to `--ss-bento-min-item-width`.
+         */
+        "minItemWidth"?: string;
+        /**
+          * Id applied to the grid.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+     * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+     * and is stretched to fill the cell.
+     */
+    interface SsBentoItem {
+        /**
+          * Columns the tile spans, at most the columns in use.
+          * @default 1
+         */
+        "colSpan": number;
+        /**
+          * Columns in use. Set by `ss-bento`.
+          * @default 1
+         */
+        "cols": number;
+        /**
+          * Rows the tile spans; one when the bento is a single column.
+          * @default 1
+         */
+        "rowSpan": number;
     }
     /**
      * The trail of pages leading to the one being read.
@@ -855,6 +918,73 @@ export namespace Components {
         "spacing": DividerSpacing;
         /**
           * Id applied to the root element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A panel that enters from an edge of the viewport.
+     * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+     * covered and stops scrolling. With `modal="false"` it is a side panel that
+     * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+     * pressed inside it.
+     * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+     * trap has to see the caller's controls.
+     */
+    interface SsDrawer {
+        /**
+          * Accessible name, for a drawer with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes a modal drawer.
+          * @default true
+         */
+        "closeOnBackdrop": boolean;
+        /**
+          * Escape closes the drawer (non-modal: only when pressed inside it).
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Accessible name of the close button. Translate it.
+          * @default 'Close'
+         */
+        "dismissLabel": string;
+        /**
+          * Shows a close button in the header.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Heading text.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Takes over the page (backdrop, focus trap). `false` leaves the page usable.
+          * @default true
+         */
+        "modal": boolean;
+        /**
+          * Whether the drawer is showing. Updated when it is dismissed, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * The edge it enters from. `start` and `end` follow the writing direction.
+          * @default 'end'
+         */
+        "placement": DrawerPlacement;
+        /**
+          * Width (start, end) or height (top, bottom) of the panel.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id applied to the panel element.
          */
         "xId"?: string;
     }
@@ -1538,6 +1668,63 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * How far along something is: a bar or a circle, with a value, or
+     * indeterminate when the value is not known.
+     * It only shows. Whoever hosts it owns the number and when it changes.
+     */
+    interface SsProgress {
+        /**
+          * Color of the fill.
+          * @default 'primary'
+         */
+        "color": Variant | 'foreground' | 'muted';
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Accessible name. Translate it.
+          * @default 'Progress'
+         */
+        "label": string;
+        /**
+          * Id of an element in the page that names it; wins over `label`.
+         */
+        "labelledBy"?: string;
+        /**
+          * The value that means done. Non-positive values fall back to 100.
+          * @default 100
+         */
+        "max": number;
+        /**
+          * A horizontal bar or a circle.
+          * @default 'bar'
+         */
+        "shape": ProgressShape;
+        /**
+          * Draws the rounded percentage (or `value-text`) next to the bar, or inside the circle.
+          * @default false
+         */
+        "showValue": boolean;
+        /**
+          * Thickness of the bar, or diameter of the circle.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Current value, from 0 to `max`. Absent: indeterminate.
+         */
+        "value"?: number;
+        /**
+          * Read instead of the percentage, such as "3 of 10 files".
+         */
+        "valueText"?: string;
+        /**
+          * Id applied to the progressbar element.
+         */
+        "xId"?: string;
+    }
     interface SsRadio {
         /**
           * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
@@ -1997,6 +2184,123 @@ export namespace Components {
         "size": Size;
         /**
           * Id applied to the root element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One step of an `ss-stepper`: its marker, label and description, and the
+     * line to the next step.
+     * It holds no content of its own: the stepper only says where the reader is,
+     * and the page shows the current step's content. Its position, derived state
+     * and whether it can be pressed are set by `ss-stepper`.
+     */
+    interface SsStep {
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Completed'
+         */
+        "completeLabel": string;
+        /**
+          * State from its position. Set by `ss-stepper`.
+          * @default 'upcoming'
+         */
+        "derived": StepState;
+        /**
+          * The step cannot be pressed.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Error'
+         */
+        "errorLabel": string;
+        /**
+          * Position from 0. Set by `ss-stepper`.
+          * @default 0
+         */
+        "index": number;
+        /**
+          * Whether steps are pressable. Set by `ss-stepper`.
+          * @default false
+         */
+        "interactive": boolean;
+        /**
+          * Text of the step.
+         */
+        "label"?: string;
+        /**
+          * No line after the last step. Set by `ss-stepper`.
+          * @default false
+         */
+        "last": boolean;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Set by the page: `complete` marks it done wherever it is; `error` shows a problem.
+         */
+        "status"?: StepStatus;
+        /**
+          * Identifies the step; the stepper selects by it and reports it. Defaults to its position.
+         */
+        "value"?: string;
+    }
+    /**
+     * Where the reader is in a sequence of steps.
+     * It only shows: the page decides which step is current, which are done or
+     * in error, and whether a step may be entered. Interactive, it reports a press
+     * with a cancelable `ssStepChange`; the page that must check first prevents it
+     * and sets `value` itself when ready.
+     * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+     * only the current step and "Step 2 of 5". The width is measured, since a
+     * container query cannot read a custom property: an invisible probe as wide
+     * as the token is observed with the host, so the threshold is right even when
+     * the tokens arrive after the stepper renders.
+     */
+    interface SsStepper {
+        /**
+          * Accessible name of the list. Translate it.
+          * @default 'Steps'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Read after a completed step's label. Translate it.
+          * @default 'Completed'
+         */
+        "completeLabel": string;
+        /**
+          * Read after the label of a step in error. Translate it.
+          * @default 'Error'
+         */
+        "errorLabel": string;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Steps are buttons that ask to become current. Off: a read-only indicator.
+          * @default false
+         */
+        "interactive": boolean;
+        /**
+          * Lays the steps out in a row or a column.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * The compact form's text; `{current}` and `{total}` are filled in.
+          * @default 'Step {current} of {total}'
+         */
+        "summaryLabel": string;
+        /**
+          * The current step's value. Absent: the first step.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the list.
          */
         "xId"?: string;
     }
@@ -2546,6 +2850,10 @@ export interface SsComboboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsComboboxElement;
 }
+export interface SsDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsDrawerElement;
+}
 export interface SsDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsDropdownElement;
@@ -2597,6 +2905,14 @@ export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
 export interface SsSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSliderElement;
+}
+export interface SsStepCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsStepElement;
+}
+export interface SsStepperCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsStepperElement;
 }
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -2743,6 +3059,32 @@ declare global {
     var HTMLSsBadgeElement: {
         prototype: HTMLSsBadgeElement;
         new (): HTMLSsBadgeElement;
+    };
+    /**
+     * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+     * a dashboard alike.
+     * Columns follow the bento's own width, not the viewport's: it uses as many
+     * as fit at `min-item-width`, up to `columns`. A tile never spans more
+     * columns than are in use, so the grid never overflows; at one column every
+     * tile is a single cell. The count is measured, since a container query cannot
+     * read a custom property.
+     */
+    interface HTMLSsBentoElement extends Components.SsBento, HTMLStencilElement {
+    }
+    var HTMLSsBentoElement: {
+        prototype: HTMLSsBentoElement;
+        new (): HTMLSsBentoElement;
+    };
+    /**
+     * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+     * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+     * and is stretched to fill the cell.
+     */
+    interface HTMLSsBentoItemElement extends Components.SsBentoItem, HTMLStencilElement {
+    }
+    var HTMLSsBentoItemElement: {
+        prototype: HTMLSsBentoItemElement;
+        new (): HTMLSsBentoItemElement;
     };
     /**
      * The trail of pages leading to the one being read.
@@ -2910,6 +3252,32 @@ declare global {
     var HTMLSsDividerElement: {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
+    };
+    interface HTMLSsDrawerElementEventMap {
+        "ssOpenChange": SsDrawerOpenChangeEvent;
+    }
+    /**
+     * A panel that enters from an edge of the viewport.
+     * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+     * covered and stops scrolling. With `modal="false"` it is a side panel that
+     * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+     * pressed inside it.
+     * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+     * trap has to see the caller's controls.
+     */
+    interface HTMLSsDrawerElement extends Components.SsDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsDrawerElementEventMap>(type: K, listener: (this: HTMLSsDrawerElement, ev: SsDrawerCustomEvent<HTMLSsDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsDrawerElementEventMap>(type: K, listener: (this: HTMLSsDrawerElement, ev: SsDrawerCustomEvent<HTMLSsDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsDrawerElement: {
+        prototype: HTMLSsDrawerElement;
+        new (): HTMLSsDrawerElement;
     };
     interface HTMLSsDropdownElementEventMap {
         "ssOpenChange": SsDropdownOpenChangeEvent;
@@ -3190,6 +3558,17 @@ declare global {
         prototype: HTMLSsPopoverElement;
         new (): HTMLSsPopoverElement;
     };
+    /**
+     * How far along something is: a bar or a circle, with a value, or
+     * indeterminate when the value is not known.
+     * It only shows. Whoever hosts it owns the number and when it changes.
+     */
+    interface HTMLSsProgressElement extends Components.SsProgress, HTMLStencilElement {
+    }
+    var HTMLSsProgressElement: {
+        prototype: HTMLSsProgressElement;
+        new (): HTMLSsProgressElement;
+    };
     interface HTMLSsRadioElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -3339,6 +3718,60 @@ declare global {
     var HTMLSsSpinnerElement: {
         prototype: HTMLSsSpinnerElement;
         new (): HTMLSsSpinnerElement;
+    };
+    interface HTMLSsStepElementEventMap {
+        "ssStepSelect": { index: number };
+        "ssStepUpdate": void;
+    }
+    /**
+     * One step of an `ss-stepper`: its marker, label and description, and the
+     * line to the next step.
+     * It holds no content of its own: the stepper only says where the reader is,
+     * and the page shows the current step's content. Its position, derived state
+     * and whether it can be pressed are set by `ss-stepper`.
+     */
+    interface HTMLSsStepElement extends Components.SsStep, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsStepElementEventMap>(type: K, listener: (this: HTMLSsStepElement, ev: SsStepCustomEvent<HTMLSsStepElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsStepElementEventMap>(type: K, listener: (this: HTMLSsStepElement, ev: SsStepCustomEvent<HTMLSsStepElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsStepElement: {
+        prototype: HTMLSsStepElement;
+        new (): HTMLSsStepElement;
+    };
+    interface HTMLSsStepperElementEventMap {
+        "ssStepChange": SsStepChangeEvent;
+    }
+    /**
+     * Where the reader is in a sequence of steps.
+     * It only shows: the page decides which step is current, which are done or
+     * in error, and whether a step may be entered. Interactive, it reports a press
+     * with a cancelable `ssStepChange`; the page that must check first prevents it
+     * and sets `value` itself when ready.
+     * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+     * only the current step and "Step 2 of 5". The width is measured, since a
+     * container query cannot read a custom property: an invisible probe as wide
+     * as the token is observed with the host, so the threshold is right even when
+     * the tokens arrive after the stepper renders.
+     */
+    interface HTMLSsStepperElement extends Components.SsStepper, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsStepperElementEventMap>(type: K, listener: (this: HTMLSsStepperElement, ev: SsStepperCustomEvent<HTMLSsStepperElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsStepperElementEventMap>(type: K, listener: (this: HTMLSsStepperElement, ev: SsStepperCustomEvent<HTMLSsStepperElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsStepperElement: {
+        prototype: HTMLSsStepperElement;
+        new (): HTMLSsStepperElement;
     };
     interface HTMLSsSwitchElementEventMap {
         "ssChange": SsCheckedChangeEvent;
@@ -3550,6 +3983,8 @@ declare global {
         "ss-avatar": HTMLSsAvatarElement;
         "ss-avatar-group": HTMLSsAvatarGroupElement;
         "ss-badge": HTMLSsBadgeElement;
+        "ss-bento": HTMLSsBentoElement;
+        "ss-bento-item": HTMLSsBentoItemElement;
         "ss-breadcrumb": HTMLSsBreadcrumbElement;
         "ss-breadcrumb-item": HTMLSsBreadcrumbItemElement;
         "ss-button": HTMLSsButtonElement;
@@ -3559,6 +3994,7 @@ declare global {
         "ss-checkbox-group": HTMLSsCheckboxGroupElement;
         "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-drawer": HTMLSsDrawerElement;
         "ss-dropdown": HTMLSsDropdownElement;
         "ss-dropdown-item": HTMLSsDropdownItemElement;
         "ss-field": HTMLSsFieldElement;
@@ -3573,6 +4009,7 @@ declare global {
         "ss-option": HTMLSsOptionElement;
         "ss-pagination": HTMLSsPaginationElement;
         "ss-popover": HTMLSsPopoverElement;
+        "ss-progress": HTMLSsProgressElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-search-select": HTMLSsSearchSelectElement;
@@ -3580,6 +4017,8 @@ declare global {
         "ss-skeleton": HTMLSsSkeletonElement;
         "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
+        "ss-step": HTMLSsStepElement;
+        "ss-stepper": HTMLSsStepperElement;
         "ss-switch": HTMLSsSwitchElement;
         "ss-tab": HTMLSsTabElement;
         "ss-table": HTMLSsTableElement;
@@ -3852,6 +4291,61 @@ declare namespace LocalJSX {
           * @default 'subtle'
          */
         "xStyle"?: BadgeStyle;
+    }
+    /**
+     * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+     * a dashboard alike.
+     * Columns follow the bento's own width, not the viewport's: it uses as many
+     * as fit at `min-item-width`, up to `columns`. A tile never spans more
+     * columns than are in use, so the grid never overflows; at one column every
+     * tile is a single cell. The count is measured, since a container query cannot
+     * read a custom property.
+     */
+    interface SsBento {
+        /**
+          * The most columns it will use.
+          * @default 4
+         */
+        "columns"?: number;
+        /**
+          * Later small tiles fill the holes large ones leave. Visual order then differs from reading order.
+          * @default false
+         */
+        "dense"?: boolean;
+        /**
+          * Inline CSS styles applied to the grid.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * The narrowest a one-column tile may be (a CSS length). Defaults to `--ss-bento-min-item-width`.
+         */
+        "minItemWidth"?: string;
+        /**
+          * Id applied to the grid.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+     * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+     * and is stretched to fill the cell.
+     */
+    interface SsBentoItem {
+        /**
+          * Columns the tile spans, at most the columns in use.
+          * @default 1
+         */
+        "colSpan"?: number;
+        /**
+          * Columns in use. Set by `ss-bento`.
+          * @default 1
+         */
+        "cols"?: number;
+        /**
+          * Rows the tile spans; one when the bento is a single column.
+          * @default 1
+         */
+        "rowSpan"?: number;
     }
     /**
      * The trail of pages leading to the one being read.
@@ -4423,6 +4917,77 @@ declare namespace LocalJSX {
         "spacing"?: DividerSpacing;
         /**
           * Id applied to the root element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * A panel that enters from an edge of the viewport.
+     * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+     * covered and stops scrolling. With `modal="false"` it is a side panel that
+     * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+     * pressed inside it.
+     * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+     * trap has to see the caller's controls.
+     */
+    interface SsDrawer {
+        /**
+          * Accessible name, for a drawer with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes a modal drawer.
+          * @default true
+         */
+        "closeOnBackdrop"?: boolean;
+        /**
+          * Escape closes the drawer (non-modal: only when pressed inside it).
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Accessible name of the close button. Translate it.
+          * @default 'Close'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Shows a close button in the header.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Heading text.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Takes over the page (backdrop, focus trap). `false` leaves the page usable.
+          * @default true
+         */
+        "modal"?: boolean;
+        /**
+          * Emitted when the drawer opens or closes through an interaction; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsDrawerCustomEvent<SsDrawerOpenChangeEvent>) => void;
+        /**
+          * Whether the drawer is showing. Updated when it is dismissed, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * The edge it enters from. `start` and `end` follow the writing direction.
+          * @default 'end'
+         */
+        "placement"?: DrawerPlacement;
+        /**
+          * Width (start, end) or height (top, bottom) of the panel.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id applied to the panel element.
          */
         "xId"?: string;
     }
@@ -5158,6 +5723,63 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * How far along something is: a bar or a circle, with a value, or
+     * indeterminate when the value is not known.
+     * It only shows. Whoever hosts it owns the number and when it changes.
+     */
+    interface SsProgress {
+        /**
+          * Color of the fill.
+          * @default 'primary'
+         */
+        "color"?: Variant | 'foreground' | 'muted';
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Accessible name. Translate it.
+          * @default 'Progress'
+         */
+        "label"?: string;
+        /**
+          * Id of an element in the page that names it; wins over `label`.
+         */
+        "labelledBy"?: string;
+        /**
+          * The value that means done. Non-positive values fall back to 100.
+          * @default 100
+         */
+        "max"?: number;
+        /**
+          * A horizontal bar or a circle.
+          * @default 'bar'
+         */
+        "shape"?: ProgressShape;
+        /**
+          * Draws the rounded percentage (or `value-text`) next to the bar, or inside the circle.
+          * @default false
+         */
+        "showValue"?: boolean;
+        /**
+          * Thickness of the bar, or diameter of the circle.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Current value, from 0 to `max`. Absent: indeterminate.
+         */
+        "value"?: number;
+        /**
+          * Read instead of the percentage, such as "3 of 10 files".
+         */
+        "valueText"?: string;
+        /**
+          * Id applied to the progressbar element.
+         */
+        "xId"?: string;
+    }
     interface SsRadio {
         /**
           * Whether this radio is the selected one; updated on user interaction and reflected as an attribute.
@@ -5697,6 +6319,135 @@ declare namespace LocalJSX {
         "size"?: Size;
         /**
           * Id applied to the root element.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One step of an `ss-stepper`: its marker, label and description, and the
+     * line to the next step.
+     * It holds no content of its own: the stepper only says where the reader is,
+     * and the page shows the current step's content. Its position, derived state
+     * and whether it can be pressed are set by `ss-stepper`.
+     */
+    interface SsStep {
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Completed'
+         */
+        "completeLabel"?: string;
+        /**
+          * State from its position. Set by `ss-stepper`.
+          * @default 'upcoming'
+         */
+        "derived"?: StepState;
+        /**
+          * The step cannot be pressed.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Error'
+         */
+        "errorLabel"?: string;
+        /**
+          * Position from 0. Set by `ss-stepper`.
+          * @default 0
+         */
+        "index"?: number;
+        /**
+          * Whether steps are pressable. Set by `ss-stepper`.
+          * @default false
+         */
+        "interactive"?: boolean;
+        /**
+          * Text of the step.
+         */
+        "label"?: string;
+        /**
+          * No line after the last step. Set by `ss-stepper`.
+          * @default false
+         */
+        "last"?: boolean;
+        /**
+          * Asks the stepper to make this step current. Internal.
+         */
+        "onSsStepSelect"?: (event: SsStepCustomEvent<{ index: number }>) => void;
+        /**
+          * Tells the stepper its value changed. Internal.
+         */
+        "onSsStepUpdate"?: (event: SsStepCustomEvent<void>) => void;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Set by the page: `complete` marks it done wherever it is; `error` shows a problem.
+         */
+        "status"?: StepStatus;
+        /**
+          * Identifies the step; the stepper selects by it and reports it. Defaults to its position.
+         */
+        "value"?: string;
+    }
+    /**
+     * Where the reader is in a sequence of steps.
+     * It only shows: the page decides which step is current, which are done or
+     * in error, and whether a step may be entered. Interactive, it reports a press
+     * with a cancelable `ssStepChange`; the page that must check first prevents it
+     * and sets `value` itself when ready.
+     * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+     * only the current step and "Step 2 of 5". The width is measured, since a
+     * container query cannot read a custom property: an invisible probe as wide
+     * as the token is observed with the host, so the threshold is right even when
+     * the tokens arrive after the stepper renders.
+     */
+    interface SsStepper {
+        /**
+          * Accessible name of the list. Translate it.
+          * @default 'Steps'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Read after a completed step's label. Translate it.
+          * @default 'Completed'
+         */
+        "completeLabel"?: string;
+        /**
+          * Read after the label of a step in error. Translate it.
+          * @default 'Error'
+         */
+        "errorLabel"?: string;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Steps are buttons that ask to become current. Off: a read-only indicator.
+          * @default false
+         */
+        "interactive"?: boolean;
+        /**
+          * Emitted when a step is pressed (interactive only). Cancelable: prevent it to keep the current step.
+         */
+        "onSsStepChange"?: (event: SsStepperCustomEvent<SsStepChangeEvent>) => void;
+        /**
+          * Lays the steps out in a row or a column.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * The compact form's text; `{current}` and `{total}` are filled in.
+          * @default 'Step {current} of {total}'
+         */
+        "summaryLabel"?: string;
+        /**
+          * The current step's value. Absent: the first step.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the list.
          */
         "xId"?: string;
     }
@@ -6268,6 +7019,8 @@ declare namespace LocalJSX {
         "ss-avatar": SsAvatar;
         "ss-avatar-group": SsAvatarGroup;
         "ss-badge": SsBadge;
+        "ss-bento": SsBento;
+        "ss-bento-item": SsBentoItem;
         "ss-breadcrumb": SsBreadcrumb;
         "ss-breadcrumb-item": SsBreadcrumbItem;
         "ss-button": SsButton;
@@ -6277,6 +7030,7 @@ declare namespace LocalJSX {
         "ss-checkbox-group": SsCheckboxGroup;
         "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
+        "ss-drawer": SsDrawer;
         "ss-dropdown": SsDropdown;
         "ss-dropdown-item": SsDropdownItem;
         "ss-field": SsField;
@@ -6291,6 +7045,7 @@ declare namespace LocalJSX {
         "ss-option": SsOption;
         "ss-pagination": SsPagination;
         "ss-popover": SsPopover;
+        "ss-progress": SsProgress;
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
         "ss-search-select": SsSearchSelect;
@@ -6298,6 +7053,8 @@ declare namespace LocalJSX {
         "ss-skeleton": SsSkeleton;
         "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
+        "ss-step": SsStep;
+        "ss-stepper": SsStepper;
         "ss-switch": SsSwitch;
         "ss-tab": SsTab;
         "ss-table": SsTable;
@@ -6360,6 +7117,22 @@ declare module "@stencil/core" {
             "ss-avatar-group": LocalJSX.SsAvatarGroup & JSXBase.HTMLAttributes<HTMLSsAvatarGroupElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
             /**
+             * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+             * a dashboard alike.
+             * Columns follow the bento's own width, not the viewport's: it uses as many
+             * as fit at `min-item-width`, up to `columns`. A tile never spans more
+             * columns than are in use, so the grid never overflows; at one column every
+             * tile is a single cell. The count is measured, since a container query cannot
+             * read a custom property.
+             */
+            "ss-bento": LocalJSX.SsBento & JSXBase.HTMLAttributes<HTMLSsBentoElement>;
+            /**
+             * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+             * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+             * and is stretched to fill the cell.
+             */
+            "ss-bento-item": LocalJSX.SsBentoItem & JSXBase.HTMLAttributes<HTMLSsBentoItemElement>;
+            /**
              * The trail of pages leading to the one being read.
              * The trail owns the separator, the sizing and which step is the current page;
              * each step draws its own separator because CSS cannot put one between slotted
@@ -6418,6 +7191,16 @@ declare module "@stencil/core" {
             "ss-checkbox-group": LocalJSX.SsCheckboxGroup & JSXBase.HTMLAttributes<HTMLSsCheckboxGroupElement>;
             "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
+            /**
+             * A panel that enters from an edge of the viewport.
+             * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+             * covered and stops scrolling. With `modal="false"` it is a side panel that
+             * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+             * pressed inside it.
+             * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+             * trap has to see the caller's controls.
+             */
+            "ss-drawer": LocalJSX.SsDrawer & JSXBase.HTMLAttributes<HTMLSsDrawerElement>;
             /**
              * A button that opens a list of actions.
              * It follows the WAI-ARIA menu button pattern, because that is what a screen
@@ -6534,6 +7317,12 @@ declare module "@stencil/core" {
              * content, which a shadow root would hide.
              */
             "ss-popover": LocalJSX.SsPopover & JSXBase.HTMLAttributes<HTMLSsPopoverElement>;
+            /**
+             * How far along something is: a bar or a circle, with a value, or
+             * indeterminate when the value is not known.
+             * It only shows. Whoever hosts it owns the number and when it changes.
+             */
+            "ss-progress": LocalJSX.SsProgress & JSXBase.HTMLAttributes<HTMLSsProgressElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             /**
              * Presents N `ss-radio` children as one selected value, one change event and
@@ -6579,6 +7368,27 @@ declare module "@stencil/core" {
             "ss-skeleton": LocalJSX.SsSkeleton & JSXBase.HTMLAttributes<HTMLSsSkeletonElement>;
             "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
+            /**
+             * One step of an `ss-stepper`: its marker, label and description, and the
+             * line to the next step.
+             * It holds no content of its own: the stepper only says where the reader is,
+             * and the page shows the current step's content. Its position, derived state
+             * and whether it can be pressed are set by `ss-stepper`.
+             */
+            "ss-step": LocalJSX.SsStep & JSXBase.HTMLAttributes<HTMLSsStepElement>;
+            /**
+             * Where the reader is in a sequence of steps.
+             * It only shows: the page decides which step is current, which are done or
+             * in error, and whether a step may be entered. Interactive, it reports a press
+             * with a cancelable `ssStepChange`; the page that must check first prevents it
+             * and sets `value` itself when ready.
+             * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+             * only the current step and "Step 2 of 5". The width is measured, since a
+             * container query cannot read a custom property: an invisible probe as wide
+             * as the token is observed with the host, so the threshold is right even when
+             * the tokens arrive after the stepper renders.
+             */
+            "ss-stepper": LocalJSX.SsStepper & JSXBase.HTMLAttributes<HTMLSsStepperElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             /**
              * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.

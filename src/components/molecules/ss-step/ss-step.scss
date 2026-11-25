@@ -1,0 +1,163 @@
+@use '../../../global/styles/control' as c;
+
+:host {
+  display: block;
+  min-width: 0;
+  font-family: c.t(step, font-family);
+}
+
+/* Set by ss-stepper in its compact form. `!important` is load-bearing:
+   reset.css sets `:defined { display: revert }` in the document, which
+   outranks a :host rule (see ss-avatar-group.scss). */
+:host([data-collapsed]) {
+  display: none !important;
+}
+
+/* Horizontal: each step but the last takes the room left, for its line. */
+:host(:not([data-last])) {
+  flex: 1;
+}
+
+.ss-step {
+  display: flex;
+  align-items: center;
+  gap: c.t(step, gap);
+}
+
+.ss-step--vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ss-step__trigger {
+  display: flex;
+  align-items: center;
+  gap: c.t(step, gap);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+}
+
+button.ss-step__trigger {
+  cursor: pointer;
+
+
+  border-radius: c.t(step, radius);
+
+  &:focus-visible {
+    outline: c.t(step, focus-ring-width) solid c.t(step, focus-ring-color);
+    outline-offset: c.t(step, focus-ring-offset);
+  }
+}
+
+.ss-step__marker {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: c.t(step, marker-size);
+  height: c.t(step, marker-size);
+  border: c.t(step, marker-border-width) solid c.t(step, upcoming-marker-border-color);
+  border-radius: c.t(step, radius);
+  background: c.t(step, upcoming-marker-background);
+  color: c.t(step, upcoming-marker-foreground);
+  font-size: c.t(step, marker-font-size);
+  font-variant-numeric: tabular-nums;
+  transition:
+    background-color c.t(step, transition-duration) c.t(step, transition-easing),
+    border-color c.t(step, transition-duration) c.t(step, transition-easing),
+    color c.t(step, transition-duration) c.t(step, transition-easing);
+}
+
+.ss-step--current .ss-step__marker {
+  border-color: c.t(step, current-marker-background);
+  background: c.t(step, current-marker-background);
+  color: c.t(step, current-marker-foreground);
+}
+
+.ss-step--complete .ss-step__marker {
+  border-color: c.t(step, complete-marker-background);
+  background: c.t(step, complete-marker-background);
+  color: c.t(step, complete-marker-foreground);
+}
+
+.ss-step--error .ss-step__marker {
+  border-color: c.t(step, error-marker-background);
+  background: c.t(step, error-marker-background);
+  color: c.t(step, error-marker-foreground);
+}
+
+.ss-step__check {
+  width: 60%;
+  height: 60%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ss-step__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ss-step__label {
+  color: c.t(step, label-color);
+  font-size: c.t(step, label-font-size);
+}
+
+.ss-step__description {
+  color: c.t(step, description-color);
+  font-size: c.t(step, description-font-size);
+}
+
+/* Read, not seen: the marker already shows it. */
+.ss-step__status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ss-step--disabled {
+  opacity: c.t(step, disabled-opacity);
+}
+
+.ss-step--current button.ss-step__trigger {
+  cursor: default;
+}
+
+.ss-step--disabled .ss-step__trigger {
+  cursor: not-allowed;
+}
+
+/* The line to the next step: complete once this step is complete. */
+.ss-step__connector {
+  flex: 1;
+  min-width: c.t(step, connector-min-size);
+  height: c.t(step, connector-thickness);
+  background: c.t(step, connector-color);
+}
+
+.ss-step--complete .ss-step__connector {
+  background: c.t(step, connector-complete-color);
+}
+
+.ss-step--vertical .ss-step__connector {
+  flex: none;
+  width: c.t(step, connector-thickness);
+  height: auto;
+  min-width: 0;
+  min-height: c.t(step, connector-min-size);
+  /* Under the marker's centre. */
+  margin-inline-start: calc((#{c.t(step, marker-size)} - #{c.t(step, connector-thickness)}) / 2);
+}

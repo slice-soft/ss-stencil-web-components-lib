@@ -1,0 +1,7 @@
+/* A grid of one, so what is inside stretches to fill the cell. `!important`
+   is load-bearing: reset.css sets `:defined { display: revert }` in the
+   document, which outranks a :host rule (see ss-avatar-group.scss). */
+:host {
+  display: grid !important;
+  min-width: 0;
+}

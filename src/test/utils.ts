@@ -69,7 +69,18 @@ async function findAxNode(page: E2EPage, match: (candidate: AxSnapshotNode) => b
 
     const found = flat.find(match);
     if (found) {
-      node = { name: found.name ?? null, description: found.description ?? null, expanded: found.expanded, haspopup: found.haspopup, selected: found.selected };
+      node = {
+        name: found.name ?? null,
+        description: found.description ?? null,
+        expanded: found.expanded,
+        haspopup: found.haspopup,
+        selected: found.selected,
+        value: found.value,
+        valuemin: found.valuemin,
+        valuemax: found.valuemax,
+        valuetext: found.valuetext,
+        modal: found.modal,
+      };
       if (settled(node)) return node;
     }
   }
@@ -86,6 +97,13 @@ export interface AxNode {
   haspopup?: string;
   /** Present on selectable nodes, such as tabs. */
   selected?: boolean;
+  /** A range's current value (a progressbar's `aria-valuenow`); absent when indeterminate. */
+  value?: string | number;
+  valuemin?: number;
+  valuemax?: number;
+  valuetext?: string;
+  /** Present on dialogs that take over the page. */
+  modal?: boolean;
 }
 
 /** The slice of a Puppeteer accessibility snapshot this helper reads. */
@@ -96,6 +114,11 @@ interface AxSnapshotNode {
   expanded?: boolean;
   haspopup?: string;
   selected?: boolean;
+  value?: string | number;
+  valuemin?: number;
+  valuemax?: number;
+  valuetext?: string;
+  modal?: boolean;
   children?: AxSnapshotNode[];
 }
 
