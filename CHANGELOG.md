@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.5](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.4...ss-stencil-web-components-lib-v0.7.5) (2026-11-25)
+
+
+### Features
+
+* progress, drawer, stepper and bento ([#72](https://github.com/slice-soft/ss-stencil-web-components-lib/issues/72)) ([c738497](https://github.com/slice-soft/ss-stencil-web-components-lib/commit/c738497e5af5dec6141bedf4ea719090cc6e4155))
+
 ## [0.7.4](https://github.com/slice-soft/ss-stencil-web-components-lib/compare/ss-stencil-web-components-lib-v0.7.3...ss-stencil-web-components-lib-v0.7.4) (2026-11-24)
 
 
