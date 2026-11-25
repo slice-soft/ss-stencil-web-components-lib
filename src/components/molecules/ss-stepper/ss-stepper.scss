@@ -1,0 +1,45 @@
+@use '../../../global/styles/control' as c;
+
+:host {
+  display: block;
+  font-family: c.t(stepper, font-family);
+}
+
+/* As wide as the compact threshold; measured, never seen. */
+.ss-stepper__probe {
+  position: absolute;
+  visibility: hidden;
+  width: c.t(stepper, compact-max-width);
+  height: 0;
+  pointer-events: none;
+}
+
+.ss-stepper {
+  position: relative;
+}
+
+.ss-stepper__list {
+  display: flex;
+  align-items: flex-start;
+  gap: c.t(stepper, gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ss-stepper--vertical .ss-stepper__list {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ss-stepper__summary {
+  margin: 0 0 c.t(stepper, gap);
+  color: c.t(stepper, summary-color);
+  font-size: c.t(stepper, summary-font-size);
+}
+
+/* Compact: only the current step (the others hide themselves, see
+   data-collapsed in ss-step), and it takes the whole row. */
+.ss-stepper--compact ::slotted(ss-step) {
+  flex: 1;
+}

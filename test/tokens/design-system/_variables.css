@@ -176,6 +176,9 @@
   --ss-layout-overlay-panel-min-width: 192px;
   --ss-layout-overlay-toast-width: 352px;
   --ss-layout-overlay-list-max-height: 320px;
+  --ss-layout-stepper-compact-max-width: 480px;
+  --ss-layout-bento-row-min-height: 160px;
+  --ss-layout-bento-min-item-width: 240px;
   --ss-ratios-square: 1;
   --ss-z-index-base: 0;
   --ss-z-index-dropdown: 1000;
@@ -453,6 +456,8 @@
   --ss-type-letter-spacing-wider: var(--ss-text-letter-spacings-wider);
   --ss-type-ink-black: var(--ss-colors-black);
   --ss-type-ink-white: var(--ss-colors-white);
+  --ss-bento-row-min-height: var(--ss-layout-bento-row-min-height);
+  --ss-bento-min-item-width: var(--ss-layout-bento-min-item-width);
   --ss-button-shadow: var(--ss-control-shadow);
   --ss-card-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-combobox-shadow: var(--ss-control-shadow);
@@ -491,6 +496,7 @@
   --ss-search-select-list-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-select-shadow: var(--ss-control-shadow);
   --ss-slider-track-width-wide: var(--ss-control-track-width-wide);
+  --ss-stepper-compact-max-width: var(--ss-layout-stepper-compact-max-width);
   --ss-textarea-shadow: var(--ss-control-shadow);
   --ss-toaster-width: var(--ss-layout-overlay-toast-width);
   --ss-brand-primary: var(--ss-colors-orange-500);
@@ -706,6 +712,7 @@
   --ss-badge-destructive-accent-foreground: var(--ss-color-destructive-foreground);
   --ss-badge-info-accent: var(--ss-color-info);
   --ss-badge-info-accent-foreground: var(--ss-color-info-foreground);
+  --ss-bento-gap: var(--ss-space-4);
   --ss-breadcrumb-item-gap: var(--ss-space-2);
   --ss-breadcrumb-item-font-family: var(--ss-type-family-sans);
   --ss-breadcrumb-item-label-color: var(--ss-color-foreground);
@@ -1451,6 +1458,38 @@
   --ss-spinner-error-color: var(--ss-color-error);
   --ss-spinner-destructive-color: var(--ss-color-destructive);
   --ss-spinner-info-color: var(--ss-color-info);
+  --ss-step-marker-size: var(--ss-space-8);
+  --ss-step-marker-font-size: var(--ss-type-size-sm);
+  --ss-step-marker-border-width: var(--ss-control-border-width);
+  --ss-step-radius: var(--ss-shape-radius-pill);
+  --ss-step-upcoming-marker-border-color: var(--ss-color-border);
+  --ss-step-upcoming-marker-foreground: var(--ss-color-muted-foreground);
+  --ss-step-current-marker-background: var(--ss-color-primary);
+  --ss-step-current-marker-foreground: var(--ss-color-primary-foreground);
+  --ss-step-complete-marker-background: var(--ss-color-primary);
+  --ss-step-complete-marker-foreground: var(--ss-color-primary-foreground);
+  --ss-step-error-marker-background: var(--ss-color-destructive);
+  --ss-step-error-marker-foreground: var(--ss-color-destructive-foreground);
+  --ss-step-disabled-opacity: var(--ss-control-disabled-opacity);
+  --ss-step-connector-thickness: var(--ss-control-border-width);
+  --ss-step-connector-color: var(--ss-color-border);
+  --ss-step-connector-complete-color: var(--ss-color-primary);
+  --ss-step-connector-min-size: var(--ss-space-6);
+  --ss-step-label-font-size: var(--ss-type-size-sm);
+  --ss-step-label-color: var(--ss-color-foreground);
+  --ss-step-description-font-size: var(--ss-type-size-xs);
+  --ss-step-description-color: var(--ss-color-muted-foreground);
+  --ss-step-gap: var(--ss-space-2);
+  --ss-step-font-family: var(--ss-type-family-sans);
+  --ss-step-focus-ring-width: var(--ss-control-focus-ring-width);
+  --ss-step-focus-ring-offset: var(--ss-control-focus-ring-offset);
+  --ss-step-focus-ring-color: var(--ss-color-ring);
+  --ss-step-transition-duration: var(--ss-motion-duration-fast);
+  --ss-step-transition-easing: var(--ss-motion-easing-standard);
+  --ss-stepper-gap: var(--ss-space-2);
+  --ss-stepper-summary-font-size: var(--ss-type-size-sm);
+  --ss-stepper-summary-color: var(--ss-color-muted-foreground);
+  --ss-stepper-font-family: var(--ss-type-family-sans);
   --ss-switch-font-family: var(--ss-control-font-family);
   --ss-switch-font-size: var(--ss-choice-size-md-font-size);
   --ss-switch-line-height: var(--ss-control-line-height);
@@ -1719,6 +1758,7 @@
   --ss-search-select-list-border-color: var(--ss-material-border-color);
   --ss-search-select-list-shadow: var(--ss-elevation-md);
   --ss-skeleton-line-gap: var(--ss-layout-placeholder-line-gap);
+  --ss-step-upcoming-marker-background: var(--ss-material-surface);
   --ss-toast-shadow: var(--ss-elevation-lg);
   --ss-tooltip-shadow: var(--ss-elevation-md);
 }
@@ -1770,6 +1810,8 @@
 
 :where([data-theme], [data-style]) {
   --ss-material-backdrop-filter: none;
+  --ss-bento-row-min-height: var(--ss-layout-bento-row-min-height);
+  --ss-bento-min-item-width: var(--ss-layout-bento-min-item-width);
   --ss-button-shadow: var(--ss-control-shadow);
   --ss-card-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-combobox-shadow: var(--ss-control-shadow);
@@ -1808,6 +1850,7 @@
   --ss-search-select-list-backdrop-filter: var(--ss-material-backdrop-filter);
   --ss-select-shadow: var(--ss-control-shadow);
   --ss-slider-track-width-wide: var(--ss-control-track-width-wide);
+  --ss-stepper-compact-max-width: var(--ss-layout-stepper-compact-max-width);
   --ss-textarea-shadow: var(--ss-control-shadow);
   --ss-toaster-width: var(--ss-layout-overlay-toast-width);
   --ss-field-gap: var(--ss-space-1);
@@ -1961,6 +2004,7 @@
   --ss-badge-destructive-accent-foreground: var(--ss-color-destructive-foreground);
   --ss-badge-info-accent: var(--ss-color-info);
   --ss-badge-info-accent-foreground: var(--ss-color-info-foreground);
+  --ss-bento-gap: var(--ss-space-4);
   --ss-breadcrumb-item-gap: var(--ss-space-2);
   --ss-breadcrumb-item-font-family: var(--ss-type-family-sans);
   --ss-breadcrumb-item-label-color: var(--ss-color-foreground);
@@ -2706,6 +2750,38 @@
   --ss-spinner-error-color: var(--ss-color-error);
   --ss-spinner-destructive-color: var(--ss-color-destructive);
   --ss-spinner-info-color: var(--ss-color-info);
+  --ss-step-marker-size: var(--ss-space-8);
+  --ss-step-marker-font-size: var(--ss-type-size-sm);
+  --ss-step-marker-border-width: var(--ss-control-border-width);
+  --ss-step-radius: var(--ss-shape-radius-pill);
+  --ss-step-upcoming-marker-border-color: var(--ss-color-border);
+  --ss-step-upcoming-marker-foreground: var(--ss-color-muted-foreground);
+  --ss-step-current-marker-background: var(--ss-color-primary);
+  --ss-step-current-marker-foreground: var(--ss-color-primary-foreground);
+  --ss-step-complete-marker-background: var(--ss-color-primary);
+  --ss-step-complete-marker-foreground: var(--ss-color-primary-foreground);
+  --ss-step-error-marker-background: var(--ss-color-destructive);
+  --ss-step-error-marker-foreground: var(--ss-color-destructive-foreground);
+  --ss-step-disabled-opacity: var(--ss-control-disabled-opacity);
+  --ss-step-connector-thickness: var(--ss-control-border-width);
+  --ss-step-connector-color: var(--ss-color-border);
+  --ss-step-connector-complete-color: var(--ss-color-primary);
+  --ss-step-connector-min-size: var(--ss-space-6);
+  --ss-step-label-font-size: var(--ss-type-size-sm);
+  --ss-step-label-color: var(--ss-color-foreground);
+  --ss-step-description-font-size: var(--ss-type-size-xs);
+  --ss-step-description-color: var(--ss-color-muted-foreground);
+  --ss-step-gap: var(--ss-space-2);
+  --ss-step-font-family: var(--ss-type-family-sans);
+  --ss-step-focus-ring-width: var(--ss-control-focus-ring-width);
+  --ss-step-focus-ring-offset: var(--ss-control-focus-ring-offset);
+  --ss-step-focus-ring-color: var(--ss-color-ring);
+  --ss-step-transition-duration: var(--ss-motion-duration-fast);
+  --ss-step-transition-easing: var(--ss-motion-easing-standard);
+  --ss-stepper-gap: var(--ss-space-2);
+  --ss-stepper-summary-font-size: var(--ss-type-size-sm);
+  --ss-stepper-summary-color: var(--ss-color-muted-foreground);
+  --ss-stepper-font-family: var(--ss-type-family-sans);
   --ss-switch-font-family: var(--ss-control-font-family);
   --ss-switch-font-size: var(--ss-choice-size-md-font-size);
   --ss-switch-line-height: var(--ss-control-line-height);
@@ -2974,6 +3050,7 @@
   --ss-search-select-list-border-color: var(--ss-material-border-color);
   --ss-search-select-list-shadow: var(--ss-elevation-md);
   --ss-skeleton-line-gap: var(--ss-layout-placeholder-line-gap);
+  --ss-step-upcoming-marker-background: var(--ss-material-surface);
   --ss-toast-shadow: var(--ss-elevation-lg);
   --ss-tooltip-shadow: var(--ss-elevation-md);
 }

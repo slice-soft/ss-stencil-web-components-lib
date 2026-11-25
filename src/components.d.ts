@@ -42,6 +42,8 @@ import { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChange
 import { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 import { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 import { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
+import { StepState, StepStatus } from "./components/molecules/ss-step/ss-step";
+import { SsStepChangeEvent } from "./components/molecules/ss-stepper/ss-stepper";
 import { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 import { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
 import { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
@@ -89,6 +91,8 @@ export { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChange
 export { SelectStyle, SsSelectChangeEvent } from "./components/atoms/ss-select/ss-select";
 export { SkeletonShape } from "./components/atoms/ss-skeleton/ss-skeleton";
 export { SsSliderValueEvent } from "./components/atoms/ss-slider/ss-slider";
+export { StepState, StepStatus } from "./components/molecules/ss-step/ss-step";
+export { SsStepChangeEvent } from "./components/molecules/ss-stepper/ss-stepper";
 export { SwitchLabelPosition } from "./components/atoms/ss-switch/ss-switch";
 export { SsTableColumn, SsTableSortEvent, TableRow, TableSize, TableSortDirection } from "./components/organisms/ss-table/ss-table";
 export { SsTabsChangeEvent, TabsActivation } from "./components/organisms/ss-tabs/ss-tabs";
@@ -2128,6 +2132,123 @@ export namespace Components {
          */
         "xId"?: string;
     }
+    /**
+     * One step of an `ss-stepper`: its marker, label and description, and the
+     * line to the next step.
+     * It holds no content of its own: the stepper only says where the reader is,
+     * and the page shows the current step's content. Its position, derived state
+     * and whether it can be pressed are set by `ss-stepper`.
+     */
+    interface SsStep {
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Completed'
+         */
+        "completeLabel": string;
+        /**
+          * State from its position. Set by `ss-stepper`.
+          * @default 'upcoming'
+         */
+        "derived": StepState;
+        /**
+          * The step cannot be pressed.
+          * @default false
+         */
+        "disabled": boolean;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Error'
+         */
+        "errorLabel": string;
+        /**
+          * Position from 0. Set by `ss-stepper`.
+          * @default 0
+         */
+        "index": number;
+        /**
+          * Whether steps are pressable. Set by `ss-stepper`.
+          * @default false
+         */
+        "interactive": boolean;
+        /**
+          * Text of the step.
+         */
+        "label"?: string;
+        /**
+          * No line after the last step. Set by `ss-stepper`.
+          * @default false
+         */
+        "last": boolean;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * Set by the page: `complete` marks it done wherever it is; `error` shows a problem.
+         */
+        "status"?: StepStatus;
+        /**
+          * Identifies the step; the stepper selects by it and reports it. Defaults to its position.
+         */
+        "value"?: string;
+    }
+    /**
+     * Where the reader is in a sequence of steps.
+     * It only shows: the page decides which step is current, which are done or
+     * in error, and whether a step may be entered. Interactive, it reports a press
+     * with a cancelable `ssStepChange`; the page that must check first prevents it
+     * and sets `value` itself when ready.
+     * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+     * only the current step and "Step 2 of 5". The width is measured, since a
+     * container query cannot read a custom property: an invisible probe as wide
+     * as the token is observed with the host, so the threshold is right even when
+     * the tokens arrive after the stepper renders.
+     */
+    interface SsStepper {
+        /**
+          * Accessible name of the list. Translate it.
+          * @default 'Steps'
+         */
+        "accessibilityLabel": string;
+        /**
+          * Read after a completed step's label. Translate it.
+          * @default 'Completed'
+         */
+        "completeLabel": string;
+        /**
+          * Read after the label of a step in error. Translate it.
+          * @default 'Error'
+         */
+        "errorLabel": string;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Steps are buttons that ask to become current. Off: a read-only indicator.
+          * @default false
+         */
+        "interactive": boolean;
+        /**
+          * Lays the steps out in a row or a column.
+          * @default 'horizontal'
+         */
+        "orientation": Orientation;
+        /**
+          * The compact form's text; `{current}` and `{total}` are filled in.
+          * @default 'Step {current} of {total}'
+         */
+        "summaryLabel": string;
+        /**
+          * The current step's value. Absent: the first step.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the list.
+         */
+        "xId"?: string;
+    }
     interface SsSwitch {
         /**
           * Whether the switch is on; updated on user interaction and reflected as an attribute.
@@ -2729,6 +2850,14 @@ export interface SsSelectCustomEvent<T> extends CustomEvent<T> {
 export interface SsSliderCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsSliderElement;
+}
+export interface SsStepCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsStepElement;
+}
+export interface SsStepperCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsStepperElement;
 }
 export interface SsSwitchCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -3509,6 +3638,60 @@ declare global {
         prototype: HTMLSsSpinnerElement;
         new (): HTMLSsSpinnerElement;
     };
+    interface HTMLSsStepElementEventMap {
+        "ssStepSelect": { index: number };
+        "ssStepUpdate": void;
+    }
+    /**
+     * One step of an `ss-stepper`: its marker, label and description, and the
+     * line to the next step.
+     * It holds no content of its own: the stepper only says where the reader is,
+     * and the page shows the current step's content. Its position, derived state
+     * and whether it can be pressed are set by `ss-stepper`.
+     */
+    interface HTMLSsStepElement extends Components.SsStep, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsStepElementEventMap>(type: K, listener: (this: HTMLSsStepElement, ev: SsStepCustomEvent<HTMLSsStepElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsStepElementEventMap>(type: K, listener: (this: HTMLSsStepElement, ev: SsStepCustomEvent<HTMLSsStepElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsStepElement: {
+        prototype: HTMLSsStepElement;
+        new (): HTMLSsStepElement;
+    };
+    interface HTMLSsStepperElementEventMap {
+        "ssStepChange": SsStepChangeEvent;
+    }
+    /**
+     * Where the reader is in a sequence of steps.
+     * It only shows: the page decides which step is current, which are done or
+     * in error, and whether a step may be entered. Interactive, it reports a press
+     * with a cancelable `ssStepChange`; the page that must check first prevents it
+     * and sets `value` itself when ready.
+     * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+     * only the current step and "Step 2 of 5". The width is measured, since a
+     * container query cannot read a custom property: an invisible probe as wide
+     * as the token is observed with the host, so the threshold is right even when
+     * the tokens arrive after the stepper renders.
+     */
+    interface HTMLSsStepperElement extends Components.SsStepper, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsStepperElementEventMap>(type: K, listener: (this: HTMLSsStepperElement, ev: SsStepperCustomEvent<HTMLSsStepperElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsStepperElementEventMap>(type: K, listener: (this: HTMLSsStepperElement, ev: SsStepperCustomEvent<HTMLSsStepperElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsStepperElement: {
+        prototype: HTMLSsStepperElement;
+        new (): HTMLSsStepperElement;
+    };
     interface HTMLSsSwitchElementEventMap {
         "ssChange": SsCheckedChangeEvent;
         "ssFocus": FocusEvent;
@@ -3751,6 +3934,8 @@ declare global {
         "ss-skeleton": HTMLSsSkeletonElement;
         "ss-slider": HTMLSsSliderElement;
         "ss-spinner": HTMLSsSpinnerElement;
+        "ss-step": HTMLSsStepElement;
+        "ss-stepper": HTMLSsStepperElement;
         "ss-switch": HTMLSsSwitchElement;
         "ss-tab": HTMLSsTabElement;
         "ss-table": HTMLSsTableElement;
@@ -5999,6 +6184,135 @@ declare namespace LocalJSX {
          */
         "xId"?: string;
     }
+    /**
+     * One step of an `ss-stepper`: its marker, label and description, and the
+     * line to the next step.
+     * It holds no content of its own: the stepper only says where the reader is,
+     * and the page shows the current step's content. Its position, derived state
+     * and whether it can be pressed are set by `ss-stepper`.
+     */
+    interface SsStep {
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Completed'
+         */
+        "completeLabel"?: string;
+        /**
+          * State from its position. Set by `ss-stepper`.
+          * @default 'upcoming'
+         */
+        "derived"?: StepState;
+        /**
+          * The step cannot be pressed.
+          * @default false
+         */
+        "disabled"?: boolean;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'Error'
+         */
+        "errorLabel"?: string;
+        /**
+          * Position from 0. Set by `ss-stepper`.
+          * @default 0
+         */
+        "index"?: number;
+        /**
+          * Whether steps are pressable. Set by `ss-stepper`.
+          * @default false
+         */
+        "interactive"?: boolean;
+        /**
+          * Text of the step.
+         */
+        "label"?: string;
+        /**
+          * No line after the last step. Set by `ss-stepper`.
+          * @default false
+         */
+        "last"?: boolean;
+        /**
+          * Asks the stepper to make this step current. Internal.
+         */
+        "onSsStepSelect"?: (event: SsStepCustomEvent<{ index: number }>) => void;
+        /**
+          * Tells the stepper its value changed. Internal.
+         */
+        "onSsStepUpdate"?: (event: SsStepCustomEvent<void>) => void;
+        /**
+          * Set by `ss-stepper`.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * Set by the page: `complete` marks it done wherever it is; `error` shows a problem.
+         */
+        "status"?: StepStatus;
+        /**
+          * Identifies the step; the stepper selects by it and reports it. Defaults to its position.
+         */
+        "value"?: string;
+    }
+    /**
+     * Where the reader is in a sequence of steps.
+     * It only shows: the page decides which step is current, which are done or
+     * in error, and whether a step may be entered. Interactive, it reports a press
+     * with a cancelable `ssStepChange`; the page that must check first prevents it
+     * and sets `value` itself when ready.
+     * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+     * only the current step and "Step 2 of 5". The width is measured, since a
+     * container query cannot read a custom property: an invisible probe as wide
+     * as the token is observed with the host, so the threshold is right even when
+     * the tokens arrive after the stepper renders.
+     */
+    interface SsStepper {
+        /**
+          * Accessible name of the list. Translate it.
+          * @default 'Steps'
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Read after a completed step's label. Translate it.
+          * @default 'Completed'
+         */
+        "completeLabel"?: string;
+        /**
+          * Read after the label of a step in error. Translate it.
+          * @default 'Error'
+         */
+        "errorLabel"?: string;
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Steps are buttons that ask to become current. Off: a read-only indicator.
+          * @default false
+         */
+        "interactive"?: boolean;
+        /**
+          * Emitted when a step is pressed (interactive only). Cancelable: prevent it to keep the current step.
+         */
+        "onSsStepChange"?: (event: SsStepperCustomEvent<SsStepChangeEvent>) => void;
+        /**
+          * Lays the steps out in a row or a column.
+          * @default 'horizontal'
+         */
+        "orientation"?: Orientation;
+        /**
+          * The compact form's text; `{current}` and `{total}` are filled in.
+          * @default 'Step {current} of {total}'
+         */
+        "summaryLabel"?: string;
+        /**
+          * The current step's value. Absent: the first step.
+         */
+        "value"?: string;
+        /**
+          * Id applied to the list.
+         */
+        "xId"?: string;
+    }
     interface SsSwitch {
         /**
           * Whether the switch is on; updated on user interaction and reflected as an attribute.
@@ -6599,6 +6913,8 @@ declare namespace LocalJSX {
         "ss-skeleton": SsSkeleton;
         "ss-slider": SsSlider;
         "ss-spinner": SsSpinner;
+        "ss-step": SsStep;
+        "ss-stepper": SsStepper;
         "ss-switch": SsSwitch;
         "ss-tab": SsTab;
         "ss-table": SsTable;
@@ -6896,6 +7212,27 @@ declare module "@stencil/core" {
             "ss-skeleton": LocalJSX.SsSkeleton & JSXBase.HTMLAttributes<HTMLSsSkeletonElement>;
             "ss-slider": LocalJSX.SsSlider & JSXBase.HTMLAttributes<HTMLSsSliderElement>;
             "ss-spinner": LocalJSX.SsSpinner & JSXBase.HTMLAttributes<HTMLSsSpinnerElement>;
+            /**
+             * One step of an `ss-stepper`: its marker, label and description, and the
+             * line to the next step.
+             * It holds no content of its own: the stepper only says where the reader is,
+             * and the page shows the current step's content. Its position, derived state
+             * and whether it can be pressed are set by `ss-stepper`.
+             */
+            "ss-step": LocalJSX.SsStep & JSXBase.HTMLAttributes<HTMLSsStepElement>;
+            /**
+             * Where the reader is in a sequence of steps.
+             * It only shows: the page decides which step is current, which are done or
+             * in error, and whether a step may be entered. Interactive, it reports a press
+             * with a cancelable `ssStepChange`; the page that must check first prevents it
+             * and sets `value` itself when ready.
+             * A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows
+             * only the current step and "Step 2 of 5". The width is measured, since a
+             * container query cannot read a custom property: an invisible probe as wide
+             * as the token is observed with the host, so the threshold is right even when
+             * the tokens arrive after the stepper renders.
+             */
+            "ss-stepper": LocalJSX.SsStepper & JSXBase.HTMLAttributes<HTMLSsStepperElement>;
             "ss-switch": LocalJSX.SsSwitch & JSXBase.HTMLAttributes<HTMLSsSwitchElement>;
             /**
              * One tab of an `ss-tabs`: its label, and the panel shown while it is selected.
