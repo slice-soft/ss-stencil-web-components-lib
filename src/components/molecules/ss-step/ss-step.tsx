@@ -60,7 +60,10 @@ export class SsStep {
     return this.status === 'complete' ? 'complete' : this.derived;
   }
 
-  private select = () => this.ssStepSelect.emit({ index: this.index });
+  private select = () => {
+    if (this.derived === 'current' || this.disabled) return;
+    this.ssStepSelect.emit({ index: this.index });
+  };
 
   private renderMarker() {
     const error = this.status === 'error';
@@ -82,7 +85,10 @@ export class SsStep {
   render() {
     const state = this.state;
     const error = this.status === 'error';
-    const pressable = this.interactive && state !== 'current' && !this.disabled;
+    // Interactive, every step stays a button — the current and disabled ones
+    // only announce they cannot be pressed — so the button that had focus
+    // survives becoming current.
+    const inert = state === 'current' || this.disabled;
     const b = 'ss-step';
     const inner = [
       this.renderMarker(),
@@ -108,8 +114,8 @@ export class SsStep {
             [`${b}--last`]: this.last,
           }}
         >
-          {pressable ? (
-            <button class="ss-step__trigger" type="button" onClick={this.select}>
+          {this.interactive ? (
+            <button class="ss-step__trigger" type="button" aria-disabled={inert ? 'true' : null} onClick={this.select}>
               {inner}
             </button>
           ) : (

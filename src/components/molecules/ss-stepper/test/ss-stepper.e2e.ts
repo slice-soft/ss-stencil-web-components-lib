@@ -63,11 +63,46 @@ describe('ss-stepper', () => {
 
   it('disabled and current steps are not pressable', async () => {
     const page = await setup(`<ss-stepper interactive value="a">${STEPS('disabled')}</ss-stepper>`);
-    expect(await page.evaluate(`['a', 'b', 'c'].map(v => !!document.querySelector('ss-step[value="' + v + '"]').shadowRoot.querySelector('button'))`)).toEqual([
-      false,
-      false,
-      true,
-    ]);
+    const changes = await page.spyOnEvent('ssStepChange');
+    expect(
+      await page.evaluate(`['a', 'b', 'c'].map(v => document.querySelector('ss-step[value="' + v + '"]').shadowRoot.querySelector('button').getAttribute('aria-disabled'))`),
+    ).toEqual(['true', 'true', null]);
+    for (const v of ['a', 'b']) await (await page.find(`ss-step[value="${v}"] >>> button`)).click();
+    await page.waitForChanges();
+    expect(changes).toHaveReceivedEventTimes(0);
+  });
+
+  it('keyboard focus stays on a step once it becomes current', async () => {
+    const page = await setup(`<ss-stepper interactive value="a">${STEPS()}</ss-stepper>`);
+    await page.evaluate(`document.querySelector('ss-step[value="c"]').shadowRoot.querySelector('button').focus()`);
+    await page.keyboard.press('Enter');
+    await page.waitForChanges();
+    expect(await page.evaluate(`document.querySelector('ss-stepper').value`)).toBe('c');
+    expect(await page.evaluate(`document.activeElement === document.querySelector('ss-step[value="c"]') && !!document.activeElement.shadowRoot.activeElement`)).toBe(true);
+  });
+
+  it('the first change reports the step it leaves', async () => {
+    const page = await setup(`<ss-stepper interactive>${STEPS()}</ss-stepper>`);
+    const changes = await page.spyOnEvent('ssStepChange');
+    await (await page.find('ss-step[value="b"] >>> button')).click();
+    await page.waitForChanges();
+    expect(changes).toHaveReceivedEventDetail({ value: 'b', previous: 'a' });
+  });
+
+  it('compact form draws no line to the hidden steps', async () => {
+    const page = await setup(`<ss-stepper value="b">${STEPS()}</ss-stepper>`, 320);
+    expect(await page.evaluate(`!!document.querySelector('ss-step[value="b"]').shadowRoot.querySelector('.ss-step__connector')`)).toBe(false);
+  });
+
+  it('keeps measuring after it is moved in the page', async () => {
+    const page = await setup(`<ss-stepper value="b">${STEPS()}</ss-stepper>`, 900);
+    await page.evaluate(
+      `(() => { const b = document.createElement('div'); b.id = 'other'; b.style.width = '900px'; document.body.append(b); b.append(document.querySelector('ss-stepper')); })()`,
+    );
+    await page.waitForChanges();
+    await page.evaluate(`document.getElementById('other').style.width = '320px'`);
+    await page.waitForChanges();
+    await page.waitForFunction(`!!document.querySelector('ss-stepper').shadowRoot.querySelector('.ss-stepper__summary')`, { timeout: 5000 });
   });
 
   it('compact form shows only the current step and the summary', async () => {

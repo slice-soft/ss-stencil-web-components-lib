@@ -84,6 +84,7 @@ export class SsProgress {
             [`${b}--${this.size}`]: true,
             [`${b}--${this.color}`]: true,
             [`${b}--indeterminate`]: !determinate,
+            [`${b}--empty`]: determinate && percent === 0,
           }}
           style={{ ...resolveInlineStyles(this.inlineStyles), '--_percent': String(percent) }}
           role="progressbar"

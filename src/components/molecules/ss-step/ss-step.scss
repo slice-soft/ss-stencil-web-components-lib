@@ -44,6 +44,8 @@
 
 button.ss-step__trigger {
   cursor: pointer;
+
+
   border-radius: c.t(step, radius);
 
   &:focus-visible {
@@ -128,6 +130,10 @@ button.ss-step__trigger {
 
 .ss-step--disabled {
   opacity: c.t(step, disabled-opacity);
+}
+
+.ss-step--current button.ss-step__trigger {
+  cursor: default;
 }
 
 .ss-step--disabled .ss-step__trigger {

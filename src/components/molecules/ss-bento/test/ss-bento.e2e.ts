@@ -97,4 +97,18 @@ describe('ss-bento', () => {
     const d = await boxes(dense);
     expect(d[2].top).toBe(d[0].top);
   });
+
+  it('keeps following its width after it is moved in the page', async () => {
+    const page = await setup(`<ss-bento>${TILES(['', '', '', ''])}</ss-bento>`, 1100);
+    await page.evaluate(
+      `(() => { const b = document.createElement('div'); b.id = 'other'; b.style.width = '1100px'; document.body.append(b); b.append(document.querySelector('ss-bento')); })()`,
+    );
+    await page.waitForChanges();
+    await page.evaluate(`document.getElementById('other').style.width = '600px'`);
+    await page.waitForChanges();
+    await page.waitForFunction(
+      `(() => { const t = Array.from(document.querySelectorAll('ss-bento-item')).map(x => x.getBoundingClientRect().top); return t.filter(y => y === t[0]).length === 2; })()`,
+      { timeout: 5000 },
+    );
+  });
 });

@@ -79,12 +79,26 @@ export class SsStepper {
   }
 
   componentDidLoad() {
-    this.releaseResize = onResize([this.rootEl, this.probeEl], this.measure);
-    this.measure();
+    this.observe();
+  }
+
+  /** Moved in the page: disconnect stopped the observer; load does not run again. */
+  connectedCallback() {
+    if (this.rootEl) {
+      this.observe();
+      this.sync();
+    }
   }
 
   disconnectedCallback() {
     this.releaseResize?.();
+    this.releaseResize = undefined;
+  }
+
+  private observe() {
+    this.releaseResize?.();
+    this.releaseResize = onResize([this.rootEl, this.probeEl], this.measure);
+    this.measure();
   }
 
   @Watch('value')
@@ -111,7 +125,8 @@ export class SsStepper {
     const step = this.steps[event.detail.index];
     if (!step) return;
     const value = this.stepValue(step, event.detail.index);
-    const previous = this.value;
+    const steps = this.steps;
+    const previous = this.value ?? (steps[this.current] ? this.stepValue(steps[this.current], this.current) : undefined);
     const emitted = this.ssStepChange.emit({ xId: this.xId, value, previous });
     if (!emitted.defaultPrevented) this.value = value;
   }
@@ -129,8 +144,10 @@ export class SsStepper {
     return Array.from(this.el.children).filter((child): child is Step => child.tagName === 'SS-STEP');
   }
 
+  // The attribute too: a step not yet defined (ss-step imported after
+  // ss-stepper) has no `value` property yet.
   private stepValue(step: Step, index: number) {
-    return step.value ?? String(index);
+    return step.value ?? step.getAttribute('value') ?? String(index);
   }
 
   /** Tells each step where it stands. */
@@ -144,7 +161,8 @@ export class SsStepper {
       step.derived = index < current ? 'complete' : index === current ? 'current' : 'upcoming';
       step.orientation = this.orientation;
       step.interactive = this.interactive;
-      step.last = index === steps.length - 1;
+      // In the compact form the current step stands alone: no line to the hidden ones.
+      step.last = index === steps.length - 1 || (this.compact && index === current);
       step.completeLabel = this.completeLabel;
       step.errorLabel = this.errorLabel;
       if (index === current) step.setAttribute('data-current', '');

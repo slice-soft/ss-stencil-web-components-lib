@@ -76,6 +76,11 @@ export class SsDrawer {
     if (this.open) this.activate();
   }
 
+  /** Moved in the page while open: disconnect released it; load does not run again. */
+  connectedCallback() {
+    if (this.open && this.panelEl) this.activate();
+  }
+
   disconnectedCallback() {
     this.deactivate();
   }

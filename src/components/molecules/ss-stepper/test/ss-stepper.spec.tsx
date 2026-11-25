@@ -34,3 +34,10 @@ describe('ss-stepper', () => {
     expect((page.rootInstance as unknown as { summary: string }).summary).toBe('Paso 2 de 3');
   });
 });
+
+describe('ss-stepper before ss-step is defined', () => {
+  it('reads step values from their attributes', async () => {
+    const page = await newSpecPage({ components: [SsStepper], html: `<ss-stepper value="b">${STEPS}</ss-stepper>` });
+    expect((page.rootInstance as unknown as { current: number }).current).toBe(1);
+  });
+});

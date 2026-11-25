@@ -103,6 +103,11 @@
   transition: stroke-dashoffset c.t(progress, fill-duration) c.t(progress, fill-easing);
 }
 
+/* Round caps on a zero-length dash still draw a dot: none at 0%. */
+.ss-progress--empty .ss-progress__arc {
+  stroke-linecap: butt;
+}
+
 .ss-progress--circle .ss-progress__value {
   position: absolute;
   inset: 0;

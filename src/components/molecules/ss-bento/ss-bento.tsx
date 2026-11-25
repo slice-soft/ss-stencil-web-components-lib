@@ -43,12 +43,23 @@ export class SsBento {
   @State() private cols = 1;
 
   componentDidLoad() {
-    this.releaseResize = onResize([this.gridEl, this.probeEl], this.measure);
-    this.measure();
+    this.observe();
+  }
+
+  /** Moved in the page: disconnect stopped the observer; load does not run again. */
+  connectedCallback() {
+    if (this.gridEl) this.observe();
   }
 
   disconnectedCallback() {
     this.releaseResize?.();
+    this.releaseResize = undefined;
+  }
+
+  private observe() {
+    this.releaseResize?.();
+    this.releaseResize = onResize([this.gridEl, this.probeEl], this.measure);
+    this.measure();
   }
 
   @Watch('columns')

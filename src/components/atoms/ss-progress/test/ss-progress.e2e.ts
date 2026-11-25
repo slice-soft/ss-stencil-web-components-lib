@@ -68,6 +68,11 @@ describe('ss-progress', () => {
     expect(await page.evaluate(shadow('.ss-progress__arc', 'parseFloat(getComputedStyle(el).strokeDashoffset.replace(/^calc\\(/, ""))'))).toBe(75);
   });
 
+  it('a circle at zero draws no arc', async () => {
+    const page = await setup('<ss-progress shape="circle" value="0"></ss-progress>');
+    expect(await page.evaluate(shadow('.ss-progress__arc', 'getComputedStyle(el).strokeLinecap'))).toBe('butt');
+  });
+
   it('reduced motion stops the indeterminate animation', async () => {
     const page = await setup('<ss-progress></ss-progress>');
     await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);

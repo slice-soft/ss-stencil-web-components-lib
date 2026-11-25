@@ -73,6 +73,16 @@ describe('ss-drawer, modal', () => {
     expect(await activeId(page)).toBe('opener');
   });
 
+  it('an open drawer moved in the page still closes on Escape', async () => {
+    const page = await setup(DRAWER('open'));
+    await page.evaluate(`(() => { const b = document.createElement('div'); document.body.append(b); b.append(document.querySelector('ss-drawer')); })()`);
+    await page.waitForChanges();
+    await page.focus('#inside');
+    await page.keyboard.press('Escape');
+    await page.waitForChanges();
+    expect(await isOpen(page)).toBe(false);
+  });
+
   it('the backdrop closes it; close-on-backdrop="false" does not', async () => {
     const page = await setup(DRAWER('open placement="end" size="sm"'));
     await page.mouse.click(5, 5);
