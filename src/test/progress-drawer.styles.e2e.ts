@@ -21,19 +21,24 @@ const DRAWERS: Record<string, string> = {
   'drawer-bottom': 'placement="bottom" size="sm"',
 };
 
-const PARTS = {
+const PROGRESS_PARTS = {
   track: '.ss-progress__track',
   fill: '.ss-progress__fill',
   circle: '.ss-progress__circle',
   arc: '.ss-progress__arc',
   ring: '.ss-progress__ring',
+};
+
+const DRAWER_PARTS = {
   panel: '.ss-drawer__panel',
   header: '.ss-drawer__header',
   footer: '.ss-drawer__footer',
 };
 
 // No width or left/right: the fill's follows the track, the track's the page.
-const LAYOUT = ['display', 'height', 'stroke', 'stroke-width', 'stroke-dashoffset', 'z-index', 'position', 'border-top-right-radius', 'border-bottom-left-radius'];
+const LAYOUT = ['display', 'stroke', 'stroke-width', 'stroke-dashoffset', 'z-index', 'position', 'border-top-right-radius', 'border-bottom-left-radius'];
+// Height only for progress (bar thickness, circle size): a drawer's header
+// and footer heights follow the installed font, and CI has no Sora.
 
 for (const theme of ['light', 'dark'] as const) {
   describe(`ss-progress and ss-drawer computed styles (test-base ${theme})`, () => {
@@ -50,7 +55,11 @@ for (const theme of ['light', 'dark'] as const) {
       );
       await useTokens(page, theme);
       // The indeterminate fill moves every frame.
-      const styles = await computedParts(page, PARTS, undefined, { extra: LAYOUT, skip: ['transform', 'outline-color', 'outline-style', 'outline-width', 'outline-offset'] });
+      const skip = ['transform', 'outline-color', 'outline-style', 'outline-width', 'outline-offset'];
+      const styles = {
+        ...(await computedParts(page, PROGRESS_PARTS, Object.keys(PROGRESS), { extra: [...LAYOUT, 'height'], skip })),
+        ...(await computedParts(page, DRAWER_PARTS, Object.keys(DRAWERS), { extra: LAYOUT, skip: [...skip, 'height'] })),
+      };
       expect(styles['bar-md/fill']).toBeDefined();
       expect(styles['drawer-end/panel']).toBeDefined();
       expect(styles).toMatchSnapshot();
