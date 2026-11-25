@@ -22,6 +22,7 @@ import { CardPadding, CardStyle, SsCardNavigateEvent } from "./components/molecu
 import { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 import { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 import { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+import { DrawerPlacement, SsDrawerOpenChangeEvent } from "./components/organisms/ss-drawer/ss-drawer";
 import { Align, Placement } from "./utils/position";
 import { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
 import { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
@@ -34,6 +35,7 @@ import { Orientation } from "./utils/roving";
 import { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 import { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 import { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
+import { ProgressShape } from "./components/atoms/ss-progress/ss-progress";
 import { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 import { SelectOption } from "./utils/options";
 import { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChangeEvent, SsSearchSelectSearchEvent } from "./components/organisms/ss-search-select/ss-search-select";
@@ -67,6 +69,7 @@ export { CardPadding, CardStyle, SsCardNavigateEvent } from "./components/molecu
 export { InputStyle, SsCheckedChangeEvent, SsInputValueEvent } from "./types/control-events";
 export { CheckboxGroupOrientation, SsCheckboxGroupChangeEvent } from "./components/molecules/ss-checkbox-group/ss-checkbox-group";
 export { DividerOrientation, DividerSpacing } from "./components/atoms/ss-divider/ss-divider";
+export { DrawerPlacement, SsDrawerOpenChangeEvent } from "./components/organisms/ss-drawer/ss-drawer";
 export { Align, Placement } from "./utils/position";
 export { SsDropdownOpenChangeEvent, SsDropdownSelectEvent } from "./components/organisms/ss-dropdown/ss-dropdown";
 export { DropdownItemVariant } from "./components/organisms/ss-dropdown-item/ss-dropdown-item";
@@ -79,6 +82,7 @@ export { Orientation } from "./utils/roving";
 export { SsNavChangeEvent } from "./components/organisms/ss-nav/ss-nav";
 export { SsPaginationChangeEvent } from "./components/molecules/ss-pagination/ss-pagination";
 export { SsPopoverOpenChangeEvent } from "./components/organisms/ss-popover/ss-popover";
+export { ProgressShape } from "./components/atoms/ss-progress/ss-progress";
 export { RadioGroupOrientation, SsRadioGroupChangeEvent, SsRadioGroupInvalidEvent } from "./components/molecules/ss-radio-group/ss-radio-group";
 export { SelectOption } from "./utils/options";
 export { SearchSelectFilter, SsSearchSelectChangeEvent, SsSearchSelectOpenChangeEvent, SsSearchSelectSearchEvent } from "./components/organisms/ss-search-select/ss-search-select";
@@ -859,6 +863,73 @@ export namespace Components {
         "xId"?: string;
     }
     /**
+     * A panel that enters from an edge of the viewport.
+     * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+     * covered and stops scrolling. With `modal="false"` it is a side panel that
+     * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+     * pressed inside it.
+     * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+     * trap has to see the caller's controls.
+     */
+    interface SsDrawer {
+        /**
+          * Accessible name, for a drawer with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes a modal drawer.
+          * @default true
+         */
+        "closeOnBackdrop": boolean;
+        /**
+          * Escape closes the drawer (non-modal: only when pressed inside it).
+          * @default true
+         */
+        "closeOnEscape": boolean;
+        /**
+          * Accessible name of the close button. Translate it.
+          * @default 'Close'
+         */
+        "dismissLabel": string;
+        /**
+          * Shows a close button in the header.
+          * @default true
+         */
+        "dismissible": boolean;
+        /**
+          * Heading text.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Takes over the page (backdrop, focus trap). `false` leaves the page usable.
+          * @default true
+         */
+        "modal": boolean;
+        /**
+          * Whether the drawer is showing. Updated when it is dismissed, and reflected.
+          * @default false
+         */
+        "open": boolean;
+        /**
+          * The edge it enters from. `start` and `end` follow the writing direction.
+          * @default 'end'
+         */
+        "placement": DrawerPlacement;
+        /**
+          * Width (start, end) or height (top, bottom) of the panel.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Id applied to the panel element.
+         */
+        "xId"?: string;
+    }
+    /**
      * A button that opens a list of actions.
      * It follows the WAI-ARIA menu button pattern, because that is what a screen
      * reader announces a `menu` as and what its users will press: the menu takes
@@ -1535,6 +1606,63 @@ export namespace Components {
         "placement": Placement;
         /**
           * Id applied to the panel.
+         */
+        "xId"?: string;
+    }
+    /**
+     * How far along something is: a bar or a circle, with a value, or
+     * indeterminate when the value is not known.
+     * It only shows. Whoever hosts it owns the number and when it changes.
+     */
+    interface SsProgress {
+        /**
+          * Color of the fill.
+          * @default 'primary'
+         */
+        "color": Variant | 'foreground' | 'muted';
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Accessible name. Translate it.
+          * @default 'Progress'
+         */
+        "label": string;
+        /**
+          * Id of an element in the page that names it; wins over `label`.
+         */
+        "labelledBy"?: string;
+        /**
+          * The value that means done. Non-positive values fall back to 100.
+          * @default 100
+         */
+        "max": number;
+        /**
+          * A horizontal bar or a circle.
+          * @default 'bar'
+         */
+        "shape": ProgressShape;
+        /**
+          * Draws the rounded percentage (or `value-text`) next to the bar, or inside the circle.
+          * @default false
+         */
+        "showValue": boolean;
+        /**
+          * Thickness of the bar, or diameter of the circle.
+          * @default 'md'
+         */
+        "size": Size;
+        /**
+          * Current value, from 0 to `max`. Absent: indeterminate.
+         */
+        "value"?: number;
+        /**
+          * Read instead of the percentage, such as "3 of 10 files".
+         */
+        "valueText"?: string;
+        /**
+          * Id applied to the progressbar element.
          */
         "xId"?: string;
     }
@@ -2546,6 +2674,10 @@ export interface SsComboboxCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsComboboxElement;
 }
+export interface SsDrawerCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLSsDrawerElement;
+}
 export interface SsDropdownCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLSsDropdownElement;
@@ -2911,6 +3043,32 @@ declare global {
         prototype: HTMLSsDividerElement;
         new (): HTMLSsDividerElement;
     };
+    interface HTMLSsDrawerElementEventMap {
+        "ssOpenChange": SsDrawerOpenChangeEvent;
+    }
+    /**
+     * A panel that enters from an edge of the viewport.
+     * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+     * covered and stops scrolling. With `modal="false"` it is a side panel that
+     * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+     * pressed inside it.
+     * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+     * trap has to see the caller's controls.
+     */
+    interface HTMLSsDrawerElement extends Components.SsDrawer, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLSsDrawerElementEventMap>(type: K, listener: (this: HTMLSsDrawerElement, ev: SsDrawerCustomEvent<HTMLSsDrawerElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLSsDrawerElementEventMap>(type: K, listener: (this: HTMLSsDrawerElement, ev: SsDrawerCustomEvent<HTMLSsDrawerElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLSsDrawerElement: {
+        prototype: HTMLSsDrawerElement;
+        new (): HTMLSsDrawerElement;
+    };
     interface HTMLSsDropdownElementEventMap {
         "ssOpenChange": SsDropdownOpenChangeEvent;
         "ssSelect": SsDropdownSelectEvent;
@@ -3189,6 +3347,17 @@ declare global {
     var HTMLSsPopoverElement: {
         prototype: HTMLSsPopoverElement;
         new (): HTMLSsPopoverElement;
+    };
+    /**
+     * How far along something is: a bar or a circle, with a value, or
+     * indeterminate when the value is not known.
+     * It only shows. Whoever hosts it owns the number and when it changes.
+     */
+    interface HTMLSsProgressElement extends Components.SsProgress, HTMLStencilElement {
+    }
+    var HTMLSsProgressElement: {
+        prototype: HTMLSsProgressElement;
+        new (): HTMLSsProgressElement;
     };
     interface HTMLSsRadioElementEventMap {
         "ssChange": SsCheckedChangeEvent;
@@ -3559,6 +3728,7 @@ declare global {
         "ss-checkbox-group": HTMLSsCheckboxGroupElement;
         "ss-combobox": HTMLSsComboboxElement;
         "ss-divider": HTMLSsDividerElement;
+        "ss-drawer": HTMLSsDrawerElement;
         "ss-dropdown": HTMLSsDropdownElement;
         "ss-dropdown-item": HTMLSsDropdownItemElement;
         "ss-field": HTMLSsFieldElement;
@@ -3573,6 +3743,7 @@ declare global {
         "ss-option": HTMLSsOptionElement;
         "ss-pagination": HTMLSsPaginationElement;
         "ss-popover": HTMLSsPopoverElement;
+        "ss-progress": HTMLSsProgressElement;
         "ss-radio": HTMLSsRadioElement;
         "ss-radio-group": HTMLSsRadioGroupElement;
         "ss-search-select": HTMLSsSearchSelectElement;
@@ -4427,6 +4598,77 @@ declare namespace LocalJSX {
         "xId"?: string;
     }
     /**
+     * A panel that enters from an edge of the viewport.
+     * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+     * covered and stops scrolling. With `modal="false"` it is a side panel that
+     * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+     * pressed inside it.
+     * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+     * trap has to see the caller's controls.
+     */
+    interface SsDrawer {
+        /**
+          * Accessible name, for a drawer with no visible heading.
+         */
+        "accessibilityLabel"?: string;
+        /**
+          * Pressing the backdrop closes a modal drawer.
+          * @default true
+         */
+        "closeOnBackdrop"?: boolean;
+        /**
+          * Escape closes the drawer (non-modal: only when pressed inside it).
+          * @default true
+         */
+        "closeOnEscape"?: boolean;
+        /**
+          * Accessible name of the close button. Translate it.
+          * @default 'Close'
+         */
+        "dismissLabel"?: string;
+        /**
+          * Shows a close button in the header.
+          * @default true
+         */
+        "dismissible"?: boolean;
+        /**
+          * Heading text.
+         */
+        "heading"?: string;
+        /**
+          * Inline CSS styles applied to the panel element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Takes over the page (backdrop, focus trap). `false` leaves the page usable.
+          * @default true
+         */
+        "modal"?: boolean;
+        /**
+          * Emitted when the drawer opens or closes through an interaction; detail contains xId and open.
+         */
+        "onSsOpenChange"?: (event: SsDrawerCustomEvent<SsDrawerOpenChangeEvent>) => void;
+        /**
+          * Whether the drawer is showing. Updated when it is dismissed, and reflected.
+          * @default false
+         */
+        "open"?: boolean;
+        /**
+          * The edge it enters from. `start` and `end` follow the writing direction.
+          * @default 'end'
+         */
+        "placement"?: DrawerPlacement;
+        /**
+          * Width (start, end) or height (top, bottom) of the panel.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Id applied to the panel element.
+         */
+        "xId"?: string;
+    }
+    /**
      * A button that opens a list of actions.
      * It follows the WAI-ARIA menu button pattern, because that is what a screen
      * reader announces a `menu` as and what its users will press: the menu takes
@@ -5155,6 +5397,63 @@ declare namespace LocalJSX {
         "placement"?: Placement;
         /**
           * Id applied to the panel.
+         */
+        "xId"?: string;
+    }
+    /**
+     * How far along something is: a bar or a circle, with a value, or
+     * indeterminate when the value is not known.
+     * It only shows. Whoever hosts it owns the number and when it changes.
+     */
+    interface SsProgress {
+        /**
+          * Color of the fill.
+          * @default 'primary'
+         */
+        "color"?: Variant | 'foreground' | 'muted';
+        /**
+          * Inline CSS styles applied to the root element.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * Accessible name. Translate it.
+          * @default 'Progress'
+         */
+        "label"?: string;
+        /**
+          * Id of an element in the page that names it; wins over `label`.
+         */
+        "labelledBy"?: string;
+        /**
+          * The value that means done. Non-positive values fall back to 100.
+          * @default 100
+         */
+        "max"?: number;
+        /**
+          * A horizontal bar or a circle.
+          * @default 'bar'
+         */
+        "shape"?: ProgressShape;
+        /**
+          * Draws the rounded percentage (or `value-text`) next to the bar, or inside the circle.
+          * @default false
+         */
+        "showValue"?: boolean;
+        /**
+          * Thickness of the bar, or diameter of the circle.
+          * @default 'md'
+         */
+        "size"?: Size;
+        /**
+          * Current value, from 0 to `max`. Absent: indeterminate.
+         */
+        "value"?: number;
+        /**
+          * Read instead of the percentage, such as "3 of 10 files".
+         */
+        "valueText"?: string;
+        /**
+          * Id applied to the progressbar element.
          */
         "xId"?: string;
     }
@@ -6277,6 +6576,7 @@ declare namespace LocalJSX {
         "ss-checkbox-group": SsCheckboxGroup;
         "ss-combobox": SsCombobox;
         "ss-divider": SsDivider;
+        "ss-drawer": SsDrawer;
         "ss-dropdown": SsDropdown;
         "ss-dropdown-item": SsDropdownItem;
         "ss-field": SsField;
@@ -6291,6 +6591,7 @@ declare namespace LocalJSX {
         "ss-option": SsOption;
         "ss-pagination": SsPagination;
         "ss-popover": SsPopover;
+        "ss-progress": SsProgress;
         "ss-radio": SsRadio;
         "ss-radio-group": SsRadioGroup;
         "ss-search-select": SsSearchSelect;
@@ -6419,6 +6720,16 @@ declare module "@stencil/core" {
             "ss-combobox": LocalJSX.SsCombobox & JSXBase.HTMLAttributes<HTMLSsComboboxElement>;
             "ss-divider": LocalJSX.SsDivider & JSXBase.HTMLAttributes<HTMLSsDividerElement>;
             /**
+             * A panel that enters from an edge of the viewport.
+             * Modal by default, like `ss-modal`: focus is trapped, the page behind is
+             * covered and stops scrolling. With `modal="false"` it is a side panel that
+             * leaves the page usable: no backdrop, no trap, and Escape closes it only when
+             * pressed inside it.
+             * Rendered scoped rather than shadow, for the reason `ss-modal` is: the focus
+             * trap has to see the caller's controls.
+             */
+            "ss-drawer": LocalJSX.SsDrawer & JSXBase.HTMLAttributes<HTMLSsDrawerElement>;
+            /**
              * A button that opens a list of actions.
              * It follows the WAI-ARIA menu button pattern, because that is what a screen
              * reader announces a `menu` as and what its users will press: the menu takes
@@ -6534,6 +6845,12 @@ declare module "@stencil/core" {
              * content, which a shadow root would hide.
              */
             "ss-popover": LocalJSX.SsPopover & JSXBase.HTMLAttributes<HTMLSsPopoverElement>;
+            /**
+             * How far along something is: a bar or a circle, with a value, or
+             * indeterminate when the value is not known.
+             * It only shows. Whoever hosts it owns the number and when it changes.
+             */
+            "ss-progress": LocalJSX.SsProgress & JSXBase.HTMLAttributes<HTMLSsProgressElement>;
             "ss-radio": LocalJSX.SsRadio & JSXBase.HTMLAttributes<HTMLSsRadioElement>;
             /**
              * Presents N `ss-radio` children as one selected value, one change event and

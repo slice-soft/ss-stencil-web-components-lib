@@ -1,0 +1,168 @@
+@use '../../../global/styles/control' as c;
+
+/* The panel slides in from its edge and the backdrop fades, and both leave the
+   same way: the drawer keeps its box until they finish (allow-discrete).
+   `--_from` is where the panel waits off screen; once open it has no
+   translate at all, so it never becomes the containing block of a fixed
+   dropdown inside it (see ss-modal.scss). */
+.ss-drawer {
+  transition: display c.t(drawer, enter-duration) allow-discrete;
+}
+
+.ss-drawer--end    { --_from: 100% 0; }
+.ss-drawer--start  { --_from: -100% 0; }
+.ss-drawer--top    { --_from: 0 -100%; }
+.ss-drawer--bottom { --_from: 0 100%; }
+
+.ss-drawer--end:dir(rtl)   { --_from: -100% 0; }
+.ss-drawer--start:dir(rtl) { --_from: 100% 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ss-drawer.ss-drawer {
+    --_from: none;
+  }
+}
+
+.ss-drawer[hidden] {
+  display: none;
+}
+
+.ss-drawer[hidden] .ss-drawer__backdrop {
+  opacity: 0;
+}
+
+.ss-drawer[hidden] .ss-drawer__panel {
+  opacity: 0;
+  translate: var(--_from);
+}
+
+.ss-drawer__backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: c.t(drawer, backdrop-z-index);
+  background: c.t(drawer, backdrop-color);
+  opacity: c.t(drawer, backdrop-opacity);
+  transition: opacity c.t(drawer, enter-duration) c.t(drawer, enter-easing);
+}
+
+.ss-drawer__panel {
+  position: fixed;
+  z-index: c.t(drawer, non-modal-z-index);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: c.t(drawer, gap);
+  padding: c.t(drawer, padding);
+  background: c.t(drawer, background);
+  color: c.t(drawer, foreground);
+  box-shadow: c.t(drawer, shadow);
+  font-family: c.t(drawer, font-family);
+  @include c.backdrop-layer(drawer);
+  transition:
+    opacity c.t(drawer, enter-duration) c.t(drawer, enter-easing),
+    translate c.t(drawer, enter-duration) c.t(drawer, enter-easing);
+
+  &:focus-visible {
+    outline: 0;
+  }
+}
+
+.ss-drawer--modal .ss-drawer__panel {
+  z-index: c.t(drawer, z-index);
+}
+
+/* Along its edge it is full length; across, its size, never the whole
+   viewport. Only the corners that face the page are rounded. */
+.ss-drawer--start .ss-drawer__panel,
+.ss-drawer--end .ss-drawer__panel {
+  inset-block: 0;
+}
+
+.ss-drawer--top .ss-drawer__panel,
+.ss-drawer--bottom .ss-drawer__panel {
+  inset-inline: 0;
+}
+
+.ss-drawer--start .ss-drawer__panel {
+  inset-inline-start: 0;
+  border-start-end-radius: c.t(drawer, radius);
+  border-end-end-radius: c.t(drawer, radius);
+}
+
+.ss-drawer--end .ss-drawer__panel {
+  inset-inline-end: 0;
+  border-start-start-radius: c.t(drawer, radius);
+  border-end-start-radius: c.t(drawer, radius);
+}
+
+.ss-drawer--top .ss-drawer__panel {
+  inset-block-start: 0;
+  border-end-start-radius: c.t(drawer, radius);
+  border-end-end-radius: c.t(drawer, radius);
+}
+
+.ss-drawer--bottom .ss-drawer__panel {
+  inset-block-end: 0;
+  border-start-start-radius: c.t(drawer, radius);
+  border-start-end-radius: c.t(drawer, radius);
+}
+
+@each $size in c.$sizes {
+  .ss-drawer--#{$size}.ss-drawer--start .ss-drawer__panel,
+  .ss-drawer--#{$size}.ss-drawer--end .ss-drawer__panel {
+    inline-size: min(#{c.t(drawer, size-#{$size}-inline)}, 100% - #{c.t(drawer, viewport-offset)});
+  }
+
+  .ss-drawer--#{$size}.ss-drawer--top .ss-drawer__panel,
+  .ss-drawer--#{$size}.ss-drawer--bottom .ss-drawer__panel {
+    block-size: min(#{c.t(drawer, size-#{$size}-block)}, 100% - #{c.t(drawer, viewport-offset)});
+  }
+}
+
+.ss-drawer__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: c.t(drawer, header-gap);
+}
+
+.ss-drawer__body {
+  flex: 1;
+  min-block-size: 0;
+  overflow-y: auto;
+}
+
+.ss-drawer__footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: c.t(drawer, footer-gap);
+}
+
+.ss-drawer__footer:empty {
+  display: none;
+}
+
+.ss-drawer__dismiss {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  line-height: 1;
+  font-size: c.t(drawer, dismiss-font-size);
+}
+
+/* Stencil does not scope rules inside @starting-style, so the panel's own
+   values would win: last, and one class more specific. */
+@starting-style {
+  .ss-drawer > .ss-drawer__backdrop {
+    opacity: 0;
+  }
+
+  .ss-drawer > .ss-drawer__panel {
+    opacity: 0;
+    translate: var(--_from);
+  }
+}

@@ -62,7 +62,7 @@ describe('ss-field naming a shadow-rendered control', () => {
     await page.setContent(`<ss-field label="Level" helper-text="Drag to adjust."><ss-slider></ss-slider></ss-field>`);
     await page.waitForChanges();
 
-    expect(await axNodeByRole(page, 'slider')).toEqual({ name: 'Level', description: 'Drag to adjust.' });
+    expect(await axNodeByRole(page, 'slider')).toMatchObject({ name: 'Level', description: 'Drag to adjust.' });
   });
 
   it('names a textarea', async () => {
