@@ -8,10 +8,14 @@
   display: none;
 }
 
+/* Fills a host given a height (a bento tile stretches it); with an auto
+   height the percentage resolves to nothing and the card sizes to content. */
 .ss-card {
   position: relative;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  min-block-size: 100%;
   overflow: hidden;
   border-radius: c.t(card, radius);
   background: c.t(card, background);

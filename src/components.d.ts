@@ -346,6 +346,61 @@ export namespace Components {
         "xStyle": BadgeStyle;
     }
     /**
+     * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+     * a dashboard alike.
+     * Columns follow the bento's own width, not the viewport's: it uses as many
+     * as fit at `min-item-width`, up to `columns`. A tile never spans more
+     * columns than are in use, so the grid never overflows; at one column every
+     * tile is a single cell. The count is measured, since a container query cannot
+     * read a custom property.
+     */
+    interface SsBento {
+        /**
+          * The most columns it will use.
+          * @default 4
+         */
+        "columns": number;
+        /**
+          * Later small tiles fill the holes large ones leave. Visual order then differs from reading order.
+          * @default false
+         */
+        "dense": boolean;
+        /**
+          * Inline CSS styles applied to the grid.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * The narrowest a one-column tile may be (a CSS length). Defaults to `--ss-bento-min-item-width`.
+         */
+        "minItemWidth"?: string;
+        /**
+          * Id applied to the grid.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+     * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+     * and is stretched to fill the cell.
+     */
+    interface SsBentoItem {
+        /**
+          * Columns the tile spans, at most the columns in use.
+          * @default 1
+         */
+        "colSpan": number;
+        /**
+          * Columns in use. Set by `ss-bento`.
+          * @default 1
+         */
+        "cols": number;
+        /**
+          * Rows the tile spans; one when the bento is a single column.
+          * @default 1
+         */
+        "rowSpan": number;
+    }
+    /**
      * The trail of pages leading to the one being read.
      * The trail owns the separator, the sizing and which step is the current page;
      * each step draws its own separator because CSS cannot put one between slotted
@@ -3006,6 +3061,32 @@ declare global {
         new (): HTMLSsBadgeElement;
     };
     /**
+     * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+     * a dashboard alike.
+     * Columns follow the bento's own width, not the viewport's: it uses as many
+     * as fit at `min-item-width`, up to `columns`. A tile never spans more
+     * columns than are in use, so the grid never overflows; at one column every
+     * tile is a single cell. The count is measured, since a container query cannot
+     * read a custom property.
+     */
+    interface HTMLSsBentoElement extends Components.SsBento, HTMLStencilElement {
+    }
+    var HTMLSsBentoElement: {
+        prototype: HTMLSsBentoElement;
+        new (): HTMLSsBentoElement;
+    };
+    /**
+     * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+     * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+     * and is stretched to fill the cell.
+     */
+    interface HTMLSsBentoItemElement extends Components.SsBentoItem, HTMLStencilElement {
+    }
+    var HTMLSsBentoItemElement: {
+        prototype: HTMLSsBentoItemElement;
+        new (): HTMLSsBentoItemElement;
+    };
+    /**
      * The trail of pages leading to the one being read.
      * The trail owns the separator, the sizing and which step is the current page;
      * each step draws its own separator because CSS cannot put one between slotted
@@ -3902,6 +3983,8 @@ declare global {
         "ss-avatar": HTMLSsAvatarElement;
         "ss-avatar-group": HTMLSsAvatarGroupElement;
         "ss-badge": HTMLSsBadgeElement;
+        "ss-bento": HTMLSsBentoElement;
+        "ss-bento-item": HTMLSsBentoItemElement;
         "ss-breadcrumb": HTMLSsBreadcrumbElement;
         "ss-breadcrumb-item": HTMLSsBreadcrumbItemElement;
         "ss-button": HTMLSsButtonElement;
@@ -4208,6 +4291,61 @@ declare namespace LocalJSX {
           * @default 'subtle'
          */
         "xStyle"?: BadgeStyle;
+    }
+    /**
+     * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+     * a dashboard alike.
+     * Columns follow the bento's own width, not the viewport's: it uses as many
+     * as fit at `min-item-width`, up to `columns`. A tile never spans more
+     * columns than are in use, so the grid never overflows; at one column every
+     * tile is a single cell. The count is measured, since a container query cannot
+     * read a custom property.
+     */
+    interface SsBento {
+        /**
+          * The most columns it will use.
+          * @default 4
+         */
+        "columns"?: number;
+        /**
+          * Later small tiles fill the holes large ones leave. Visual order then differs from reading order.
+          * @default false
+         */
+        "dense"?: boolean;
+        /**
+          * Inline CSS styles applied to the grid.
+         */
+        "inlineStyles"?: InlineStyles;
+        /**
+          * The narrowest a one-column tile may be (a CSS length). Defaults to `--ss-bento-min-item-width`.
+         */
+        "minItemWidth"?: string;
+        /**
+          * Id applied to the grid.
+         */
+        "xId"?: string;
+    }
+    /**
+     * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+     * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+     * and is stretched to fill the cell.
+     */
+    interface SsBentoItem {
+        /**
+          * Columns the tile spans, at most the columns in use.
+          * @default 1
+         */
+        "colSpan"?: number;
+        /**
+          * Columns in use. Set by `ss-bento`.
+          * @default 1
+         */
+        "cols"?: number;
+        /**
+          * Rows the tile spans; one when the bento is a single column.
+          * @default 1
+         */
+        "rowSpan"?: number;
     }
     /**
      * The trail of pages leading to the one being read.
@@ -6881,6 +7019,8 @@ declare namespace LocalJSX {
         "ss-avatar": SsAvatar;
         "ss-avatar-group": SsAvatarGroup;
         "ss-badge": SsBadge;
+        "ss-bento": SsBento;
+        "ss-bento-item": SsBentoItem;
         "ss-breadcrumb": SsBreadcrumb;
         "ss-breadcrumb-item": SsBreadcrumbItem;
         "ss-button": SsButton;
@@ -6976,6 +7116,22 @@ declare module "@stencil/core" {
              */
             "ss-avatar-group": LocalJSX.SsAvatarGroup & JSXBase.HTMLAttributes<HTMLSsAvatarGroupElement>;
             "ss-badge": LocalJSX.SsBadge & JSXBase.HTMLAttributes<HTMLSsBadgeElement>;
+            /**
+             * A grid of tiles of different sizes (`ss-bento-item`), for a landing page or
+             * a dashboard alike.
+             * Columns follow the bento's own width, not the viewport's: it uses as many
+             * as fit at `min-item-width`, up to `columns`. A tile never spans more
+             * columns than are in use, so the grid never overflows; at one column every
+             * tile is a single cell. The count is measured, since a container query cannot
+             * read a custom property.
+             */
+            "ss-bento": LocalJSX.SsBento & JSXBase.HTMLAttributes<HTMLSsBentoElement>;
+            /**
+             * One tile of an `ss-bento`: a cell that spans columns and rows. It draws
+             * nothing of its own; what is inside (an `ss-card`, a chart, an image) does,
+             * and is stretched to fill the cell.
+             */
+            "ss-bento-item": LocalJSX.SsBentoItem & JSXBase.HTMLAttributes<HTMLSsBentoItemElement>;
             /**
              * The trail of pages leading to the one being read.
              * The trail owns the separator, the sizing and which step is the current page;
