@@ -1,0 +1,139 @@
+@use 'sass:list';
+@use '../../../global/styles/control' as c;
+
+:host {
+  display: block;
+}
+
+:host(.ss-progress-host--circle) {
+  display: inline-block;
+}
+
+.ss-progress {
+  display: flex;
+  align-items: center;
+  gap: c.t(progress, gap);
+  color: c.t(progress, primary-color);
+  font-family: c.t(progress, font-family);
+}
+
+@each $color in list.join((foreground, muted), c.$variants) {
+  .ss-progress--#{$color} { color: c.t(progress, #{$color}-color); }
+}
+
+.ss-progress__value {
+  flex: none;
+  color: c.t(progress, value-color);
+  font-size: c.t(progress, value-font-size);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bar: the fill grows from the start of the track. */
+.ss-progress__track {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: c.t(progress, radius);
+  background: c.t(progress, track-background);
+}
+
+@each $size in c.$sizes {
+  .ss-progress--bar.ss-progress--#{$size} .ss-progress__track { height: c.t(progress, size-#{$size}-thickness); }
+}
+
+.ss-progress__fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: calc(var(--_percent) * 1%);
+  border-radius: inherit;
+  background: currentColor;
+  transition: width c.t(progress, fill-duration) c.t(progress, fill-easing);
+}
+
+/* Not known: a piece of fill travels along the track. */
+.ss-progress--indeterminate .ss-progress__fill {
+  width: c.t(progress, indeterminate-width);
+  transition: none;
+  animation: ss-progress-travel c.t(progress, indeterminate-duration) c.t(progress, pulse-easing) infinite;
+}
+
+@keyframes ss-progress-travel {
+  from { inset-inline-start: calc(-1 * #{c.t(progress, indeterminate-width)}); }
+  to   { inset-inline-start: 100%; }
+}
+
+/* Circle: the arc is the ring's stroke, drawn up to the value. */
+.ss-progress--circle {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+}
+
+@each $size in c.$sizes {
+  .ss-progress--circle.ss-progress--#{$size} {
+    --_diameter: #{c.t(progress, size-#{$size}-diameter)};
+    --_stroke: #{c.t(progress, size-#{$size}-stroke)};
+  }
+}
+
+.ss-progress__circle {
+  display: block;
+  width: var(--_diameter);
+  height: var(--_diameter);
+  transform: rotate(-90deg);
+}
+
+.ss-progress__ring,
+.ss-progress__arc {
+  r: calc(50% - var(--_stroke) / 2);
+  fill: none;
+  stroke-width: var(--_stroke);
+}
+
+.ss-progress__ring {
+  stroke: c.t(progress, track-background);
+}
+
+.ss-progress__arc {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: calc(100 - var(--_percent));
+  transition: stroke-dashoffset c.t(progress, fill-duration) c.t(progress, fill-easing);
+}
+
+.ss-progress--circle .ss-progress__value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ss-progress--circle.ss-progress--indeterminate .ss-progress__arc {
+  stroke-dashoffset: 75;
+  transition: none;
+}
+
+.ss-progress--circle.ss-progress--indeterminate .ss-progress__circle {
+  animation: ss-progress-spin c.t(progress, indeterminate-duration) linear infinite;
+}
+
+@keyframes ss-progress-spin {
+  from { transform: rotate(-90deg); }
+  to   { transform: rotate(270deg); }
+}
+
+/* Reduced motion: nothing travels or turns; the partial fill holds still. */
+@media (prefers-reduced-motion: reduce) {
+  .ss-progress__fill,
+  .ss-progress__arc {
+    transition: none;
+  }
+
+  .ss-progress--indeterminate .ss-progress__fill,
+  .ss-progress--indeterminate .ss-progress__circle {
+    animation: none;
+  }
+}
