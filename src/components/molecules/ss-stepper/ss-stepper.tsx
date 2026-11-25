@@ -110,7 +110,7 @@ export class SsStepper {
     event.stopPropagation();
     const step = this.steps[event.detail.index];
     if (!step) return;
-    const value = this.valueOf(step, event.detail.index);
+    const value = this.stepValue(step, event.detail.index);
     const previous = this.value;
     const emitted = this.ssStepChange.emit({ xId: this.xId, value, previous });
     if (!emitted.defaultPrevented) this.value = value;
@@ -129,14 +129,14 @@ export class SsStepper {
     return Array.from(this.el.children).filter((child): child is Step => child.tagName === 'SS-STEP');
   }
 
-  private valueOf(step: Step, index: number) {
+  private stepValue(step: Step, index: number) {
     return step.value ?? String(index);
   }
 
   /** Tells each step where it stands. */
   private sync = () => {
     const steps = this.steps;
-    const found = steps.findIndex((step, index) => this.valueOf(step, index) === this.value);
+    const found = steps.findIndex((step, index) => this.stepValue(step, index) === this.value);
     const current = found === -1 ? 0 : found;
 
     steps.forEach((step, index) => {
