@@ -72,3 +72,44 @@ describe('onDismiss with layers stacked', () => {
     lower.release();
   });
 });
+
+describe('onDismiss with Escape scoped to focus', () => {
+  function scoped() {
+    const container = document.createElement('div');
+    const input = document.createElement('input');
+    container.append(input);
+    document.body.append(container);
+    const dismissed: string[] = [];
+    const release = onDismiss(container, { escape: 'focus-within', outside: 'ignore', onDismiss: reason => dismissed.push(reason) });
+    return { container, input, dismissed, release: () => (release(), container.remove()) };
+  }
+
+  function escapeFrom(target: EventTarget) {
+    target.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, composed: true }));
+  }
+
+  it('closes on Escape pressed inside it', () => {
+    const panel = scoped();
+    escapeFrom(panel.input);
+    expect(panel.dismissed).toEqual(['escape']);
+    panel.release();
+  });
+
+  it('ignores Escape pressed outside it and hands it to the layer beneath', () => {
+    // A popover opened from the page, then a side panel: Escape typed in the
+    // page is for the popover, not for the panel.
+    const popover = layer();
+    const panel = scoped();
+    const outside = document.createElement('input');
+    document.body.append(outside);
+
+    escapeFrom(outside);
+
+    expect(panel.dismissed).toEqual([]);
+    expect(popover.dismissed).toEqual(['escape']);
+
+    outside.remove();
+    panel.release();
+    popover.release();
+  });
+});

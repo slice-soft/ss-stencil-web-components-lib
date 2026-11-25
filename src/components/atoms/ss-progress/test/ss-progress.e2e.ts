@@ -49,7 +49,7 @@ describe('ss-progress', () => {
     expect(track).toBeGreaterThan(0);
     expect(fill).toBeCloseTo(track, 0);
 
-    await page.$eval('ss-progress', (el: HTMLElement & { value: number }) => (el.value = 25));
+    await page.evaluate(`document.querySelector('ss-progress').value = 25`);
     await page.waitForChanges();
     [fill, track] = await widths();
     expect(Math.abs(fill - track / 4)).toBeLessThanOrEqual(1);
@@ -58,7 +58,7 @@ describe('ss-progress', () => {
   it('show-value draws the rounded percentage, not when indeterminate', async () => {
     const page = await setup('<ss-progress show-value value="33.4"></ss-progress>');
     expect(await page.evaluate(shadow('.ss-progress__value', 'el && el.textContent'))).toBe('33%');
-    await page.$eval('ss-progress', (el: HTMLElement & { value?: number }) => (el.value = undefined));
+    await page.evaluate(`document.querySelector('ss-progress').value = undefined`);
     await page.waitForChanges();
     expect(await page.evaluate(shadow('.ss-progress__value', 'el'))).toBeNull();
   });
