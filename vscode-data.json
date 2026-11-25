@@ -400,6 +400,52 @@
       ]
     },
     {
+      "name": "ss-bento",
+      "description": {
+        "kind": "markdown",
+        "value": "A grid of tiles of different sizes (`ss-bento-item`), for a landing page or\na dashboard alike.\n\nColumns follow the bento's own width, not the viewport's: it uses as many\nas fit at `min-item-width`, up to `columns`. A tile never spans more\ncolumns than are in use, so the grid never overflows; at one column every\ntile is a single cell. The count is measured, since a container query cannot\nread a custom property."
+      },
+      "attributes": [
+        {
+          "name": "columns",
+          "description": "The most columns it will use."
+        },
+        {
+          "name": "dense",
+          "description": "Later small tiles fill the holes large ones leave. Visual order then differs from reading order."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the grid."
+        },
+        {
+          "name": "min-item-width",
+          "description": "The narrowest a one-column tile may be (a CSS length). Defaults to `--ss-bento-min-item-width`."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the grid."
+        }
+      ]
+    },
+    {
+      "name": "ss-bento-item",
+      "description": {
+        "kind": "markdown",
+        "value": "One tile of an `ss-bento`: a cell that spans columns and rows. It draws\nnothing of its own; what is inside (an `ss-card`, a chart, an image) does,\nand is stretched to fill the cell."
+      },
+      "attributes": [
+        {
+          "name": "col-span",
+          "description": "Columns the tile spans, at most the columns in use."
+        },
+        {
+          "name": "row-span",
+          "description": "Rows the tile spans; one when the bento is a single column."
+        }
+      ]
+    },
+    {
       "name": "ss-breadcrumb",
       "description": {
         "kind": "markdown",
@@ -3331,6 +3377,92 @@
         {
           "name": "x-id",
           "description": "Id applied to the root element."
+        }
+      ]
+    },
+    {
+      "name": "ss-step",
+      "description": {
+        "kind": "markdown",
+        "value": "One step of an `ss-stepper`: its marker, label and description, and the\nline to the next step.\n\nIt holds no content of its own: the stepper only says where the reader is,\nand the page shows the current step's content. Its position, derived state\nand whether it can be pressed are set by `ss-stepper`."
+      },
+      "attributes": [
+        {
+          "name": "disabled",
+          "description": "The step cannot be pressed."
+        },
+        {
+          "name": "label",
+          "description": "Text of the step."
+        },
+        {
+          "name": "status",
+          "description": "Set by the page: `complete` marks it done wherever it is; `error` shows a problem.",
+          "values": [
+            {
+              "name": "complete"
+            },
+            {
+              "name": "error"
+            }
+          ]
+        },
+        {
+          "name": "value",
+          "description": "Identifies the step; the stepper selects by it and reports it. Defaults to its position."
+        }
+      ]
+    },
+    {
+      "name": "ss-stepper",
+      "description": {
+        "kind": "markdown",
+        "value": "Where the reader is in a sequence of steps.\n\nIt only shows: the page decides which step is current, which are done or\nin error, and whether a step may be entered. Interactive, it reports a press\nwith a cancelable `ssStepChange`; the page that must check first prevents it\nand sets `value` itself when ready.\n\nA horizontal stepper narrower than `--ss-stepper-compact-max-width` shows\nonly the current step and \"Step 2 of 5\". The width is measured, since a\ncontainer query cannot read a custom property: an invisible probe as wide\nas the token is observed with the host, so the threshold is right even when\nthe tokens arrive after the stepper renders."
+      },
+      "attributes": [
+        {
+          "name": "accessibility-label",
+          "description": "Accessible name of the list. Translate it."
+        },
+        {
+          "name": "complete-label",
+          "description": "Read after a completed step's label. Translate it."
+        },
+        {
+          "name": "error-label",
+          "description": "Read after the label of a step in error. Translate it."
+        },
+        {
+          "name": "inline-styles",
+          "description": "Inline CSS styles applied to the root element."
+        },
+        {
+          "name": "interactive",
+          "description": "Steps are buttons that ask to become current. Off: a read-only indicator."
+        },
+        {
+          "name": "orientation",
+          "description": "Lays the steps out in a row or a column.",
+          "values": [
+            {
+              "name": "horizontal"
+            },
+            {
+              "name": "vertical"
+            }
+          ]
+        },
+        {
+          "name": "summary-label",
+          "description": "The compact form's text; `{current}` and `{total}` are filled in."
+        },
+        {
+          "name": "value",
+          "description": "The current step's value. Absent: the first step."
+        },
+        {
+          "name": "x-id",
+          "description": "Id applied to the list."
         }
       ]
     },

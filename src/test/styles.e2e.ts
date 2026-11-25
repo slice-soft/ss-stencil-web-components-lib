@@ -20,6 +20,8 @@ const SET = [
   '<ss-search-select data-case="search-select" accessibility-label="Pick"><ss-option value="a">A</ss-option></ss-search-select>',
   '<ss-progress data-case="progress" value="40"></ss-progress>',
   '<ss-drawer data-case="drawer" open modal="false" heading="D"><p>Body</p></ss-drawer>',
+  '<ss-stepper value="b"><ss-step data-case="step" value="a" label="A"></ss-step><ss-step value="b" label="B"></ss-step></ss-stepper>',
+  '<ss-bento data-case="bento"><ss-bento-item>A</ss-bento-item></ss-bento>',
   '<ss-dropdown data-case="dropdown" open><ss-button slot="trigger" label="D"></ss-button><ss-dropdown-item value="a">A</ss-dropdown-item></ss-dropdown>',
 ].join('');
 
@@ -32,6 +34,8 @@ const PARTS = {
   searchField: '.ss-search-select__field',
   progress: '.ss-progress__track',
   drawer: '.ss-drawer__panel',
+  step: '.ss-step__marker',
+  bento: '.ss-bento',
 };
 const PROPS = {
   extra: ['border-left-width', 'backdrop-filter'],
@@ -56,6 +60,8 @@ const OWN_PART: Record<string, string> = {
   'search-select': 'searchField',
   'progress': 'progress',
   'drawer': 'drawer',
+  'step': 'step',
+  'bento': 'bento',
 };
 
 /** Each case's own part, keyed by case (`brutal:card`). */

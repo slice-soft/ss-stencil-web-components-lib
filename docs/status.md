@@ -11,14 +11,15 @@ Last updated: 2026-11-24 · 87 test suites, 709 tests.
 label, link, option, progress, radio, select, skeleton, slider, spinner, switch,
 textarea, tooltip, typography.
 
-**Molecules (11)** — alert, avatar-group, breadcrumb, breadcrumb-item,
-button-group, card, checkbox-group, field, input-group, pagination, radio-group.
+**Molecules (15)** — alert, avatar-group, bento, bento-item, breadcrumb,
+breadcrumb-item, button-group, card, checkbox-group, field, input-group,
+pagination, radio-group, step, stepper.
 
 **Organisms (15)** — accordion, accordion-item, drawer, dropdown, dropdown-item,
 modal, nav, nav-item, popover, search-select, tab, table, tabs, toast, toaster.
 
-**Shared helpers** — `utils/`: a11y, dismiss, focus, id, popup, position,
-roving, slot, style. `types/`: control-events, join, popup, size, typography,
+**Shared helpers** — `utils/`: a11y, dismiss, focus, grid, id, options, popup,
+position, range, roving, slot, style. `types/`: control-events, join, popup, size, typography,
 variant.
 
 ## Done, in the order it was built
@@ -61,6 +62,7 @@ variant.
 | 14 | Input icons and clear, card as a link | Phase 2, wave 1 (spec `docs/superpowers/specs/2026-11-24-component-capacity-design.md`, plan `docs/superpowers/plans/2026-11-24-component-capacity.md`). `ss-input` has `start`/`end` slots drawn inside its border (icons or short text, not controls) and `clearable` + `clear-label`. The border stays on the `<input>`: a `div.ss-input__field` only positions the slots, and the input's inline padding grows by each slot's measured width (`--_start`/`--_end`, through `onResize`), so the wave-1 snapshot is unchanged. The clear button is out of the tab order and Escape does not clear. `ss-card` takes `href` (`target`, `rel`, `accessibility-label`): one real `<a>` whose `::after` covers the card; slotted actions are lifted above it (only direct children: a nested one needs `data-card-action` on its wrapper). Named by the label, else the header, else the content, through `ariaLabelledByElements`. `ssNavigate` is cancelable, like `ss-nav`'s `ssChange`. ss-design-system 2.16.0 |
 | 15 | Search select | Phase 2, wave 2. `ss-search-select` (+ `ss-option`, data only): a WAI-ARIA combobox over a listbox it draws itself from `ss-option` children or the `options` property (which wins), so `aria-activedescendant` resolves in its own tree. It only shows: `ssSearch` on every change the person makes to the text, never debounced; `filter="contains"` (default, case- and accent-insensitive, `utils/options`) or `"none"` (show `options` as given); `loading`, `loading-label`, `empty-label`, announced in a live region. `multiple` draws chips (Backspace removes the last; each chip's remove is a `span role=button`, because `delegatesFocus` would send focus to any focusable element before the input); starting selection in HTML is `selected` on `ss-option`. Every selected label is remembered, so new search results never turn a chip into a bare value. Escape closes, a second Escape clears the text; Home/End move within an open list (otherwise the caret); typing over a shown label starts a new search (`beforeinput`, bound by hand: Stencil does not bind `onBeforeInput`); leaving the field restores the label, or clears a single selection when the text was emptied. `ss-field` names and describes it (`labelled-by`); `remove-label` translates the chips' remove names. Selection is shown by a check mark, not color alone. Form-associated (one entry per value). Snapshot: `search-select.styles.e2e.ts`. ss-design-system 2.16.0. Not yet: option groups, rich options, creating options from text |
 | 16 | Progress, drawer | Phase 3, wave 1 (spec `docs/superpowers/specs/2026-11-25-new-components-design.md`, plan `docs/superpowers/plans/2026-11-25-new-components.md`). `ss-progress` (atom, shadow): `value`/`max` (a non-number value is indeterminate; the value is clamped, a non-positive `max` is 100), `shape` bar/circle, `size`, the spinner's colors, `label` or `labelled-by`, `value-text`, `show-value`. One `role="progressbar"`; indeterminate travels (bar) or turns (circle) and holds still with reduced motion. Chrome's accessibility tree reports `valuetext` as "" even for a plain div, so that one test reads the attribute. `ss-drawer` (organism, scoped like the modal): `placement` start/end/top/bottom (start/end follow the writing direction), `size`, `modal`; modal is `ss-modal`'s behaviour on an edge; `modal="false"` is a side panel — no backdrop, trap or scroll lock, focus goes in and comes back only if it was still inside, and Escape closes it only when pressed inside: `onDismiss` takes `escape: 'focus-within'`, which passes Escape typed elsewhere to the layer beneath. It slides with `translate` and has none left once open (fixed dropdowns inside are still placed against the viewport). `AxNode` (`src/test/utils.ts`) now carries `value`, `valuemin`, `valuemax`, `valuetext`, `modal`. ss-design-system 2.17.0 |
+| 17 | Stepper, bento | Phase 3, wave 2. `ss-stepper` + `ss-step` (molecules, shadow): an `<ol>` of steps, the current one `aria-current="step"`; a step is complete, current or upcoming by position, and `status="complete"`/`"error"` set by the page wins (error never hides current). Completed/error are words (`complete-label`, `error-label`), not only color. `interactive` makes the other enabled steps buttons; a press emits a cancelable `ssStepChange` and the page that must validate prevents it. Steps hold no content: the page shows the current step's. A horizontal stepper narrower than `--ss-stepper-compact-max-width` shows only the current step and `summary-label` ("Step 2 of 3"), interactive too (the page's own previous/next move it). `ss-bento` + `ss-bento-item`: a grid whose columns follow its own width (up to `columns`, at least `min-item-width` each); a tile never spans more columns than are in use, and at one column every tile is one cell; `dense` packs. An `ss-card` in a tile fills it (`.ss-card` now has `min-block-size: 100%`). Both measure through `onResize` plus an invisible probe as wide as the token, since a container query cannot read a custom property. Two traps, both from `reset.css`'s `:defined { display: revert }`: it outranks `:host` and `::slotted` display rules (hence `!important` on `ss-step[data-collapsed]` and `ss-bento-item`, as in avatar-group), and it makes hosts inline, which a ResizeObserver never reports — observe an inner box. ss-design-system 2.17.0 |
 
 ## Playground and release readiness
 
@@ -83,10 +85,17 @@ browser coverage for interactive behavior.
 
 ## Open, and worth deciding before it is needed
 
-- **Bento and richer components are the next project.** Bento is a layout
-  (a grid of tiles), not a style: it belongs with the component improvements,
-  designed separately. Native apps get no per-style token outputs yet; glass's
-  surface is a CSS `color-mix()` with no native equivalent (see the design
+- **Phase 4 candidates, ranked by how often an app needs them and how much
+  they reuse what exists.** (1) Empty state — every list and table needs one;
+  a layout of icon, heading, text and actions, no behaviour. (2) Stat / metric
+  — the dashboard tile a bento holds: value, label, change and trend, no data
+  logic. (3) File upload — a drop zone and a list of files with
+  `ss-progress`; the upload itself is the shell's. (4) Timeline — an ordered
+  list close to the vertical stepper, for activity feeds. (5) Date picker —
+  the largest (calendar grid, keyboard, locales); worth its own phase.
+
+- **Native per-style outputs.** Native apps get no per-style token outputs
+  yet; glass's surface is a CSS `color-mix()` with no native equivalent (see the design
   system's `docs/superpowers/specs/2026-11-24-visual-styles-design.md`).
 
 - **Text in the primary or destructive color uses the fill role.** The
